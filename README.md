@@ -7,7 +7,9 @@ ANT is a multi-collaborative project and is meant to continuously evolve. If you
 If you need help or if you want to report bugs, please contact us at: ant.help@s-sosa.com
 
 For more information, visit our websites:
+
    www.s-sosa.com/software
+   
    https://github.com/SebastianSosa/Animal-Network-Toolkit
    
 Authors: Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Peng Zhang, Xiaohua Xie, Cédric Sueur
