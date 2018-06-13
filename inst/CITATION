@@ -1,0 +1,14 @@
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "Manual",
+         title = "{ant}: currently none",
+         author = c(person("Sebastian","Sosa"),
+                    person("Ivan","Puga-Gonzalez"),
+                    person("Feng He","Hu"),
+                    person("Zhang","Peng"),
+                    person("Xie","Xiaohua"),
+					 person("Cedric","Sueur")),
+         year = year,
+         note = note,
+         url = "Currently none")
