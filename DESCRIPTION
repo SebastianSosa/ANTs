@@ -10,7 +10,7 @@ License:GPL (>= 3)
 URL: www.s-sosa.com/softwares or  https://github.com/SebastianSosa/Animal-Network-Toolkit 
 Encoding: UTF-8
 LazyData: true
-Imports: Rcpp,RcppArmadillo,RcppEigen,lme4,methods,Kendall
+Imports: lme4,methods,Kendall
 LinkingTo: Rcpp,RcppArmadillo,RcppEigen
 SystemRequirements: C++11
 RoxygenNote: 6.0.1
