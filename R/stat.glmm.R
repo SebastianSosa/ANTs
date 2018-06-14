@@ -21,6 +21,12 @@
 #' @param progress a boolean indicating the visualization of the permutation process.
 #' @param ... Extra arguments for \code{lmer} or \code{glmer} function only.
 #' @details GLMM with permutation data.
+#' @return Returns a list of 3 elements :
+#' \itemize{
+#' \item An object of class \code{\link{merMod}} (more specifically, an object of subclass lmerMod or glmerMod), for which many methods are available (e.g. methods(class="merMod")).
+#' \item A data frame if the estimates of the permuted models.
+#' \item A vector of integers indicating the permutations that returned model errors or warnings (e.g. model convergence issues) and for which new permutations were done.
+#' }
 #' @seealso \code{\link{lmer}} or \code{\link{glmer}}
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 

@@ -27,8 +27,13 @@
 #' @param x,y For glm: logical values indicating whether the response vector and model matrix used in the fitting process should be returned as components of the returned value.
 #' @param contrasts an optional list. See the contrasts.arg of model.matrix.default.
 #' @param ... Extra arguments for \code{\link{glm}} function only.
-#' @return a vector of 4 elements: the t statistic, the met.degree of freedom, the confidence interval for var1 and 2, and the estimates for var1 and var2.
-#' @details This function is the first step in the process to create a t-test in permuted data. For more details on t-tests, see R documentation.
+#' @return Returns a list of 3 elements :
+#' \itemize{
+#' \item An object of class inheriting from "glm" which inherits from the class "lm".
+#' \item A data frame if the estimates of the permuted models.
+#' \item A vector of integers indicating the permutations that returned model errors or warnings (e.g. model convergence issues) and for which new permutations were done.
+#' }
+#' #' @details This function is the first step in the process to create a t-test in permuted data. For more details on t-tests, see R documentation.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @references Dobson, A. J. (1990) An Introduction to Generalized Linear Models. London: Chapman and Hall.
 #' @references Hastie, T. J. and Pregibon, D. (1992) Generalized linear models. Chapter 6 of Statistical Models in S eds J. M. Chambers and T. J. Hastie, Wadsworth & Brooks/Cole.

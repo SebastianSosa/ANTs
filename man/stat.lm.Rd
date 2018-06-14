@@ -33,6 +33,14 @@ stat.lm(ant, formula, oda, progress = TRUE, method = "qr", model = TRUE,
 
 \item{...}{Extra arguments for \code{\link{lm}} function only.}
 }
+\value{
+Returns a list of 3 elements :
+\itemize{
+\item An object of class "lm" or for multiple responses of class c("mlm", "lm")
+\item A data frame if the estimates of the permuted models.
+\item A vector of integers indicating the permutations that returned model errors or warnings (e.g. model convergence issues) and for which new permutations were done.
+}
+}
 \description{
 Performs correlations Generalized Linear Models tests and extracts estimates of predictor factors in each permuted model.
 }

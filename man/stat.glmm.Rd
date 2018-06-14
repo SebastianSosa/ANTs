@@ -19,6 +19,14 @@ stat.glmm(ant, formula, family, oda = NULL, progress = T, ...)
 
 \item{...}{Extra arguments for \code{lmer} or \code{glmer} function only.}
 }
+\value{
+Returns a list of 3 elements :
+\itemize{
+\item An object of class \code{\link{merMod}} (more specifically, an object of subclass lmerMod or glmerMod), for which many methods are available (e.g. methods(class="merMod")).
+\item A data frame if the estimates of the permuted models.
+\item A vector of integers indicating the permutations that returned model errors or warnings (e.g. model convergence issues) and for which new permutations were done.
+}
+}
 \description{
 Performs Generalized Linear Mixed Models tests
 }

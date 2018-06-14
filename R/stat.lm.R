@@ -26,7 +26,12 @@
 #' @param singular.ok logical. If FALSE (the default in S but not in R) a singular fit is an error.
 #' @param contrasts an optional list. See the contrasts.arg of model.matrix.default.
 #' @param ... Extra arguments for \code{\link{lm}} function only.
-#' @return 
+#' @return Returns a list of 3 elements :
+#' \itemize{
+#' \item An object of class "lm" or for multiple responses of class c("mlm", "lm")
+#' \item A data frame if the estimates of the permuted models.
+#' \item A vector of integers indicating the permutations that returned model errors or warnings (e.g. model convergence issues) and for which new permutations were done.
+#' }
 #' @details This function is the first step for performing t-tests in permuted data. For more details on t-tests, see R documentation.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @references Chambers, J. M. (1992) Linear models. Chapter 4 of Statistical Models in S eds J. M. Chambers and T. J. Hastie, Wadsworth & Brooks/Cole.

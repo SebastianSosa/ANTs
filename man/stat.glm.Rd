@@ -34,13 +34,16 @@ stat.glm(ant, oda, formula, family = "gaussian", progress = TRUE,
 \item{...}{Extra arguments for \code{\link{glm}} function only.}
 }
 \value{
-a vector of 4 elements: the t statistic, the met.degree of freedom, the confidence interval for var1 and 2, and the estimates for var1 and var2.
+Returns a list of 3 elements :
+\itemize{
+\item An object of class inheriting from "glm" which inherits from the class "lm".
+\item A data frame if the estimates of the permuted models.
+\item A vector of integers indicating the permutations that returned model errors or warnings (e.g. model convergence issues) and for which new permutations were done.
+}
+#' @details This function is the first step in the process to create a t-test in permuted data. For more details on t-tests, see R documentation.
 }
 \description{
 Performs Generalized Linear Models tests and computes permuted p-values
-}
-\details{
-This function is the first step in the process to create a t-test in permuted data. For more details on t-tests, see R documentation.
 }
 \references{
 Dobson, A. J. (1990) An Introduction to Generalized Linear Models. London: Chapman and Hall.
