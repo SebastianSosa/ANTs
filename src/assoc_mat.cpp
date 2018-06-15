@@ -52,7 +52,7 @@ arma::mat assoc_mat (arma::mat Mgbi, std::string method){
     mxb.row(A)=xb;
   }
 
-  if(method!="sri" & method!="hwi" & method!="sqri" ){
+  if((method!="sri") & (method!="hwi") & (method!="sqri")){
     Rcpp::stop("Argument method doesn't match. Only 'simple ratio', 'half-weight' or 'square root' methods are available.");
   }
   arma::mat association(Ind,Ind);

@@ -31,7 +31,7 @@
 //' @keywords internal
 // [[Rcpp::export]]
 arma::rowvec assoc_mat_one_id (arma::mat Mgbi,int id,std::string method){
-  if(method!="sri" & method!="hwi" & method!="sqri" ){
+  if((method!="sri") & (method!="hwi") & (method!="sqri")){
     Rcpp::stop("Argument method doesn't match. Only 'simple ratio', 'half-weight' or 'square root' methods are available.");
   }
   int groups = Mgbi.n_rows;

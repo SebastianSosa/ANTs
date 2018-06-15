@@ -40,10 +40,12 @@ Returns a list of 3 elements :
 \item A data frame if the estimates of the permuted models.
 \item A vector of integers indicating the permutations that returned model errors or warnings (e.g. model convergence issues) and for which new permutations were done.
 }
-#' @details This function is the first step in the process to create a t-test in permuted data. For more details on t-tests, see R documentation.
 }
 \description{
 Performs Generalized Linear Models tests and computes permuted p-values
+}
+\details{
+This function is the first step in the process to create a t-test in permuted data. For more details on t-tests, see R documentation.
 }
 \references{
 Dobson, A. J. (1990) An Introduction to Generalized Linear Models. London: Chapman and Hall.
