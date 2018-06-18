@@ -13,6 +13,7 @@ importFrom("Kendall","Kendall")
 importFrom("tcltk","tktoplevel","tkwm.state","tkimage.create","tcl","tklabel",
            "tkcheckbutton","tclVar","tkconfigure","tclvalue","tkdestroy","tkbutton",
            "tkgrid","tkwait.window","tclServiceMode","tktitle")
+importFrom("gtools","even")
 
 export(ant)
 export(assoc.gfi)
