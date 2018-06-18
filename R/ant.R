@@ -143,7 +143,7 @@ setGeneric(name='ant',ant<-function(x){
       rownames(stat)=colnames(v_perms)
       s$coefficients=cbind(s$coefficients,stat)
       # Posterior distribution histogrames
-      post.dist=post.dist(v_perms,obs) #PB
+      post.dist=post.dist(v_perms,Obs=obs)
       # Original model diagnostic
       attr(x$Original.model,'family')=attributes(x)$family
       attr(x$Original.model,'formula')=attributes(x)$formula

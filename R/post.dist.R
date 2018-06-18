@@ -15,11 +15,13 @@
 #' @title Histogram of posterior distribution
 #' @description plot muliples histograms of posterior distribution
 #' @keywords internal
-post.dist=function(v_perm,ncols=NULL,nrows=NULL){
+post.dist=function(v_perm,ncols=NULL,nrows=NULL,Obs=NULL){
   par(bg = 'gray63')
   if(ncol(v_perm)==1 & ncol(v_perm)!=0){
-    obs=v_perm[1,1]
-    v_perm=v_perm[-1,2]
+    if(is.null(obs)){
+      obs=v_perm[1,1]
+      v_perm=v_perm[-1,2]
+    }
     if(obs>m){
       h=hist(v_perm,breaks=length(v_perm),xaxt="n")
       cuts=cut(h$breaks,c(obs,Inf))
@@ -55,9 +57,15 @@ post.dist=function(v_perm,ncols=NULL,nrows=NULL){
     }
     else{par(mfrow=c(nrows,ncols))}
     for (a in 1:ncol(v_perm)) {
-      obs=v_perm[,a][1]
-      m=mean(v_perm[,a][-1])
-      
+      if(is.null(obs)){
+        obs=v_perm[1,a]
+        v_perm=v_perm[-1,a]
+      }
+      else{
+        obs=Obs[a]
+      }
+
+      m=mean(v_perm[,a])
       if(obs>m){
         h=hist(v_perm[,a],breaks=length(v_perm[,a]),plot = FALSE)
         cuts=cut(h$breaks,c(obs,Inf))
