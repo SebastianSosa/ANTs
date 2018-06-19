@@ -52,7 +52,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
       # Test on observe data ------------------------------------------------------------------------
       odf=ant[[1]]
       
-      tmp=tryCatch(lme4::lmer(formula=formula, data = odf),error=identity)
+      tmp=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = odf)),error=identity)
       
       if(isS4(tmp)){
         if(is(tmp,'error')){
@@ -91,11 +91,12 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
         obs=summary(tmp)
         obs$fit=fitted(tmp)
         obs$family=paste(family)
+        obs$coefficients= obs$coefficients[,-4]
       }
       
       cat("Original model : ","\n","\n")
       
-      print(summary(obs))
+      print(obs)
       at=attributes(ant)
       ant=ant[-1]
       attributes(ant)=at
@@ -125,7 +126,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
         permuted =lapply(seq_along(ant), function(i,ant,formula,odf,oda,target.metrics,Scan,ctrlf,method,fam,...){
           cat("  Processing permutation : ", attributes(ant[[i]])$permutation,'\r')
           attr(oda,'permutation')=0
-          r=tryCatch(lme4::lmer(formula=formula, data = ant[[i]],...), error=identity)
+          r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = ant[[i]],...)), error=identity)
           
           if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
           if(is(r,'error')){test=FALSE}
@@ -152,7 +153,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
       else{
         permuted =lapply(seq_along(ant), function(i,ant,formula,odf,oda,target.metrics,Scan,ctrlf,method,fam, ...){
           attr(oda,'permutation')=0
-          r=tryCatch(lme4::lmer(formula=formula, data = ant[[i]],...), error=identity)
+          r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = ant[[i]],...)), error=identity)
           
           if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
           if(is(r,'error')){test=FALSE}
@@ -181,7 +182,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
       # Test on observe data ------------------------------------------------------------------------
       odf=ant[[1]]
       
-      tmp=tryCatch(lme4::glmer(formula=formula, data = odf,family=family,...),error=identity)
+      tmp=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = odf,family=family,...)),error=identity)
       
       if(isS4(tmp)){
         if(is(tmp,'error')){
@@ -220,10 +221,11 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
         obs=summary(tmp)
         obs$fit=fitted(tmp)
         obs$family=paste(family)
+        obs$coefficients= obs$coefficients[,-4]
       }
       
       cat("Original model : ","\n","\n")
-      print(summary(obs))
+      print(obs)
       
       at=attributes(ant)
       ant=ant[-1]
@@ -255,7 +257,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
         permuted =lapply(seq_along(ant), function(i,ant,formula,family,odf,oda,target.metrics,Scan,ctrlf,method,fam, ...){
           
           cat("  Processing permutation : ", attributes(ant[[i]])$permutation,'\r')
-          r=tryCatch(lme4::glmer(formula=formula, data = ant[[i]],family=family,...), error=identity)
+          r=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = ant[[i]],family=family,...)), error=identity)
           
           if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
           if(is(r,'error')){test=FALSE}
@@ -283,7 +285,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
       else{
         permuted =lapply(seq_along(ant), function(i,ant,formula,family,odf,oda,target.metrics,Scan,ctrlf,method,fam, ...){
           
-          r=tryCatch(lme4::glmer(formula=formula, data = ant[[i]],family=family,...), error=identity)
+          r=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = ant[[i]],family=family,...)), error=identity)
           
           if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
           if(is(r,'error')){test=FALSE}
@@ -325,7 +327,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
         # Test on observe data ------------------------------------------------------------------------
         odf=ant[[1]]
         
-        tmp=tryCatch(lme4::lmer(formula=formula, data = odf,...),error=identity)
+        tmp=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = odf,...)),error=identity)
         
         if(isS4(tmp)){
           if(is(tmp,'error')){
@@ -364,10 +366,11 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
           obs=summary(tmp)
           obs$fit=fitted(tmp)
           obs$family=paste(family)
+          obs$coefficients= obs$coefficients[,-4]
         }
         
         cat("Original model : ","\n","\n")
-        print(summary(obs))
+        print(obs)
         
         at=attributes(ant)
         ant=ant[-1]
@@ -401,7 +404,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
           permuted =lapply(ant, function(d,formula,odf,oda,target.metrics,focal, ctrl,alters,index,fam, ...){
             cat("  Processing permutation : ", attributes(d)$permutation,'\r')
             attr(odf,'permutation')=0
-            r=tryCatch(lme4::lmer(formula=formula, data = d,...), error=identity)
+            r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = d,...)), error=identity)
             
             if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
             if(is(r,'error')){test=FALSE}
@@ -430,7 +433,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
           permuted =lapply(ant, function(d,formula,odf,oda,target.metrics,focal, ctrl,alters,index,fam, ...){
 
             attr(odf,'permutation')=0
-            r=tryCatch(lme4::lmer(formula=formula, data = d,...), error=identity)
+            r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = d,...)), error=identity)
             
             if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
             if(is(r,'error')){test=FALSE}
@@ -460,7 +463,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
         # Test on observe data ------------------------------------------------------------------------
         odf=ant[[1]]
         
-        tmp=tryCatch(lme4::lmer(formula=formula, data = odf,...),error=identity)
+        tmp=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = odf,...)),error=identity)
         
         if(isS4(tmp)){
           if(is(tmp,'error')){
@@ -499,10 +502,11 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
           obs=summary(tmp)
           obs$fit=fitted(tmp)
           obs$family=paste(family)
+          
         }
         
         cat("Original model : ","\n","\n")
-        print(summary(obs))
+        print(obs)
         
         at=attributes(ant)
         ant=ant[-1]
@@ -533,7 +537,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
           permuted =lapply(ant, function(d,formula,family,progress=T,odf,oda,target.metrics,focal,ctrl,alters,new.perm,new.oda,fam, ...){
             cat("  Processing permutation : ", attributes(d)$permutation,'\r')
             attr(odf,'permutation')=0
-            r=tryCatch(lme4::lmer(formula=formula, data = d,...), error=identity)
+            r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = d,...)), error=identity)
             
             if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
             if(is(r,'error')){test=FALSE}
@@ -563,7 +567,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
           permuted =lapply(ant, function(d,formula,family,progress=T,odf,oda,target.metrics,focal,ctrl,alters,new.perm,new.oda,fam, ...){
 
             attr(odf,'permutation')=0
-            r=tryCatch(lme4::lmer(formula=formula, data = d,...), error=identity)
+            r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = d,...)), error=identity)
             
             if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
             if(is(r,'error')){test=FALSE}
@@ -604,7 +608,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
           # Test on observe data ------------------------------------------------------------------------
           odf=ant[[1]]
           
-          tmp=tryCatch(lme4::lmer(formula=formula, data = odf,...),error=identity)
+          tmp=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = odf,...)),error=identity)
           
           if(isS4(tmp)){
             if(is(tmp,'error')){
@@ -643,10 +647,11 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
             obs=summary(tmp)
             obs$fit=fitted(tmp)
             obs$family=paste(family)
+            obs$coefficients= obs$coefficients[,-4]
           }
           
           cat("Original model : ","\n","\n")
-          print(summary(obs))
+          print(obs)
           
           at=attributes(ant)
           ant=ant[-1]
@@ -662,7 +667,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
             permuted =lapply(seq_along(ant), function(i,ant,formula,progress,ctrl,odf,labels,...){
               cat("  Processing permutation : ", attributes(ant[[i]])$permutation,'\r')
               
-              r=tryCatch(lme4::lmer(formula=formula, data = ant[[i]],...), error=identity)
+              r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = ant[[i]])), error=identity)
               
               if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
               if(is(r,'error')){test=FALSE}
@@ -672,7 +677,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
                 tmp.env$error=c(tmp.env$error,attributes(ant[[i]])$permutation)
                 while(all(test)!=TRUE){
                   newdf=perm.redo(df=odf,labels = labels,ctrl=ctrl)
-                  r=tryCatch(lme4::lmer(formula=formula, data = newdf,...),error=identity)
+                  r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = newdf,...)),error=identity)
                   
                   if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
                   if(is(r,'error')){test=FALSE}
@@ -693,7 +698,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
             
             permuted =lapply(seq_along(ant), function(i,ant,formula,progress,ctrl,odf,labels,...){
 
-              r=tryCatch(lme4::lmer(formula=formula, data = ant[[i]],...), error=identity)
+              r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = ant[[i]],...)), error=identity)
               
               if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
               if(is(r,'error')){test=FALSE}
@@ -703,7 +708,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
                 tmp.env$error=c(tmp.env$error,attributes(ant[[i]])$permutation)
                 while(all(test)!=TRUE){
                   newdf=perm.redo(df=odf,labels = labels,ctrl=ctrl)
-                  r=tryCatch(lme4::lmer(formula=formula, data = newdf,...),error=identity)
+                  r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = newdf,...)),error=identity)
                   
                   if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
                   if(is(r,'error')){test=FALSE}
@@ -781,7 +786,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
             
             permuted =lapply(ant, function(d,formula,family,ctrl,labels,odf,...){
               cat("  Processing permutation : ", attributes(d)$permutation,'\r')
-              r=tryCatch(lme4::glmer(formula=formula, data = d,family=family,...), error=identity)
+              r=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = d,family=family,...)), error=identity)
               
               if(isS4(r)){
                 if(r@optinfo$warnings=="Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA."){test=TRUE}
@@ -797,7 +802,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
               while(all(test)!=TRUE){
                 print('repermuting')
                 newdf=perm.redo(df=odf,labels = labels,ctrl=ctrl)
-                r=tryCatch(lme4::glmer(formula=formula, data = newdf,family=family,...),error=identity)
+                r=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = newdf,family=family,...)),error=identity)
                 print(r@optinfo$warnings)
                 if(isS4(r)){
                   if(r@optinfo$warnings=="Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA."){test=TRUE}
@@ -817,7 +822,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
             tmp.env$error=NULL
             
             permuted =lapply(ant, function(d,formula,family,ctrl,labels,odf,...){
-              r=tryCatch(lme4::glmer(formula=formula, data = d,family=family,...), error=identity)
+              r=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = d,family=family,...)), error=identity)
               
               if(isS4(r)){
                 if(r@optinfo$warnings=="Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA."){test=TRUE}
@@ -833,7 +838,7 @@ stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
               while(all(test)!=TRUE){
                 print('repermuting')
                 newdf=perm.redo(df=odf,labels = labels,ctrl=ctrl)
-                r=tryCatch(lme4::glmer(formula=formula, data = newdf,family=family,...),error=identity)
+                r=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = newdf,family=family,...)),error=identity)
                 print(r@optinfo$warnings)
                 if(isS4(r)){
                   if(r@optinfo$warnings=="Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA."){test=TRUE}
