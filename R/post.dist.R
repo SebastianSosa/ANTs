@@ -18,28 +18,28 @@
 post.dist=function(v_perm,ncols=NULL,nrows=NULL,Obs=NULL){
   par(bg = 'gray63')
   if(ncol(v_perm)==1 & ncol(v_perm)!=0){
-    if(is.null(obs)){
-      obs=v_perm[1,1]
+    if(is.null(Obs)){
+      Obs=v_perm[1,1]
       v_perm=v_perm[-1,2]
     }
-    if(obs>m){
+    if(Obs>m){
       h=hist(v_perm,breaks=length(v_perm),xaxt="n")
-      cuts=cut(h$breaks,c(obs,Inf))
+      cuts=cut(h$breaks,c(Obs,Inf))
       cuts=ifelse(is.na(cuts),'gray10','gray25')
       plot(h,col=cuts,border=cuts,main=paste(attributes(v_perm)$comment),xaxt="n")
       axis(1) 
-      mtext(1, text = round(obs,digits=2), at = obs, col = "white")
-      abline(v=obs,col='white')
+      mtext(1, text = round(Obs,digits=2), at = Obs, col = "white")
+      abline(v=Obs,col='white')
       legend("topright",legend = "observed value",text.col = 'white',box.lty=0)
     }
     else{
       h=hist(v_perm,breaks=length(v_perm),xaxt="n")
-      cuts=cut(h$breaks,c(obs,Inf))
+      cuts=cut(h$breaks,c(Obs,Inf))
       cuts=ifelse(is.na(cuts),'gray25','gray10')
       plot(h,col=cuts,border=cuts,xlab=paste(attributes(v_perm)$comment),xaxt="n")
       axis(1) 
-      mtext(1, text = round(obs,digits=2), at = obs, col = "white")
-      abline(v=obs,col='white')
+      mtext(1, text = round(Obs,digits=2), at = Obs, col = "white")
+      abline(v=Obs,col='white')
       legend("topright",legend = "observed value",text.col = 'white',box.lty=0)
     }  
   }
@@ -57,7 +57,7 @@ post.dist=function(v_perm,ncols=NULL,nrows=NULL,Obs=NULL){
     }
     else{par(mfrow=c(nrows,ncols))}
     for (a in 1:ncol(v_perm)) {
-      if(is.null(obs)){
+      if(is.null(Obs)){
         obs=v_perm[1,a]
         v_perm=v_perm[-1,a]
       }
@@ -78,21 +78,21 @@ post.dist=function(v_perm,ncols=NULL,nrows=NULL,Obs=NULL){
         else{
           plot(h,col=cuts,border=cuts,main=paste(colnames(v_perm)[a]),xlab=NULL,xaxt="n")
         }
-        axis(1,pos=-2) 
-        mtext(1, text = round(obs,digits=3), at = obs, col = "white")
+        axis(1,pos=0) 
+        #mtext(1, text = round(obs,digits=3), at = obs, col = "white")
         abline(v=obs,col='white')
-        legend("topright",legend = "observed value",text.col = 'white',box.lty=0)
+        legend("topleft",legend = paste("observed value","\n",round(obs,digits=3)),text.col = 'white',box.lty=0)
       }
       else{
-        h=hist(v_perm[,a],breaks=length(v_perm[,a]),plot = FALSE)
+        h=hist(v_perm[,a],breaks=length(v_perm[,a]),plot = F)
         cuts=cut(h$breaks,c(obs,Inf))
         cuts=ifelse(is.na(cuts),'gray25','gray10')
         if(obs>max(v_perm[,a])){plot(h,col=cuts,border=cuts,main=paste(colnames(v_perm)[a]),xlab=NULL,xlim=c(floor(v_perm[,a]/0.1)*0.1,ceiling(max(obs)/0.1)*0.1),xaxt="n")}
         else{plot(h,col=cuts,border=cuts,main=paste(colnames(v_perm)[a]),xlab=NULL,xaxt="n")}
-        axis(1,pos=-2) 
-        mtext(1, text = round(obs,digits=3), at = obs, col = "white")
+        axis(1,pos=0) 
+        #mtext(1, text = round(obs,digits=3), at = obs, col = "white")
         abline(v=obs,col='white')
-        legend("topright",legend = "observed value",text.col = 'white',box.lty=0)
+        legend("topright",legend = paste("observed value","\n",round(obs,digits=3)),text.col = 'white',box.lty=0)
       }  
     }
   }
