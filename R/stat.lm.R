@@ -66,8 +66,11 @@ stat.lm<-function (ant,formula,oda,progress=TRUE,method = "qr",model = TRUE,
     obs=summary(tmp)
     obs$fit=fitted(tmp)
     obs$call=format(formula)
+    
+    t=obs
+    t$coefficients=t$coefficients[,-4]
     cat("Original model : ","\n","\n")
-    print(summary(tmp))
+    print(t)
   }
   
   at=attributes(ant)
@@ -254,7 +257,7 @@ stat.lm<-function (ant,formula,oda,progress=TRUE,method = "qr",model = TRUE,
   else{stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions of type 'single matrix'.")  }
 
   results=do.call('rbind',results)
-  result=list('Original.model'=obs,'permutations'=results,'errors'=tmp.env$error)
+  result=list('Original.model'=t,'permutations'=results,'errors'=tmp.env$error)
   attr(result,'class')='ant lm'
   attr(result,'formula')=paste(format(formula))
   cat("\n")

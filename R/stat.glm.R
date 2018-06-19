@@ -75,8 +75,9 @@ stat.glm<-function (ant,oda,formula,family='gaussian',progress=TRUE, start = NUL
     obs$resid=residuals.glm(tmp)
     obs$fit=fitted(tmp)
     obs$call=paste(format(formula),", family =",family)
+    obs$coefficients=obs$coefficients[,-4]
     cat("Original model : ","\n","\n")
-    print(summary(tmp))
+    print(obs)
   }
   
   at=attributes(ant)
