@@ -4,7 +4,7 @@
 \alias{post.dist}
 \title{Histogram of posterior distribution}
 \usage{
-post.dist(v_perm, ncols = NULL, nrows = NULL)
+post.dist(v_perm, ncols = NULL, nrows = NULL, Obs = NULL)
 }
 \description{
 plot muliples histograms of posterior distribution

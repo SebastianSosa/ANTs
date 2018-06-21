@@ -28,7 +28,7 @@
 #' sim.gbi
 #' assoc.indexes(gbi=sim.gbi,index='sri')
 
-assoc.indexes<-function(gbi,index="sri"){
+assoc.indices<-function(gbi,index="sri"){
   result=assoc_mat(Mgbi=gbi,method=index)
   return(result)
 }

@@ -17,7 +17,7 @@ importFrom("gtools","even")
 
 export(ant)
 export(assoc.gfi)
-export(assoc.indexes)
+export(assoc.indices)
 export(convert.socprog)
 export(df.create)
 export(df.to.gbi)
