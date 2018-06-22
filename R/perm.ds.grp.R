@@ -33,7 +33,7 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @examples
 #' head(sim.grp)
-#' t=perm.ds.grp(df=sim.grp,scan='localisation',ctrlf='time',perm=10,,method='sri')
+#' t=perm.ds.grp(df=sim.grp,scan='location',ctrlf='time',perm=10,,method='sri')
 
 perm.ds.grp=function(df,scan,ctrlf=NULL,method='sri',perm,progress=T){
     test=check.df(df)

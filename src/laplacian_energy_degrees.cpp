@@ -43,7 +43,7 @@ double laplacian_energy_degrees_C(NumericMatrix M) {
 
 /*** R
 laplacian_energy_degrees<-function(M){
-  degrees=ant:::met.degree(M)
+  degrees=met.degree(M)
   d1=sum(degrees^2)
   w1=sum(M^2)
   

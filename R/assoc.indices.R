@@ -26,7 +26,7 @@
 #' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
 #' @examples 
 #' sim.gbi
-#' assoc.indexes(gbi=sim.gbi,index='sri')
+#' assoc.indices(gbi=sim.gbi,index='sri')
 
 assoc.indices<-function(gbi,index="sri"){
   result=assoc_mat(Mgbi=gbi,method=index)

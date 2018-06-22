@@ -112,7 +112,7 @@ redo.perm.ds.grp.cum.scd<-function(GBI,method,nperm,control_factor){
   if(!is.null(control_factor)){
     list.mat=redo_perm_dataStream_ControlFactor_scd(GBI,nperm=nperm,method=method)
     m=do.call('rbind',list.mat)
-    r2=assoc.indexes(m,method)
+    r2=assoc.indices(m,method)
     result[[1]]=list.mat
     result[[2]]=r2
     return(result)

@@ -131,7 +131,7 @@ setGeneric(name='ant',ant<-function(x){
       v_perms=x$permutations
       stat=NULL
       for(a in 1:ncol(v_perms)){
-        r=ant:::stat.ci(v_perms[,a])
+        r=stat.ci(v_perms[,a])
         stat[[a]]=data.frame(sum(v_perms[,a]<obs[a])/length(v_perms[,a]),
                              sum(v_perms[,a]>obs[a])/length(v_perms[,a]),
                              r[1],r[2],
@@ -143,7 +143,7 @@ setGeneric(name='ant',ant<-function(x){
       rownames(stat)=colnames(v_perms)
       s$coefficients=cbind(s$coefficients,stat)
       # Posterior distribution histogrames
-      post.dist=ant:::post.dist(v_perms,Obs=obs)
+      post.dist=post.dist(v_perms,Obs=obs)
       # Original model diagnostic
       attr(x$Original.model,'family')=attributes(x)$family
       attr(x$Original.model,'formula')=attributes(x)$formula

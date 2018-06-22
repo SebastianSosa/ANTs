@@ -66,7 +66,7 @@ perm.dataStream.group<-function(df,scan,control_factor=NULL,perm,progress=T,meth
   }
 
 # perm WITHIN CONTROL FACTORS ---------------------------------------------------------
-  if(!is.null(control_factor)){
+  else{
 ##FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
     ### Get the column of scan; can also be used col_scan=grep("Scan",colnames(df)) ????
     col_scan=df.col.findId(df,scan)

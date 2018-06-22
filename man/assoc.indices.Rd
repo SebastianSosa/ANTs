@@ -24,7 +24,7 @@ Compute several association indices.
 }
 \examples{
 sim.gbi
-assoc.indexes(gbi=sim.gbi,index='sri')
+assoc.indices(gbi=sim.gbi,index='sri')
 }
 \references{
 Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.

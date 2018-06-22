@@ -20,10 +20,10 @@
 #' @return A group by individual matrix.
 #' @details Several association indices are coputed on GBI.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
-#' @seealso \code{assoc.indexes}
+#' @seealso \code{assoc.indices}
 #' @examples 
 #' head(sim.grp)
-#' df.to.gbi(sim.grp,scan=c('day','time'),id='ID')
+#' df.to.gbi(sim.grp,scan=c('location','time'),id='ID')
 
 df.to.gbi<-function(df,scan,id){
   col.id=df.col.findId(df,id)

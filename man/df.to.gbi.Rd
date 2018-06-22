@@ -24,10 +24,10 @@ Several association indices are coputed on GBI.
 }
 \examples{
 head(sim.grp)
-df.to.gbi(sim.grp,scan=c('day','time'),id='ID')
+df.to.gbi(sim.grp,scan=c('location','time'),id='ID')
 }
 \seealso{
-\code{assoc.indexes}
+\code{assoc.indices}
 }
 \author{
 Sebastian Sosa, Ivan Puga-Gonzalez.
