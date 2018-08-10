@@ -22,11 +22,11 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 
 #' @references REF laplacian !!!!!!!!!!!!!!!!
-#' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer. 
+#' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 
-met.lpEnergyEigen<-function(M){
-  LM=mat.lp(M)
-  laplacian_energy<-sum(eigen(LM)$values^2)
+met.lpEnergyEigen <- function(M) {
+  LM <- mat.lp(M)
+  laplacian_energy <- sum(eigen(LM)$values^2)
   return(laplacian_energy)
 }

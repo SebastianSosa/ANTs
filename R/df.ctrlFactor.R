@@ -20,11 +20,13 @@
 #' @details Control factors are used in permutation approaches to constrain the permutation between those factors.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
-df.ctrlFactor<-function(df,control){
-  col.ctrl=df.col.findId(df,control)
-  if(length(control)==1){df$control=df[,col.ctrl]}
-  else{
-    df$control = apply( df[ , col.ctrl ] , 1 , paste , collapse = "_" )
+df.ctrlFactor <- function(df, control) {
+  col.ctrl <- df.col.findId(df, control)
+  if (length(control) == 1) {
+    df$control <- df[, col.ctrl]
+  }
+  else {
+    df$control <- apply(df[, col.ctrl ], 1, paste, collapse = "_")
   }
   return(df)
 }

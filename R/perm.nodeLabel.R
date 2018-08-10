@@ -30,9 +30,11 @@
 #' @keywords internal
 
 
-perm.nodeLabel<-function(df,labels,nperm,progress=T){
-  if(is.data.frame(df)==FALSE){stop("Argument df is not a data frame")}
-  col.id=df.col.findId(df,labels)
-  result=perm_nodeLabels(df,label=col.id,nperm,progress=progress)
+perm.nodeLabel <- function(df, labels, nperm, progress = T) {
+  if (is.data.frame(df) == FALSE) {
+    stop("Argument df is not a data frame")
+  }
+  col.id <- df.col.findId(df, labels)
+  result <- perm_nodeLabels(df, label = col.id, nperm, progress = progress)
   return(result)
 }

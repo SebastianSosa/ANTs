@@ -22,5 +22,6 @@
 #' @author Ivan Puga-Gonzalez, Sebastian Sosa.
 #' @keywords internal
 #' @references Hemelrijk, C. K. 1990. Models of, and tests for, reciprocity, unidirectional and other social interaction patterns at a group level. Animal Behavior, 39, 1013-1029
-stat.tauKrSimple <- function (X, Y , omitDiag = omitDiag)
-{return(tauSD(X, Y, NULL, omitDiag))}
+stat.tauKrSimple <- function(X, Y, omitDiag = omitDiag) {
+  return(tauSD(X, Y, NULL, omitDiag))
+}

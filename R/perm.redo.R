@@ -21,21 +21,25 @@
 #' @details This is a function to repeat a permutation according to random factors. It allows to handle GLMM warnings or errors that may appear due to the permutation approach.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
-perm.redo<-function(df,labels,ctrl){
+perm.redo <- function(df, labels, ctrl) {
   # Split df according to the control
-  col.ctrl=df.col.findId(df,ctrl)
-  if(length(col.ctrl)>1){df$control = apply( df[ ,col.ctrl] , 1 , paste , collapse = "_" )}
-  else{df$control=df[,col.ctrl]}
-  ldf=split(df,df$control)
+  col.ctrl <- df.col.findId(df, ctrl)
+  if (length(col.ctrl) > 1) {
+    df$control <- apply(df[, col.ctrl], 1, paste, collapse = "_")
+  }
+  else {
+    df$control <- df[, col.ctrl]
+  }
+  ldf <- split(df, df$control)
 
   # Permutation through the list
-  col.id=df.col.findId(df,labels)
-  perm=lapply(ldf, function(x,col.id){
-    r=perm_nodeLabels(df=x,nperm=1,label=col.id,progress = F)[[2]]
-  },col.id)
+  col.id <- df.col.findId(df, labels)
+  perm <- lapply(ldf, function(x, col.id) {
+    r <- perm_nodeLabels(df = x, nperm = 1, label = col.id, progress = F)[[2]]
+  }, col.id)
 
   # Merge the list permuted
-  result=do.call('rbind',perm)
-  result=result[,-c(max(ncol(result)))]
+  result <- do.call("rbind", perm)
+  result <- result[, -c(max(ncol(result)))]
   return(result)
 }

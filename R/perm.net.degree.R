@@ -16,7 +16,7 @@
 #' @description Permutes the rows and/or the columns of a matrix to maintain the link structure during the permutation process.
 #' @param M a square adjacency matrix or a list of square adjacency matrices.
 #' @param nperm number of permutations wanted.
-#' @return 
+#' @return
 #' \itemize{
 #' \item A list of permuted matrices, if M is a single square adjacency matrix.
 #' \item A list of a list of permuted matrices if M is a list of square adjacency matrices.
@@ -26,20 +26,23 @@
 #' @examples
 #' t=perm.net.degree(sim.m,nperm=10)
 
-perm.net.degree<-function(M,nperm){
-  if(is.list(M)==FALSE & is.matrix(M)==FALSE){stop("Argument M is incorrect, a list of matrices is needed")}
-  if (is.list(M)==FALSE){
-    if(is.matrix(M)==FALSE){stop("Argument M is incorrect, a matrix is needed")}
-    P.M<-perm.met.degree.single(M,nperm)
+perm.net.degree <- function(M, nperm) {
+  if (is.list(M) == FALSE & is.matrix(M) == FALSE) {
+    stop("Argument M is incorrect, a list of matrices is needed")
   }
-  else{
-    if(sum(unlist(lapply(M,is.matrix)))!=length(M)){stop("Argument M is incorrect, one of the elements in the list is not a matrix")}
+  if (is.list(M) == FALSE) {
+    if (is.matrix(M) == FALSE) {
+      stop("Argument M is incorrect, a matrix is needed")
+    }
+    P.M <- perm.met.degree.single(M, nperm)
+  }
+  else {
+    if (sum(unlist(lapply(M, is.matrix))) != length(M)) {
+      stop("Argument M is incorrect, one of the elements in the list is not a matrix")
+    }
 
-    P.M<-lapply(M,perm.met.degree.single,nperm)
+    P.M <- lapply(M, perm.met.degree.single, nperm)
   }
-  attr(P.M,'comment')='ANT degree permutation'
+  attr(P.M, "comment") <- "ANT degree permutation"
   return(P.M)
 }
-
-
-

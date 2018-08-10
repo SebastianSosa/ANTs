@@ -21,14 +21,14 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
 
-perm.edgl<-function(edgelist,perm){
-  MP<-list()
+perm.edgl <- function(edgelist, perm) {
+  MP <- list()
   for (i in 1:perm)
   {
-  		Perm<-sample(edgelist$weight)
-  		dfp<-edgelist
-    	dfp$weight<-Perm
-    	MP[[i]]<-edgl_to_matrix(dfp)
+    Perm <- sample(edgelist$weight)
+    dfp <- edgelist
+    dfp$weight <- Perm
+    MP[[i]] <- edgl_to_matrix(dfp)
   }
   return(MP)
 }

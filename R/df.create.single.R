@@ -21,10 +21,12 @@
 #' @keywords internal
 
 
-df.create.single<-function(M,names=T){
-    df=data.frame(matrix(ncol=0,nrow =ncol(M)))
+df.create.single <- function(M, names = T) {
+  df <- data.frame(matrix(ncol = 0, nrow = ncol(M)))
 
-    if(names){df$id=colnames(M)}
+  if (names) {
+    df$id <- colnames(M)
+  }
 
   return(df)
 }

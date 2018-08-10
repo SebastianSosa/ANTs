@@ -21,27 +21,29 @@
 #' @author Sebastian Sosa,Ivan Puga-Gonzalez
 #' @keywords internal
 
-stat.ci<-function(x,conf.level=95){
-  if(conf.level!=25 && conf.level!=50 && conf.level!=95 && conf.level!=99){stop("Argument conf.level must be : 25, 50, 95 or 99")}
-  if(conf.level==25){
-    E = qt(.125, df=length(x)-1)*sd(x)/sqrt(length(x))
-    stat.ci=mean(x) + c(E,-E)
+stat.ci <- function(x, conf.level = 95) {
+  if (conf.level != 25 && conf.level != 50 && conf.level != 95 && conf.level != 99) {
+    stop("Argument conf.level must be : 25, 50, 95 or 99")
+  }
+  if (conf.level == 25) {
+    E <- qt(.125, df = length(x) - 1) * sd(x) / sqrt(length(x))
+    stat.ci <- mean(x) + c(E, -E)
   }
 
-  if(conf.level==50){
-    E = qt(.250, df=length(x)-1)*sd(x)/sqrt(length(x))
-    stat.ci=mean(x) + c(E,-E)
+  if (conf.level == 50) {
+    E <- qt(.250, df = length(x) - 1) * sd(x) / sqrt(length(x))
+    stat.ci <- mean(x) + c(E, -E)
   }
 
-  if(conf.level==95){
-    E = qt(.975, df=length(x)-1)*sd(x)/sqrt(length(x))
-    stat.ci=mean(x) + c(-E, E)
+  if (conf.level == 95) {
+    E <- qt(.975, df = length(x) - 1) * sd(x) / sqrt(length(x))
+    stat.ci <- mean(x) + c(-E, E)
   }
 
-  if(conf.level==99){
-    E = qt(.995, df=length(x)-1)*sd(x)/sqrt(length(x))
-    stat.ci=mean(x) + c(-E, E)
+  if (conf.level == 99) {
+    E <- qt(.995, df = length(x) - 1) * sd(x) / sqrt(length(x))
+    stat.ci <- mean(x) + c(-E, E)
   }
-  attr(stat.ci,'names')=c('lower ic', 'upper ic')
+  attr(stat.ci, "names") <- c("lower ic", "upper ic")
   return(stat.ci)
 }

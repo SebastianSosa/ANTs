@@ -22,32 +22,34 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
 
-check.mat<-function(M){
-  if(is.matrix(M)){
-    if(mat_isSquare(M)){
+check.mat <- function(M) {
+  if (is.matrix(M)) {
+    if (mat_isSquare(M)) {
       cat("Argument M is a valid matrix.")
-      return('mat ok')
+      return("mat ok")
     }
-    else{
+    else {
       warning("Argument M is not a valid matrix.")
-      return('mat list ok')
+      return("mat list ok")
     }
   }
-  if(is.list(M)){
-    if(all(unlist(lapply(M, function(x){test=all(c(is.matrix(x),mat_isSquare(x)))})))){
+  if (is.list(M)) {
+    if (all(unlist(lapply(M, function(x) {
+      test <- all(c(is.matrix(x), mat_isSquare(x)))
+    })))) {
       cat("Argument M is a valid matrix.")
       return(TRUE)
     }
-    else{
+    else {
       warning("Argument M is not a valid matrix.")
       return(FALSE)
     }
   }
-  if(is.data.frame(M)){
+  if (is.data.frame(M)) {
     warning("Argument M is a data frame, not a matrix")
     return(FALSE)
   }
-  if(is.vector(M)){
+  if (is.vector(M)) {
     warning("Argument M is a vector, not a matrix")
     return(FALSE)
   }

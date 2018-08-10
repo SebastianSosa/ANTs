@@ -21,26 +21,26 @@
 #' @references Pasquaretta, C., Levé, M., Claidiere, N., Van De Waal, E., Whiten, A., MacIntosh, A. J., ... & Crofoot, M. C. (2014). Social networks in primates: smart and tolerant species have more efficient networks. Scientific reports, 4, 7600.
 #' @keywords internal
 
-met.ci.single<-function(M){
+met.ci.single <- function(M) {
   # Real network index calculation
-  eigen=met.eigen(M)
-  eigen.max=eigen[which.max(eigen)]
-  num=sum(eigen.max-eigen)
-  
-  #New mat simulation of a star
-  m=matrix(rep(0,ncol(M)*nrow(M)),ncol = ncol(M),nrow = nrow(M))
-  e=sample(c(1:nrow(m)),1)
-  m[e,]=rep(1,ncol(m))
-  m[,e]=rep(1,nrow(m))
-  diag(m)=0
-  
+  eigen <- met.eigen(M)
+  eigen.max <- eigen[which.max(eigen)]
+  num <- sum(eigen.max - eigen)
+
+  # New mat simulation of a star
+  m <- matrix(rep(0, ncol(M) * nrow(M)), ncol = ncol(M), nrow = nrow(M))
+  e <- sample(c(1:nrow(m)), 1)
+  m[e, ] <- rep(1, ncol(m))
+  m[, e] <- rep(1, nrow(m))
+  diag(m) <- 0
+
   # Index calculation on simulated network
-  eigen2=met.eigen(m)
-  eigen2.max=eigen2[which.max(eigen2)]
-  den=max(eigen2.max-eigen2)
-  
+  eigen2 <- met.eigen(m)
+  eigen2.max <- eigen2[which.max(eigen2)]
+  den <- max(eigen2.max - eigen2)
+
   # Centralisation index
-  result=100*(num/den)
-  names(result)="CI"
+  result <- 100 * (num / den)
+  names(result) <- "CI"
   return(result)
 }

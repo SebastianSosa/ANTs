@@ -18,20 +18,18 @@
 #' @return  An integer representing the binary global clustering coefficient index of the network.
 #' @details The binary global clustering coefficient is the ratio of closed triplets to all triplets (open and closed) in a network. Triplets are three nodes connected by two or three undirected links (open or closed triplets, respectively).
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
-#' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer. 
+#' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 
-met.cc=function(M){
-  N=ncol(M)
-  M=M+t(M)
-  M=mat_filter(M,1,1)
-  possible_triangles=N*(N-1)*(N-2) / 6
+met.cc <- function(M) {
+  N <- ncol(M)
+  M <- M + t(M)
+  M <- mat_filter(M, 1, 1)
+  possible_triangles <- N * (N - 1) * (N - 2) / 6
   # Count number of triangles in a graph through EigenTriangle Theorem
-  #eigen_values=eigen(M)$value
-  #N_triangles=sum(eigen_values^3)/6
-  N_triangles=met.coutTriangles(M)
-  BGcc=N_triangles/possible_triangles
+  # eigen_values=eigen(M)$value
+  # N_triangles=sum(eigen_values^3)/6
+  N_triangles <- met.coutTriangles(M)
+  BGcc <- N_triangles / possible_triangles
   return(BGcc)
 }
-
-

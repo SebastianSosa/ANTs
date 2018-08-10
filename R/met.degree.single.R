@@ -27,24 +27,30 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 
-met.degree.single<-function(M,df=NULL,dfid=NULL){
-  if(is.matrix(M)){
-    if(is.null(df)){
-      d<-met_degree(M)
-      attr(d,'names')=colnames(M)
+met.degree.single <- function(M, df = NULL, dfid = NULL) {
+  if (is.matrix(M)) {
+    if (is.null(df)) {
+      d <- met_degree(M)
+      attr(d, "names") <- colnames(M)
       return(d)
     }
-    else{
-      if(!is.null(dfid)){
-        if(is.null(colnames(M))){stop("Argument M doesn't have column names")}
-        col.id=df.col.findId(df,dfid)
-        df=df[match(colnames(M), df[,col.id]),]
+    else {
+      if (!is.null(dfid)) {
+        if (is.null(colnames(M))) {
+          stop("Argument M doesn't have column names")
+        }
+        col.id <- df.col.findId(df, dfid)
+        df <- df[match(colnames(M), df[, col.id]), ]
       }
-      if(is.data.frame(df)==F){stop('Argument df must be a data frame')}
-      d<-met_degree(M)
-      df$degree=d
+      if (is.data.frame(df) == F) {
+        stop("Argument df must be a data frame")
+      }
+      d <- met_degree(M)
+      df$degree <- d
       return(df)
     }
   }
-  else{stop("Argument M must be a matrix.")}
+  else {
+    stop("Argument M must be a matrix.")
+  }
 }

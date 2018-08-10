@@ -35,431 +35,436 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @examples
 #' met.betweenness(sim.m)
-#'head(sim.df)
+#' head(sim.df)
 #' met.betweenness(sim.m,df=sim.df)
-met.betweenness<-function(M,binary=FALSE,shortest.weight=FALSE,normalization=TRUE,sym=FALSE,out=TRUE,df=NULL,dfid=NULL){
-  test=is.matrix(M)
-  
-  if(test){
-    if(is.null(df)){
-      result=met.betweenness.single(M,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df,dfid=dfid)
+met.betweenness <- function(M, binary = FALSE, shortest.weight = FALSE, normalization = TRUE, sym = FALSE, out = TRUE, df = NULL, dfid = NULL) {
+  test <- is.matrix(M)
+  if (test) {
+    if (is.null(df)) {
+      result <- met.betweenness.single(M, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, dfid = dfid)
       return(result)
     }
-    else{
-      if(is.null(dfid)){
+    else {
+      if (is.null(dfid)) {
         warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
-      } 
-      
-      tmp='tmp'
-      if(binary){
-        if(normalization){
-          if(shortest.weight){
-            if(sym){
-              attr(tmp,'name')='norm.short.betweennessB'
+      }
+
+      tmp <- "tmp"
+      if (binary) {
+        if (normalization) {
+          if (shortest.weight) {
+            if (sym) {
+              attr(tmp, "name") <- "norm.short.betweennessB"
             }
-            else{
-              if(out){
-                attr(tmp,'name')='norm.short.outbetweennessB'
+            else {
+              if (out) {
+                attr(tmp, "name") <- "norm.short.outbetweennessB"
               }
-              else{
-                attr(tmp,'name')='norm.short.inbetweennessB'
+              else {
+                attr(tmp, "name") <- "norm.short.inbetweennessB"
               }
             }
           }
-          else{
-            if(sym){
-              attr(tmp,'name')='norm.betweennessB'
+          else {
+            if (sym) {
+              attr(tmp, "name") <- "norm.betweennessB"
             }
-            else{
-              if(out){
-                attr(tmp,'name')='norm.outbetweennessB'
+            else {
+              if (out) {
+                attr(tmp, "name") <- "norm.outbetweennessB"
               }
-              else{
-                attr(tmp,'name')='norm.inbetweennessB'
+              else {
+                attr(tmp, "name") <- "norm.inbetweennessB"
               }
             }
           }
         }
-        else{
-          if(shortest.weight){
-            if(sym){
-              attr(tmp,'name')='short.betweennessB'
+        else {
+          if (shortest.weight) {
+            if (sym) {
+              attr(tmp, "name") <- "short.betweennessB"
             }
-            else{
-              if(out){
-                attr(tmp,'name')='short.outbetweennessB'
+            else {
+              if (out) {
+                attr(tmp, "name") <- "short.outbetweennessB"
               }
-              else{
-                attr(tmp,'name')='short.inbetweennessB'
+              else {
+                attr(tmp, "name") <- "short.inbetweennessB"
               }
             }
           }
-          else{
-            if(sym){
-              attr(tmp,'name')='betweennessB'
+          else {
+            if (sym) {
+              attr(tmp, "name") <- "betweennessB"
             }
-            else{
-              if(out){
-                attr(tmp,'name')='outbetweennessB'
+            else {
+              if (out) {
+                attr(tmp, "name") <- "outbetweennessB"
               }
-              else{
-                attr(tmp,'name')='inbetweennessB'
+              else {
+                attr(tmp, "name") <- "inbetweennessB"
               }
             }
           }
         }
       }
-      else{
-        if(normalization){
-          if(shortest.weight){
-            if(sym){
-              attr(tmp,'name')='norm.short.betweenness'
+      else {
+        if (normalization) {
+          if (shortest.weight) {
+            if (sym) {
+              attr(tmp, "name") <- "norm.short.betweenness"
             }
-            else{
-              if(out){
-                attr(tmp,'name')='norm.short.outbetweenness'
+            else {
+              if (out) {
+                attr(tmp, "name") <- "norm.short.outbetweenness"
               }
-              else{
-                attr(tmp,'name')='norm.short.inbetweenness'
+              else {
+                attr(tmp, "name") <- "norm.short.inbetweenness"
               }
             }
           }
-          else{
-            if(sym){
-              attr(tmp,'name')='norm.betweenness'
+          else {
+            if (sym) {
+              attr(tmp, "name") <- "norm.betweenness"
             }
-            else{
-              if(out){
-                attr(tmp,'name')='norm.outbetweenness'
+            else {
+              if (out) {
+                attr(tmp, "name") <- "norm.outbetweenness"
               }
-              else{
-                attr(tmp,'name')='norm.inbetweenness'
+              else {
+                attr(tmp, "name") <- "norm.inbetweenness"
               }
             }
           }
         }
-        else{
-          if(shortest.weight){
-            if(sym){
-              attr(tmp,'name')='short.betweenness'
+        else {
+          if (shortest.weight) {
+            if (sym) {
+              attr(tmp, "name") <- "short.betweenness"
             }
-            else{
-              if(out){
-                attr(tmp,'name')='short.outbetweenness'
+            else {
+              if (out) {
+                attr(tmp, "name") <- "short.outbetweenness"
               }
-              else{
-                attr(tmp,'name')='short.inbetweenness'
+              else {
+                attr(tmp, "name") <- "short.inbetweenness"
               }
             }
           }
-          else{
-            if(sym){
-              attr(tmp,'name')='betweenness'
+          else {
+            if (sym) {
+              attr(tmp, "name") <- "betweenness"
             }
-            else{
-              if(out){
-                attr(tmp,'name')='outbetweenness'
+            else {
+              if (out) {
+                attr(tmp, "name") <- "outbetweenness"
               }
-              else{
-                attr(tmp,'name')='inbetweenness'
+              else {
+                attr(tmp, "name") <- "inbetweenness"
               }
             }
           }
         }
       }
-      
-      result=met.betweenness.single(M,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df,dfid=dfid)
-      colnames(result)[ncol(result)]=attributes(tmp)$name
+
+      result <- met.betweenness.single(M, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, dfid = dfid)
+      colnames(result)[ncol(result)] <- attributes(tmp)$name
       return(result)
     }
-
   }
-  else{
-    tmp='tmp'
-    if(binary){
-      if(normalization){
-        if(shortest.weight){
-          if(sym){
-            attr(tmp,'name')='norm.short.betweennessB'
+  else {
+    tmp <- "tmp"
+    if (binary) {
+      if (normalization) {
+        if (shortest.weight) {
+          if (sym) {
+            attr(tmp, "name") <- "norm.short.betweennessB"
           }
-          else{
-            if(out){
-              attr(tmp,'name')='norm.short.outbetweennessB'
+          else {
+            if (out) {
+              attr(tmp, "name") <- "norm.short.outbetweennessB"
             }
-            else{
-              attr(tmp,'name')='norm.short.inbetweennessB'
-            }
-          }
-        }
-        else{
-          if(sym){
-            attr(tmp,'name')='norm.betweennessB'
-          }
-          else{
-            if(out){
-              attr(tmp,'name')='norm.outbetweennessB'
-            }
-            else{
-              attr(tmp,'name')='norm.inbetweennessB'
+            else {
+              attr(tmp, "name") <- "norm.short.inbetweennessB"
             }
           }
         }
-      }
-      else{
-        if(shortest.weight){
-          if(sym){
-            attr(tmp,'name')='short.betweennessB'
+        else {
+          if (sym) {
+            attr(tmp, "name") <- "norm.betweennessB"
           }
-          else{
-            if(out){
-              attr(tmp,'name')='short.outbetweennessB'
+          else {
+            if (out) {
+              attr(tmp, "name") <- "norm.outbetweennessB"
             }
-            else{
-              attr(tmp,'name')='short.inbetweennessB'
-            }
-          }
-        }
-        else{
-          if(sym){
-            attr(tmp,'name')='betweennessB'
-          }
-          else{
-            if(out){
-              attr(tmp,'name')='outbetweennessB'
-            }
-            else{
-              attr(tmp,'name')='inbetweennessB'
+            else {
+              attr(tmp, "name") <- "norm.inbetweennessB"
             }
           }
         }
       }
-    }
-    else{
-      if(normalization){
-        if(shortest.weight){
-          if(sym){
-            attr(tmp,'name')='norm.short.betweenness'
+      else {
+        if (shortest.weight) {
+          if (sym) {
+            attr(tmp, "name") <- "short.betweennessB"
           }
-          else{
-            if(out){
-              attr(tmp,'name')='norm.short.outbetweenness'
+          else {
+            if (out) {
+              attr(tmp, "name") <- "short.outbetweennessB"
             }
-            else{
-              attr(tmp,'name')='norm.short.inbetweenness'
+            else {
+              attr(tmp, "name") <- "short.inbetweennessB"
             }
           }
         }
-        else{
-          if(sym){
-            attr(tmp,'name')='norm.betweenness'
+        else {
+          if (sym) {
+            attr(tmp, "name") <- "betweennessB"
           }
-          else{
-            if(out){
-              attr(tmp,'name')='norm.outbetweenness'
+          else {
+            if (out) {
+              attr(tmp, "name") <- "outbetweennessB"
             }
-            else{
-              attr(tmp,'name')='norm.inbetweenness'
-            }
-          }
-        }
-      }
-      else{
-        if(shortest.weight){
-          if(sym){
-            attr(tmp,'name')='short.betweenness'
-          }
-          else{
-            if(out){
-              attr(tmp,'name')='short.outbetweenness'
-            }
-            else{
-              attr(tmp,'name')='short.inbetweenness'
-            }
-          }
-        }
-        else{
-          if(sym){
-            attr(tmp,'name')='betweenness'
-          }
-          else{
-            if(out){
-              attr(tmp,'name')='outbetweenness'
-            }
-            else{
-              attr(tmp,'name')='inbetweenness'
+            else {
+              attr(tmp, "name") <- "inbetweennessB"
             }
           }
         }
       }
     }
-    
-    if(!is.null(attributes(M)$ANT)){
-      test1=attributes(M)$ANT=='ANT data stream group sampling single matrix'
-      test2=attributes(M)$ANT=="ANT data stream focal sampling single matrix"
-      test3=attributes(M)$ANT=="ANT link permutations single matrix"
-      
-      test4=attributes(M)$ANT=='ANT data stream group sampling multiple matrices'
-      test5=attributes(M)$ANT=="ANT data stream focal sampling multiple matrices"
-      test6=attributes(M)$ANT=="ANT link permutations multiple matrices"
-      
-      if(any(test1,test2,test3)){
-        if(!is.null(df)){
-          if(is.null(dfid)){
-            warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
-          } 
-          if(!is.data.frame(df)){stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function","\r")}
-        }
-        result=lapply(M,function(x,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df,dfid=dfid,tmp){
-          r=met.betweenness.single(x,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df,dfid=dfid)
-          colnames(r)[ncol(r)]= attributes(tmp)$name
-          attr(r,"permutation")=attributes(x)$permutation
-          return(r)
-        },binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df,dfid=dfid,tmp=tmp)     
-        
-        if(test1){
-          attr(result,'scan')=attributes(M)$scan
-          attr(result,'ctrlf')=attributes(M)$ctrlf
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
-          cat("\n")
-          return(result)
-        } 
-        
-        if(test2){
-          attr(result,'focal')=attributes(M)$focal
-          attr(result,'ctrl')=attributes(M)$ctrl
-          attr(result,'alters')=attributes(M)$alters
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
-          cat("\n")
-          return(result)
-        }
-        
-        if(test3){
-          attr(result,'ANT')=attributes(M)$ANT
-          cat("\n")
-          return(result)
-        }
-        
-      }
-      if(any(test4,test5,test6)){
-        if(is.null(df)){
-          result=lapply(M, function(x,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df){
-            r1=lapply(x, function(y,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df){
-              r2=met.betweenness.single(y,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df)
-              attr(r2,'permutation')=attributes(y)$permutation
-              return(r2)
-            },binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df)
-          },binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df)
-          return(result)
-        }
-        else{
-          if(!is.null(df) & is.data.frame(df)){stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.","\r")}
-          if(is.null(dfid)){
-            warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
-          } 
-          if(sum(unlist(lapply(seq_along(M), function(i,a){nrow(a[[i]][[1]])},a=M)))==nrow(df[[1]])){
-            tmp2=lapply(M, function(x,binary,shortest.weight,normalization,sym,out){
-              r1=lapply(x, function(y,binary,shortest.weight,normalization,sym,out){
-                r2=met.betweenness.single(y,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out)
-              },binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out)
-            },binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out)
-            
-            tmp2=do.call(Map,c(c,tmp2))
-            
-            result=lapply(seq_along(df), function(i,a,b,c){
-              a[,(ncol(a)+1)]=b[[i]]
-              colnames(a)[,ncol(a)]=attributes(c)$name
-              return(a)
-            },a=df, b=tmp2, c=tmp)
+    else {
+      if (normalization) {
+        if (shortest.weight) {
+          if (sym) {
+            attr(tmp, "name") <- "norm.short.betweenness"
           }
-          else{
-            #data fame manipulation
-            if(!is.null(dfid)){
-              dfid=df.col.findId(df[[1]],dfid)
-              df=lapply(df,function(x){x=x[order(x[[dfid]]),]})
+          else {
+            if (out) {
+              attr(tmp, "name") <- "norm.short.outbetweenness"
             }
-            
-            ldf=do.call('rbind',df)
-            
-            tmp2=lapply(M, function(x,binary=binary,shortest.weight,normalization,sym,out,tmp){
-              r1=lapply(x, function(y,binary,shortest.weight,normalization,sym,out){
-                r2=met.betweenness.single(y,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out)
-              },binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,tmp=tmp)
-            },binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,tmp=tmp)
-            
-            tmp2=do.call(Map,c(c,tmp2))
-            
-            result=lapply(seq_along(df), function(i,a,b,c){
-              a[,(ncol(a)+1)]=b[[i]]
-              colnames(a)[,ncol(a)]=attributes(c)$name
-              return(a)
-            },a=df, b=tmp2, c=tmp)
-            
-            result=lapply(seq_along(tmp2), function(i,tmp2,ldf,tmp){
-              ldf=tmp2[[i]]
-              colnames(ldf)[ncol(ldf)]=attributes(tmp)$name
-              attr(ldf,'permutation')=i
-              return(ldf)
-            },tmp2=tmp2,ldf=ldf,tmp=tmp)
+            else {
+              attr(tmp, "name") <- "norm.short.inbetweenness"
+            }
           }
         }
-        
-        if(test4){
-          attr(result,'scan')=attributes(M)$scan
-          attr(result,'ctrlf')=attributes(M)$ctrlf
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
-          cat("\n")
-          return(result)
+        else {
+          if (sym) {
+            attr(tmp, "name") <- "norm.betweenness"
+          }
+          else {
+            if (out) {
+              attr(tmp, "name") <- "norm.outbetweenness"
+            }
+            else {
+              attr(tmp, "name") <- "norm.inbetweenness"
+            }
+          }
+        }
+      }
+      else {
+        if (shortest.weight) {
+          if (sym) {
+            attr(tmp, "name") <- "short.betweenness"
+          }
+          else {
+            if (out) {
+              attr(tmp, "name") <- "short.outbetweenness"
+            }
+            else {
+              attr(tmp, "name") <- "short.inbetweenness"
+            }
+          }
+        }
+        else {
+          if (sym) {
+            attr(tmp, "name") <- "betweenness"
+          }
+          else {
+            if (out) {
+              attr(tmp, "name") <- "outbetweenness"
+            }
+            else {
+              attr(tmp, "name") <- "inbetweenness"
+            }
+          }
+        }
+      }
+    }
 
+    if (!is.null(attributes(M)$ANT)) {
+      test1 <- attributes(M)$ANT == "ANT data stream group sampling single matrix"
+      test2 <- attributes(M)$ANT == "ANT data stream focal sampling single matrix"
+      test3 <- attributes(M)$ANT == "ANT link permutations single matrix"
+
+      test4 <- attributes(M)$ANT == "ANT data stream group sampling multiple matrices"
+      test5 <- attributes(M)$ANT == "ANT data stream focal sampling multiple matrices"
+      test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
+
+      if (any(test1, test2, test3)) {
+        if (!is.null(df)) {
+          if (is.null(dfid)) {
+            warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
+          }
+          if (!is.data.frame(df)) {
+            stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function", "\r")
+          }
         }
-        
-        if(test5){
-          attr(result,'focal')=attributes(M)$focal
-          attr(result,'ctrl')=attributes(M)$ctrl
-          attr(result,'alters')=attributes(M)$alters
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
+        result <- lapply(M, function(x, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, dfid = dfid, tmp) {
+          r <- met.betweenness.single(x, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, dfid = dfid)
+          colnames(r)[ncol(r)] <- attributes(tmp)$name
+          attr(r, "permutation") <- attributes(x)$permutation
+          return(r)
+        }, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, dfid = dfid, tmp = tmp)
+
+        if (test1) {
+          attr(result, "scan") <- attributes(M)$scan
+          attr(result, "ctrlf") <- attributes(M)$ctrlf
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
           cat("\n")
           return(result)
         }
-        
-        if(test6){
-          attr(result,'ANT')=attributes(M)$ANT
+
+        if (test2) {
+          attr(result, "focal") <- attributes(M)$focal
+          attr(result, "ctrl") <- attributes(M)$ctrl
+          attr(result, "alters") <- attributes(M)$alters
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
+          cat("\n")
+          return(result)
+        }
+
+        if (test3) {
+          attr(result, "ANT") <- attributes(M)$ANT
+          cat("\n")
           return(result)
         }
       }
-      
+      if (any(test4, test5, test6)) {
+        if (is.null(df)) {
+          result <- lapply(M, function(x, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df) {
+            r1 <- lapply(x, function(y, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df) {
+              r2 <- met.betweenness.single(y, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df)
+              attr(r2, "permutation") <- attributes(y)$permutation
+              return(r2)
+            }, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df)
+          }, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df)
+          return(result)
+        }
+        else {
+          if (!is.null(df) & is.data.frame(df)) {
+            stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
+          }
+          if (is.null(dfid)) {
+            warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
+          }
+          if (sum(unlist(lapply(seq_along(M), function(i, a) {
+            nrow(a[[i]][[1]])
+          }, a = M))) == nrow(df[[1]])) {
+            tmp2 <- lapply(M, function(x, binary, shortest.weight, normalization, sym, out) {
+              r1 <- lapply(x, function(y, binary, shortest.weight, normalization, sym, out) {
+                r2 <- met.betweenness.single(y, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out)
+              }, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out)
+            }, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out)
+
+            tmp2 <- do.call(Map, c(c, tmp2))
+
+            result <- lapply(seq_along(df), function(i, a, b, c) {
+              a[, (ncol(a) + 1)] <- b[[i]]
+              colnames(a)[, ncol(a)] <- attributes(c)$name
+              return(a)
+            }, a = df, b = tmp2, c = tmp)
+          }
+          else {
+            # data fame manipulation
+            if (!is.null(dfid)) {
+              dfid <- df.col.findId(df[[1]], dfid)
+              df <- lapply(df, function(x) {
+                x <- x[order(x[[dfid]]), ]
+              })
+            }
+
+            ldf <- do.call("rbind", df)
+
+            tmp2 <- lapply(M, function(x, binary = binary, shortest.weight, normalization, sym, out, tmp) {
+              r1 <- lapply(x, function(y, binary, shortest.weight, normalization, sym, out) {
+                r2 <- met.betweenness.single(y, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out)
+              }, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, tmp = tmp)
+            }, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, tmp = tmp)
+
+            tmp2 <- do.call(Map, c(c, tmp2))
+
+            result <- lapply(seq_along(df), function(i, a, b, c) {
+              a[, (ncol(a) + 1)] <- b[[i]]
+              colnames(a)[, ncol(a)] <- attributes(c)$name
+              return(a)
+            }, a = df, b = tmp2, c = tmp)
+
+            result <- lapply(seq_along(tmp2), function(i, tmp2, ldf, tmp) {
+              ldf <- tmp2[[i]]
+              colnames(ldf)[ncol(ldf)] <- attributes(tmp)$name
+              attr(ldf, "permutation") <- i
+              return(ldf)
+            }, tmp2 = tmp2, ldf = ldf, tmp = tmp)
+          }
+        }
+
+        if (test4) {
+          attr(result, "scan") <- attributes(M)$scan
+          attr(result, "ctrlf") <- attributes(M)$ctrlf
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
+          cat("\n")
+          return(result)
+        }
+
+        if (test5) {
+          attr(result, "focal") <- attributes(M)$focal
+          attr(result, "ctrl") <- attributes(M)$ctrl
+          attr(result, "alters") <- attributes(M)$alters
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
+          cat("\n")
+          return(result)
+        }
+
+        if (test6) {
+          attr(result, "ANT") <- attributes(M)$ANT
+          return(result)
+        }
+      }
     }
-    
-    if(!test & is.list(M)){
-      if(is.null(df) & !is.null(dfid)){stop("Argument 'df' can't be NULL when argument 'dfid' isn't","\r")}
-      
-      if(is.null(df) & is.null(dfid)){
-        result=lapply(M,met.betweenness.single,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df,dfid=dfid)
+
+    if (!test & is.list(M)) {
+      if (is.null(df) & !is.null(dfid)) {
+        stop("Argument 'df' can't be NULL when argument 'dfid' isn't", "\r")
+      }
+
+      if (is.null(df) & is.null(dfid)) {
+        result <- lapply(M, met.betweenness.single, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, dfid = dfid)
         return(result)
       }
-      
-      if(!is.null(df) & !is.data.frame(df) & is.list(df)){
-        if(!is.null(dfid)){
-          result=mapply(function(M,binary,shortest.weight,normalization,sym,out,df,dfid,tmp){
-            r=met.betweenness.single(m=M,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df,dfid=dfid)
-            colnames(r)[ncol(r)]=attributes(tmp)$name
+
+      if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+        n=rep(list(attributes(tmp)$name),length(M))
+        if (!is.null(dfid)) {
+          result <- mapply(function(M, binary, shortest.weight, normalization, sym, out, df, dfid,tmp1) {
+            r <- met.betweenness.single(m = M, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, dfid = dfid)
+            colnames(r)[ncol(r)] <- tmp1
             return(r)
-          },M=M,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df,dfid=dfid,tmp=tmp,SIMPLIFY = F)
+          }, M = M, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, dfid = dfid, tmp1=n, SIMPLIFY = F)
           return(result)
         }
-        else{
+        else {
           warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
-          result=mapply(function(M,binary,shortest.weight,normalization,sym,out,df,tmp){
-            r=met.betweenness.single(m=M,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df)
-            colnames(r)[ncol(r)]=attributes(tmp)$name
+          result <- mapply(function(M, binary, shortest.weight, normalization, sym, out, df,tmp1) {
+            r <- met.betweenness.single(m = M, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df)
+            colnames(r)[ncol(r)] <- colnames(r)[ncol(r)] <- tmp1
             return(r)
-          },M=M,binary=binary,shortest.weight=shortest.weight,normalization=normalization,sym=sym,out=out,df=df,tmp=tmp,SIMPLIFY = F)
+          }, M = M, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, tmp1=n, SIMPLIFY = F)
           return(result)
         }
-        
       }
     }
   }

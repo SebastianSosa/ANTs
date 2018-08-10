@@ -32,36 +32,40 @@
 #' @keywords internal
 #'
 
-met.ge.single<-function(m,weighted=T,shortest.weight=F,normalization=T,directed=T,out=T){
-  if(weighted==F){m=mat_filter(m,1,1)}
-  if(shortest.weight==F){
-    #opshal method
-    avg_strength=mean(m)
-    if(normalization==T){m=m/avg_strength}
-    m=1/m
-    m[is.infinite(m)]=0
+met.ge.single <- function(m, weighted = T, shortest.weight = F, normalization = T, directed = T, out = T) {
+  if (weighted == F) {
+    m <- mat_filter(m, 1, 1)
   }
-  if(directed==F){
-    m=m+t(m)
-    result<-metric_global_shortestPath(m)[[1]]
-    diag(result)=0
-    s<-sum(result)
-    GE<-s/(ncol(result)*(ncol(result)-1))
+  if (shortest.weight == F) {
+    # opshal method
+    avg_strength <- mean(m)
+    if (normalization == T) {
+      m <- m / avg_strength
+    }
+    m <- 1 / m
+    m[is.infinite(m)] <- 0
+  }
+  if (directed == F) {
+    m <- m + t(m)
+    result <- metric_global_shortestPath(m)[[1]]
+    diag(result) <- 0
+    s <- sum(result)
+    GE <- s / (ncol(result) * (ncol(result) - 1))
     return(GE)
   }
-  else{
-    if(out==T){
-      result=metric_global_shortestPath(m)[[1]]
-      diag(result)=0
-      s<-sum(result)
-      GE<-s/(ncol(result)*(ncol(result)-1))
+  else {
+    if (out == T) {
+      result <- metric_global_shortestPath(m)[[1]]
+      diag(result) <- 0
+      s <- sum(result)
+      GE <- s / (ncol(result) * (ncol(result) - 1))
       return(GE)
     }
-    else{
-      result=metric_global_shortestPath(t(m))[[1]]
-      diag(result)=0
-      s<-sum(result)
-      GE<-s/(ncol(result)*(ncol(result)-1))
+    else {
+      result <- metric_global_shortestPath(t(m))[[1]]
+      diag(result) <- 0
+      s <- sum(result)
+      GE <- s / (ncol(result) * (ncol(result) - 1))
       return(GE)
     }
   }

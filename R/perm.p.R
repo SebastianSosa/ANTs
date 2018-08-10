@@ -30,23 +30,25 @@
 #' @keywords interanl
 
 
-stat.p<-function(metrics,histogram=F){
-    if(is.vector(metrics)){
-      v=metrics[1]
-      v_perm=metrics[-1]
-    }
-    if(is.data.frame(metrics)){
-      v<-metrics[1,]
-      v_perm<-metrics[-1,]
-    }
+stat.p <- function(metrics, histogram = F) {
+  if (is.vector(metrics)) {
+    v <- metrics[1]
+    v_perm <- metrics[-1]
+  }
+  if (is.data.frame(metrics)) {
+    v <- metrics[1, ]
+    v_perm <- metrics[-1, ]
+  }
 
-    p_valuevalue_left_side<-sum(v_perm<v)/length(v_perm)
-    p_valuevalue_right_side<-sum(v_perm>v)/length(v_perm)
+  p_valuevalue_left_side <- sum(v_perm < v) / length(v_perm)
+  p_valuevalue_right_side <- sum(v_perm > v) / length(v_perm)
 
-    if(histogram==T){
-        histo=asna:::histogram(v,v_perm)
-        p=c("p-value_left_side"=p_valuevalue_left_side,"p-value_left_side"=p_valuevalue_right_side)
-        return(list('p-values'=p,"histogram"=histo))
-      }
-    else{return(p=c("p-value_left_side"=p_valuevalue_left_side,"p-value_left_side"=p_valuevalue_right_side))}
+  if (histogram == T) {
+    histo <- asna:::histogram(v, v_perm)
+    p <- c("p-value_left_side" = p_valuevalue_left_side, "p-value_left_side" = p_valuevalue_right_side)
+    return(list("p-values" = p, "histogram" = histo))
+  }
+  else {
+    return(p = c("p-value_left_side" = p_valuevalue_left_side, "p-value_left_side" = p_valuevalue_right_side))
+  }
 }

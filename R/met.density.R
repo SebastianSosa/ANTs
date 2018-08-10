@@ -27,35 +27,35 @@
 #' @examples
 #' met.density(sim.m)
 
-met.density<-function(M,df=NULL){
-  test=is.matrix(M)
-  if(test){
-    result=met_density(M)
-    if(is.null(df)){
+met.density <- function(M, df = NULL) {
+  test <- is.matrix(M)
+  if (test) {
+    result <- met_density(M)    
+    if (is.null(df)) {
+      names(result) <- "Density"
       return(result)
     }
-    else{
-      df$density=result
+    else {
+      df$density <- result
       return(df)
     }
-    
   }
-  else{
-    if(!is.null(attributes(M)$ANT)){
+  else {
+    if (!is.null(attributes(M)$ANT)) {
       stop("None of the permutation approaches available in ANT allow to make density variation.")
     }
-    else{
-      if(!test & is.list(M)){
-        if(is.null(df)){
-          result=lapply(M,met_density)
+    else {
+      if (!test & is.list(M)) {
+        if (is.null(df)) {
+          result <- lapply(M, met_density)
           return(result)
         }
-        
-        if(!is.null(df) & !is.data.frame(df) & is.list(df)){
-          result=mapply(function(x,y){
-            y$density=met_density(x)
+
+        if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+          result <- mapply(function(x, y) {
+            y$density <- met_density(x)
             return(y)
-          },x=M,y=df,SIMPLIFY = F)
+          }, x = M, y = df, SIMPLIFY = F)
           return(result)
         }
       }

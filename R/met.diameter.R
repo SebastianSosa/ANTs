@@ -36,281 +36,285 @@
 #' @examples
 #' met.diameter(sim.m)
 
-met.diameter<-function(M,df=NULL,weighted=T,shortest.weight=F,normalization=T,directed=T,out=T){
-  test=is.matrix(M)
-  if(test){
-    result=met.geodesicDiameter.single(M,weighted,shortest.weight,normalization,directed,out)[[1]]
-    if(is.null(df)){
+met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normalization = T, directed = T, out = T) {
+  test <- is.matrix(M)
+  if (test) {
+    result <- met.geodesicDiameter.single(M, weighted, shortest.weight, normalization, directed, out)[[1]]
+    if (is.null(df)) {
+      names(result) <- "Diameter"
       return(result)
     }
-    else{
-      df$diameter=result
+    else {
+      df$diameter <- result
       return(df)
     }
-    
   }
-  
-  else{
-    tmp='tmp'
-    if(weighted==F){
-      if(normalization){
-        if(shortest.weight){
-          if(directed==F){
-            attr(tmp,'name')='norm.short.diameterB'
+
+  else {
+    tmp <- "tmp"
+    if (weighted == F) {
+      if (normalization) {
+        if (shortest.weight) {
+          if (directed == F) {
+            attr(tmp, "name") <- "norm.short.diameterB"
           }
-          else{
-            if(out){
-              attr(tmp,'name')='norm.short.outdiameterB'
+          else {
+            if (out) {
+              attr(tmp, "name") <- "norm.short.outdiameterB"
             }
-            else{
-              attr(tmp,'name')='norm.short.indiameterB'
-            }
-          }
-        }
-        else{
-          if(directed==F){
-            attr(tmp,'name')='norm.diameterB'
-          }
-          else{
-            if(out){
-              attr(tmp,'name')='norm.outdiameterB'
-            }
-            else{
-              attr(tmp,'name')='norm.indiameterB'
+            else {
+              attr(tmp, "name") <- "norm.short.indiameterB"
             }
           }
         }
-      }
-      else{
-        if(shortest.weight){
-          if(directed==F){
-            attr(tmp,'name')='short.diameterB'
+        else {
+          if (directed == F) {
+            attr(tmp, "name") <- "norm.diameterB"
           }
-          else{
-            if(out){
-              attr(tmp,'name')='short.outdiameterB'
+          else {
+            if (out) {
+              attr(tmp, "name") <- "norm.outdiameterB"
             }
-            else{
-              attr(tmp,'name')='short.indiameterB'
-            }
-          }
-        }
-        else{
-          if(directed==F){
-            attr(tmp,'name')='diameterB'
-          }
-          else{
-            if(out){
-              attr(tmp,'name')='outdiameterB'
-            }
-            else{
-              attr(tmp,'name')='indiameterB'
+            else {
+              attr(tmp, "name") <- "norm.indiameterB"
             }
           }
         }
       }
-    }
-    else{
-      if(normalization){
-        if(shortest.weight){
-          if(directed==F){
-            attr(tmp,'name')='norm.short.diameter'
+      else {
+        if (shortest.weight) {
+          if (directed == F) {
+            attr(tmp, "name") <- "short.diameterB"
           }
-          else{
-            if(out){
-              attr(tmp,'name')='norm.short.outdiameter'
+          else {
+            if (out) {
+              attr(tmp, "name") <- "short.outdiameterB"
             }
-            else{
-              attr(tmp,'name')='norm.short.indiameter'
+            else {
+              attr(tmp, "name") <- "short.indiameterB"
             }
           }
         }
-        else{
-          if(directed==F){
-            attr(tmp,'name')='norm.diameter'
+        else {
+          if (directed == F) {
+            attr(tmp, "name") <- "diameterB"
           }
-          else{
-            if(out){
-              attr(tmp,'name')='norm.outdiameter'
+          else {
+            if (out) {
+              attr(tmp, "name") <- "outdiameterB"
             }
-            else{
-              attr(tmp,'name')='norm.indiameter'
-            }
-          }
-        }
-      }
-      else{
-        if(shortest.weight){
-          if(directed==F){
-            attr(tmp,'name')='short.diameter'
-          }
-          else{
-            if(out){
-              attr(tmp,'name')='short.outdiameter'
-            }
-            else{
-              attr(tmp,'name')='short.indiameter'
-            }
-          }
-        }
-        else{
-          if(directed==F){
-            attr(tmp,'name')='diameter'
-          }
-          else{
-            if(out){
-              attr(tmp,'name')='outdiameter'
-            }
-            else{
-              attr(tmp,'name')='indiameter'
+            else {
+              attr(tmp, "name") <- "indiameterB"
             }
           }
         }
       }
     }
-    
-    if(!is.null(attributes(M)$ANT)){
-      test1=attributes(M)$ANT=="ANT data stream focal sampling single matrix"
-      test2=attributes(M)$ANT=='ANT data stream group sampling single matrix'
-      test3=attributes(M)$ANT=='ANT link permutations single matrix'
-      
-      test4=attributes(M)$ANT=="ANT data stream focal sampling multiple matrices"
-      test5=attributes(M)$ANT=='ANT data stream group sampling multiple matrices'
-      test6=attributes(M)$ANT=='ANT link permutations multiple matrices'
-      
-      if(any(test1,test2,test3)){
-        if(is.null(df)){
-          result=lapply(M,function(x,weighted,shortest.weight,normalization,directed,out){
-            r=met.ge.single(x,weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)[[1]]
-            attr(r,"permutation")=attributes(x)$permutation
+    else {
+      if (normalization) {
+        if (shortest.weight) {
+          if (directed == F) {
+            attr(tmp, "name") <- "norm.short.diameter"
+          }
+          else {
+            if (out) {
+              attr(tmp, "name") <- "norm.short.outdiameter"
+            }
+            else {
+              attr(tmp, "name") <- "norm.short.indiameter"
+            }
+          }
+        }
+        else {
+          if (directed == F) {
+            attr(tmp, "name") <- "norm.diameter"
+          }
+          else {
+            if (out) {
+              attr(tmp, "name") <- "norm.outdiameter"
+            }
+            else {
+              attr(tmp, "name") <- "norm.indiameter"
+            }
+          }
+        }
+      }
+      else {
+        if (shortest.weight) {
+          if (directed == F) {
+            attr(tmp, "name") <- "short.diameter"
+          }
+          else {
+            if (out) {
+              attr(tmp, "name") <- "short.outdiameter"
+            }
+            else {
+              attr(tmp, "name") <- "short.indiameter"
+            }
+          }
+        }
+        else {
+          if (directed == F) {
+            attr(tmp, "name") <- "diameter"
+          }
+          else {
+            if (out) {
+              attr(tmp, "name") <- "outdiameter"
+            }
+            else {
+              attr(tmp, "name") <- "indiameter"
+            }
+          }
+        }
+      }
+    }
+
+    if (!is.null(attributes(M)$ANT)) {
+      test1 <- attributes(M)$ANT == "ANT data stream focal sampling single matrix"
+      test2 <- attributes(M)$ANT == "ANT data stream group sampling single matrix"
+      test3 <- attributes(M)$ANT == "ANT link permutations single matrix"
+
+      test4 <- attributes(M)$ANT == "ANT data stream focal sampling multiple matrices"
+      test5 <- attributes(M)$ANT == "ANT data stream group sampling multiple matrices"
+      test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
+
+      if (any(test1, test2, test3)) {
+        if (is.null(df)) {
+          result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
+            r <- met.ge.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+            attr(r, "permutation") <- attributes(x)$permutation
             return(r)
-          },weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)
+          }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
         }
-        else{
-          if(!is.data.frame(df)){stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function","\r")}
-          result=lapply(M,function(x,weighted,shortest.weight,normalization,directed,out,df){
-            df$diameter=met.ge.single(x,weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)[[1]]
-            colnames(df)[ncol(df)]= attributes(tmp)$name
-            attr(df,"permutation")=attributes(x)$permutation
+        else {
+          if (!is.data.frame(df)) {
+            stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function", "\r")
+          }
+          result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out, df) {
+            df$diameter <- met.ge.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+            colnames(df)[ncol(df)] <- attributes(tmp)$name
+            attr(df, "permutation") <- attributes(x)$permutation
             return(df)
-          },weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out,df=df)
+          }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out, df = df)
         }
-        
-        if(test1){
-          attr(result,'name')=attributes(tmp)$name
-          attr(result,'focal')=attributes(M)$focal
-          attr(result,'ctrl')=attributes(M)$ctrl
-          attr(result,'alters')=attributes(M)$alters
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
-          return(result)
-        }
-        
-        if(test2){
-          attr(result,'name')=attributes(tmp)$name
-          attr(result,'scan')=attributes(M)$scan
-          attr(result,'ctrlf')=attributes(M)$ctrlf
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
-          return(result)
-        }
-        
-        if(test3){
-          attr(result,'name')=attributes(tmp)$name
-          attr(result,'ANT')=attributes(M)$ANT
-          return(result)
-        }
-      }
-      
-      if(any(test4,test5,test6)){
-        if(is.null(df)){
-          result=lapply(M, function(x,weighted,shortest.weight,normalization,directed,out){
-            r1=lapply(x, function(y,weighted,shortest.weight,normalization,directed,out){
-              r2=met.ge.single(y,weighted,shortest.weight,normalization,directed,out)[[1]]
-              attr(r2,'permutation')=attributes(y)$permutation
-              return(r2)
-            },weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)
-            return(r1)
-          },weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)
-        }
-        else{
-          if(!is.null(df) & is.data.frame(df)){stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.","\r")}
-          if(length(M)==nrow(df)){
-            tmp2=lapply(M, function(x,weighted,shortest.weight,normalization,directed,out){
-              r1=lapply(x, function(y,weighted,shortest.weight,normalization,directed,out){
-                r2=met.ge.single(y,weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)[[1]]
-              },weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)
-            },weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)
-            
-            tmp2=do.call(Map,c(c,tmp2))
-            
-            result=lapply(seq_along(tmp2), function(x,tmp2,df,tmp){
-              df[[x]]$diameter=tmp[[x]]
-              colnames(df[[x]])[ncol(df[[x]])]= attributes(tmp)$name
-              return(df[[x]])
-            },tmp2=tmp2,df=df,tmp=tmp)
-          }
-          else{
-            #data fame manipulation
-            ldf=do.call('rbind',df)
-            
-            tmp=lapply(M, function(x,weighted,shortest.weight,normalization,directed,out){
-              r1=lapply(x, function(y,weighted,shortest.weight,normalization,directed,out){
-                r2=met.ge.single(y,weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)[[1]]
-              },weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)
-            },weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)
-            
-            tmp=do.call(Map,c(c,tmp))
-            result=lapply(seq_along(tmp), function(tmp,ldf,i){
-              ldf$diameter=tmp[[i]]
-              attr(ldf,'permutation')=i
-              return(ldf)
-            },tmp=tmp,ldf=ldf)
-          }
-        }
-        
-        if(test4){
-          attr(result,'name')=attributes(tmp)$name
-          attr(result,'focal')=attributes(M)$focal
-          attr(result,'ctrl')=attributes(M)$ctrl
-          attr(result,'alters')=attributes(M)$alters
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
-          return(result)
-        }
-        
-        if(test5){
-          attr(result,'name')=attributes(tmp)$name
-          attr(result,'scan')=attributes(M)$scan
-          attr(result,'ctrlf')=attributes(M)$ctrlf
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
+
+        if (test1) {
+          attr(result, "name") <- attributes(tmp)$name
+          attr(result, "focal") <- attributes(M)$focal
+          attr(result, "ctrl") <- attributes(M)$ctrl
+          attr(result, "alters") <- attributes(M)$alters
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
 
-        if(test6){
-          attr(result,'name')=attributes(tmp)$name
-          attr(result,'ANT')=attributes(M)$ANT
+        if (test2) {
+          attr(result, "name") <- attributes(tmp)$name
+          attr(result, "scan") <- attributes(M)$scan
+          attr(result, "ctrlf") <- attributes(M)$ctrlf
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
+          return(result)
+        }
+
+        if (test3) {
+          attr(result, "name") <- attributes(tmp)$name
+          attr(result, "ANT") <- attributes(M)$ANT
+          return(result)
+        }
+      }
+
+      if (any(test4, test5, test6)) {
+        if (is.null(df)) {
+          result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
+            r1 <- lapply(x, function(y, weighted, shortest.weight, normalization, directed, out) {
+              r2 <- met.ge.single(y, weighted, shortest.weight, normalization, directed, out)[[1]]
+              attr(r2, "permutation") <- attributes(y)$permutation
+              return(r2)
+            }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+            return(r1)
+          }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+        }
+        else {
+          if (!is.null(df) & is.data.frame(df)) {
+            stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
+          }
+          if (length(M) == nrow(df)) {
+            tmp2 <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
+              r1 <- lapply(x, function(y, weighted, shortest.weight, normalization, directed, out) {
+                r2 <- met.ge.single(y, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+              }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+            }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+
+            tmp2 <- do.call(Map, c(c, tmp2))
+
+            result <- lapply(seq_along(tmp2), function(x, tmp2, df, tmp) {
+              df[[x]]$diameter <- tmp[[x]]
+              colnames(df[[x]])[ncol(df[[x]])] <- attributes(tmp)$name
+              return(df[[x]])
+            }, tmp2 = tmp2, df = df, tmp = tmp)
+          }
+          else {
+            # data fame manipulation
+            ldf <- do.call("rbind", df)
+
+            tmp <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
+              r1 <- lapply(x, function(y, weighted, shortest.weight, normalization, directed, out) {
+                r2 <- met.ge.single(y, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+              }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+            }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+
+            tmp <- do.call(Map, c(c, tmp))
+            result <- lapply(seq_along(tmp), function(tmp, ldf, i) {
+              ldf$diameter <- tmp[[i]]
+              attr(ldf, "permutation") <- i
+              return(ldf)
+            }, tmp = tmp, ldf = ldf)
+          }
+        }
+
+        if (test4) {
+          attr(result, "name") <- attributes(tmp)$name
+          attr(result, "focal") <- attributes(M)$focal
+          attr(result, "ctrl") <- attributes(M)$ctrl
+          attr(result, "alters") <- attributes(M)$alters
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
+          return(result)
+        }
+
+        if (test5) {
+          attr(result, "name") <- attributes(tmp)$name
+          attr(result, "scan") <- attributes(M)$scan
+          attr(result, "ctrlf") <- attributes(M)$ctrlf
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
+          return(result)
+        }
+
+        if (test6) {
+          attr(result, "name") <- attributes(tmp)$name
+          attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
       }
     }
-    else{
-      if(!test & is.list(M)){
-        if(is.null(df)){
-          result=lapply(M,function(x,weighted,shortest.weight,normalization,directed,out){
-            r=met.geodesicDiameter.single(x,weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)[[1]]
-          },weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)
-          attr(result,'name')=attributes(tmp)$name
+    else {
+      if (!test & is.list(M)) {
+        if (is.null(df)) {
+          result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
+            r <- met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+          }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+          attr(result, "name") <- attributes(tmp)$name
           return(result)
         }
-        
-        if(!is.null(df) & !is.data.frame(df) & is.list(df)){
-          result=mapply(function(x,y,t){
-            y$diameter=met.geodesicDiameter.single(x,weighted=weighted,shortest.weight=shortest.weight,normalization=normalization,directed=directed,out=out)[[1]]
-            colnames(y)[ncol(y)]= t
+
+        if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+          result <- mapply(function(x, y, t) {
+            y$diameter <- met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+            colnames(y)[ncol(y)] <- t
             return(y)
-          },x=M,y=df,t=attributes(tmp)$name,SIMPLIFY = F)
+          }, x = M, y = df, t = attributes(tmp)$name, SIMPLIFY = F)
           return(result)
         }
       }

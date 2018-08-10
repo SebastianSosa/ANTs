@@ -17,7 +17,7 @@
 
 #' @param M a square adjacency matrix or a list of square adjacency matrix.
 #' @param perm number of perm wanted
-#' @return 
+#' @return
 #' \itemize{
 #' \item A list of prmuted matrices, if M is a single square adjacency matrix.
 #' \item A list of list if M is a list of square adjacency matrix.
@@ -26,11 +26,11 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
 
-perm.met.degree.single<-function(M,perm){
-  MPerm<-list()
-  for(a in 1:perm){
+perm.met.degree.single <- function(M, perm) {
+  MPerm <- list()
+  for (a in 1:perm) {
     pp <- sample(1:dim(M)[[2]])
-    MPerm[[a]]<-M[pp,pp]
+    MPerm[[a]] <- M[pp, pp]
   }
   return(MPerm)
 }

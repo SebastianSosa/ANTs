@@ -23,22 +23,26 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 
 #' @keywords internal
-met.strength.single<-function(M,df=NULL,dfid=NULL){
-  s<-as.vector(met_strength(M))
-  
-  if(is.null(df)){
-    attr(s,'names')=colnames(M)
+met.strength.single <- function(M, df = NULL, dfid = NULL) {
+  s <- as.vector(met_strength(M))
+
+  if (is.null(df)) {
+    attr(s, "names") <- colnames(M)
     return(s)
   }
-  else{
-    if(!is.null(dfid)){
-      if(is.null(colnames(M))){stop("Argument M doesn't have column names")}
-      col.id=df.col.findId(df,dfid)
-      df=df[match(colnames(M), df[,col.id]),]
+  else {
+    if (!is.null(dfid)) {
+      if (is.null(colnames(M))) {
+        stop("Argument M doesn't have column names")
+      }
+      col.id <- df.col.findId(df, dfid)
+      df <- df[match(colnames(M), df[, col.id]), ]
     }
-    if(is.data.frame(df)==F){stop('Argument df must be a data frame')}
-    
-    df$strength=s
+    if (is.data.frame(df) == F) {
+      stop("Argument df must be a data frame")
+    }
+
+    df$strength <- s
     return(df)
   }
 }

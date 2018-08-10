@@ -18,8 +18,8 @@
 #' @return A matrix.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
-mat.binaryzation<-function(M) {
-  m=mat_binaryzation(M)
-  attributes(m)=attributes(M)
+mat.binaryzation <- function(M) {
+  m <- mat_binaryzation(M)
+  attributes(m) <- attributes(M)
   return(m)
 }

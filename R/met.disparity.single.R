@@ -33,23 +33,23 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 
-met.disparity.single<-function(M,df=NULL,dfid=NULL){
-  s=met.strength(M)/2
-  m.strength=matrix(rep(s),ncol = ncol(M),nrow = nrow(M),byrow = T)
-  tmp=rowSums((M/m.strength)^2)
+met.disparity.single <- function(M, df = NULL, dfid = NULL) {
+  s <- met.strength(M) / 2
+  m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = T)
+  tmp <- rowSums((M / m.strength)^2)
 
-  if(is.null(df)){
+  if (is.null(df)) {
     return(tmp)
   }
-  else{
-    if(is.null(dfid)){
-      df$disparity=tmp
+  else {
+    if (is.null(dfid)) {
+      df$disparity <- tmp
       return(df)
     }
-    else{
-      col.id=df.col.findId(df,dfid)
-      df=df[match(colnames(M), df[,col.id]),]
-      df$disparity=tmp
+    else {
+      col.id <- df.col.findId(df, dfid)
+      df <- df[match(colnames(M), df[, col.id]), ]
+      df$disparity <- tmp
       return(df)
     }
   }

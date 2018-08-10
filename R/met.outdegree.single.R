@@ -27,21 +27,25 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 
-met.outdegree.single<-function(M,df=NULL,dfid=NULL){
-  if(is.null(df)){
-    BOD<-mat_rows_sumsBinary(M)
-    attr(BOD,'names')=colnames(M)
+met.outdegree.single <- function(M, df = NULL, dfid = NULL) {
+  if (is.null(df)) {
+    BOD <- mat_rows_sumsBinary(M)
+    attr(BOD, "names") <- colnames(M)
     return(BOD)
   }
-  else{
-    if(!is.null(dfid)){
-      if(is.null(colnames(M))){stop("Argument M doesn't have column names")}
-      col.id=df.col.findId(df,dfid)
-      df=df[match(colnames(M), df[,col.id]),]
+  else {
+    if (!is.null(dfid)) {
+      if (is.null(colnames(M))) {
+        stop("Argument M doesn't have column names")
+      }
+      col.id <- df.col.findId(df, dfid)
+      df <- df[match(colnames(M), df[, col.id]), ]
     }
-    if(is.data.frame(df)==F){stop('Argument df must be a data frame')}
-    BOD<-mat_rows_sumsBinary(M)
-    df$outdegree=BOD
+    if (is.data.frame(df) == F) {
+      stop("Argument df must be a data frame")
+    }
+    BOD <- mat_rows_sumsBinary(M)
+    df$outdegree <- BOD
     return(df)
   }
 }

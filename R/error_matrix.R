@@ -22,17 +22,29 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
 
-error_matrix<-function(M){
-  is.square=function(M){dim(M)[1]==dim(M)[2]}
-  is.mat=function(M){is.matrix(M)}
-  if(is.matrix(M)){
-    if(is.square(M)==F){stop("Argument is not a square matrix.")}
+error_matrix <- function(M) {
+  is.square <- function(M) {
+    dim(M)[1] == dim(M)[2]
   }
-  else{
-    if(is.data.frame(M)==T){stop("Argument is a data frame, not a matrix.")}
-    if(is.vector(M)==T){stop("Argument is a vector, not a matrix")}
-    if(is.list(M)==T){
-      if(sum(unlist(lapply(M,function(x){ is.matrix(x) & is.square(x) == T })))!=length(M)){
+  is.mat <- function(M) {
+    is.matrix(M)
+  }
+  if (is.matrix(M)) {
+    if (is.square(M) == F) {
+      stop("Argument is not a square matrix.")
+    }
+  }
+  else {
+    if (is.data.frame(M) == T) {
+      stop("Argument is a data frame, not a matrix.")
+    }
+    if (is.vector(M) == T) {
+      stop("Argument is a vector, not a matrix")
+    }
+    if (is.list(M) == T) {
+      if (sum(unlist(lapply(M, function(x) {
+        is.matrix(x) & is.square(x) == T
+      }))) != length(M)) {
         stop("Incorrect data input, one of the elements in the list is not a matrix or a square matrix.")
       }
     }

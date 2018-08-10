@@ -31,157 +31,159 @@
 #' @examples
 #' met.ci(sim.m)
 
-met.ci<-function(M, df=NULL, binary=F, sym=T){
-  test=is.matrix(M)
-  if(test){
-    result=met.ci.single(M)
-    if(is.null(df)){
+met.ci <- function(M, df = NULL, binary = F, sym = T) {
+  test <- is.matrix(M)
+  if (test) {
+    result <- met.ci.single(M)
+    if (is.null(df)) {
       return(result)
     }
-    else{
-      df$ci=result
+    else {
+      df$ci <- result
       return(df)
     }
-    
   }
-  else{
-    if(!is.null(attributes(M)$ANT)){
-      
-      test1=attributes(M)$ANT=="ANT data stream focal sampling single matrix"
-      test2=attributes(M)$ANT=='ANT data stream group sampling single matrix'
-      test3=attributes(M)$ANT=='ANT link permutations single matrix'
-      
-      test4=attributes(M)$ANT=="ANT data stream focal sampling multiple matrices"
-      test5=attributes(M)$ANT=='ANT data stream group sampling multiple matrices'
-      test6=attributes(M)$ANT=='ANT link permutations multiple matrices'
-      
-      if(any(test1,test2,test3)){
-        if(is.null(df)){
-          result=lapply(M,function(x){
-            r=met.ci.single(x)
-            attr(r,"permutation")=attributes(x)$permutation
+  else {
+    if (!is.null(attributes(M)$ANT)) {
+      test1 <- attributes(M)$ANT == "ANT data stream focal sampling single matrix"
+      test2 <- attributes(M)$ANT == "ANT data stream group sampling single matrix"
+      test3 <- attributes(M)$ANT == "ANT link permutations single matrix"
+
+      test4 <- attributes(M)$ANT == "ANT data stream focal sampling multiple matrices"
+      test5 <- attributes(M)$ANT == "ANT data stream group sampling multiple matrices"
+      test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
+
+      if (any(test1, test2, test3)) {
+        if (is.null(df)) {
+          result <- lapply(M, function(x) {
+            r <- met.ci.single(x)
+            attr(r, "permutation") <- attributes(x)$permutation
             return(r)
           })
         }
-        else{
-          if(!is.data.frame(df)){stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function","\r")}
-          result=lapply(M,function(x,df){
-            df$ci=met.ci.single(x)
-            attr(df,"permutation")=attributes(x)$permutation
+        else {
+          if (!is.data.frame(df)) {
+            stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function", "\r")
+          }
+          result <- lapply(M, function(x, df) {
+            df$ci <- met.ci.single(x)
+            attr(df, "permutation") <- attributes(x)$permutation
             return(df)
-          },df=df)
+          }, df = df)
         }
-        
-        if(test1){
-          attr(result,'focal')=attributes(M)$focal
-          attr(result,'ctrl')=attributes(M)$ctrl
-          attr(result,'alters')=attributes(M)$alters
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
+
+        if (test1) {
+          attr(result, "focal") <- attributes(M)$focal
+          attr(result, "ctrl") <- attributes(M)$ctrl
+          attr(result, "alters") <- attributes(M)$alters
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
-        
-        if(test2){
-          attr(result,'scan')=attributes(M)$scan
-          attr(result,'ctrlf')=attributes(M)$ctrlf
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
+
+        if (test2) {
+          attr(result, "scan") <- attributes(M)$scan
+          attr(result, "ctrlf") <- attributes(M)$ctrlf
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
-        
-        if(test3){
-          attr(result,'ANT')=attributes(M)$ANT
+
+        if (test3) {
+          attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
       }
-      
-      if(any(test4,test5,test6)){
-        if(is.null(df)){
-          result=lapply(M, function(x){
-            r1=lapply(x, function(y){
-              r2=met.ci.single(y)
-              attr(r2,'permutation')=attributes(y)$permutation
+
+      if (any(test4, test5, test6)) {
+        if (is.null(df)) {
+          result <- lapply(M, function(x) {
+            r1 <- lapply(x, function(y) {
+              r2 <- met.ci.single(y)
+              attr(r2, "permutation") <- attributes(y)$permutation
               return(r2)
             })
             return(r1)
           })
-          attr(result,'scan')=attributes(M)$scan
-          attr(result,'ctrlf')=attributes(M)$ctrlf
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
+          attr(result, "scan") <- attributes(M)$scan
+          attr(result, "ctrlf") <- attributes(M)$ctrlf
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
-        else{
-          if(!is.null(df) & is.data.frame(df)){stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.","\r")}
-          if(length(M)==nrow(df)){
-            tmp=lapply(M, function(x){
-              r1=lapply(x, function(y){
-                r2=met.ci.single(y)
+        else {
+          if (!is.null(df) & is.data.frame(df)) {
+            stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
+          }
+          if (length(M) == nrow(df)) {
+            tmp <- lapply(M, function(x) {
+              r1 <- lapply(x, function(y) {
+                r2 <- met.ci.single(y)
               })
             })
-            
-            tmp=do.call(Map,c(c,tmp))
-            
-            result=lapply(seq_along(tmp), function(x,tmp,df){
-              df[[x]]$ci=tmp[[x]]
+
+            tmp <- do.call(Map, c(c, tmp))
+
+            result <- lapply(seq_along(tmp), function(x, tmp, df) {
+              df[[x]]$ci <- tmp[[x]]
               return(df[[x]])
-            },tmp=tmp,df=df)
+            }, tmp = tmp, df = df)
           }
-          else{
-            #data fame manipulation
-            ldf=do.call('rbind',df)
-            
-            tmp=lapply(M, function(x){
-              r1=lapply(x, function(y){
-                r2=met.ci.single(y)
+          else {
+            # data fame manipulation
+            ldf <- do.call("rbind", df)
+
+            tmp <- lapply(M, function(x) {
+              r1 <- lapply(x, function(y) {
+                r2 <- met.ci.single(y)
               })
             })
-            
-            tmp=do.call(Map,c(c,tmp))
-            
-            result=lapply(seq_along(tmp), function(tmp,ldf,i){
-              ldf$ci=tmp[[i]]
-              attr(ldf,'permutation')=i
+
+            tmp <- do.call(Map, c(c, tmp))
+
+            result <- lapply(seq_along(tmp), function(tmp, ldf, i) {
+              ldf$ci <- tmp[[i]]
+              attr(ldf, "permutation") <- i
               return(ldf)
-            },tmp=tmp,ldf=ldf)
+            }, tmp = tmp, ldf = ldf)
           }
         }
-        
-        if(test4){
-          attr(result,'focal')=attributes(M)$focal
-          attr(result,'ctrl')=attributes(M)$ctrl
-          attr(result,'alters')=attributes(M)$alters
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
+
+        if (test4) {
+          attr(result, "focal") <- attributes(M)$focal
+          attr(result, "ctrl") <- attributes(M)$ctrl
+          attr(result, "alters") <- attributes(M)$alters
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
-        
-        if(test5){
-          attr(result,'scan')=attributes(M)$scan
-          attr(result,'ctrlf')=attributes(M)$ctrlf
-          attr(result,'method')=attributes(M)$method
-          attr(result,'ANT')=attributes(M)$ANT
+
+        if (test5) {
+          attr(result, "scan") <- attributes(M)$scan
+          attr(result, "ctrlf") <- attributes(M)$ctrlf
+          attr(result, "method") <- attributes(M)$method
+          attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
-        
-        if(test6){
-          attr(result,'ANT')=attributes(M)$ANT
+
+        if (test6) {
+          attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
       }
     }
-    else{
-      if(!test & is.list(M)){
-        if(is.null(df)){
-          result=lapply(M,met.ci.single)
+    else {
+      if (!test & is.list(M)) {
+        if (is.null(df)) {
+          result <- lapply(M, met.ci.single)
           return(result)
         }
-        
-        if(!is.null(df) & !is.data.frame(df) & is.list(df)){
-          result=mapply(function(x,y){
-            y$ci=met.ci.single(x)
+
+        if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+          result <- mapply(function(x, y) {
+            y$ci <- met.ci.single(x)
             return(y)
-          },x=M,y=df,SIMPLIFY = F)
+          }, x = M, y = df, SIMPLIFY = F)
           return(result)
         }
       }

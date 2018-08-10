@@ -22,35 +22,31 @@
 #' @details  returns a list of matrices in the same order as is the original folder
 #' @author Ivan Puga-Gonzalez, Sebastian Sosa.
 #' @references Hemelrijk, C. K. 1990. Models of, and tests for, reciprocity, unidirectional and other social interaction patterns at a group level. Animal Behavior, 39, 1013-1029
-#' @references Hemelrijk, C. K. 1990. A matrix partial correlation test used in investigations of reciprocity and other social interaction patterns at a group level. Journal of theoretical Biology, 143, 405-420. 
+#' @references Hemelrijk, C. K. 1990. A matrix partial correlation test used in investigations of reciprocity and other social interaction patterns at a group level. Journal of theoretical Biology, 143, 405-420.
 
-stat.tauKr<-function(X,Y,Z=NULL,nperm=NULL,omitDiag){
-  if(is.null(Z) & is.null(nperm)){
+stat.tauKr <- function(X, Y, Z = NULL, nperm = NULL, omitDiag) {
+  if (is.null(Z) & is.null(nperm)) {
     stopifnot(is.matrix(X), is.matrix(Y))
     stopifnot(dim(X) <= dim(Y))
-    result=stat.tauKrSimple(X, Y , omitDiag = omitDiag)
+    result <- stat.tauKrSimple(X, Y, omitDiag = omitDiag)
   }
-  if(is.null(Z) & !is.null(nperm)){
+  if (is.null(Z) & !is.null(nperm)) {
     stopifnot(is.matrix(X), is.matrix(Y))
     stopifnot(dim(X) <= dim(Y))
-    result=stat.tauKrPermSig(X, Y , nperm=nperm, omitDiag = omitDiag)
+    result <- stat.tauKrPermSig(X, Y, nperm = nperm, omitDiag = omitDiag)
   }
-  #################TauKr partial Correlations###################################
-  if(!is.null(Z) & is.null(nperm)){
+  ################# TauKr partial Correlations###################################
+  if (!is.null(Z) & is.null(nperm)) {
     stopifnot(is.matrix(X), is.matrix(Y), is.matrix(Z))
-    stopifnot(dim(X) <= dim (Y))
-    stopifnot(dim(X) <= dim (Z))
-    result=stat.tauKrPartial(X, Y, Z, omitDiag = omitDiag)
+    stopifnot(dim(X) <= dim(Y))
+    stopifnot(dim(X) <= dim(Z))
+    result <- stat.tauKrPartial(X, Y, Z, omitDiag = omitDiag)
   }
-  if(!is.null(Z) & !is.null(nperm)){
+  if (!is.null(Z) & !is.null(nperm)) {
     stopifnot(is.matrix(X), is.matrix(Y), is.matrix(Z))
-    stopifnot(dim(X) == dim (Y))
-    stopifnot(dim(X) == dim (Z))
-    result=stat.tauKrPartialPermSig(X, Y, Z, nperm=nperm, omitDiag = omitDiag)
+    stopifnot(dim(X) == dim(Y))
+    stopifnot(dim(X) == dim(Z))
+    result <- stat.tauKrPartialPermSig(X, Y, Z, nperm = nperm, omitDiag = omitDiag)
   }
   return(result)
 }
-
-
-
-

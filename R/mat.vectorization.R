@@ -19,23 +19,23 @@
 #' @param erase.diag if \emph{true} will not keep the diagonal of the matrix.
 #' @description Transform a matrix into a vector.
 #' @keywords internal
-mat.vectorization<-function(M,sym=F,erase.diag=T){
-  if(sym){
-    if(erase.diag){
-      y=M[lower.tri(M)]
+mat.vectorization <- function(M, sym = F, erase.diag = T) {
+  if (sym) {
+    if (erase.diag) {
+      y <- M[lower.tri(M)]
     }
-    else{
-      y=M[lower.tri(M,diag = T)]
+    else {
+      y <- M[lower.tri(M, diag = T)]
     }
   }
-  else{
-    if(erase.diag){
-      diag(M)<-NA
-      y=as.vector(M)
-      y=y[!is.na(y)]
+  else {
+    if (erase.diag) {
+      diag(M) <- NA
+      y <- as.vector(M)
+      y <- y[!is.na(y)]
     }
-    else{
-      y=as.vector(M)
+    else {
+      y <- as.vector(M)
     }
   }
   return(y)

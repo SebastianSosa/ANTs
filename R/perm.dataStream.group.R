@@ -39,68 +39,80 @@
 
 
 # factor= according to which factors creat the gbi. enter the name of the column.
-perm.dataStream.group<-function(df,scan,control_factor=NULL,perm,progress=T,method='sri'){
-##FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
-# perm WITHIN SCANS NO CONTROL FACTORS  -----------------------------------------------
-  if(is.null(control_factor)){
+perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progress = T, method = "sri") {
+  ## FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
+  # perm WITHIN SCANS NO CONTROL FACTORS  -----------------------------------------------
+  if (is.null(control_factor)) {
     ### Get the column of scan; can also be used col_scan=grep("Scan",colnames(df)) ????
-    col_scan=df.col.findId(df,scan)
-    if(length(col_scan)>1){df$scan = apply( df[ , col_scan ] , 1 , paste , collapse = "_" )}else{df$scan =df[,col_scan]}
+    col_scan <- df.col.findId(df, scan)
+    if (length(col_scan) > 1) {
+      df$scan <- apply(df[, col_scan ], 1, paste, collapse = "_")
+    } else {
+      df$scan <- df[, col_scan]
+    }
     ### convert the scan columns to factors, necessary for GBI
-    df$scan =as.factor(df$scan)
-    ##group_scan=levels(df$scan) NOT NECESSARY ANYMORE CAN BE DELETED
-    ids=levels(df$ID) #### IDS NEED TO BE CHARACTER OR FACTOR SO HERE I GET LEVELS; see cpp function
-    col_scan=df.col.findId(df,"scan") ### THIS IS NECESSARY, CPP FUNCTION TAKES ONE VALUE NOT A VECTOR OF VALUES!!!!!!
+    df$scan <- as.factor(df$scan)
+    ## group_scan=levels(df$scan) NOT NECESSARY ANYMORE CAN BE DELETED
+    ids <- levels(df$ID) #### IDS NEED TO BE CHARACTER OR FACTOR SO HERE I GET LEVELS; see cpp function
+    col_scan <- df.col.findId(df, "scan") ### THIS IS NECESSARY, CPP FUNCTION TAKES ONE VALUE NOT A VECTOR OF VALUES!!!!!!
     ### Get the index column belonging to ID
-    col_ID=grep("^ID$", colnames(df))
+    col_ID <- grep("^ID$", colnames(df))
     ### Create gbi matrix (GBI) groups = Scan
-    GBI=df.to.gbi(df,col_scan,col_ID)
-    ###list_gbi=list() NO NEEDED ANYMORE!!!
-    list_gbi=perm_dataStream1(GBI,perm,progress=progress,method=method)### I PUT LIST_GBI, IT WAS RETURNING TO NO OBJECT!!!
-    #list_gbi=lapply(list_gbi,function(X,ids){colnames(X)=ids; rownames(X)=ids;return (X)},ids)
-    list_gbi=lapply(seq_along(list_gbi),function(x,ids,i){
-      colnames(x[[i]])=ids
-      rownames(x[[i]])=ids
-      attr(x[[i]],'permutation')=i
-      return (x[[i]])},x=list_gbi,ids=ids)
+    GBI <- df.to.gbi(df, col_scan, col_ID)
+    ### list_gbi=list() NO NEEDED ANYMORE!!!
+    list_gbi <- perm_dataStream1(GBI, perm, progress = progress, method = method) ### I PUT LIST_GBI, IT WAS RETURNING TO NO OBJECT!!!
+    # list_gbi=lapply(list_gbi,function(X,ids){colnames(X)=ids; rownames(X)=ids;return (X)},ids)
+    list_gbi <- lapply(seq_along(list_gbi), function(x, ids, i) {
+      colnames(x[[i]]) <- ids
+      rownames(x[[i]]) <- ids
+      attr(x[[i]], "permutation") <- i
+      return(x[[i]])
+    }, x = list_gbi, ids = ids)
   }
 
-# perm WITHIN CONTROL FACTORS ---------------------------------------------------------
-  else{
-##FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
+  # perm WITHIN CONTROL FACTORS ---------------------------------------------------------
+  else {
+    ## FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
     ### Get the column of scan; can also be used col_scan=grep("Scan",colnames(df)) ????
-    col_scan=df.col.findId(df,scan)
-    if(length(col_scan)>1){df$scan = apply( df[ , col_scan ] , 1 , paste , collapse = "_" )}else{df$scan =df[,col_scan]}
+    col_scan <- df.col.findId(df, scan)
+    if (length(col_scan) > 1) {
+      df$scan <- apply(df[, col_scan ], 1, paste, collapse = "_")
+    } else {
+      df$scan <- df[, col_scan]
+    }
     ### convert the scan columns to factors, necessary for GBI
-    df$scan =as.factor(df$scan)
+    df$scan <- as.factor(df$scan)
     ### get ids, and col numbers of IDs and Controls
-    ids=levels(df$ID)
-    col_scan=df.col.findId(df,"scan") ### THIS IS NECESSARY, CPP FUNCTION TAKES ONE VALUE NOT A VECTOR OF VALUES!!!!!!
-    col_ID=grep("^ID$", colnames(df))
+    ids <- levels(df$ID)
+    col_scan <- df.col.findId(df, "scan") ### THIS IS NECESSARY, CPP FUNCTION TAKES ONE VALUE NOT A VECTOR OF VALUES!!!!!!
+    col_ID <- grep("^ID$", colnames(df))
     ### CREATE A LIST OF DIFFERENT DFs DEPENDING ON FACTORS TO CONTROL
-    col_id=df.col.findId(df,control_factor)
-    if(length(col_id)>1){df$control = apply( df[ , col_id ] , 1 , paste , collapse = "_" )}else{df$control =df[,col_id]}
-    df$control=as.factor(df$control)
-    dfControls=split(df,df$control)
+    col_id <- df.col.findId(df, control_factor)
+    if (length(col_id) > 1) {
+      df$control <- apply(df[, col_id ], 1, paste, collapse = "_")
+    } else {
+      df$control <- df[, col_id]
+    }
+    df$control <- as.factor(df$control)
+    dfControls <- split(df, df$control)
     ############################
-    GBIcontrols=list() ## list to hold the list of gbis
-    GroupOrder=c()###holds the names of the groups in the order put in the different gbi
-    ###CREATE A GBI PER DF to CONTROL
-    GBIcontrols=lapply(dfControls,df.to.gbi,col_scan,col_ID)
+    GBIcontrols <- list() ## list to hold the list of gbis
+    GroupOrder <- c() ### holds the names of the groups in the order put in the different gbi
+    ### CREATE A GBI PER DF to CONTROL
+    GBIcontrols <- lapply(dfControls, df.to.gbi, col_scan, col_ID)
     ##################################
-    GBI=do.call(rbind,GBIcontrols)
-    CumGbiSizes=c(0,cumsum(sapply(GBIcontrols,nrow))) ### starts on 0 cause of C++ indexes
-    list_gbi=perm_dataStream_ControlFactor(GBIcontrols,GBI,perm,CumGbiSizes,progress=progress,method=method)
-    list_gbi=lapply(seq_along(list_gbi),function(x,ids,i){
-      colnames(x[[i]])=ids
-      rownames(x[[i]])=ids
-      attr(x[[i]],'permutation')=i
-      return (x[[i]])},x=list_gbi,ids=ids)
+    GBI <- do.call(rbind, GBIcontrols)
+    CumGbiSizes <- c(0, cumsum(sapply(GBIcontrols, nrow))) ### starts on 0 cause of C++ indexes
+    list_gbi <- perm_dataStream_ControlFactor(GBIcontrols, GBI, perm, CumGbiSizes, progress = progress, method = method)
+    list_gbi <- lapply(seq_along(list_gbi), function(x, ids, i) {
+      colnames(x[[i]]) <- ids
+      rownames(x[[i]]) <- ids
+      attr(x[[i]], "permutation") <- i
+      return(x[[i]])
+    }, x = list_gbi, ids = ids)
   }
 
-# Transform all GBI to association matrices according to method(default=SRI) ------------------
-  ##Matrix_List=lapply(list_gbi,assoc_mat,method=method)
+  # Transform all GBI to association matrices according to method(default=SRI) ------------------
+  ## Matrix_List=lapply(list_gbi,assoc_mat,method=method)
   return(list_gbi)
 }
-
-

@@ -22,22 +22,22 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 
 #' @references REF laplacian !!!!!!!!!!!!!!!!
-#' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer. 
+#' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 
-met.lpcW<-function(M){
+met.lpcW <- function(M) {
   error_matrix(M)
-  diag(M)=0
-  M=mat.symetrize(M)
+  diag(M) <- 0
+  M <- mat.symetrize(M)
 
-  le0=laplacian_energy_degrees(M)
+  le0 <- laplacian_energy_degrees(M)
 
-  le_c=NULL
-  for(a in 1:length(M[1,])){
-    m0=M
-    m0=m0[-a,-a]
-    le_a=laplacian_energy_degrees(m0)
-    le_c[a]=(le0-le_a)/le0
+  le_c <- NULL
+  for (a in 1:length(M[1, ])) {
+    m0 <- M
+    m0 <- m0[-a, -a]
+    le_a <- laplacian_energy_degrees(m0)
+    le_c[a] <- (le0 - le_a) / le0
   }
   return(le_c)
 }

@@ -21,18 +21,17 @@
 #' @return a list with the correlation coefficients 1) TauKrxy, 2) TauKrxz, 3) TauKryz, 4) TauKrxyz
 #' @author Ivan Puga-Gonzalez, Sebastian Sosa.
 #' @keywords internal
-#' @references Hemelrijk, C. K. 1990. A matrix partial correlation test used in investigations of reciprocity and other social interaction patterns at a group level. Journal of theoretical Biology, 143, 405-420. 
-stat.tauKrPartial <- function (X, Y, Z, omitDiag = T)
-{
+#' @references Hemelrijk, C. K. 1990. A matrix partial correlation test used in investigations of reciprocity and other social interaction patterns at a group level. Journal of theoretical Biology, 143, 405-420.
+stat.tauKrPartial <- function(X, Y, Z, omitDiag = T) {
   Tauxyz <- 0
   Txy <- tauSD(X, Y, NULL, omitDiag)
   Txz <- tauSD(X, Z, NULL, omitDiag)
   Tyz <- tauSD(Y, Z, NULL, omitDiag)
-  if (is.nan(Txy$tau) || is.nan(Txz$tau) || is.nan(Tyz$tau)){
+  if (is.nan(Txy$tau) || is.nan(Txz$tau) || is.nan(Tyz$tau)) {
     return(list(Tauxy = NA, Tauxz = NA, Tauyz = NA, Tauxyz = NA))
   }
-  else{
-    Tauxyz <- (Txy$tau - (Txz$tau*Tyz$tau)) / (sqrt((1-(Txz$tau^2)))*sqrt((1-(Tyz$tau^2))))
+  else {
+    Tauxyz <- (Txy$tau - (Txz$tau * Tyz$tau)) / (sqrt((1 - (Txz$tau^2))) * sqrt((1 - (Tyz$tau^2))))
     return(list(Tauxy = Txy$tau, Tauxz = Txz$tau, Tauyz = Tyz$tau, Tauxyz = Tauxyz))
   }
 }

@@ -27,36 +27,54 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 #'
-met.eigen.single<-function(M,df=NULL,dfid=NULL,sym=T,binary=F,out=F){
-  
-  if(sym & out){stop("Argument out cannot be TRUE when argument sym is TRUE.")}
-  if(sym==F & out==F){M=t(M)}
-  if(sym){M=M+t(M)}
-  if(binary){M=mat.binaryzation(M)}
-  
-  if(is.null(df)){
-    result=met_eigen(M)
-    attr(result,'names')=colnames(M)
+met.eigen.single <- function(M, df = NULL, dfid = NULL, sym = T, binary = F, out = F) {
+  if (sym & out) {
+    stop("Argument out cannot be TRUE when argument sym is TRUE.")
+  }
+  if (sym == F & out == F) {
+    M <- t(M)
+  }
+  if (sym) {
+    M <- M + t(M)
+  }
+  if (binary) {
+    M <- mat.binaryzation(M)
+  }
+
+  if (is.null(df)) {
+    result <- met_eigen(M)
+    attr(result, "names") <- colnames(M)
     return(result)
   }
-  else{
-    if(!is.null(dfid)){
-      col.id=df.col.findId(df,dfid)
-      df[match(colnames(M), df[,col.id]),]
+  else {
+    if (!is.null(dfid)) {
+      col.id <- df.col.findId(df, dfid)
+      df[match(colnames(M), df[, col.id]), ]
     }
-    if(is.data.frame(df)==F){stop('Argument df must be a data frame')}
-    result=met_eigen(M)
-    df$eigen=result
-    if(sym==T){df$eigen=result}
-    if(sym==F & out==F){df$ineigen=result}
-    if(sym==F & out==T){df$outeigen=result}
-    
-    if(binary==T){df$eigenB=result}
-    if(binary==T  & sym==F & out==F){df$ineigenB=result}
-    if(binary==T  & sym==F & out==T){df$outeigenB=result}
+    if (is.data.frame(df) == F) {
+      stop("Argument df must be a data frame")
+    }
+    result <- met_eigen(M)
+    df$eigen <- result
+    if (sym == T) {
+      df$eigen <- result
+    }
+    if (sym == F & out == F) {
+      df$ineigen <- result
+    }
+    if (sym == F & out == T) {
+      df$outeigen <- result
+    }
+
+    if (binary == T) {
+      df$eigenB <- result
+    }
+    if (binary == T & sym == F & out == F) {
+      df$ineigenB <- result
+    }
+    if (binary == T & sym == F & out == T) {
+      df$outeigenB <- result
+    }
     return(df)
   }
 }
-
-
-

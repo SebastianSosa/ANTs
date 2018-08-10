@@ -21,19 +21,21 @@
 #' @details Several association indices are coputed on GBI.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @seealso \code{assoc.indices}
-#' @examples 
+#' @examples
 #' head(sim.grp)
 #' df.to.gbi(sim.grp,scan=c('location','time'),id='ID')
 
-df.to.gbi<-function(df,scan,id){
-  col.id=df.col.findId(df,id)
-  if(length(scan>1)){
-    df=df.ctrlFactor(df,scan)
-    col.scan=df.col.findId(df,'control')
+df.to.gbi <- function(df, scan, id) {
+  col.id <- df.col.findId(df, id)
+  if (length(scan > 1)) {
+    df <- df.ctrlFactor(df, scan)
+    col.scan <- df.col.findId(df, "control")
   }
-  else{col.scan=df.col.findId(df,scan)}
-  Vecids=unique(df[,id])
-  group_scan=unique(df[,col.scan])
-  GBI=df_to_gbi(df,col.scan,col.id,Vecids,group_scan)
+  else {
+    col.scan <- df.col.findId(df, scan)
+  }
+  Vecids <- unique(df[, id])
+  group_scan <- unique(df[, col.scan])
+  GBI <- df_to_gbi(df, col.scan, col.id, Vecids, group_scan)
   GBI
 }

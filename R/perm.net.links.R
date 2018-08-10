@@ -25,15 +25,15 @@
 #' @examples
 #' t=perm.net.lk(sim.m, sym = FALSE, erase.diag = TRUE, nperm=10, progress=TRUE)
 
-perm.net.lk<-function(M, sym = F, erase.diag = T, nperm, progress=T){
-  if(is.list(M)){
-    result=lapply(M,perm.net.links.single,sym=sym, erase.diag=erase.diag, nperm=nperm, progress=progress)
-    attr(result,'ANT')='ANT data stream group sampling multiple matrices'
+perm.net.lk <- function(M, sym = F, erase.diag = T, nperm, progress = T) {
+  if (is.list(M)) {
+    result <- lapply(M, perm.net.links.single, sym = sym, erase.diag = erase.diag, nperm = nperm, progress = progress)
+    attr(result, "ANT") <- "ANT data stream group sampling multiple matrices"
   }
-  else{
-    result=perm.net.links.single(M,sym=sym, erase.diag=erase.diag, nperm=nperm, progress=progress)
-    attr(result,'ANT')='ANT link permutations single matrix'
+  else {
+    result <- perm.net.links.single(M, sym = sym, erase.diag = erase.diag, nperm = nperm, progress = progress)
+    attr(result, "ANT") <- "ANT link permutations single matrix"
   }
-  
+
   return(result)
 }

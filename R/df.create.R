@@ -22,22 +22,24 @@
 #' \item if the argument M is a list of matrices, it creates a list of empty data frames with as many rows or columns as in the corresponding matrix in the list.
 #' }
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
-#' @examples 
+#' @examples
 #' sim.m
 #' df.create(sim.m)
 
-df.create<-function(M,names=T){
-  if(is.matrix(M)==T){
-    df=df.create.single(M,names)
+df.create <- function(M, names = T) {
+  if (is.matrix(M) == T) {
+    df <- df.create.single(M, names)
     return(df)
   }
 
-  if(!is.matrix(M) & is.list(M)==T){
-    if(is.matrix(M[[1]])){ # !!!!!!!!!!!!!!! check if all elements of the lis is a matrix
-      df=lapply(M,df.create.single,names=names)
+  if (!is.matrix(M) & is.list(M) == T) {
+    if (is.matrix(M[[1]])) { # !!!!!!!!!!!!!!! check if all elements of the lis is a matrix
+      df <- lapply(M, df.create.single, names = names)
       return(df)
     }
   }
 
-  else{stop("Your data is not a square matrix or a list of square matrices.")}
+  else {
+    stop("Your data is not a square matrix or a list of square matrices.")
+  }
 }

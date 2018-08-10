@@ -12,7 +12,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-#' @title Group by individual (GBI) matrix 
+#' @title Group by individual (GBI) matrix
 #' @description This is a simulated Group by individual (GBI) matrix collected through group fellow sampling.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 "sim.gbi"

@@ -23,107 +23,119 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
 
-perm.net.links.single<-function(M, sym = F, erase.diag = T, nperm, progress=T){
-  if(progress){
-    if(sym){
-      if(erase.diag == T){
-        result=lapply(seq_len(nperm), function(x,y){
-          cat('Permutation: ', x, '\r')
-          y[lower.tri(y)]=sample(y[lower.tri(y)])
-          y[upper.tri(y)]=y[lower.tri(y)]
+perm.net.links.single <- function(M, sym = F, erase.diag = T, nperm, progress = T) {
+  if (progress) {
+    if (sym) {
+      if (erase.diag == T) {
+        result <- lapply(seq_len(nperm), function(x, y) {
+          cat("Permutation: ", x, "\r")
+          y[lower.tri(y)] <- sample(y[lower.tri(y)])
+          y[upper.tri(y)] <- y[lower.tri(y)]
           return(y)
-        },y=M)
-        cat('\n')
+        }, y = M)
+        cat("\n")
         return(result)
       }
-      else{
-        result=lapply(seq_len(nperm), function(x,y){
-          cat('Permutation: ', x, '\r')
-          y[lower.tri(y,diag = T)]=sample(y[lower.tri(y,diag = T)])
-          y[upper.tri(y)]=y[lower.tri(y)]
+      else {
+        result <- lapply(seq_len(nperm), function(x, y) {
+          cat("Permutation: ", x, "\r")
+          y[lower.tri(y, diag = T)] <- sample(y[lower.tri(y, diag = T)])
+          y[upper.tri(y)] <- y[lower.tri(y)]
           return(y)
-        },y=M)
-        cat('\n')
+        }, y = M)
+        cat("\n")
         return(result)
       }
     }
-    else{
-      if(erase.diag){
-        col=ncol(M)
-        ncell=(col*col)-col
-        result=lapply(seq_len(nperm+1), function(x,y,z){
-          if(x==1){return(y)}
-          cat('Permutation: ', x-1, '\r')
-          perm=sample(c(y[lower.tri(y)],y[upper.tri(y)]))
-          y[lower.tri(y)]=perm[1:(z/2)]
-          y[upper.tri(y)]=perm[((z/2)+1):z]
+    else {
+      if (erase.diag) {
+        col <- ncol(M)
+        ncell <- (col * col) - col
+        result <- lapply(seq_len(nperm + 1), function(x, y, z) {
+          if (x == 1) {
+            return(y)
+          }
+          cat("Permutation: ", x - 1, "\r")
+          perm <- sample(c(y[lower.tri(y)], y[upper.tri(y)]))
+          y[lower.tri(y)] <- perm[1:(z / 2)]
+          y[upper.tri(y)] <- perm[((z / 2) + 1):z]
           return(y)
-        },y=M,z=ncell)
-        cat('\n')
+        }, y = M, z = ncell)
+        cat("\n")
         return(result)
       }
-      else{
-        col = ncol(M)
-        result=lapply(seq_len(nperm+1), function(x,y,z){
-          if(x==1){return(y)}
-          cat('Permutation: ', x-1, '\r')
-          r=matrix(sample(y),col,col)
-          colnames(r)=colnames(y)
-          row.names(r)=rownames(y)
+      else {
+        col <- ncol(M)
+        result <- lapply(seq_len(nperm + 1), function(x, y, z) {
+          if (x == 1) {
+            return(y)
+          }
+          cat("Permutation: ", x - 1, "\r")
+          r <- matrix(sample(y), col, col)
+          colnames(r) <- colnames(y)
+          row.names(r) <- rownames(y)
           return(r)
-        },y=M,z=col)
-        cat('\n')
+        }, y = M, z = col)
+        cat("\n")
         return(result)
       }
     }
   }
-  else{
-    if(sym==T){
-      if(erase.diag == T){
-        result=lapply(seq_len(nperm+1), function(x,y,z){
-          if(x==1){return(y)}
-          y[lower.tri(y)]=sample(y[lower.tri(y)])
-          y[upper.tri(y)]=y[lower.tri(y)]
+  else {
+    if (sym == T) {
+      if (erase.diag == T) {
+        result <- lapply(seq_len(nperm + 1), function(x, y, z) {
+          if (x == 1) {
+            return(y)
+          }
+          y[lower.tri(y)] <- sample(y[lower.tri(y)])
+          y[upper.tri(y)] <- y[lower.tri(y)]
           return(y)
-        },y=M)
-        cat('\n')
+        }, y = M)
+        cat("\n")
         return(result)
       }
-      else{
-        result=lapply(seq_len(nperm+1), function(x,y,z){
-          if(x==1){return(y)}
-          y[lower.tri(y,diag = T)]=sample(y[lower.tri(y,diag = T)])
-          y[upper.tri(y)]=y[lower.tri(y)]
+      else {
+        result <- lapply(seq_len(nperm + 1), function(x, y, z) {
+          if (x == 1) {
+            return(y)
+          }
+          y[lower.tri(y, diag = T)] <- sample(y[lower.tri(y, diag = T)])
+          y[upper.tri(y)] <- y[lower.tri(y)]
           return(y)
-        },y=M)
-        cat('\n')
+        }, y = M)
+        cat("\n")
         return(result)
       }
     }
-    else{
-      if(erase.diag == T){
-        col=ncol(M)
-        ncell=(col*col)-col
-        result=lapply(seq_len(nperm+1), function(x,y,z){
-          if(x==1){return(y)}
-          perm=sample(c(y[lower.tri(y)],y[upper.tri(y)]))
-          y[lower.tri(y)]=perm[1:(z/2)]
-          y[upper.tri(y)]=perm[((z/2)+1):z]
+    else {
+      if (erase.diag == T) {
+        col <- ncol(M)
+        ncell <- (col * col) - col
+        result <- lapply(seq_len(nperm + 1), function(x, y, z) {
+          if (x == 1) {
+            return(y)
+          }
+          perm <- sample(c(y[lower.tri(y)], y[upper.tri(y)]))
+          y[lower.tri(y)] <- perm[1:(z / 2)]
+          y[upper.tri(y)] <- perm[((z / 2) + 1):z]
           return(y)
-        },y=M,z=ncell)
-        cat('\n')
+        }, y = M, z = ncell)
+        cat("\n")
         return(result)
       }
-      else{
-        col = ncol(M)
-        result=lapply(seq_len(nperm+1), function(x,y,z){
-          if(x==1){return(y)}
-          r=matrix(sample(y),col,col)
-          colnames(r)=colnames(y)
-          row.names(r)=rownames(y)
+      else {
+        col <- ncol(M)
+        result <- lapply(seq_len(nperm + 1), function(x, y, z) {
+          if (x == 1) {
+            return(y)
+          }
+          r <- matrix(sample(y), col, col)
+          colnames(r) <- colnames(y)
+          row.names(r) <- rownames(y)
           return(r)
-        },y=M,z=col)
-        cat('\n')
+        }, y = M, z = col)
+        cat("\n")
         return(result)
       }
     }

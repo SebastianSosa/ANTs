@@ -29,24 +29,28 @@
 #' df=met.strength(sim.m,df=sim.df)
 #' t=perm.net.nl(df,labels='sex',rf=NULL,nperm=1000,progress=TRUE)
 
-perm.net.nl<-function(ldf,labels,rf=NULL,nperm,progress=T){
-  if(is.data.frame(ldf) && is.null(rf)){
-    if(is.null(rf)){
-      if(is.data.frame(ldf)==FALSE){stop("Argument df is not a data frame")}
-      col.id=df.col.findId(ldf,labels)
-      result=perm_nodeLabels(ldf,label=col.id,nperm,progress=progress)
-      attr(result,'ANT')='ANT node label permutation'
-      attr(result,'labels')=paste(labels)
+perm.net.nl <- function(ldf, labels, rf = NULL, nperm, progress = T) {
+  if (is.data.frame(ldf) && is.null(rf)) {
+    if (is.null(rf)) {
+      if (is.data.frame(ldf) == FALSE) {
+        stop("Argument df is not a data frame")
+      }
+      col.id <- df.col.findId(ldf, labels)
+      result <- perm_nodeLabels(ldf, label = col.id, nperm, progress = progress)
+      attr(result, "ANT") <- "ANT node label permutation"
+      attr(result, "labels") <- paste(labels)
       return(result)
     }
   }
-  if(is.data.frame(ldf) && !is.null(rf)){stop("Argument ldf is incorrect. Node label permutations with random factors cannot be run on a single data frame. Argument ldf has to be a list of data frames for this type of permutation approach.")}
-  if(!is.data.frame(ldf) && !is.null(rf)){#need to check if all elements of the list is a data frame
-    col.id=df.col.findId(ldf[[1]],labels)
-    result=perm_nl_rf(ldf=ldf,lables=col.id,nperm=nperm,progress=progress)
-    attr(result,'ANT')='ANT node label permutation with random factors'
-    attr(result,'rf')=rf
-    attr(result,'labels')=labels
+  if (is.data.frame(ldf) && !is.null(rf)) {
+    stop("Argument ldf is incorrect. Node label permutations with random factors cannot be run on a single data frame. Argument ldf has to be a list of data frames for this type of permutation approach.")
+  }
+  if (!is.data.frame(ldf) && !is.null(rf)) { # need to check if all elements of the list is a data frame
+    col.id <- df.col.findId(ldf[[1]], labels)
+    result <- perm_nl_rf(ldf = ldf, lables = col.id, nperm = nperm, progress = progress)
+    attr(result, "ANT") <- "ANT node label permutation with random factors"
+    attr(result, "rf") <- rf
+    attr(result, "labels") <- labels
   }
   return(result)
 }

@@ -24,21 +24,25 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
 
-met.ri.single<-function(M,df=NULL,dfid=NULL){
-  if(is.null(df)){
-    ri=met.outstrength(M)/(met.outstrength(M)+met.instrength(M))
-    attr(ri,'names')=colnames(M)
+met.ri.single <- function(M, df = NULL, dfid = NULL) {
+  if (is.null(df)) {
+    ri <- met.outstrength(M) / (met.outstrength(M) + met.instrength(M))
+    attr(ri, "names") <- colnames(M)
     return(ri)
   }
-  else{
-    if(!is.null(dfid)){
-      if(is.null(colnames(M))){stop("Argument M doesn't have column names")}
-      col.id=df.col.findId(df,dfid)
-      df=df[match(colnames(M), df[,col.id]),]
+  else {
+    if (!is.null(dfid)) {
+      if (is.null(colnames(M))) {
+        stop("Argument M doesn't have column names")
+      }
+      col.id <- df.col.findId(df, dfid)
+      df <- df[match(colnames(M), df[, col.id]), ]
     }
-    if(is.data.frame(df)==F){stop('Argument df must be a data frame')}
-    ri=met.outstrength(M)/(met.outstrength(M)+met.instrength(M))
-    df$ri=ri
+    if (is.data.frame(df) == F) {
+      stop("Argument df must be a data frame")
+    }
+    ri <- met.outstrength(M) / (met.outstrength(M) + met.instrength(M))
+    df$ri <- ri
     return(df)
   }
 }

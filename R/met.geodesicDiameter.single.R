@@ -33,38 +33,44 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 #'
-met.geodesicDiameter.single<-function(m,weighted=T,shortest.weight=F,normalization=T,directed=T,out=T){
-  if(weighted==FALSE & normalization==T){stop("Argument normalization can't be TRUE when  argument weighted is FALSE.")}
-  if(weighted==F){m=mat_filter(m,1,1)}
-  if(shortest.weight==F){
-    #opshal method
-    avg_strength=sum(m)/(ncol(m)*(ncol(m)-1))
-    if(normalization==T){m=m/avg_strength}
-    m=1/m
-    m[is.infinite(m)]=0
+met.geodesicDiameter.single <- function(m, weighted = T, shortest.weight = F, normalization = T, directed = T, out = T) {
+  if (weighted == FALSE & normalization == T) {
+    stop("Argument normalization can't be TRUE when  argument weighted is FALSE.")
   }
-  if(directed==F){
-    m=m+t(m)
-    results=metric_global_shortestPath(m)
-    r1=results[[2]]
-    r2=results[[1]]
-    diag(r2)=0
-    return(list('diameter'=r1,'geodesic'=r2))
+  if (weighted == F) {
+    m <- mat_filter(m, 1, 1)
   }
-  else{
-    if(out==T){
-      results=metric_global_shortestPath(m)
-      r1=results[[2]]
-      r2=results[[1]]
-      diag(r2)=0
-      return(list('diameter'=r1,'geodesic'=r2))
+  if (shortest.weight == F) {
+    # opshal method
+    avg_strength <- sum(m) / (ncol(m) * (ncol(m) - 1))
+    if (normalization == T) {
+      m <- m / avg_strength
     }
-    else{
-      results=metric_global_shortestPath(t(m))
-      r1=results[[2]]
-      r2=results[[1]]
-      diag(r2)=0
-      return(list('diameter'=r1,'geodesic'=r2))
+    m <- 1 / m
+    m[is.infinite(m)] <- 0
+  }
+  if (directed == F) {
+    m <- m + t(m)
+    results <- metric_global_shortestPath(m)
+    r1 <- results[[2]]
+    r2 <- results[[1]]
+    diag(r2) <- 0
+    return(list("diameter" = r1, "geodesic" = r2))
+  }
+  else {
+    if (out == T) {
+      results <- metric_global_shortestPath(m)
+      r1 <- results[[2]]
+      r2 <- results[[1]]
+      diag(r2) <- 0
+      return(list("diameter" = r1, "geodesic" = r2))
+    }
+    else {
+      results <- metric_global_shortestPath(t(m))
+      r1 <- results[[2]]
+      r2 <- results[[1]]
+      diag(r2) <- 0
+      return(list("diameter" = r1, "geodesic" = r2))
     }
   }
 }

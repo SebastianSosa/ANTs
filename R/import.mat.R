@@ -25,18 +25,22 @@
 #' It also orders the matrix according to row names.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 
-import.mat<-function(header=T,sep=',',row.names=1,...){
+import.mat <- function(header = T, sep = ",", row.names = 1, ...) {
   files <- list.files(getwd())
 
-  if(length(files)>1){
-    M=lapply(file, function(x, header, sep, row.names, ...){
-      r=as.matrix(read.csv(file = x, header = header, sep = sep, row.names=row.names, ...))
-    }, header = header, sep = sep, row.names=row.names, ... )
-    files<-gsub(".csv","",files)
-    names(M)<-files
+  if (length(files) > 1) {
+    M <- lapply(file, function(x, header, sep, row.names, ...) {
+      r <- as.matrix(read.csv(file = x, header = header, sep = sep, row.names = row.names, ...))
+    }, header = header, sep = sep, row.names = row.names, ...)
+    files <- gsub(".csv", "", files)
+    names(M) <- files
   }
 
-  if(length(files)==1){M<-as.matrix(read.csv(file = files[1],header = header,sep = sep,row.names=row.names))}
-  if(length(files)==0){stop("Your repertory is empty")}
+  if (length(files) == 1) {
+    M <- as.matrix(read.csv(file = files[1], header = header, sep = sep, row.names = row.names))
+  }
+  if (length(files) == 0) {
+    stop("Your repertory is empty")
+  }
   return(M)
 }

@@ -20,15 +20,15 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
 
-met.coutTriangles=function(M){
-  n_tiangles=c(0)
-  for(a in 1:ncol(M)){
-    alters_a_id=which(M[,a]>0)
-    for (b in a:ncol(M)){
-      if(M[a,b]!=0){
-        for(c in b:ncol(M)){
-          if(M[a,c]!=0 & M[b,c]!=0){
-            n_tiangles=n_tiangles+1
+met.coutTriangles <- function(M) {
+  n_tiangles <- c(0)
+  for (a in 1:ncol(M)) {
+    alters_a_id <- which(M[, a] > 0)
+    for (b in a:ncol(M)) {
+      if (M[a, b] != 0) {
+        for (c in b:ncol(M)) {
+          if (M[a, c] != 0 & M[b, c] != 0) {
+            n_tiangles <- n_tiangles + 1
           }
         }
       }

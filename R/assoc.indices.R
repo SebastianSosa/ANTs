@@ -24,11 +24,11 @@
 #' @return A square matrix of individual association indices.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 #' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
-#' @examples 
+#' @examples
 #' sim.gbi
 #' assoc.indices(gbi=sim.gbi,index='sri')
 
-assoc.indices<-function(gbi,index="sri"){
-  result=assoc_mat(Mgbi=gbi,method=index)
+assoc.indices <- function(gbi, index = "sri") {
+  result <- assoc_mat(Mgbi = gbi, method = index)
   return(result)
 }

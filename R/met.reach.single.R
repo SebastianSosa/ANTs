@@ -26,30 +26,39 @@
 #' @keywords internal
 
 
-met.reach.single<-function(M,df=NULL,dfid=NULL,return.strength=F){
-
-  if(isSymmetric(M)){s=met.instrength(M)}
-  else{s=met.strength(M)}
-
-  if(is.null(df)){
-    m.strength=matrix(rep(s),ncol = ncol(M),nrow = nrow(M),byrow = T)
-    result=rowSums(m.strength*M)
-    attr(result,'names')=colnames(M)
-    if(return.strength){
-      return(list('reach'=result,'strength'=s))
-    }
-    else{return(result)}
+met.reach.single <- function(M, df = NULL, dfid = NULL, return.strength = F) {
+  if (isSymmetric(M)) {
+    s <- met.instrength(M)
   }
-  else{
-    if(!is.null(dfid)){
-      if(is.null(colnames(M))){stop("Argument M doesn't have column names")}
-      col.id=df.col.findId(df,dfid)
-      df=df[match(colnames(M), df[,col.id]),]
+  else {
+    s <- met.strength(M)
+  }
+
+  if (is.null(df)) {
+    m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = T)
+    result <- rowSums(m.strength * M)
+    attr(result, "names") <- colnames(M)
+    if (return.strength) {
+      return(list("reach" = result, "strength" = s))
     }
-    if(is.data.frame(df)==F){stop('Argument df must be a data frame')}
-    m.strength=matrix(rep(s),ncol = ncol(M),nrow = nrow(M),byrow = T)
-    result=rowSums(m.strength*M)
-    df$reach=result
+    else {
+      return(result)
+    }
+  }
+  else {
+    if (!is.null(dfid)) {
+      if (is.null(colnames(M))) {
+        stop("Argument M doesn't have column names")
+      }
+      col.id <- df.col.findId(df, dfid)
+      df <- df[match(colnames(M), df[, col.id]), ]
+    }
+    if (is.data.frame(df) == F) {
+      stop("Argument df must be a data frame")
+    }
+    m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = T)
+    result <- rowSums(m.strength * M)
+    df$reach <- result
     return(df)
   }
 }

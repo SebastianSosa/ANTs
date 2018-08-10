@@ -20,20 +20,20 @@
 #' @return The same data frame input with an extra column named 'control', representing the control factors.
 #' @details Control factors are used in permutation approaches to constrain their permutations.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
-#' @examples 
-#'df.to.gbi.focal(df=sim.focal.undirected,focal='focal', alters='alter',ctrl='nfocal')
+#' @examples
+#' df.to.gbi.focal(df=sim.focal.undirected,focal='focal', alters='alter',ctrl='nfocal')
 #' @keywords internal
-df.to.gbi.focal<-function(df,focal,alters,ctrl){
-  col.alters=df.col.findId(df,alters)
-  col.focal=df.col.findId(df,focal)
-  col.ctrl=df.col.findId(df,ctrl)
-  
-  ctrl=c(col.ctrl,col.focal)
-  df=df.ctrlFactor(df,control = ctrl)
-  df$control=as.factor(df$control)
-  
-  Vecids=unique(c(as.character(df[,col.focal]),as.character(df[,col.alters])))
-  group_scan=unique(df$control)
-  GBI=df_to_gbi(df,col.ctrl,col.alters,Vecids,group_scan)
+df.to.gbi.focal <- function(df, focal, alters, ctrl) {
+  col.alters <- df.col.findId(df, alters)
+  col.focal <- df.col.findId(df, focal)
+  col.ctrl <- df.col.findId(df, ctrl)
+
+  ctrl <- c(col.ctrl, col.focal)
+  df <- df.ctrlFactor(df, control = ctrl)
+  df$control <- as.factor(df$control)
+
+  Vecids <- unique(c(as.character(df[, col.focal]), as.character(df[, col.alters])))
+  group_scan <- unique(df$control)
+  GBI <- df_to_gbi(df, col.ctrl, col.alters, Vecids, group_scan)
   GBI
 }

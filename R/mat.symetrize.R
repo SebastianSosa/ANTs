@@ -18,7 +18,10 @@
 #' @author Sebastian Sosa <s.sosa@live.fr>
 #' @keywords internal
 
-mat.symetrize<-function(M){
-  if(isSymmetric(M)==FALSE){M<-M+t(M);return(M)}
-  return(M)
+mat.symetrize <- function(M) {
+  if (isSymmetric(M) == FALSE) {
+    M <- M + t(M)
+    return(M)
   }
+  return(M)
+}

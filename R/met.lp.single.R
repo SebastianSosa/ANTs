@@ -28,39 +28,47 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 
-met.lp.single<-function(M,df=NULL,dfid=NULL,binary=F){
-  if(binary==F){
-    if(is.null(df)){
-      result=met.lpcW(M)
-      attr(result,'names')=colnames(M)
+met.lp.single <- function(M, df = NULL, dfid = NULL, binary = F) {
+  if (binary == F) {
+    if (is.null(df)) {
+      result <- met.lpcW(M)
+      attr(result, "names") <- colnames(M)
       return(result)
     }
-    else{
-      if(!is.null(dfid)){
-        if(is.null(colnames(M))){stop("Argument M doesn't have column names")}
-        col.id=df.col.findId(df,dfid)
-        df=df[match(colnames(M), df[,col.id]),]
+    else {
+      if (!is.null(dfid)) {
+        if (is.null(colnames(M))) {
+          stop("Argument M doesn't have column names")
+        }
+        col.id <- df.col.findId(df, dfid)
+        df <- df[match(colnames(M), df[, col.id]), ]
       }
-      if(is.data.frame(df)==F){stop('Argument df must be a data frame')}
-      df$lp=met.lpcW(M)
+      if (is.data.frame(df) == F) {
+        stop("Argument df must be a data frame")
+      }
+      df$lp <- met.lpcW(M)
       return(df)
     }
   }
-  if(binary==T){
-    if(is.null(df)){
-      result=met.lpcB(M)
-      attr(result,'names')=colnames(M)
+  if (binary == T) {
+    if (is.null(df)) {
+      result <- met.lpcB(M)
+      attr(result, "names") <- colnames(M)
       return(result)
     }
-    else{
-      if(!is.null(dfid)){
-        col.id=df.col.findId(df,dfid)
-        df=df[match(colnames(M), df[,col.id]),]
+    else {
+      if (!is.null(dfid)) {
+        col.id <- df.col.findId(df, dfid)
+        df <- df[match(colnames(M), df[, col.id]), ]
       }
-      else{cat("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.","\n")}
-      if(is.data.frame(df)==F){stop('Argument df must be a data frame')}
-      result=met.lpcB(M)
-      df$lpB=result
+      else {
+        cat("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.", "\n")
+      }
+      if (is.data.frame(df) == F) {
+        stop("Argument df must be a data frame")
+      }
+      result <- met.lpcB(M)
+      df$lpB <- result
       return(df)
     }
   }

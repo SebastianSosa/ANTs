@@ -26,22 +26,25 @@
 #' @references Barrat, A., Barthelemy, M., Pastor-Satorras, R., & Vespignani, A. (2004). The architecture of complex weighted networks. Proceedings of the National Academy of Sciences of the United States of America, 101(11), 3747-3752.
 #' @keywords internal
 
-met.indegree.single<-function(M,df=NULL,dfid=NULL){
-  
-  if(is.null(df)){
-    BID<-mat_col_sumsBinary(M)
-    attr(BID,'names')=colnames(M)
+met.indegree.single <- function(M, df = NULL, dfid = NULL) {
+  if (is.null(df)) {
+    BID <- mat_col_sumsBinary(M)
+    attr(BID, "names") <- colnames(M)
     return(BID)
   }
-  else{
-    if(!is.null(dfid)){
-      if(is.null(colnames(M))){stop("Argument M doesn't have column names")}
-      col.id=df.col.findId(df,dfid)
-      df=df[match(colnames(M), df[,col.id]),]
+  else {
+    if (!is.null(dfid)) {
+      if (is.null(colnames(M))) {
+        stop("Argument M doesn't have column names")
+      }
+      col.id <- df.col.findId(df, dfid)
+      df <- df[match(colnames(M), df[, col.id]), ]
     }
-    if(is.data.frame(df)==F){stop('Argument df must be a data frame')}
-    BID<-mat_col_sumsBinary(M)
-    df$indegree=BID
+    if (is.data.frame(df) == F) {
+      stop("Argument df must be a data frame")
+    }
+    BID <- mat_col_sumsBinary(M)
+    df$indegree <- BID
     return(df)
   }
 }

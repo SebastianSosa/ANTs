@@ -31,28 +31,32 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @examples
 #' head(sim.focal.undirected)
-#'t=perm.ds.focal(sim.focal.undirected,focal=3,ctrl=1,alters=4,nperm=10,progress=TRUE,method='sri')
+#' t=perm.ds.focal(sim.focal.undirected,focal=3,ctrl=1,alters=4,nperm=10,progress=TRUE,method='sri')
 
-perm.ds.focal<-function(df,focal,ctrl=NULL,alters,nperm,progress=T,method='sri'){
-  if(is.null(ctrl)){stop('Argument ctrl cannot be empty')}
-  test=check.df(df)
-  if(is.null(test)){"Argument df is not a data frame or a list of data frames."}
-  if(test=='df ok'){
-    result=perm.dataStream.focal(df=df,focal=focal,scan=ctrl,alters=alters,nperm=nperm,progress=progress,method=method)
-    attr(result,"ANT")='ANT data stream focal sampling single matrix'
-    attr(result,"focal")=focal
-    attr(result,"ctrl")=ctrl
-    attr(result,"alters")=alters
-    attr(result,'method')=method
+perm.ds.focal <- function(df, focal, ctrl = NULL, alters, nperm, progress = T, method = "sri") {
+  if (is.null(ctrl)) {
+    stop("Argument ctrl cannot be empty")
+  }
+  test <- check.df(df)
+  if (is.null(test)) {
+    "Argument df is not a data frame or a list of data frames."
+  }
+  if (test == "df ok") {
+    result <- perm.dataStream.focal(df = df, focal = focal, scan = ctrl, alters = alters, nperm = nperm, progress = progress, method = method)
+    attr(result, "ANT") <- "ANT data stream focal sampling single matrix"
+    attr(result, "focal") <- focal
+    attr(result, "ctrl") <- ctrl
+    attr(result, "alters") <- alters
+    attr(result, "method") <- method
     return(result)
   }
-  if(test=="df list ok"){
-    result=lapply(df,perm.dataStream.focal,focal=focal,scan=ctrl,alters=alters,nperm=nperm,progress=progress,method=method)
-    attr(result,"ANT")='ANT data stream focal sampling multiple matrices'
-    attr(result,"focal")=focal
-    attr(result,"ctrl")=ctrl
-    attr(result,"alters")=alters
-    attr(result,'method')=method
+  if (test == "df list ok") {
+    result <- lapply(df, perm.dataStream.focal, focal = focal, scan = ctrl, alters = alters, nperm = nperm, progress = progress, method = method)
+    attr(result, "ANT") <- "ANT data stream focal sampling multiple matrices"
+    attr(result, "focal") <- focal
+    attr(result, "ctrl") <- ctrl
+    attr(result, "alters") <- alters
+    attr(result, "method") <- method
     return(result)
   }
 }

@@ -16,22 +16,22 @@
 #' @description Check that the argument is a data frame or a list of data frames
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 #' @keywords internal
-check.df<-function(df){
-  if(is.data.frame(df)){
-    return('df ok')
+check.df <- function(df) {
+  if (is.data.frame(df)) {
+    return("df ok")
   }
-  if(!is.data.frame(df) & is.list(df)){
-    if(all(unlist(lapply(df, is.data.frame)))){
-      return('df list ok')
+  if (!is.data.frame(df) & is.list(df)) {
+    if (all(unlist(lapply(df, is.data.frame)))) {
+      return("df list ok")
     }
-    else{
-      stop("Argument df is not a valid ANT object.","\n")
+    else {
+      stop("Argument df is not a valid ANT object.", "\n")
     }
   }
-  if(is.matrix(df)){
-    stop("Argument df is a matrix, not a data frame.","\n")
+  if (is.matrix(df)) {
+    stop("Argument df is a matrix, not a data frame.", "\n")
   }
-  if(is.vector(df)){
-    stop("Argument df is a vector, not a data frame.","\n")
+  if (is.vector(df)) {
+    stop("Argument df is a vector, not a data frame.", "\n")
   }
 }

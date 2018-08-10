@@ -20,21 +20,20 @@
 #' @details Assortativity (like the E-I index or the Moran 'I' statistic)  allows the study of homophily (preferential interaction between nodes with similar attributes) and heterophily (the preferential interaction between nodes with different attributes). Attributes can be individual characteristics such as sex or age, or individual node metrics such as the met.degree, in which case it is referred to as assortativity by vertex met.degree.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 #' @references Newman, M. E. (2003). Mixing patterns in networks. Physical Review E, 67(2), 026126.
-#' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer. 
+#' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 
 
-met.assortativityCat<-function(M,attr,df=NULL){
-  if(is.null(df)){
-    tmp=met_assor_cat(M,attr)
-    colnames(tmp[[2]])=tmp[[3]]
-    rownames(tmp[[2]])=tmp[[3]]
-    result=list('assortativity.cat'=tmp[[1]],'mixing.mat'=tmp[[2]]) 
+met.assortativityCat <- function(M, attr, df = NULL) {
+  if (is.null(df)) {
+    tmp <- met_assor_cat(M, attr)
+    colnames(tmp[[2]]) <- tmp[[3]]
+    rownames(tmp[[2]]) <- tmp[[3]]
+    result <- list("assortativity.cat" = tmp[[1]], "mixing.mat" = tmp[[2]])
     return(result)
   }
-  else{
-    df$assortativity.cat=met_assor_cat(M,attr)[[1]]
+  else {
+    df$assortativity.cat <- met_assor_cat(M, attr)[[1]]
     return(df)
   }
-  
 }

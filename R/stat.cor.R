@@ -33,29 +33,35 @@
 #' @references D. J. Best & D. E. Roberts (1975), Algorithm AS 89: The Upper Tail Probabilities of Spearman's rho. Applied Statistics, 24, 377-379.
 #' @references Myles Hollander & Douglas A. Wolfe (1973), Nonparametric Statistical Methods. New York: John Wiley & Sons. Pages 185-194 (Kendall and Spearman tests).
 
-stat.cor<-function(ant,var1,var2,method='pearson',progress=T){
-      id1=df.col.findId(ant[[1]],var1)
-      id2=df.col.findId(ant[[1]],var2)
-      if(progress==T){
-        result=lapply(ant,function(d,id1,id2,method){
-          cat("  Processing file: ", attr(d,"permutation"),"\r")
-          r= cor(x=d[,id1],y=d[,id2],method=method)
-          return(r)
-        },id1,id2,method)
-      }
-      else{
-        result=lapply(ant,function(d,id1,id2,method){
-          r= cor(x=d[,id1],y=d[,id2],method=method)
-          return(r)
-        },id1,id2,method)
-      }
-  
+stat.cor <- function(ant, var1, var2, method = "pearson", progress = T) {
+  id1 <- df.col.findId(ant[[1]], var1)
+  id2 <- df.col.findId(ant[[1]], var2)
+  if (progress == T) {
+    result <- lapply(ant, function(d, id1, id2, method) {
+      cat("  Processing file: ", attr(d, "permutation"), "\r")
+      r <- cor(x = d[, id1], y = d[, id2], method = method)
+      return(r)
+    }, id1, id2, method)
+  }
+  else {
+    result <- lapply(ant, function(d, id1, id2, method) {
+      r <- cor(x = d[, id1], y = d[, id2], method = method)
+      return(r)
+    }, id1, id2, method)
+  }
 
-  result=do.call('rbind',result)
-  attr(result,'class')='ant cor'
-  if(method=='pearson'){attr(result,'comment')=paste('Pearson coefficient')}
-  if(method=='kendall'){attr(result,'comment')=paste('Kendall coefficient')}
-  if(method=='spearman'){attr(result,'comment')=paste('Spearman coefficient')}
-  cat('\n')
+
+  result <- do.call("rbind", result)
+  attr(result, "class") <- "ant cor"
+  if (method == "pearson") {
+    attr(result, "comment") <- paste("Pearson coefficient")
+  }
+  if (method == "kendall") {
+    attr(result, "comment") <- paste("Kendall coefficient")
+  }
+  if (method == "spearman") {
+    attr(result, "comment") <- paste("Spearman coefficient")
+  }
+  cat("\n")
   return(result)
 }

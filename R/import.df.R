@@ -27,21 +27,22 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @seealso \code{read.csv}
 
-import.df<-function(header = TRUE, sep = ",", quote = "\"", dec = ".", 
-    fill = TRUE, comment.char = "", ...) {
-  files = list.files(getwd())
+import.df <- function(header = TRUE, sep = ",", quote = "\"", dec = ".",
+                      fill = TRUE, comment.char = "", ...) {
+  files <- list.files(getwd())
 
-  if(length(files)>1){
-    DF=lapply(files,read.csv,header = header,sep = sep,quote=quote,dec=dec,fill=fill,comment.char = comment.char, ...)
-    files=gsub(".csv","",files)
-    names(DF)=files
+  if (length(files) > 1) {
+    DF <- lapply(files, read.csv, header = header, sep = sep, quote = quote, dec = dec, fill = fill, comment.char = comment.char, ...)
+    files <- gsub(".csv", "", files)
+    names(DF) <- files
   }
 
-  if(length(files)==1){
-    DF=read.csv(file = files[1],header = header,sep = sep,quote=quote,dec=dec,fill=fill,comment.char = comment.char, ...)
+  if (length(files) == 1) {
+    DF <- read.csv(file = files[1], header = header, sep = sep, quote = quote, dec = dec, fill = fill, comment.char = comment.char, ...)
     print("You could have used the function read.csv")
   }
-  if(length(files)==0){stop("Your repertory is emtpy")}
+  if (length(files) == 0) {
+    stop("Your repertory is emtpy")
+  }
   return(DF)
 }
-

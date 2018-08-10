@@ -12,18 +12,18 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-redo.perm.ds.focal.cum.scd<-function(GBI, GBI2,method,nperm){
-  r=redo_perm_dataStream1_focal(GBI, GBI2, nperm=nperm ,method=method)### I PUT LIST_GBI, IT WAS RETURNING TO NO OBJECT!!!
-  colnames(r[[1]])=colnames(GBI)
-  rownames(r[[1]])=rownames(GBI)
-  
-  colnames(r[[2]])=colnames(GBI)
-  rownames(r[[2]])=rownames(GBI)
-  
-  colnames(r[[3]])=colnames(GBI)
-  rownames(r[[3]])=colnames(GBI)
-  
-  names(r)=c("GBI", "GBI2", "MAT")
-  
+redo.perm.ds.focal.cum.scd <- function(GBI, GBI2, method, nperm) {
+  r <- redo_perm_dataStream1_focal(GBI, GBI2, nperm = nperm, method = method) ### I PUT LIST_GBI, IT WAS RETURNING TO NO OBJECT!!!
+  colnames(r[[1]]) <- colnames(GBI)
+  rownames(r[[1]]) <- rownames(GBI)
+
+  colnames(r[[2]]) <- colnames(GBI)
+  rownames(r[[2]]) <- rownames(GBI)
+
+  colnames(r[[3]]) <- colnames(GBI)
+  rownames(r[[3]]) <- colnames(GBI)
+
+  names(r) <- c("GBI", "GBI2", "MAT")
+
   return(r)
 }

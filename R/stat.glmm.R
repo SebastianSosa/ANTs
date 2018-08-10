@@ -30,837 +30,988 @@
 #' @seealso \code{\link{lmer}} or \code{\link{glmer}}
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 
-stat.glmm<-function (ant,formula,family,oda=NULL,progress=T, ...){
-  
-  if(is.null(attributes(ant)$ANT)){stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions")}
-  
-  if (is.character(family)){
-    fam=family
-  }
-  else{
-    if(attributes(family)$class=='family'){
-      family <- family
-      fam=family$family
-    }
-    else{stop('Argument family is not a character or a family function.')}
+stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
+  if (is.null(attributes(ant)$ANT)) {
+    stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions")
   }
 
-  if(attributes(ant)$ANT=='ANT data stream group sampling multiple matrices'){
-    if(is.null(oda)){stop("Argument oda cannot be NULL when argument ant is obtained with perm.ds.grp or perm.ds.focal ANT functions")}
-    
-    if(fam=='gaussian'){
+  if (is.character(family)) {
+    fam <- family
+  }
+  else {
+    if (attributes(family)$class == "family") {
+      family <- family
+      fam <- family$family
+    }
+    else {
+      stop("Argument family is not a character or a family function.")
+    }
+  }
+
+  if (attributes(ant)$ANT == "ANT data stream group sampling multiple matrices") {
+    if (is.null(oda)) {
+      stop("Argument oda cannot be NULL when argument ant is obtained with perm.ds.grp or perm.ds.focal ANT functions")
+    }
+
+    if (fam == "gaussian") {
       # Test on observe data ------------------------------------------------------------------------
-      odf=ant[[1]]
-      
-      tmp=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = odf)),error=identity)
-      
-      if(isS4(tmp)){
-        if(is(tmp,'error')){
+      odf <- ant[[1]]
+
+      tmp <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = odf)), error = identity)
+
+      if (isS4(tmp)) {
+        if (is(tmp, "error")) {
           print("The model on your original data contains the following errors.")
           print(tmp)
-          stop() 
+          stop()
         }
-        else{test=c(!is(tmp,'warning'),length(tmp@optinfo$conv$lme4$messages)==0)}
+        else {
+          test <- c(!is(tmp, "warning"), length(tmp@optinfo$conv$lme4$messages) == 0)
+        }
       }
-      if(is(tmp,'error')){
+      if (is(tmp, "error")) {
         print("The model on your original data contains the following errors.")
         print(tmp)
         stop()
       }
-      if(is(tmp,'warning')){test=FALSE}
-      
-      if(all(test)!=TRUE){
-        #play.sound(FALSE)
+      if (is(tmp, "warning")) {
+        test <- FALSE
+      }
+
+      if (all(test) != TRUE) {
+        # play.sound(FALSE)
         warning("The model on your original data contains the following warnings.")
         cat(tmp$message)
         answer <- readline(prompt = "Do you want to continue (y/n)? ")
-        
-        while (answer!='y' & answer!='n') {
-          #play.sound(FALSE)
+
+        while (answer != "y" & answer != "n") {
+          # play.sound(FALSE)
           readline("Model on your orignal data contain warnings.")
           answer <- readline(prompt = "Do you want to continue (y/n)? ")
         }
-        if(answer=='n'){suppressMessages(stop(print(tmp)))}
-        else{
-          obs=summary(tmp)
-          obs$fit=fitted(tmp)
-          obs$family=paste(family)
+        if (answer == "n") {
+          suppressMessages(stop(print(tmp)))
+        }
+        else {
+          obs <- summary(tmp)
+          obs$fit <- fitted(tmp)
+          obs$family <- paste(family)
         }
       }
-      else{
-        obs=summary(tmp)
-        obs$fit=fitted(tmp)
-        obs$family=paste(family)
-        obs$coefficients= obs$coefficients[,-4]
+      else {
+        obs <- summary(tmp)
+        obs$fit <- fitted(tmp)
+        obs$family <- paste(family)
+        obs$coefficients <- obs$coefficients[, -4]
       }
-      
-      cat("Original model : ","\n","\n")
-      
+
+      cat("Original model : ", "\n", "\n")
+
       print(obs)
-      at=attributes(ant)
-      ant=ant[-1]
-      attributes(ant)=at
+      at <- attributes(ant)
+      ant <- ant[-1]
+      attributes(ant) <- at
       # Parametrisation in case of error or warnign -------------------------------------------------
       # finding nodes metrics to permute in case of warnign or error along GLMM on permuted data
-      arguments=all.vars(formula)
-      metrics=c('degree','outdegree','indegree','strength','outstrength','instrength','affinityB','affinity','affinityW','disparity','indisparity','outdisparity',
-                'eigenB','eigenU','outeigen','ineigen','eigenW','eigen','lpB','lpW','reach','riB','riW','ri')
-      
-      target.metrics=metrics[metrics %in% arguments]
-      
+      arguments <- all.vars(formula)
+      metrics <- c(
+        "degree", "outdegree", "indegree", "strength", "outstrength", "instrength", "affinityB", "affinity", "affinityW",
+        "disparity", "indisparity", "outdisparity", "eigenB", "eigenU", "outeigen", "ineigen", "eigenW", "eigen", "lpB", 
+        "lpW", "reach", "riB", "riW", "ri"
+      )
+
+      target.metrics <- metrics[metrics %in% arguments]
+
       # Removing nodes metrics from original data frame
-      odf= odf[,-c(df.col.findId(odf,target.metrics))]
-      
+      odf <- odf[, -c(df.col.findId(odf, target.metrics))]
+
       # Finding scan and control factor do redo data stream permutation
-      Scan=attributes(ant)$scan
-      ctrlf=attributes(ant)$ctrlf
-      method=attributes(ant)$method
-      
+      Scan <- attributes(ant)$scan
+      ctrlf <- attributes(ant)$ctrlf
+      method <- attributes(ant)$method
+
       # GLMM along permutations ------------------------------------------
-      tmp.env=new.env()
-      tmp.env$new.perm=0
-      tmp.env$gbi=NULL
-      tmp.env$error=NULL
-      
-      if(progress){
-        permuted =lapply(seq_along(ant), function(i,ant,formula,odf,oda,target.metrics,Scan,ctrlf,method,fam,...){
-          cat("  Processing permutation : ", attributes(ant[[i]])$permutation,'\r')
-          attr(oda,'permutation')=0
-          r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = ant[[i]],...)), error=identity)
-          
-          if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-          if(is(r,'error')){test=FALSE}
-          if(is(r,'warning')){test=FALSE}
-          
-          if(all(test)!=TRUE){
+      tmp.env <- new.env()
+      tmp.env$new.perm <- 0
+      tmp.env$gbi <- NULL
+      tmp.env$error <- NULL
+
+      if (progress) {
+        permuted <- lapply(seq_along(ant), function(i, ant, formula, odf, oda, target.metrics, Scan, ctrlf, method, fam, ...) {
+          cat("  Processing permutation : ", attributes(ant[[i]])$permutation, "\r")
+          attr(oda, "permutation") <- 0
+          r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = ant[[i]], ...)), error = identity)
+
+          if (isS4(r)) {
+            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+          }
+          if (is(r, "error")) {
+            test <- FALSE
+          }
+          if (is(r, "warning")) {
+            test <- FALSE
+          }
+
+          if (all(test) != TRUE) {
             # redo a permutations on raw data
             # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
-            attr(odf,'permutation')=attributes(ant[[i]])$permutation
+            attr(odf, "permutation") <- attributes(ant[[i]])$permutation
             # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
-            r=redo.ds.grp(family='gaussian', new.perm=tmp.env$new.perm, gbi=tmp.env$gbi, oda=oda, odf=odf, target.metrics=target.metrics, formula=formula, Scan=Scan, method=method, ctrlf=ctrlf,fam=fam,...)
-            tmp.env$new.perm=r[[1]]
-            tmp.env$error=c(tmp.env$error,r[[1]])
-            tmp.env$gbi=r[[2]]
-            result=r[[3]]
+            r <- redo.ds.grp(family = "gaussian", new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, formula = formula, Scan = Scan, method = method, ctrlf = ctrlf, fam = fam, ...)
+            tmp.env$new.perm <- r[[1]]
+            tmp.env$error <- c(tmp.env$error, r[[1]])
+            tmp.env$gbi <- r[[2]]
+            result <- r[[3]]
             return(result)
           }
-          r=summary(r)$coefficients[,1]
+          r <- summary(r)$coefficients[, 1]
           return(r)
-          
-        },ant=ant,formula,odf,oda,target.metrics,Scan=Scan,ctrlf=ctrlf,method=method,fam=fam,...)
-        cat('\n')
+        }, ant = ant, formula, odf, oda, target.metrics, Scan = Scan, ctrlf = ctrlf, method = method, fam = fam, ...)
+        cat("\n")
       }
-      else{
-        permuted =lapply(seq_along(ant), function(i,ant,formula,odf,oda,target.metrics,Scan,ctrlf,method,fam, ...){
-          attr(oda,'permutation')=0
-          r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = ant[[i]],...)), error=identity)
-          
-          if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-          if(is(r,'error')){test=FALSE}
-          if(is(r,'warning')){test=FALSE}
-          
-          if(all(test)!=TRUE){
+      else {
+        permuted <- lapply(seq_along(ant), function(i, ant, formula, odf, oda, target.metrics, Scan, ctrlf, method, fam, ...) {
+          attr(oda, "permutation") <- 0
+          r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = ant[[i]], ...)), error = identity)
+
+          if (isS4(r)) {
+            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+          }
+          if (is(r, "error")) {
+            test <- FALSE
+          }
+          if (is(r, "warning")) {
+            test <- FALSE
+          }
+
+          if (all(test) != TRUE) {
             # redo a permutations on raw data
             # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
-            attr(odf,'permutation')=attributes(ant[[i]])$permutation
+            attr(odf, "permutation") <- attributes(ant[[i]])$permutation
             # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
-            r=redo.ds.grp(family='gaussian', new.perm=tmp.env$new.perm, gbi=tmp.env$gbi, oda=oda, odf=odf, target.metrics=target.metrics, formula=formula, Scan=Scan, method=method, ctrlf=ctrlf,fam=fam,...)
-            tmp.env$new.perm=r[[1]]
-            tmp.env$error=c(tmp.env$error,r[[1]])
-            tmp.env$gbi=r[[2]]
-            result=r[[3]]
+            r <- redo.ds.grp(family = "gaussian", new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, formula = formula, Scan = Scan, method = method, ctrlf = ctrlf, fam = fam, ...)
+            tmp.env$new.perm <- r[[1]]
+            tmp.env$error <- c(tmp.env$error, r[[1]])
+            tmp.env$gbi <- r[[2]]
+            result <- r[[3]]
             return(result)
           }
-          r=summary(r)$coefficients[,1]
+          r <- summary(r)$coefficients[, 1]
           return(r)
-          
-        },ant=ant,formula,odf,oda,target.metrics,Scan=Scan,ctrlf=ctrlf,method=method,fam=fam,...)
-        
+        }, ant = ant, formula, odf, oda, target.metrics, Scan = Scan, ctrlf = ctrlf, method = method, fam = fam, ...)
       }
     }
-    if(fam!='gaussian'){
+    if (fam != "gaussian") {
       # Test on observe data ------------------------------------------------------------------------
-      odf=ant[[1]]
-      
-      tmp=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = odf,family=family,...)),error=identity)
-      
-      if(isS4(tmp)){
-        if(is(tmp,'error')){
+      odf <- ant[[1]]
+
+      tmp <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = odf, family = family, ...)), error = identity)
+
+      if (isS4(tmp)) {
+        if (is(tmp, "error")) {
           print("The model on your original data contains the following errors.")
           print(tmp)
-          stop() 
+          stop()
         }
-        else{test=c(!is(tmp,'warning'),length(tmp@optinfo$conv$lme4$messages)==0)}
+        else {
+          test <- c(!is(tmp, "warning"), length(tmp@optinfo$conv$lme4$messages) == 0)
+        }
       }
-      if(is(tmp,'error')){
+      if (is(tmp, "error")) {
         print("The model on your original data contains the following errors.")
         print(tmp)
         stop()
       }
-      if(is(tmp,'warning')){test=FALSE}
-      
-      if(all(test)!=TRUE){
-        #play.sound(FALSE)
+      if (is(tmp, "warning")) {
+        test <- FALSE
+      }
+
+      if (all(test) != TRUE) {
+        # play.sound(FALSE)
         warning("The model on your original data contains the following warnings.")
         cat(tmp$message)
         answer <- readline(prompt = "Do you want to continue (y/n)? ")
-        
-        while (answer!='y' & answer!='n') {
-          #play.sound(FALSE)
+
+        while (answer != "y" & answer != "n") {
+          # play.sound(FALSE)
           readline("Model on your orignal data contain warnings.")
           answer <- readline(prompt = "Do you want to continue (y/n)? ")
         }
-        if(answer=='n'){suppressMessages(stop(print(tmp)))}
-        else{
-          obs=summary(tmp)
-          obs$fit=fitted(tmp)
-          obs$family=paste(family)
+        if (answer == "n") {
+          suppressMessages(stop(print(tmp)))
+        }
+        else {
+          obs <- summary(tmp)
+          obs$fit <- fitted(tmp)
+          obs$family <- paste(family)
         }
       }
-      else{
-        obs=summary(tmp)
-        obs$fit=fitted(tmp)
-        obs$family=paste(family)
-        obs$coefficients= obs$coefficients[,-4]
+      else {
+        obs <- summary(tmp)
+        obs$fit <- fitted(tmp)
+        obs$family <- paste(family)
+        obs$coefficients <- obs$coefficients[, -4]
       }
-      
-      cat("Original model : ","\n","\n")
+
+      cat("Original model : ", "\n", "\n")
       print(obs)
-      
-      at=attributes(ant)
-      ant=ant[-1]
-      attributes(ant)=at
-      
+
+      at <- attributes(ant)
+      ant <- ant[-1]
+      attributes(ant) <- at
+
       # Parametrisation in case of error or warnign -------------------------------------------------
       # finding nodes metrics to permute in case of warnign or error along GLMM on permuted data
-      arguments=all.vars(formula)
-      metrics=c('degree','outdegree','indegree','strength','outstrength','instrength','affinityB','affinity','affinityW','disparity','indisparity','outdisparity',
-                'eigenB','eigenU','outeigen','ineigen','eigenW','eigen','lpB','lpW','reach','riB','riW','ri')
-      
-      target.metrics=metrics[metrics %in% arguments]
-      
+      arguments <- all.vars(formula)
+      metrics <- c(
+        "degree", "outdegree", "indegree", "strength", "outstrength", "instrength", "affinityB", "affinity", "affinityW",
+        "disparity", "indisparity", "outdisparity", "eigenB", "eigenU", "outeigen", "ineigen", "eigenW", "eigen", "lpB", 
+        "lpW", "reach", "riB", "riW", "ri"
+      )
+
+      target.metrics <- metrics[metrics %in% arguments]
+
       # Removing nodes metrics from original data frame
-      odf= odf[,-c(df.col.findId(odf,target.metrics))]
-      
+      odf <- odf[, -c(df.col.findId(odf, target.metrics))]
+
       # Finding scan and control factor do redo data stream permutation
-      Scan=attributes(ant)$scan
-      ctrlf=attributes(ant)$ctrlf
-      method=attributes(ant)$method
-      
-      
+      Scan <- attributes(ant)$scan
+      ctrlf <- attributes(ant)$ctrlf
+      method <- attributes(ant)$method
+
+
       # GLMM along permutations ------------------------------------------
-      tmp.env=new.env()
-      tmp.env$new.perm=0
-      tmp.env$gbi=NULL
-      tmp.env$error=NULL
-      if(progress){
-        permuted =lapply(seq_along(ant), function(i,ant,formula,family,odf,oda,target.metrics,Scan,ctrlf,method,fam, ...){
-          
-          cat("  Processing permutation : ", attributes(ant[[i]])$permutation,'\r')
-          r=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = ant[[i]],family=family,...)), error=identity)
-          
-          if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-          if(is(r,'error')){test=FALSE}
-          if(is(r,'warning')){test=FALSE}
-          
-          if(all(test)!=TRUE){
+      tmp.env <- new.env()
+      tmp.env$new.perm <- 0
+      tmp.env$gbi <- NULL
+      tmp.env$error <- NULL
+      if (progress) {
+        permuted <- lapply(seq_along(ant), function(i, ant, formula, family, odf, oda, target.metrics, Scan, ctrlf, method, fam, ...) {
+          cat("  Processing permutation : ", attributes(ant[[i]])$permutation, "\r")
+          r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = ant[[i]], family = family, ...)), error = identity)
+
+          if (isS4(r)) {
+            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+          }
+          if (is(r, "error")) {
+            test <- FALSE
+          }
+          if (is(r, "warning")) {
+            test <- FALSE
+          }
+
+          if (all(test) != TRUE) {
             # redo a permutations on raw data
             # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
-            attr(odf,'permutation')=attributes(ant[[i]])$permutation
-            
+            attr(odf, "permutation") <- attributes(ant[[i]])$permutation
+
             # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
-            r=redo.ds.grp(family=family, new.perm=tmp.env$new.perm, gbi=tmp.env$gbi, oda=oda, odf=odf, target.metrics=target.metrics, formula=formula, Scan=Scan, method=method, ctrlf=ctrlf,fam=fam,...)
-            tmp.env$new.perm=r[[1]]
-            tmp.env$error=c(tmp.env$error,r[[1]])
-            tmp.env$gbi=r[[2]]
-            result=r[[3]]
+            r <- redo.ds.grp(family = family, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, formula = formula, Scan = Scan, method = method, ctrlf = ctrlf, fam = fam, ...)
+            tmp.env$new.perm <- r[[1]]
+            tmp.env$error <- c(tmp.env$error, r[[1]])
+            tmp.env$gbi <- r[[2]]
+            result <- r[[3]]
             return(result)
           }
-          result=summary(r)$coefficients[,1]
+          result <- summary(r)$coefficients[, 1]
           return(result)
-          
-        },ant=ant,formula,family,odf,oda,target.metrics,Scan,ctrlf,method,fam, ...)
-        cat('\n')
+        }, ant = ant, formula, family, odf, oda, target.metrics, Scan, ctrlf, method, fam, ...)
+        cat("\n")
       }
-      else{
-        permuted =lapply(seq_along(ant), function(i,ant,formula,family,odf,oda,target.metrics,Scan,ctrlf,method,fam, ...){
-          
-          r=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = ant[[i]],family=family,...)), error=identity)
-          
-          if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-          if(is(r,'error')){test=FALSE}
-          if(is(r,'warning')){test=FALSE}
-          
-          if(all(test)!=TRUE){
+      else {
+        permuted <- lapply(seq_along(ant), function(i, ant, formula, family, odf, oda, target.metrics, Scan, ctrlf, method, fam, ...) {
+          r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = ant[[i]], family = family, ...)), error = identity)
+
+          if (isS4(r)) {
+            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+          }
+          if (is(r, "error")) {
+            test <- FALSE
+          }
+          if (is(r, "warning")) {
+            test <- FALSE
+          }
+
+          if (all(test) != TRUE) {
             # redo a permutations on raw data
             # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
-            attr(odf,'permutation')=attributes(ant[[i]])$permutation
-            
+            attr(odf, "permutation") <- attributes(ant[[i]])$permutation
+
             # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
-            r=redo.ds.grp(family=family, new.perm=tmp.env$new.perm, gbi=tmp.env$gbi, oda=oda, odf=odf, target.metrics=target.metrics, formula=formula, Scan=Scan, method=method, ctrlf=ctrlf,fam=fam,...)
-            tmp.env$new.perm=r[[1]]
-            tmp.env$error=c(tmp.env$error,r[[1]])
-            tmp.env$gbi=r[[2]]
-            result=r[[3]]
+            r <- redo.ds.grp(family = family, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, formula = formula, Scan = Scan, method = method, ctrlf = ctrlf, fam = fam, ...)
+            tmp.env$new.perm <- r[[1]]
+            tmp.env$error <- c(tmp.env$error, r[[1]])
+            tmp.env$gbi <- r[[2]]
+            result <- r[[3]]
             return(result)
           }
-          result=summary(r)$coefficients[,1]
+          result <- summary(r)$coefficients[, 1]
           return(result)
-          
-        },ant=ant,formula,family,odf,oda,target.metrics,Scan,ctrlf,method,fam, ...)
-        
+        }, ant = ant, formula, family, odf, oda, target.metrics, Scan, ctrlf, method, fam, ...)
       }
     }
-    permuted=do.call('rbind',permuted)
-    result=list('Original.model'=obs,'permutations'=permuted,'errors'=tmp.env$error)
-    attr(result,'class')='ant glmm'
-    attr(result,'family')=paste(family)
-    attr(result,'formula')=format(formula)
+    permuted <- do.call("rbind", permuted)
+    result <- list("Original.model" = obs, "permutations" = permuted, "errors" = tmp.env$error)
+    attr(result, "class") <- "ant glmm"
+    attr(result, "family") <- paste(family)
+    attr(result, "formula") <- format(formula)
     cat("\n")
     return(result)
   }
-      
-  if(attributes(ant)$ANT=='ANT data stream focal sampling multiple matrices'){
-      if(is.null(oda)){stop("Argument oda cannot be NULL when argument ant is obtained with perm.ds.grp or perm.ds.focal ANT functions")}
-      
-      if(fam=='gaussian'){
-        # Test on observe data ------------------------------------------------------------------------
-        odf=ant[[1]]
-        
-        tmp=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = odf,...)),error=identity)
-        
-        if(isS4(tmp)){
-          if(is(tmp,'error')){
-            print("The model on your original data contains the following errors.")
-            print(tmp)
-            stop() 
-          }
-          else{test=c(!is(tmp,'warning'),length(tmp@optinfo$conv$lme4$messages)==0)}
-        }
-        if(is(tmp,'error')){
+
+  if (attributes(ant)$ANT == "ANT data stream focal sampling multiple matrices") {
+    if (is.null(oda)) {
+      stop("Argument oda cannot be NULL when argument ant is obtained with perm.ds.grp or perm.ds.focal ANT functions")
+    }
+
+    if (fam == "gaussian") {
+      # Test on observe data ------------------------------------------------------------------------
+      odf <- ant[[1]]
+
+      tmp <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = odf, ...)), error = identity)
+
+      if (isS4(tmp)) {
+        if (is(tmp, "error")) {
           print("The model on your original data contains the following errors.")
           print(tmp)
           stop()
         }
-        if(is(tmp,'warning')){test=FALSE}
-        
-        if(all(test)!=TRUE){
-          #play.sound(FALSE)
-          warning("The model on your original data contains the following warnings.")
-          cat(tmp$message)
-          answer <- readline(prompt = "Do you want to continue (y/n)? ")
-          
-          while (answer!='y' & answer!='n') {
-            #play.sound(FALSE)
-            readline("Model on your orignal data contain warnings.")
-            answer <- readline(prompt = "Do you want to continue (y/n)? ")
-          }
-          if(answer=='n'){suppressMessages(stop(print(tmp)))}
-          else{
-            obs=summary(tmp)
-            obs$fit=fitted(tmp)
-            obs$family=paste(family)
-          }
-        }
-        else{
-          obs=summary(tmp)
-          obs$fit=fitted(tmp)
-          obs$family=paste(family)
-          obs$coefficients= obs$coefficients[,-4]
-        }
-        
-        cat("Original model : ","\n","\n")
-        print(obs)
-        
-        at=attributes(ant)
-        ant=ant[-1]
-        attributes(ant)=at
-        
-        # Parametrisation in case of error or warnign -------------------------------------------------
-        # finding nodes metrics to permute in case of warnign or error along GLMM on permuted data
-        arguments=all.vars(formula)
-        metrics=c('degree','outdegree','indegree','strength','outstrength','instrength','affinityB','affinity','affinityW','disparity','indisparity','outdisparity',
-                  'eigenB','eigenU','outeigen','ineigen','eigenW','eigen','lpB','lpW','reach','riB','riW','ri')
-        
-        target.metrics=metrics[metrics %in% arguments]
-        
-        # Removing nodes metrics from original data frame
-        odf= odf[,-c(df.col.findId(odf,target.metrics))]
-        
-        # Finding scan and control factor do redo data stream permutation
-        focal=attributes(ant)$focal
-        ctrl=attributes(ant)$ctrl
-        alters=attributes(ant)$alters
-        index=attributes(ant)$method
-        
-        # GLMM along permutations ------------------------------------------
-        tmp.env=new.env()
-        tmp.env$new.perm=0
-        tmp.env$gbi=NULL
-        tmp.env$gbi2=NULL
-        tmp.env$error=NULL
-
-        if(progress==TRUE){
-          permuted =lapply(ant, function(d,formula,odf,oda,target.metrics,focal, ctrl,alters,index,fam, ...){
-            cat("  Processing permutation : ", attributes(d)$permutation,'\r')
-            attr(odf,'permutation')=0
-            r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = d,...)), error=identity)
-            
-            if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-            if(is(r,'error')){test=FALSE}
-            if(is(r,'warning')){test=FALSE}
-            
-            if(all(test)!=TRUE){
-              # redo a permutations on raw data
-              # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
-              attr(odf,'permutation')=attributes(d)$permutation
-              # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
-              r=redo.ds.focal.glmm(family=family, formula=formula, new.perm=tmp.env$new.perm, gbi=tmp.env$gbi, gbi2=tmp.env$gbi2, oda=oda, odf=odf, target.metrics=target.metrics, focal=focal, ctrl=ctrl, alters=alters,index=index,fam=fam,...)
-              tmp.env$new.perm=r[[1]]
-              tmp.env$error=c(tmp.env$error,r[[1]])
-              tmp.env$gbi=r[[2]]
-              tmp.env$gbi2=r[[3]]
-              result=r[[4]]
-              return(result)
-            }
-
-            r=summary(r)$coefficients[,1]
-            return(r)
-          },formula=formula, odf=odf, oda=oda, target.metrics=target.metrics, focal=focal, ctrl=ctrl, alters=alters, index=index, fam=fam,...)
-          cat('\n')
-        }
-        else{
-          permuted =lapply(ant, function(d,formula,odf,oda,target.metrics,focal, ctrl,alters,index,fam, ...){
-
-            attr(odf,'permutation')=0
-            r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = d,...)), error=identity)
-            
-            if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-            if(is(r,'error')){test=FALSE}
-            if(is(r,'warning')){test=FALSE}
-            
-            if(all(test)!=TRUE){
-              # redo a permutations on raw data
-              # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
-              attr(odf,'permutation')=attributes(d)$permutation
-              # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
-              r=redo.ds.focal.glmm(family=family, formula=formula, new.perm=tmp.env$new.perm, gbi=tmp.env$gbi, gbi2=tmp.env$gbi2, oda=oda, odf=odf, target.metrics=target.metrics, focal=focal, ctrl=ctrl, alters=alters,index=index,fam=fam,...)
-              tmp.env$new.perm=r[[1]]
-              tmp.env$error=c(tmp.env$error,r[[1]])
-              tmp.env$gbi=r[[2]]
-              tmp.env$gbi2=r[[3]]
-              result=r[[4]]
-              return(result)
-            }
-            
-            r=summary(r)$coefficients[,1]
-            return(r)
-          },formula=formula, odf=odf, oda=oda, target.metrics=target.metrics, focal=focal, ctrl=ctrl, alters=alters, index=index, fam=fam,...)
+        else {
+          test <- c(!is(tmp, "warning"), length(tmp@optinfo$conv$lme4$messages) == 0)
         }
       }
-      
-      if(fam!='gaussian'){
-        # Test on observe data ------------------------------------------------------------------------
-        odf=ant[[1]]
-        
-        tmp=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = odf,...)),error=identity)
-        
-        if(isS4(tmp)){
-          if(is(tmp,'error')){
-            print("The model on your original data contains the following errors.")
-            print(tmp)
-            stop() 
-          }
-          else{test=c(!is(tmp,'warning'),length(tmp@optinfo$conv$lme4$messages)==0)}
+      if (is(tmp, "error")) {
+        print("The model on your original data contains the following errors.")
+        print(tmp)
+        stop()
+      }
+      if (is(tmp, "warning")) {
+        test <- FALSE
+      }
+
+      if (all(test) != TRUE) {
+        # play.sound(FALSE)
+        warning("The model on your original data contains the following warnings.")
+        cat(tmp$message)
+        answer <- readline(prompt = "Do you want to continue (y/n)? ")
+
+        while (answer != "y" & answer != "n") {
+          # play.sound(FALSE)
+          readline("Model on your orignal data contain warnings.")
+          answer <- readline(prompt = "Do you want to continue (y/n)? ")
         }
-        if(is(tmp,'error')){
+        if (answer == "n") {
+          suppressMessages(stop(print(tmp)))
+        }
+        else {
+          obs <- summary(tmp)
+          obs$fit <- fitted(tmp)
+          obs$family <- paste(family)
+        }
+      }
+      else {
+        obs <- summary(tmp)
+        obs$fit <- fitted(tmp)
+        obs$family <- paste(family)
+        obs$coefficients <- obs$coefficients[, -4]
+      }
+
+      cat("Original model : ", "\n", "\n")
+      print(obs)
+
+      at <- attributes(ant)
+      ant <- ant[-1]
+      attributes(ant) <- at
+
+      # Parametrisation in case of error or warnign -------------------------------------------------
+      # finding nodes metrics to permute in case of warnign or error along GLMM on permuted data
+      arguments <- all.vars(formula)
+      metrics <- c(
+        "degree", "outdegree", "indegree", "strength", "outstrength", "instrength", "affinityB", "affinity", "affinityW",
+        "disparity", "indisparity", "outdisparity", "eigenB", "eigenU", "outeigen", "ineigen", "eigenW", "eigen", "lpB", 
+        "lpW", "reach", "riB", "riW", "ri"
+      )
+
+      target.metrics <- metrics[metrics %in% arguments]
+
+      # Removing nodes metrics from original data frame
+      odf <- odf[, -c(df.col.findId(odf, target.metrics))]
+
+      # Finding scan and control factor do redo data stream permutation
+      focal <- attributes(ant)$focal
+      ctrl <- attributes(ant)$ctrl
+      alters <- attributes(ant)$alters
+      index <- attributes(ant)$method
+
+      # GLMM along permutations ------------------------------------------
+      tmp.env <- new.env()
+      tmp.env$new.perm <- 0
+      tmp.env$gbi <- NULL
+      tmp.env$gbi2 <- NULL
+      tmp.env$error <- NULL
+
+      if (progress == TRUE) {
+        permuted <- lapply(ant, function(d, formula, odf, oda, target.metrics, focal, ctrl, alters, index, fam, ...) {
+          cat("  Processing permutation : ", attributes(d)$permutation, "\r")
+          attr(odf, "permutation") <- 0
+          r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = d, ...)), error = identity)
+
+          if (isS4(r)) {
+            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+          }
+          if (is(r, "error")) {
+            test <- FALSE
+          }
+          if (is(r, "warning")) {
+            test <- FALSE
+          }
+
+          if (all(test) != TRUE) {
+            # redo a permutations on raw data
+            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            attr(odf, "permutation") <- attributes(d)$permutation
+            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
+            r <- redo.ds.focal.glmm(family = family, formula = formula, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, gbi2 = tmp.env$gbi2, oda = oda, odf = odf, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
+            tmp.env$new.perm <- r[[1]]
+            tmp.env$error <- c(tmp.env$error, r[[1]])
+            tmp.env$gbi <- r[[2]]
+            tmp.env$gbi2 <- r[[3]]
+            result <- r[[4]]
+            return(result)
+          }
+
+          r <- summary(r)$coefficients[, 1]
+          return(r)
+        }, formula = formula, odf = odf, oda = oda, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
+        cat("\n")
+      }
+      else {
+        permuted <- lapply(ant, function(d, formula, odf, oda, target.metrics, focal, ctrl, alters, index, fam, ...) {
+          attr(odf, "permutation") <- 0
+          r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = d, ...)), error = identity)
+
+          if (isS4(r)) {
+            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+          }
+          if (is(r, "error")) {
+            test <- FALSE
+          }
+          if (is(r, "warning")) {
+            test <- FALSE
+          }
+
+          if (all(test) != TRUE) {
+            # redo a permutations on raw data
+            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            attr(odf, "permutation") <- attributes(d)$permutation
+            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
+            r <- redo.ds.focal.glmm(family = family, formula = formula, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, gbi2 = tmp.env$gbi2, oda = oda, odf = odf, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
+            tmp.env$new.perm <- r[[1]]
+            tmp.env$error <- c(tmp.env$error, r[[1]])
+            tmp.env$gbi <- r[[2]]
+            tmp.env$gbi2 <- r[[3]]
+            result <- r[[4]]
+            return(result)
+          }
+
+          r <- summary(r)$coefficients[, 1]
+          return(r)
+        }, formula = formula, odf = odf, oda = oda, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
+      }
+    }
+
+    if (fam != "gaussian") {
+      # Test on observe data ------------------------------------------------------------------------
+      odf <- ant[[1]]
+
+      tmp <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = odf, ...)), error = identity)
+
+      if (isS4(tmp)) {
+        if (is(tmp, "error")) {
           print("The model on your original data contains the following errors.")
           print(tmp)
           stop()
         }
-        if(is(tmp,'warning')){test=FALSE}
-        
-        if(all(test)!=TRUE){
-          #play.sound(FALSE)
-          warning("The model on your original data contains the following warnings.")
-          cat(tmp$message)
-          answer <- readline(prompt = "Do you want to continue (y/n)? ")
-          
-          while (answer!='y' & answer!='n') {
-            #play.sound(FALSE)
-            readline("Model on your orignal data contain warnings.")
-            answer <- readline(prompt = "Do you want to continue (y/n)? ")
-          }
-          if(answer=='n'){suppressMessages(stop(print(tmp)))}
-          else{
-            obs=summary(tmp)
-            obs$fit=fitted(tmp)
-            obs$family=paste(family)
-          }
-        }
-        else{
-          obs=summary(tmp)
-          obs$fit=fitted(tmp)
-          obs$family=paste(family)
-          
-        }
-        
-        cat("Original model : ","\n","\n")
-        print(obs)
-        
-        at=attributes(ant)
-        ant=ant[-1]
-        attributes(ant)=at
-        
-        # Parametrisation in case of error or warnign -------------------------------------------------
-        # finding nodes metrics to permute in case of warnign or error along GLMM on permuted data
-        arguments=all.vars(formula)
-        metrics=c('degree','outdegree','indegree','strength','outstrength','instrength','affinityB','affinity','affinityW','disparity','indisparity','outdisparity',
-                  'eigenB','eigenU','outeigen','ineigen','eigenW','eigen','lpB','lpW','reach','riB','riW','ri')
-        
-        target.metrics=metrics[metrics %in% arguments]
-        
-        # Removing nodes metrics from original data frame
-        odf= odf[,-c(df.col.findId(odf,target.metrics))]
-        
-        # Finding scan and control factor do redo data stream permutation
-        focal=attributes(ant)$focal
-        ctrl=attributes(ant)$ctrl
-        alters=attributes(ant)$alters
-        
-        
-        # GLMM along permutations ------------------------------------------
-        new.perm=0
-        new.oda=NULL
-        er=NULL
-        if(progress==TRUE){
-          permuted =lapply(ant, function(d,formula,family,progress=T,odf,oda,target.metrics,focal,ctrl,alters,new.perm,new.oda,fam, ...){
-            cat("  Processing permutation : ", attributes(d)$permutation,'\r')
-            attr(odf,'permutation')=0
-            r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = d,...)), error=identity)
-            
-            if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-            if(is(r,'error')){test=FALSE}
-            if(is(r,'warning')){test=FALSE}
-            
-            if(all(test)!=TRUE){
-              # redo a permutations on raw data
-              er=c(er,attributes(d)$permutation)
-              cat("  Processing permutation ", attributes(d)$permutation,' resampling' ,'\r')
-              # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
-              attr(odf,'permutation')=attributes(d)$permutation
-              
-              # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
-              r=redo.ds.focal.glmm(family=family, formula=formula, new.perm=tmp.env$new.perm, gbi=tmp.env$gbi, gbi2=tmp.env$gbi2, oda=oda, odf=odf, target.metrics=target.metrics, focal=focal, ctrl=ctrl, alters=alters,index=index,fam=fam,...)
-             
-              new.perm=r[[1]]
-              new.oda=r[[2]]
-              result=r[[3]]
-              return(result)
-            }
-            r=summary(r)$coefficients[,1]
-            return(r)
-          },formula,family,progress=T,odf=odf,oda=oda,target.metrics=target.metrics,focal=focal,ctrl=ctrl,alters=alters,new.perm=new.perm,new.oda=new.oda,fam=fam,...)
-          cat('\n')
-        }
-        else{
-          permuted =lapply(ant, function(d,formula,family,progress=T,odf,oda,target.metrics,focal,ctrl,alters,new.perm,new.oda,fam, ...){
-
-            attr(odf,'permutation')=0
-            r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = d,...)), error=identity)
-            
-            if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-            if(is(r,'error')){test=FALSE}
-            if(is(r,'warning')){test=FALSE}
-            
-            if(all(test)!=TRUE){
-              # redo a permutations on raw data
-              er=c(er,attributes(d)$permutation)
-              cat("  Processing permutation ", attributes(d)$permutation,' resampling' ,'\r')
-              # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
-              attr(odf,'permutation')=attributes(d)$permutation
-              
-              # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
-              r=redo.ds.focal.glmm(family=family, formula=formula, new.perm=tmp.env$new.perm, gbi=tmp.env$gbi, gbi2=tmp.env$gbi2, oda=oda, odf=odf, target.metrics=target.metrics, focal=focal, ctrl=ctrl, alters=alters,index=index,fam=fam,...)
-              
-              new.perm=r[[1]]
-              new.oda=r[[2]]
-              result=r[[3]]
-              return(result)
-            }
-            r=summary(r)$coefficients[,1]
-            return(r)
-          },formula,family,progress=T,odf=odf,oda=oda,target.metrics=target.metrics,focal=focal,ctrl=ctrl,alters=alters,new.perm=new.perm,new.oda=new.oda,fam=fam,...)
+        else {
+          test <- c(!is(tmp, "warning"), length(tmp@optinfo$conv$lme4$messages) == 0)
         }
       }
-      
-      permuted=do.call('rbind',permuted)
-      result=list('Original.model'=obs,'permutations'=permuted,'errors'=tmp.env$error)
-      attr(result,'class')='ant glmm'
-      attr(result,'family')=paste(family)
-      attr(result,'formula')=format(formula)
-      cat("\n")
-      return(result)
-    }
-      
-  if(attributes(ant)$ANT=='ANT node label permutation with random factors'){
-        if(fam=='gaussian'){
-          # Test on observe data ------------------------------------------------------------------------
-          odf=ant[[1]]
-          
-          tmp=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = odf,...)),error=identity)
-          
-          if(isS4(tmp)){
-            if(is(tmp,'error')){
-              print("The model on your original data contains the following errors.")
-              print(tmp)
-              stop() 
-            }
-            else{test=c(!is(tmp,'error'),!is(tmp,'warning'),tmp@optinfo$conv$opt==0,length(tmp@optinfo$conv$lme4$messages)==0,length(tmp@optinfo$warnings)==0)}
-          }
-          if(is(tmp,'error')){
-            print("The model on your original data contains the following errors.")
-            print(tmp)
-            stop()
-          }
-          if(is(tmp,'warning')){test=FALSE}
-          
-          if(all(test)!=TRUE){
-            #play.sound(FALSE)
-            warning("The model on your original data contains the following warnings.")
-            cat(tmp$message)
-            answer <- readline(prompt = "Do you want to continue (y/n)? ")
-            
-            while (answer!='y' & answer!='n') {
-              #play.sound(FALSE)
-              readline("Model on your orignal data contain warnings.")
-              answer <- readline(prompt = "Do you want to continue (y/n)? ")
-            }
-            if(answer=='n'){suppressMessages(stop(print(tmp)))}
-            else{
-              obs=summary(tmp)
-              obs$fit=fitted(tmp)
-              obs$family=paste(family)
-            }
-          }
-          else{
-            obs=summary(tmp)
-            obs$fit=fitted(tmp)
-            obs$family=paste(family)
-            obs$coefficients= obs$coefficients[,-4]
-          }
-          
-          cat("Original model : ","\n","\n")
-          print(obs)
-          
-          at=attributes(ant)
-          ant=ant[-1]
-          attributes(ant)=at
-          
-          # Test along the list of permutation data ------------------------------------------------------------------------
-          if(progress){
-            tmp.env=new.env()
-            tmp.env$error=NULL
-            ctrl=attributes(ant)$rf
-            labels=attributes(ant)$labels
-            
-            permuted =lapply(seq_along(ant), function(i,ant,formula,progress,ctrl,odf,labels,...){
-              cat("  Processing permutation : ", attributes(ant[[i]])$permutation,'\r')
-              
-              r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = ant[[i]])), error=identity)
-              
-              if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-              if(is(r,'error')){test=FALSE}
-              if(is(r,'warning')){test=FALSE}
-              
-              if(all(test)!=TRUE){
-                tmp.env$error=c(tmp.env$error,attributes(ant[[i]])$permutation)
-                while(all(test)!=TRUE){
-                  newdf=perm.redo(df=odf,labels = labels,ctrl=ctrl)
-                  r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = newdf,...)),error=identity)
-                  
-                  if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-                  if(is(r,'error')){test=FALSE}
-                  if(is(r,'warning')){test=FALSE}
-                }              }
-              
-              r=summary(r)$coefficients[,1]
-              
-              return(r)
-            },ant=ant,formula,progress=T,ctrl=ctrl,odf=odf,labels=labels,...)
-            cat('\n')
-          }
-          else{
-            tmp.env=new.env()
-            tmp.env$error=NULL
-            ctrl=attributes(ant)$rf
-            labels=attributes(ant)$labels
-            
-            permuted =lapply(seq_along(ant), function(i,ant,formula,progress,ctrl,odf,labels,...){
+      if (is(tmp, "error")) {
+        print("The model on your original data contains the following errors.")
+        print(tmp)
+        stop()
+      }
+      if (is(tmp, "warning")) {
+        test <- FALSE
+      }
 
-              r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = ant[[i]],...)), error=identity)
-              
-              if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-              if(is(r,'error')){test=FALSE}
-              if(is(r,'warning')){test=FALSE}
-              
-              if(all(test)!=TRUE){
-                tmp.env$error=c(tmp.env$error,attributes(ant[[i]])$permutation)
-                while(all(test)!=TRUE){
-                  newdf=perm.redo(df=odf,labels = labels,ctrl=ctrl)
-                  r=tryCatch(suppressWarnings(lme4::lmer(formula=formula, data = newdf,...)),error=identity)
-                  
-                  if(isS4(r)){test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-                  if(is(r,'error')){test=FALSE}
-                  if(is(r,'warning')){test=FALSE}
-                }
-              }
-              
-              r=summary(r)$coefficients[,1]
-              
-              return(r)
-            },ant=ant,formula,progress=T,ctrl=ctrl,odf=odf,labels=labels,...)
-          }
+      if (all(test) != TRUE) {
+        # play.sound(FALSE)
+        warning("The model on your original data contains the following warnings.")
+        cat(tmp$message)
+        answer <- readline(prompt = "Do you want to continue (y/n)? ")
+
+        while (answer != "y" & answer != "n") {
+          # play.sound(FALSE)
+          readline("Model on your orignal data contain warnings.")
+          answer <- readline(prompt = "Do you want to continue (y/n)? ")
         }
-      
-        if(fam!='gaussian'){
-          # Test on observe data ------------------------------------------------------------------------
-          odf=ant[[1]]
-          
-          tmp=suppressWarnings(tryCatch(lme4::glmer(formula=formula, data = odf,family=family,...),error=identity))
+        if (answer == "n") {
+          suppressMessages(stop(print(tmp)))
+        }
+        else {
+          obs <- summary(tmp)
+          obs$fit <- fitted(tmp)
+          obs$family <- paste(family)
+        }
+      }
+      else {
+        obs <- summary(tmp)
+        obs$fit <- fitted(tmp)
+        obs$family <- paste(family)
+      }
+
+      cat("Original model : ", "\n", "\n")
+      print(obs)
+
+      at <- attributes(ant)
+      ant <- ant[-1]
+      attributes(ant) <- at
+
+      # Parametrisation in case of error or warnign -------------------------------------------------
+      # finding nodes metrics to permute in case of warnign or error along GLMM on permuted data
+      arguments <- all.vars(formula)
+      metrics <- c(
+        "degree", "outdegree", "indegree", "strength", "outstrength", "instrength", "affinityB", "affinity", "affinityW",
+        "disparity", "indisparity", "outdisparity", "eigenB", "eigenU", "outeigen", "ineigen", "eigenW", "eigen", "lpB", 
+        "lpW", "reach", "riB", "riW", "ri"
+      )
+
+      target.metrics <- metrics[metrics %in% arguments]
+
+      # Removing nodes metrics from original data frame
+      odf <- odf[, -c(df.col.findId(odf, target.metrics))]
+
+      # Finding scan and control factor do redo data stream permutation
+      focal <- attributes(ant)$focal
+      ctrl <- attributes(ant)$ctrl
+      alters <- attributes(ant)$alters
+
+
+      # GLMM along permutations ------------------------------------------
+      new.perm <- 0
+      new.oda <- NULL
+      er <- NULL
+      if (progress == TRUE) {
+        permuted <- lapply(ant, function(d, formula, family, progress = T, odf, oda, target.metrics, focal, ctrl, alters, new.perm, new.oda, fam, ...) {
+          cat("  Processing permutation : ", attributes(d)$permutation, "\r")
+          attr(odf, "permutation") <- 0
+          r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = d, ...)), error = identity)
+
+          if (isS4(r)) {
+            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+          }
+          if (is(r, "error")) {
+            test <- FALSE
+          }
+          if (is(r, "warning")) {
+            test <- FALSE
+          }
+
+          if (all(test) != TRUE) {
+            # redo a permutations on raw data
+            er <- c(er, attributes(d)$permutation)
+            cat("  Processing permutation ", attributes(d)$permutation, " resampling", "\r")
+            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            attr(odf, "permutation") <- attributes(d)$permutation
+
+            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
+            r <- redo.ds.focal.glmm(family = family, formula = formula, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, gbi2 = tmp.env$gbi2, oda = oda, odf = odf, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
+
+            new.perm <- r[[1]]
+            new.oda <- r[[2]]
+            result <- r[[3]]
+            return(result)
+          }
+          r <- summary(r)$coefficients[, 1]
+          return(r)
+        }, formula, family, progress = T, odf = odf, oda = oda, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, new.perm = new.perm, new.oda = new.oda, fam = fam, ...)
+        cat("\n")
+      }
+      else {
+        permuted <- lapply(ant, function(d, formula, family, progress = T, odf, oda, target.metrics, focal, ctrl, alters, new.perm, new.oda, fam, ...) {
+          attr(odf, "permutation") <- 0
+          r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = d, ...)), error = identity)
+
+          if (isS4(r)) {
+            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+          }
+          if (is(r, "error")) {
+            test <- FALSE
+          }
+          if (is(r, "warning")) {
+            test <- FALSE
+          }
+
+          if (all(test) != TRUE) {
+            # redo a permutations on raw data
+            er <- c(er, attributes(d)$permutation)
+            cat("  Processing permutation ", attributes(d)$permutation, " resampling", "\r")
+            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            attr(odf, "permutation") <- attributes(d)$permutation
+
+            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
+            r <- redo.ds.focal.glmm(family = family, formula = formula, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, gbi2 = tmp.env$gbi2, oda = oda, odf = odf, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
+
+            new.perm <- r[[1]]
+            new.oda <- r[[2]]
+            result <- r[[3]]
+            return(result)
+          }
+          r <- summary(r)$coefficients[, 1]
+          return(r)
+        }, formula, family, progress = T, odf = odf, oda = oda, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, new.perm = new.perm, new.oda = new.oda, fam = fam, ...)
+      }
+    }
+
+    permuted <- do.call("rbind", permuted)
+    result <- list("Original.model" = obs, "permutations" = permuted, "errors" = tmp.env$error)
+    attr(result, "class") <- "ant glmm"
+    attr(result, "family") <- paste(family)
+    attr(result, "formula") <- format(formula)
+    cat("\n")
+    return(result)
+  }
+
+  if (attributes(ant)$ANT == "ANT node label permutation with random factors") {
+    if (fam == "gaussian") {
+      # Test on observe data ------------------------------------------------------------------------
+      odf <- ant[[1]]
+
+      tmp <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = odf, ...)), error = identity)
+
+      if (isS4(tmp)) {
+        if (is(tmp, "error")) {
+          print("The model on your original data contains the following errors.")
           print(tmp)
-          print(tmp@optinfo$optimizer)
-          if(isS4(tmp)){
-            if(is(tmp,'error')){
-              print("The model on your original data contains the following errors.")
-              print(tmp)
-              stop() 
-            }
-            else{test=c(!is(tmp,'warning'),length(tmp@optinfo$conv$lme4$messages)==0)}
-          }
-          if(is(tmp,'error')){
-            print("The model on your original data contains the following errors.")
-            print(tmp)
-            stop()
-          }
-          if(is(tmp,'warning')){test=FALSE}
-          
-          if(all(test)!=TRUE){
-            #play.sound(FALSE)
-            warning("The model on your original data contains the following warnings.")
-            if(isS4(tmp)){cat(tmp@optinfo$conv$lme4$messages)}
-            else{cat(tmp$message)}
-            answer <- readline(prompt = "Do you want to continue (y/n)? ")
-            
-            while (answer!='y' & answer!='n') {
-              #play.sound(FALSE)
-              readline("Model on your orignal data contain warnings.")
-              answer <- readline(prompt = "Do you want to continue (y/n)? ")
-            }
-            if(answer=='n'){suppressMessages(stop(print(tmp)))}
-            else{
-              obs=summary(tmp)
-              obs$fit=fitted(tmp)
-              obs$family=paste(family)
-            }
-          }
-          else{
-            obs=summary(tmp)
-            obs$fit=fitted(tmp)
-            obs$family=paste(family)
-          }
-          
-          cat("Original model : ","\n","\n")
-          print(summary(obs))
-          
-          at=attributes(ant)
-          ant=ant[-1]
-          attributes(ant)=at
-          
-          ctrl=attributes(ant)$rf
-          labels=attributes(ant)$labels
-          # Test along the list of permutation data ------------------------------------------------------------------------
-          if(progress==TRUE){
-            tmp.env=new.env()
-            tmp.env$error=NULL
-            
-            permuted =lapply(ant, function(d,formula,family,ctrl,labels,odf,...){
-              cat("  Processing permutation : ", attributes(d)$permutation,'\r')
-              r=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = d,family=family,...)), error=identity)
-              
-              if(isS4(r)){
-                if(r@optinfo$warnings=="Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA."){test=TRUE}
-                else{test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-              }
-              if(is(r,'error')){test=FALSE}
-              if(is(r,'warning')){test=FALSE}
-              
-              if(all(test)!=TRUE){
-                tmp.env$error=c(tmp.env$error,attributes(d)$permutation)
-              }
-              
-              while(all(test)!=TRUE){
-                print('repermuting')
-                newdf=perm.redo(df=odf,labels = labels,ctrl=ctrl)
-                r=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = newdf,family=family,...)),error=identity)
-                print(r@optinfo$warnings)
-                if(isS4(r)){
-                  if(r@optinfo$warnings=="Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA."){test=TRUE}
-                  else{test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-                }
-                if(is(r,'error')){test=FALSE}
-                if(is(r,'warning')){test=FALSE}
-              }
-              
-              r=summary(r)$coefficients[,1]
-              return(r)
-            },formula=formula,family=family,ctrl=ctrl,labels,odf,...)
-            cat('\n')
-          }
-          else{
-            tmp.env=new.env()
-            tmp.env$error=NULL
-            
-            permuted =lapply(ant, function(d,formula,family,ctrl,labels,odf,...){
-              r=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = d,family=family,...)), error=identity)
-              
-              if(isS4(r)){
-                if(r@optinfo$warnings=="Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA."){test=TRUE}
-                else{test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-              }
-              if(is(r,'error')){test=FALSE}
-              if(is(r,'warning')){test=FALSE}
-              
-              if(all(test)!=TRUE){
-                tmp.env$error=c(tmp.env$error,attributes(d)$permutation)
-              }
-              
-              while(all(test)!=TRUE){
-                print('repermuting')
-                newdf=perm.redo(df=odf,labels = labels,ctrl=ctrl)
-                r=tryCatch(suppressWarnings(lme4::glmer(formula=formula, data = newdf,family=family,...)),error=identity)
-                print(r@optinfo$warnings)
-                if(isS4(r)){
-                  if(r@optinfo$warnings=="Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA."){test=TRUE}
-                  else{test=c(!is(r,'error'),!is(r,'warning'),r@optinfo$conv$opt==0,length(r@optinfo$conv$lme4$messages)==0,length(r@optinfo$warnings)==0)}
-                }
-                if(is(r,'error')){test=FALSE}
-                if(is(r,'warning')){test=FALSE}
-              }
-              
-              r=summary(r)$coefficients[,1]
-              return(r)
-            },formula=formula,family=family,ctrl=ctrl,labels,odf,...)
-          }
+          stop()
         }
-      
-      permuted=do.call('rbind',permuted)
-      result=list('Original.model'=obs,'permutations'=permuted,'errors'=tmp.env$error)
-      attr(result,'class')='ant glmm'
-      attr(result,'family')=paste(family)
-      attr(result,'formula')=format(formula)
-      cat("\n")
-      return(result)
+        else {
+          test <- c(!is(tmp, "error"), !is(tmp, "warning"), tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
+        }
+      }
+      if (is(tmp, "error")) {
+        print("The model on your original data contains the following errors.")
+        print(tmp)
+        stop()
+      }
+      if (is(tmp, "warning")) {
+        test <- FALSE
+      }
+
+      if (all(test) != TRUE) {
+        # play.sound(FALSE)
+        warning("The model on your original data contains the following warnings.")
+        cat(tmp$message)
+        answer <- readline(prompt = "Do you want to continue (y/n)? ")
+
+        while (answer != "y" & answer != "n") {
+          # play.sound(FALSE)
+          readline("Model on your orignal data contain warnings.")
+          answer <- readline(prompt = "Do you want to continue (y/n)? ")
+        }
+        if (answer == "n") {
+          suppressMessages(stop(print(tmp)))
+        }
+        else {
+          obs <- summary(tmp)
+          obs$fit <- fitted(tmp)
+          obs$family <- paste(family)
+        }
+      }
+      else {
+        obs <- summary(tmp)
+        obs$fit <- fitted(tmp)
+        obs$family <- paste(family)
+        obs$coefficients <- obs$coefficients[, -4]
+      }
+
+      cat("Original model : ", "\n", "\n")
+      print(obs)
+
+      at <- attributes(ant)
+      ant <- ant[-1]
+      attributes(ant) <- at
+
+      # Test along the list of permutation data ------------------------------------------------------------------------
+      if (progress) {
+        tmp.env <- new.env()
+        tmp.env$error <- NULL
+        ctrl <- attributes(ant)$rf
+        labels <- attributes(ant)$labels
+
+        permuted <- lapply(seq_along(ant), function(i, ant, formula, progress, ctrl, odf, labels, ...) {
+          cat("  Processing permutation : ", attributes(ant[[i]])$permutation, "\r")
+
+          r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = ant[[i]])), error = identity)
+
+          if (isS4(r)) {
+            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+          }
+          if (is(r, "error")) {
+            test <- FALSE
+          }
+          if (is(r, "warning")) {
+            test <- FALSE
+          }
+
+          if (all(test) != TRUE) {
+            tmp.env$error <- c(tmp.env$error, attributes(ant[[i]])$permutation)
+            while (all(test) != TRUE) {
+              newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
+              r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = newdf, ...)), error = identity)
+
+              if (isS4(r)) {
+                test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+              }
+              if (is(r, "error")) {
+                test <- FALSE
+              }
+              if (is(r, "warning")) {
+                test <- FALSE
+              }
+            }
+          }
+
+          r <- summary(r)$coefficients[, 1]
+
+          return(r)
+        }, ant = ant, formula, progress = T, ctrl = ctrl, odf = odf, labels = labels, ...)
+        cat("\n")
+      }
+      else {
+        tmp.env <- new.env()
+        tmp.env$error <- NULL
+        ctrl <- attributes(ant)$rf
+        labels <- attributes(ant)$labels
+
+        permuted <- lapply(seq_along(ant), function(i, ant, formula, progress, ctrl, odf, labels, ...) {
+          r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = ant[[i]], ...)), error = identity)
+
+          if (isS4(r)) {
+            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+          }
+          if (is(r, "error")) {
+            test <- FALSE
+          }
+          if (is(r, "warning")) {
+            test <- FALSE
+          }
+
+          if (all(test) != TRUE) {
+            tmp.env$error <- c(tmp.env$error, attributes(ant[[i]])$permutation)
+            while (all(test) != TRUE) {
+              newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
+              r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = newdf, ...)), error = identity)
+
+              if (isS4(r)) {
+                test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+              }
+              if (is(r, "error")) {
+                test <- FALSE
+              }
+              if (is(r, "warning")) {
+                test <- FALSE
+              }
+            }
+          }
+
+          r <- summary(r)$coefficients[, 1]
+
+          return(r)
+        }, ant = ant, formula, progress = T, ctrl = ctrl, odf = odf, labels = labels, ...)
+      }
     }
 
+    if (fam != "gaussian") {
+      # Test on observe data ------------------------------------------------------------------------
+      odf <- ant[[1]]
+
+      tmp <- suppressWarnings(tryCatch(lme4::glmer(formula = formula, data = odf, family = family, ...), error = identity))
+      print(tmp)
+      print(tmp@optinfo$optimizer)
+      if (isS4(tmp)) {
+        if (is(tmp, "error")) {
+          print("The model on your original data contains the following errors.")
+          print(tmp)
+          stop()
+        }
+        else {
+          test <- c(!is(tmp, "warning"), length(tmp@optinfo$conv$lme4$messages) == 0)
+        }
+      }
+      if (is(tmp, "error")) {
+        print("The model on your original data contains the following errors.")
+        print(tmp)
+        stop()
+      }
+      if (is(tmp, "warning")) {
+        test <- FALSE
+      }
+
+      if (all(test) != TRUE) {
+        # play.sound(FALSE)
+        warning("The model on your original data contains the following warnings.")
+        if (isS4(tmp)) {
+          cat(tmp@optinfo$conv$lme4$messages)
+        }
+        else {
+          cat(tmp$message)
+        }
+        answer <- readline(prompt = "Do you want to continue (y/n)? ")
+
+        while (answer != "y" & answer != "n") {
+          # play.sound(FALSE)
+          readline("Model on your orignal data contain warnings.")
+          answer <- readline(prompt = "Do you want to continue (y/n)? ")
+        }
+        if (answer == "n") {
+          suppressMessages(stop(print(tmp)))
+        }
+        else {
+          obs <- summary(tmp)
+          obs$fit <- fitted(tmp)
+          obs$family <- paste(family)
+        }
+      }
+      else {
+        obs <- summary(tmp)
+        obs$fit <- fitted(tmp)
+        obs$family <- paste(family)
+      }
+
+      cat("Original model : ", "\n", "\n")
+      print(summary(obs))
+
+      at <- attributes(ant)
+      ant <- ant[-1]
+      attributes(ant) <- at
+
+      ctrl <- attributes(ant)$rf
+      labels <- attributes(ant)$labels
+      # Test along the list of permutation data ------------------------------------------------------------------------
+      if (progress == TRUE) {
+        tmp.env <- new.env()
+        tmp.env$error <- NULL
+
+        permuted <- lapply(ant, function(d, formula, family, ctrl, labels, odf, ...) {
+          cat("  Processing permutation : ", attributes(d)$permutation, "\r")
+          r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = d, family = family, ...)), error = identity)
+
+          if (isS4(r)) {
+            if (r@optinfo$warnings == "Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.") {
+              test <- TRUE
+            }
+            else {
+              test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            }
+          }
+          if (is(r, "error")) {
+            test <- FALSE
+          }
+          if (is(r, "warning")) {
+            test <- FALSE
+          }
+
+          if (all(test) != TRUE) {
+            tmp.env$error <- c(tmp.env$error, attributes(d)$permutation)
+          }
+
+          while (all(test) != TRUE) {
+            print("repermuting")
+            newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
+            r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = newdf, family = family, ...)), error = identity)
+            print(r@optinfo$warnings)
+            if (isS4(r)) {
+              if (r@optinfo$warnings == "Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.") {
+                test <- TRUE
+              }
+              else {
+                test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+              }
+            }
+            if (is(r, "error")) {
+              test <- FALSE
+            }
+            if (is(r, "warning")) {
+              test <- FALSE
+            }
+          }
+
+          r <- summary(r)$coefficients[, 1]
+          return(r)
+        }, formula = formula, family = family, ctrl = ctrl, labels, odf, ...)
+        cat("\n")
+      }
+      else {
+        tmp.env <- new.env()
+        tmp.env$error <- NULL
+
+        permuted <- lapply(ant, function(d, formula, family, ctrl, labels, odf, ...) {
+          r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = d, family = family, ...)), error = identity)
+
+          if (isS4(r)) {
+            if (r@optinfo$warnings == "Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.") {
+              test <- TRUE
+            }
+            else {
+              test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            }
+          }
+          if (is(r, "error")) {
+            test <- FALSE
+          }
+          if (is(r, "warning")) {
+            test <- FALSE
+          }
+
+          if (all(test) != TRUE) {
+            tmp.env$error <- c(tmp.env$error, attributes(d)$permutation)
+          }
+
+          while (all(test) != TRUE) {
+            print("repermuting")
+            newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
+            r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = newdf, family = family, ...)), error = identity)
+            print(r@optinfo$warnings)
+            if (isS4(r)) {
+              if (r@optinfo$warnings == "Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.") {
+                test <- TRUE
+              }
+              else {
+                test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+              }
+            }
+            if (is(r, "error")) {
+              test <- FALSE
+            }
+            if (is(r, "warning")) {
+              test <- FALSE
+            }
+          }
+
+          r <- summary(r)$coefficients[, 1]
+          return(r)
+        }, formula = formula, family = family, ctrl = ctrl, labels, odf, ...)
+      }
+    }
+
+    permuted <- do.call("rbind", permuted)
+    result <- list("Original.model" = obs, "permutations" = permuted, "errors" = tmp.env$error)
+    attr(result, "class") <- "ant glmm"
+    attr(result, "family") <- paste(family)
+    attr(result, "formula") <- format(formula)
+    cat("\n")
+    return(result)
+  }
 }

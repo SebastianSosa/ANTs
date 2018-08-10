@@ -16,32 +16,31 @@
 #' @description Matrix TauKr correlationsstandard deviation.
 #' @author Ivan Puga-Gonzalez, Sebastian Sosa.
 #' @keywords internal
-tauSD= function(X, Y, j, omitDiag)
-{
-  #omits the rows and columns where the rows sum is zero in one of the matrices
-  #the & in the comparison looks strange but it works whereas a | does not!!?
-  zrowX <- apply(X,1,sum) == 0
-  zrowY <- apply(Y,1,sum) == 0
+tauSD <- function(X, Y, j, omitDiag) {
+  # omits the rows and columns where the rows sum is zero in one of the matrices
+  # the & in the comparison looks strange but it works whereas a | does not!!?
+  zrowX <- apply(X, 1, sum) == 0
+  zrowY <- apply(Y, 1, sum) == 0
   X <- X [!zrowX & !zrowY, !zrowX & !zrowY]
   Y <- Y [!zrowX & !zrowY, !zrowX & !zrowY]
-  
+
   S <- 0
   D <- 1
-  rows = dim(X)[[1]]
+  rows <- dim(X)[[1]]
   if (is.null(j)) {
     # if not given (re)calculate index matrix for Kendall()
-    cols = dim(X)[[2]]
-    j <- matrix(1:rows, nrow = rows, ncol = cols)   # index
+    cols <- dim(X)[[2]]
+    j <- matrix(1:rows, nrow = rows, ncol = cols) # index
     if (omitDiag) {
       diag(j) <- NA
-      j <- matrix(j[!is.na(j)], nrow = rows-1, ncol = cols)
+      j <- matrix(j[!is.na(j)], nrow = rows - 1, ncol = cols)
     }
   }
   for (i in 1:rows) {
-    o <- Kendall(X[i,j[,i]], Y[i,j[,i]])
-    S <- S + as.numeric(o[[3]])         # score
-    D <- D + as.numeric(o[[4]])         # denominator
+    o <- Kendall(X[i, j[, i]], Y[i, j[, i]])
+    S <- S + as.numeric(o[[3]]) # score
+    D <- D + as.numeric(o[[4]]) # denominator
   }
-  
+
   return(list(tau = S / D))
 }

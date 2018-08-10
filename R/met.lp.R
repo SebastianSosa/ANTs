@@ -34,180 +34,193 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @examples
 #' met.lp(sim.m)
-#'head(sim.df)
+#' head(sim.df)
 #' met.lp(sim.m,df=sim.df)
 
-met.lp<-function(M,df=NULL,dfid=NULL,binary=F){
-  test=is.matrix(M)
-  if(test){
-    if(is.null(df)){
-      result=met.lp.single(M,df=df,dfid=dfid,binary=binary)
+met.lp <- function(M, df = NULL, dfid = NULL, binary = F) {
+  test <- is.matrix(M)
+  if (test) {
+    if (is.null(df)) {
+      result <- met.lp.single(M, df = df, dfid = dfid, binary = binary)
       return(result)
     }
-    else{
-      if(is.null(dfid)){warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")}
-      result=met.lp.single(M,df=df,dfid=dfid,binary=binary)
+    else {
+      if (is.null(dfid)) {
+        warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
+      }
+      result <- met.lp.single(M, df = df, dfid = dfid, binary = binary)
+      return(result)
+    }
+  }
+
+  if (!is.null(attributes(M)$ANT)) {
+    test1 <- attributes(M)$ANT == "ANT data stream group sampling single matrix"
+    test2 <- attributes(M)$ANT == "ANT data stream focal sampling single matrix"
+    test3 <- attributes(M)$ANT == "ANT link permutations single matrix"
+
+    test4 <- attributes(M)$ANT == "ANT data stream group sampling multiple matrices"
+    test5 <- attributes(M)$ANT == "ANT data stream focal sampling multiple matrices"
+    test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
+
+    if (any(test1, test2, test3)) {
+      if (!is.null(df)) {
+        if (!is.data.frame(df)) {
+          stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function", "\r")
+        }
+      }
+      if (is.null(dfid)) {
+        warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
+      }
+      result <- lapply(M, function(x, df, dfid, binary) {
+        r <- met.lp.single(x, df = df, dfid = dfid, binary = binary)
+        attr(r, "permutation") <- attributes(x)$permutation
+        return(r)
+      }, df = df, dfid = dfid, binary = binary)
+
+      if (test1) {
+        attr(result, "scan") <- attributes(M)$scan
+        attr(result, "ctrlf") <- attributes(M)$ctrlf
+        attr(result, "method") <- attributes(M)$method
+        attr(result, "ANT") <- attributes(M)$ANT
+        return(result)
+      }
+
+      if (test2) {
+        attr(result, "focal") <- attributes(M)$focal
+        attr(result, "ctrl") <- attributes(M)$ctrl
+        attr(result, "alters") <- attributes(M)$alters
+        attr(result, "method") <- attributes(M)$method
+        attr(result, "ANT") <- attributes(M)$ANT
+        return(result)
+      }
+
+      if (test3) {
+        attr(result, "ANT") <- attributes(M)$ANT
+        return(result)
+      }
+    }
+    if (any(test4, test5, test6)) {
+      if (is.null(df)) {
+        result <- lapply(M, function(x, binary) {
+          r1 <- lapply(x, function(y, binary = binary) {
+            r2 <- met.lp.single(y, binary = binary)
+            attr(r2, "permutation") <- attributes(y)$permutation
+            return(r2)
+          }, binary = binary)
+        }, binary)
+      }
+      else {
+        if (is.null(dfid)) {
+          warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
+        }
+        if (!is.null(df) & is.data.frame(df)) {
+          stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
+        }
+        if (sum(unlist(lapply(seq_along(M), function(i, a) {
+          nrow(a[[i]][[1]])
+        }, a = M))) == nrow(df[[1]])) {
+          tmp <- lapply(M, function(x, binary) {
+            r1 <- lapply(x, function(y, binary = binary) {
+              r2 <- met.lp.single(y, binary = binary)
+            }, binary = binary)
+          }, binary = binary)
+
+          tmp <- do.call(Map, c(c, tmp))
+
+          if (binary) {
+            result <- lapply(seq_along(df), function(i, a, b) {
+              a[[i]]$lpB <- b[[i]]
+              return(a[[i]])
+            }, a = df, b = tmp)
+          }
+          else {
+            result <- lapply(seq_along(df), function(i, a, b) {
+              a[[i]]$lp <- b[[i]]
+              return(a[[i]])
+            }, a = df, b = tmp)
+          }
+        }
+        else {
+          # data fame manipulation
+          if (!is.null(dfid)) {
+            dfid <- df.col.findId(df[[1]], dfid)
+            df <- lapply(df, function(x) {
+              x <- x[order(x[[dfid]]), ]
+            })
+          }
+
+          ldf <- do.call("rbind", df)
+
+          tmp <- lapply(M, function(x, binary) {
+            r1 <- lapply(x, function(y, binary = binary) {
+              r2 <- met.lp.single(y, binary = binary)
+            }, binary = binary)
+          }, binary = binary)
+
+          tmp <- do.call(Map, c(c, tmp))
+
+          if (binary) {
+            result <- lapply(seq_along(tmp), function(tmp, ldf, i) {
+              ldf$lpB <- tmp[[i]]
+              attr(ldf, "permutation") <- i
+              return(ldf)
+            }, tmp = tmp, ldf = ldf)
+          }
+          else {
+            result <- lapply(seq_along(tmp), function(tmp, ldf, i) {
+              ldf$lp <- tmp[[i]]
+              attr(ldf, "permutation") <- i
+              return(ldf)
+            }, tmp = tmp, ldf = ldf)
+          }
+        }
+      }
+      if (test4) {
+        attr(result, "scan") <- attributes(M)$scan
+        attr(result, "ctrlf") <- attributes(M)$ctrlf
+        attr(result, "method") <- attributes(M)$method
+        attr(result, "ANT") <- attributes(M)$ANT
+        return(result)
+      }
+
+      if (test5) {
+        attr(result, "focal") <- attributes(M)$focal
+        attr(result, "ctrl") <- attributes(M)$ctrl
+        attr(result, "alters") <- attributes(M)$alters
+        attr(result, "method") <- attributes(M)$method
+        attr(result, "ANT") <- attributes(M)$ANT
+        return(result)
+      }
+
+      if (test6) {
+        attr(result, "ANT") <- attributes(M)$ANT
+        return(result)
+      }
+    }
+  }
+
+  if (!test & is.list(M)) {
+    if (is.null(df) & !is.null(dfid)) {
+      stop("Argument 'df' can't be NULL when argument 'dfid' isn't", "\r")
+    }
+
+    if (is.null(df) & is.null(dfid)) {
+      result <- lapply(M, met.lp.single, df = df, dfid = dfid, binary = binary)
       return(result)
     }
 
-  }
-  
-  if(!is.null(attributes(M)$ANT)){
-    test1=attributes(M)$ANT=='ANT data stream group sampling single matrix'
-    test2=attributes(M)$ANT=="ANT data stream focal sampling single matrix"
-    test3=attributes(M)$ANT=="ANT link permutations single matrix"
-    
-    test4=attributes(M)$ANT=='ANT data stream group sampling multiple matrices'
-    test5=attributes(M)$ANT=="ANT data stream focal sampling multiple matrices"
-    test6=attributes(M)$ANT=="ANT link permutations multiple matrices"
-    
-    if(any(test1,test2,test3)){
-      if(!is.null(df)){
-        if(!is.data.frame(df)){stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function","\r")}
-      }
-      if(is.null(dfid)){warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")}
-      result=lapply(M,function(x,df,dfid,binary){
-        r=met.lp.single(x,df=df,dfid=dfid,binary=binary)
-        attr(r,"permutation")=attributes(x)$permutation
-        return(r)
-      },df=df,dfid=dfid,binary=binary)    
-      
-      if(test1){
-        attr(result,'scan')=attributes(M)$scan
-        attr(result,'ctrlf')=attributes(M)$ctrlf
-        attr(result,'method')=attributes(M)$method
-        attr(result,'ANT')=attributes(M)$ANT
-        return(result)
-      } 
-      
-      if(test2){
-        attr(result,'focal')=attributes(M)$focal
-        attr(result,'ctrl')=attributes(M)$ctrl
-        attr(result,'alters')=attributes(M)$alters
-        attr(result,'method')=attributes(M)$method
-        attr(result,'ANT')=attributes(M)$ANT
+    if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+      if (!is.null(dfid)) {
+        result <- mapply(met.lp.single, M, df = df, dfid = dfid, binary = binary, SIMPLIFY = F)
         return(result)
       }
-      
-      if(test3){
-        attr(result,'ANT')=attributes(M)$ANT
-        return(result)
-      }
-    }
-    if(any(test4,test5,test6)){
-      if(is.null(df)){
-        result=lapply(M, function(x,binary){
-          r1=lapply(x, function(y,binary=binary){
-            r2=met.lp.single(y,binary=binary)
-            attr(r2,'permutation')=attributes(y)$permutation
-            return(r2)
-          },binary=binary)
-        },binary)
-      }
-      else{
-        if(is.null(dfid)){warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")}
-        if(!is.null(df) & is.data.frame(df)){stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.","\r")}
-        if(sum(unlist(lapply(seq_along(M), function(i,a){nrow(a[[i]][[1]])},a=M)))==nrow(df[[1]])){
-          tmp=lapply(M, function(x,binary){
-            r1=lapply(x, function(y,binary=binary){
-              r2=met.lp.single(y,binary=binary)
-            },binary=binary)
-          },binary=binary)
-          
-          tmp=do.call(Map,c(c,tmp))
-          
-          if(binary){
-            result=lapply(seq_along(df), function(i,a,b){
-              a[[i]]$lpB=b[[i]]
-              return(a[[i]])
-            },a=df, b=tmp)
-          }
-          else{
-            result=lapply(seq_along(df), function(i,a,b){
-              a[[i]]$lp=b[[i]]
-              return(a[[i]])
-            },a=df, b=tmp)
-          }
-          
+      else {
+        if (is.null(dfid)) {
+          warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
         }
-        else{
-          #data fame manipulation
-          if(!is.null(dfid)){
-            dfid=df.col.findId(df[[1]],dfid)
-            df=lapply(df,function(x){x=x[order(x[[dfid]]),]})
-          }
-          
-          ldf=do.call('rbind',df)
-          
-          tmp=lapply(M, function(x,binary){
-            r1=lapply(x, function(y,binary=binary){
-              r2=met.lp.single(y,binary=binary)
-            },binary=binary)
-          },binary=binary)
-          
-          tmp=do.call(Map,c(c,tmp))
-          
-          if(binary){
-            result=lapply(seq_along(tmp), function(tmp,ldf,i){
-              ldf$lpB=tmp[[i]]
-              attr(ldf,'permutation')=i
-              return(ldf)
-            },tmp=tmp,ldf=ldf)
-          }
-          else{
-            result=lapply(seq_along(tmp), function(tmp,ldf,i){
-              ldf$lp=tmp[[i]]
-              attr(ldf,'permutation')=i
-              return(ldf)
-            },tmp=tmp,ldf=ldf)
-          }
-        }
-      }
-      if(test4){
-        attr(result,'scan')=attributes(M)$scan
-        attr(result,'ctrlf')=attributes(M)$ctrlf
-        attr(result,'method')=attributes(M)$method
-        attr(result,'ANT')=attributes(M)$ANT
-        return(result)
-      }
-      
-      if(test5){
-        attr(result,'focal')=attributes(M)$focal
-        attr(result,'ctrl')=attributes(M)$ctrl
-        attr(result,'alters')=attributes(M)$alters
-        attr(result,'method')=attributes(M)$method
-        attr(result,'ANT')=attributes(M)$ANT
-        return(result)
-      }
-      
-      if(test6){
-        attr(result,'ANT')=attributes(M)$ANT
+        result <- mapply(met.lp.single, M, df = df, binary = binary, SIMPLIFY = F)
         return(result)
       }
     }
   }
-  
-  if(!test & is.list(M)){
-    if(is.null(df) & !is.null(dfid)){stop("Argument 'df' can't be NULL when argument 'dfid' isn't","\r")}
-    
-    if(is.null(df) & is.null(dfid)){
-      result=lapply(M,met.lp.single,binary)
-      return(result)
-    }
-    
-    if(!is.null(df) & !is.data.frame(df) & is.list(df)){
-      if(!is.null(dfid)){
-        result=mapply(met.lp.single,M,df=df,dfid=dfid,binary=binary,SIMPLIFY = F)
-        return(result)
-      }
-      else{
-        if(is.null(dfid)){warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")}
-        result=mapply(met.lp.single,M,df=df,binary=binary,SIMPLIFY = F)
-        return(result) 
-      }
-      
-    }
-  }
-  
-  
 }

@@ -27,25 +27,33 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 
-met.affinity.single<-function(M,df=NULL,dfid=NULL,binary=F){
-  if(is.null(df)){
-    reach=met.reach.single(M,return.strength=T)
-    affinity=reach[[1]]/reach[[2]]
-    attr(affinity,'names')=colnames(M)
+met.affinity.single <- function(M, df = NULL, dfid = NULL, binary = F) {
+  if (is.null(df)) {
+    reach <- met.reach.single(M, return.strength = T)
+    affinity <- reach[[1]] / reach[[2]]
+    attr(affinity, "names") <- colnames(M)
     return(affinity)
   }
 
-  else{
-    if(is.data.frame(df)==F){stop('Argument df must be a data frame')}
-    if(!is.null(dfid)){
-      if(is.null(colnames(M))){stop("Argument M doesn't have column names")}
-      col.id=df.col.findId(df,dfid)
-      df=df[match(colnames(M), df[,col.id]),]
+  else {
+    if (is.data.frame(df) == F) {
+      stop("Argument df must be a data frame")
     }
-    reach=met.reach.single(M,return.strength=T)
-    affinity=reach[[1]]/reach[[2]]
-    if(binary){df$affinityB=affinity}
-    else{df$affinity=affinity}
+    if (!is.null(dfid)) {
+      if (is.null(colnames(M))) {
+        stop("Argument M doesn't have column names")
+      }
+      col.id <- df.col.findId(df, dfid)
+      df <- df[match(colnames(M), df[, col.id]), ]
+    }
+    reach <- met.reach.single(M, return.strength = T)
+    affinity <- reach[[1]] / reach[[2]]
+    if (binary) {
+      df$affinityB <- affinity
+    }
+    else {
+      df$affinity <- affinity
+    }
     return(df)
   }
 }

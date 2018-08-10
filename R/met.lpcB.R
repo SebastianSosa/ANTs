@@ -25,17 +25,16 @@
 #' @keywords internal
 
 
-met.lpcB<-function(M){
+met.lpcB <- function(M) {
   error_matrix(M)
-  diag(M)=0
+  diag(M) <- 0
   mat.symetrize(M)
 
-  met.degree=mat_col_sumsBinary(M)
-  lc=NULL
-  for(a in 1:length(M[1,])){
-    alters_degrees=met.alterDegree(M,a)
-    lc[a]=met.degree[a]^2+met.degree[a]+2*sum(alters_degrees)
+  met.degree <- mat_col_sumsBinary(M)
+  lc <- NULL
+  for (a in 1:length(M[1, ])) {
+    alters_degrees <- met.alterDegree(M, a)
+    lc[a] <- met.degree[a]^2 + met.degree[a] + 2 * sum(alters_degrees)
   }
   return(lc)
 }
-

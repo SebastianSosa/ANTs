@@ -12,243 +12,245 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-met.all.single.mat<-function(M,df,vec){
-  metrics=c('affinity', 'affinityB', # 2
-            'betweennessB','inbetweennessB','outbetweennessB', #5
-            'norm.betweennessB','norm.inbetweennessB','norm.outbetweennessB', #8
-            'betweenness','inbetweenness','outbetweenness', #11
-            'short.betweenness','short.inbetweenness','short.outbetweenness', #14
-            'norm.betweenness','norm.inbetweenness','norm.outbetweenness', #17
-            'norm.short.betweenness','norm.short.inbetweenness','norm.short.outbetweenness', #20
-            'degree','outdegree','indegree', #23
-            'disparity','indisparity','outdisparity', #26
-            'eigenB','outeigenB','ineigenB','eigen','outeigen','ineigen', #32
-            'lpB','lp', #34
-            'reach','reachB', #36
-            'ri', #37
-            'strength','outstrength','instrength') #40
-  
-  
-  option=metrics %in% vec
-  
+met.all.single.mat <- function(M, df, vec) {
+  metrics <- c(
+    "affinity", "affinityB", # 2
+    "betweennessB", "inbetweennessB", "outbetweennessB", # 5
+    "norm.betweennessB", "norm.inbetweennessB", "norm.outbetweennessB", # 8
+    "betweenness", "inbetweenness", "outbetweenness", # 11
+    "short.betweenness", "short.inbetweenness", "short.outbetweenness", # 14
+    "norm.betweenness", "norm.inbetweenness", "norm.outbetweenness", # 17
+    "norm.short.betweenness", "norm.short.inbetweenness", "norm.short.outbetweenness", # 20
+    "degree", "outdegree", "indegree", # 23
+    "disparity", "indisparity", "outdisparity", # 26
+    "eigenB", "outeigenB", "ineigenB", "eigen", "outeigen", "ineigen", # 32
+    "lpB", "lp", # 34
+    "reach", "reachB", # 36
+    "ri", # 37
+    "strength", "outstrength", "instrength"
+  ) # 40
+
+
+  option <- metrics %in% vec
+
   # Affinity ------------------------------------------------------------------------------------
-  if(option[1]==T){
-    t=met.affinity.single(M,binary=T)
+  if (option[1] == T) {
+    t <- met.affinity.single(M, binary = T)
 
-    df$instrength=t
+    df$instrength <- t
   }
-  if(option[2]==T){
-    t=met.affinity.single(M,binary=T)
+  if (option[2] == T) {
+    t <- met.affinity.single(M, binary = T)
 
-    df$affinityB=t
+    df$affinityB <- t
   }
-  
+
   # Betweenness ---------------------------------------------------------------------------------
   # Binary not noarmalized  betweenness
-  if(option[3]==T){
-    t=met.betweenness.single(M,binary=T,shortest.weight=F,normalization=F,sym=T,out=T)
+  if (option[3] == T) {
+    t <- met.betweenness.single(M, binary = T, shortest.weight = F, normalization = F, sym = T, out = T)
 
-    df$betweennessB=t
+    df$betweennessB <- t
   }
-  if(option[4]==T){
-    t=met.betweenness.single(M,binary=T,shortest.weight=F,normalization=F,sym=F,out=F)
+  if (option[4] == T) {
+    t <- met.betweenness.single(M, binary = T, shortest.weight = F, normalization = F, sym = F, out = F)
 
-    df$inbetweennessB=t
+    df$inbetweennessB <- t
   }
-  if(option[5]==T){
-    t=met.betweenness.single(M,binary=T,shortest.weight=F,normalization=F,sym=F,out=T)
+  if (option[5] == T) {
+    t <- met.betweenness.single(M, binary = T, shortest.weight = F, normalization = F, sym = F, out = T)
 
-    df$outbetweennessB=t
-  } 
+    df$outbetweennessB <- t
+  }
   # Binary noarmalized  betweenness
-  if(option[6]==T){
-    t=met.betweenness.single(M,binary=T,shortest.weight=F,normalization=T,sym=T,out=T)
+  if (option[6] == T) {
+    t <- met.betweenness.single(M, binary = T, shortest.weight = F, normalization = T, sym = T, out = T)
 
-    df$norm.betweennessB=t
+    df$norm.betweennessB <- t
   }
-  if(option[7]==T){
-    t=met.betweenness.single(M,binary=T,shortest.weight=F,normalization=T,sym=F,out=F)
+  if (option[7] == T) {
+    t <- met.betweenness.single(M, binary = T, shortest.weight = F, normalization = T, sym = F, out = F)
 
-    df$norm.inbetweennessB=t
+    df$norm.inbetweennessB <- t
   }
-  if(option[8]==T){
-    t=met.betweenness.single(M,binary=T,shortest.weight=F,normalization=T,sym=F,out=T)
+  if (option[8] == T) {
+    t <- met.betweenness.single(M, binary = T, shortest.weight = F, normalization = T, sym = F, out = T)
 
-    df$norm.outbetweennessB=t
+    df$norm.outbetweennessB <- t
   }
-  
+
   # weighted non noarmalized and through strongest links betweenness
-  if(option[9]==T){
-    t=met.betweenness.single(M,binary=F,shortest.weight=F,normalization=F,sym=T,out=T)
+  if (option[9] == T) {
+    t <- met.betweenness.single(M, binary = F, shortest.weight = F, normalization = F, sym = T, out = T)
 
-    df$betweenness=t
+    df$betweenness <- t
   }
-  if(option[10]==T){
-    t=met.betweenness.single(M,binary=F,shortest.weight=F,normalization=F,sym=F,out=F)
+  if (option[10] == T) {
+    t <- met.betweenness.single(M, binary = F, shortest.weight = F, normalization = F, sym = F, out = F)
 
-    df$inbetweenness=t
+    df$inbetweenness <- t
   }
-  if(option[11]==T){
-    t=met.betweenness.single(M,binary=F,shortest.weight=F,normalization=F,sym=F,out=F)
+  if (option[11] == T) {
+    t <- met.betweenness.single(M, binary = F, shortest.weight = F, normalization = F, sym = F, out = F)
 
-    df$outbetweenness=t
+    df$outbetweenness <- t
   }
-  
+
   # weighted non noarmalized and through weakest links betweenness
-  if(option[12]==T){
-    t=met.betweenness.single(M,binary=F,shortest.weight=T,normalization=F,sym=T,out=T)
+  if (option[12] == T) {
+    t <- met.betweenness.single(M, binary = F, shortest.weight = T, normalization = F, sym = T, out = T)
 
-    df$short.betweenness=t
+    df$short.betweenness <- t
   }
-  if(option[13]==T){
-    t=met.betweenness.single(M,binary=F,shortest.weight=T,normalization=F,sym=F,out=F)
+  if (option[13] == T) {
+    t <- met.betweenness.single(M, binary = F, shortest.weight = T, normalization = F, sym = F, out = F)
 
-    df$short.inbetweenness=t
+    df$short.inbetweenness <- t
   }
-  if(option[14]==T){
-    t=met.betweenness.single(M,binary=F,shortest.weight=T,normalization=F,sym=F,out=F)
+  if (option[14] == T) {
+    t <- met.betweenness.single(M, binary = F, shortest.weight = T, normalization = F, sym = F, out = F)
 
-    df$short.outbetweenness=t
+    df$short.outbetweenness <- t
   }
-  
+
   # weighted noarmalized and through strongest links betweenness
-  if(option[15]==T){
-    t=met.betweenness.single(M,binary=F,shortest.weight=F,normalization=T,sym=T,out=T)
+  if (option[15] == T) {
+    t <- met.betweenness.single(M, binary = F, shortest.weight = F, normalization = T, sym = T, out = T)
 
-    df$norm.betweenness=t
+    df$norm.betweenness <- t
   }
-  if(option[16]==T){
-    t=met.betweenness.single(M,binary=F,shortest.weight=F,normalization=T,sym=F,out=F)
+  if (option[16] == T) {
+    t <- met.betweenness.single(M, binary = F, shortest.weight = F, normalization = T, sym = F, out = F)
 
-    df$norm.inbetweenness=t
+    df$norm.inbetweenness <- t
   }
-  if(option[17]==T){
-    t=met.betweenness.single(M,binary=F,shortest.weight=F,normalization=T,sym=F,out=F)
+  if (option[17] == T) {
+    t <- met.betweenness.single(M, binary = F, shortest.weight = F, normalization = T, sym = F, out = F)
 
-    df$norm.outbetweenness=t
+    df$norm.outbetweenness <- t
   }
-  
+
   # weighted noarmalized and through weakest links betweenness
-  if(option[18]==T){
-    t=met.betweenness.single(M,binary=F,shortest.weight=T,normalization=T,sym=T,out=T)
+  if (option[18] == T) {
+    t <- met.betweenness.single(M, binary = F, shortest.weight = T, normalization = T, sym = T, out = T)
 
-    df$norm.short.betweenness=t
+    df$norm.short.betweenness <- t
   }
-  if(option[19]==T){
-    t=met.betweenness.single(M,binary=F,shortest.weight=T,normalization=T,sym=F,out=F)
+  if (option[19] == T) {
+    t <- met.betweenness.single(M, binary = F, shortest.weight = T, normalization = T, sym = F, out = F)
 
-    df$norm.short.inbetweenness=t
+    df$norm.short.inbetweenness <- t
   }
-  if(option[20]==T){
-    t=met.betweenness.single(M,binary=F,shortest.weight=T,normalization=T,sym=F,out=F)
+  if (option[20] == T) {
+    t <- met.betweenness.single(M, binary = F, shortest.weight = T, normalization = T, sym = F, out = F)
 
-    df$norm.short.outbetweenness=t
+    df$norm.short.outbetweenness <- t
   }
-  
+
   # Degree --------------------------------------------------------------------------------------
-  if(option[21]==T){
-    t=met.degree.single(M)
+  if (option[21] == T) {
+    t <- met.degree.single(M)
 
-    df$degree=t
+    df$degree <- t
   }
-  if(option[22]==T){
-    t=met.outdegree.single(M)
+  if (option[22] == T) {
+    t <- met.outdegree.single(M)
 
-    df$outdegree=t
+    df$outdegree <- t
   }
-  if(option[23]==T){
-    t=met.indegree.single(M)
+  if (option[23] == T) {
+    t <- met.indegree.single(M)
 
-    df$indegree=t
+    df$indegree <- t
   }
-  
+
   # Disparity -----------------------------------------------------------------------------------
-  if(option[24]==T & any(option[c(25,26)])==F){
-    t=met.disparity.single(M)
+  if (option[24] == T & any(option[c(25, 26)]) == F) {
+    t <- met.disparity.single(M)
 
-    df$disparity=t
+    df$disparity <- t
   }
-  #else{
-  #tmp=met.disparity.single(M,directed=T)
-  #tmp=do.call('rbind',tmp)
-  #if(option[24]==T){df$disparity=tmp[,1]}
-  #if(option[25]==T){df$indisparity=tmp[,1]}
-  #if(option[26]==T){df$outdisparity=tmp[,1]}
-  #}
-  
+  # else{
+  # tmp=met.disparity.single(M,directed=T)
+  # tmp=do.call('rbind',tmp)
+  # if(option[24]==T){df$disparity=tmp[,1]}
+  # if(option[25]==T){df$indisparity=tmp[,1]}
+  # if(option[26]==T){df$outdisparity=tmp[,1]}
+  # }
+
   # Eigenvector ---------------------------------------------------------------------------------
-  if(option[27]==T){
-    t=met.eigen(M,sym=T,binary=T,out=F)
+  if (option[27] == T) {
+    t <- met.eigen(M, sym = T, binary = T, out = F)
 
-    df$eigenB=t
+    df$eigenB <- t
   }
-  if(option[28]==T){
-    t=met.eigen(M,binary=T,sym=F,out=T)
+  if (option[28] == T) {
+    t <- met.eigen(M, binary = T, sym = F, out = T)
 
-    df$outeigenB=t
+    df$outeigenB <- t
   }
-  if(option[29]==T){
-    t=met.eigen(M,binary=T,sym=F,out=F)
+  if (option[29] == T) {
+    t <- met.eigen(M, binary = T, sym = F, out = F)
 
-    df$ineigenB=t
+    df$ineigenB <- t
   }
-  if(option[30]==T){
-    t=met.eigen(M,binary=F,sym=T,out=F)
+  if (option[30] == T) {
+    t <- met.eigen(M, binary = F, sym = T, out = F)
 
-    df$eigen=t
+    df$eigen <- t
   }
-  
-  if(option[31]==T){
-    t=met.eigen(M,binary=F,sym=F,out=T)
 
-    df$outeigen=t
-  }
-  if(option[32]==T){
-    t=met.eigen(M,binary=F,sym=F,out=F)
+  if (option[31] == T) {
+    t <- met.eigen(M, binary = F, sym = F, out = T)
 
-    df$ineigen=t
+    df$outeigen <- t
   }
-  
+  if (option[32] == T) {
+    t <- met.eigen(M, binary = F, sym = F, out = F)
+
+    df$ineigen <- t
+  }
+
   # Laplacian centrality ------------------------------------------------------------------------
-  if(option[33]==T){
-    t=met.lpcB(M)
+  if (option[33] == T) {
+    t <- met.lpcB(M)
 
-    df$lpB=t
+    df$lpB <- t
   }
-  if(option[34]==T){
-    t=met.lpcW(M)
+  if (option[34] == T) {
+    t <- met.lpcW(M)
 
-    df$lp=t
+    df$lp <- t
   }
-  
+
   # Reach ---------------------------------------------------------------------------------------
-  if(option[35]==T){
-    t=met.reach(M)
-    df$reach=t
+  if (option[35] == T) {
+    t <- met.reach(M)
+    df$reach <- t
   }
 
   # RI index ------------------------------------------------------------------------------------
-  if(option[37]==T){
-    t=met.ri.single(M)
+  if (option[37] == T) {
+    t <- met.ri.single(M)
 
-    df$ri=t
+    df$ri <- t
   }
-  
+
   # strength ------------------------------------------------------------------------------------
-  if(option[38]==T){
-    t=met.strength.single(M)
+  if (option[38] == T) {
+    t <- met.strength.single(M)
 
-    df$strength=t
+    df$strength <- t
   }
-  if(option[39]==T){
-    t=met.outstrength.single(M)
+  if (option[39] == T) {
+    t <- met.outstrength.single(M)
 
-    df$outstrength=t
+    df$outstrength <- t
   }
-  if(option[40]==T){
-    t=met.instrength.single(M)
+  if (option[40] == T) {
+    t <- met.instrength.single(M)
 
-    df$instrength=t
+    df$instrength <- t
   }
   return(df)
 }

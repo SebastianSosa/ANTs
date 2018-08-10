@@ -16,12 +16,12 @@
 #' @description repeat a numeric vector n times, where n is the length of this vecctor
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 #' @keywords internal
-time.heterogeneity<-function(vec){
-  n=length(vec)
-  m=matrix(rep(0,n*n),ncol=n,nrow = n)
+time.heterogeneity <- function(vec) {
+  n <- length(vec)
+  m <- matrix(rep(0, n * n), ncol = n, nrow = n)
   for (a in 1:length(vec)) {
-    m[a,]=vec+vec[a]
-    m[a,a]=0
+    m[a, ] <- vec + vec[a]
+    m[a, a] <- 0
   }
   return(m)
 }

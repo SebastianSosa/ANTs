@@ -22,15 +22,23 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 #' @keywords internal
 
-met.alterDegree<-function(M,i,av=F,binary=F){
-  nodes_degree=mat_cols_sums(M)
-  if(nodes_degree[i]!=0){
-    if(binary==T){M=mat_filter(M,1,1)}
-    alters_id=which(M[,i]>0)
-    alters_d=nodes_degree[alters_id]
-    if(av==F){alters_metric=sum(alters_d)}
-    else{alters_metric=mean(alters_d)}
+met.alterDegree <- function(M, i, av = F, binary = F) {
+  nodes_degree <- mat_cols_sums(M)
+  if (nodes_degree[i] != 0) {
+    if (binary == T) {
+      M <- mat_filter(M, 1, 1)
+    }
+    alters_id <- which(M[, i] > 0)
+    alters_d <- nodes_degree[alters_id]
+    if (av == F) {
+      alters_metric <- sum(alters_d)
+    }
+    else {
+      alters_metric <- mean(alters_d)
+    }
   }
-  else{alters_d=0}
+  else {
+    alters_d <- 0
+  }
   return(alters_d)
 }

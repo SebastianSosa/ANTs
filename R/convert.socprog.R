@@ -19,18 +19,18 @@
 #' @param scan an integer or string vector indicating the column of the scans
 #' @param sep a character indicating the type of sepration between individuals inside one scan
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
-#' @examples 
+#' @examples
 #' head(sim.socprog)
 #' convert.socprog(sim.socprog,id=3,scan=c(1,2),sep=";")
 
-convert.socprog=function(df,id,scan,sep=';'){
-  col.id=df.col.findId(df,id)
-  df=df.ctrlFactor(df,scan)
-  col.scan=ncol(df)
-  r=apply(df, 1, function(x,col.id,col.scan,sep){
-    ID=strsplit(x[col.id],split=sep)
-    scan=rep(x[col.scan],length(ID))
-    return(data.frame(scan,ID,row.names = NULL))
-  },col.id,col.scan,sep)
-  return(do.call('rbind',r))
+convert.socprog <- function(df, id, scan, sep = ";") {
+  col.id <- df.col.findId(df, id)
+  df <- df.ctrlFactor(df, scan)
+  col.scan <- ncol(df)
+  r <- apply(df, 1, function(x, col.id, col.scan, sep) {
+    ID <- strsplit(x[col.id], split = sep)
+    scan <- rep(x[col.scan], length(ID))
+    return(data.frame(scan, ID, row.names = NULL))
+  }, col.id, col.scan, sep)
+  return(do.call("rbind", r))
 }

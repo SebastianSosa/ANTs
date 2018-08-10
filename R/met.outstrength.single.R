@@ -29,21 +29,25 @@
 #' @keywords internal
 
 
-met.outstrength.single<-function(M,df=NULL,dfid=NULL){
-  if(is.null(df)){
-    outstrength<-mat_rows_sums(M)
-    attr(outstrength,'names')=colnames(M)
+met.outstrength.single <- function(M, df = NULL, dfid = NULL) {
+  if (is.null(df)) {
+    outstrength <- mat_rows_sums(M)
+    attr(outstrength, "names") <- colnames(M)
     return(outstrength)
   }
-  else{
-    if(!is.null(dfid)){
-      if(is.null(colnames(M))){stop("Argument M doesn't have column names")}
-      col.id=df.col.findId(df,dfid)
-      df=df[match(colnames(M), df[,col.id]),]
+  else {
+    if (!is.null(dfid)) {
+      if (is.null(colnames(M))) {
+        stop("Argument M doesn't have column names")
+      }
+      col.id <- df.col.findId(df, dfid)
+      df <- df[match(colnames(M), df[, col.id]), ]
     }
-    if(is.data.frame(df)==F){stop('Argument df must be a data frame')}
-    outstrength<-mat_rows_sums(M)
-    df$outstrength=outstrength
+    if (is.data.frame(df) == F) {
+      stop("Argument df must be a data frame")
+    }
+    outstrength <- mat_rows_sums(M)
+    df$outstrength <- outstrength
     return(df)
   }
 }

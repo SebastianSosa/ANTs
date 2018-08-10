@@ -29,39 +29,48 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @seealso \code{\link{t.test}}
 
-stat.t<-function(ant,formula,alternative="two.sided",na.action=na.omit,mu = 0, paired = FALSE, var.equal = FALSE,progress=T){
-      obs=ant[[1]]
-      obs= t.test(formula,data=obs,na.action=,mu=mu, paired=paired,var.equal=var.equal )
-      ant=ant[-1]
-      
-      if(progress==T){
-        results=lapply(ant,function(d,formula=formula,na.action=na.action,mu=mu, paired=paired, var.equal=var.equal){
-          cat("  Processing file: ", attr(d,"permutation"),"\r")
-          r= t.test(formula,data=d,na.action=na.action,mu=mu, paired=paired, var.equal=var.equal )
-          r=list(r$statistic)
-          return(r)
-        },formula,na.action=na.action,mu = mu, paired = paired, var.equal = var.equal)
-        cat('\n')
-      }
-      else{
-        results=lapply(ant,function(d,formula=formula,na.action=na.action,mu=mu, paired=paired, var.equal=var.equal){
-          r= t.test(formula,data=d,na.action=na.action,mu=mu, paired=paired, var.equal=var.equal )
-          r=list(r$statistic)
-          return(r)
-        },formula,na.action=na.action,mu = mu, paired = paired, var.equal = var.equal)
-      }
+stat.t <- function(ant, formula, alternative = "two.sided", na.action = na.omit, mu = 0, paired = FALSE, var.equal = FALSE, progress = T) {
+  obs <- ant[[1]]
+  obs <- t.test(formula, data = obs, na.action = , mu = mu, paired = paired, var.equal = var.equal)
+  ant <- ant[-1]
 
-  r=do.call('rbind',results)
-  result=list()
-  result$observe=obs
-  result$permutation=r
-  
-  attr(result,'class')='ant t-test'
-  if(paired==F){attr(result,'comment')="unpaired"}
-  else{attr(result,'comment')="paired"}
-  if(alternative=="two.sided"){attr(result,'alternative')='two sided'}
-  if(alternative=='greater'){attr(result,'alternative')='greater'}
-  if(alternative=='less'){attr(result,'alternative')='less'}
+  if (progress == T) {
+    results <- lapply(ant, function(d, formula = formula, na.action = na.action, mu = mu, paired = paired, var.equal = var.equal) {
+      cat("  Processing file: ", attr(d, "permutation"), "\r")
+      r <- t.test(formula, data = d, na.action = na.action, mu = mu, paired = paired, var.equal = var.equal)
+      r <- list(r$statistic)
+      return(r)
+    }, formula, na.action = na.action, mu = mu, paired = paired, var.equal = var.equal)
+    cat("\n")
+  }
+  else {
+    results <- lapply(ant, function(d, formula = formula, na.action = na.action, mu = mu, paired = paired, var.equal = var.equal) {
+      r <- t.test(formula, data = d, na.action = na.action, mu = mu, paired = paired, var.equal = var.equal)
+      r <- list(r$statistic)
+      return(r)
+    }, formula, na.action = na.action, mu = mu, paired = paired, var.equal = var.equal)
+  }
+
+  r <- do.call("rbind", results)
+  result <- list()
+  result$observe <- obs
+  result$permutation <- r
+
+  attr(result, "class") <- "ant t-test"
+  if (paired == F) {
+    attr(result, "comment") <- "unpaired"
+  }
+  else {
+    attr(result, "comment") <- "paired"
+  }
+  if (alternative == "two.sided") {
+    attr(result, "alternative") <- "two sided"
+  }
+  if (alternative == "greater") {
+    attr(result, "alternative") <- "greater"
+  }
+  if (alternative == "less") {
+    attr(result, "alternative") <- "less"
+  }
   return(result)
-  
 }

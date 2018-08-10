@@ -21,29 +21,30 @@
 #' @details Control factors are used in permutation approaches to constrain their permutations.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
-perm.dataStream.focal<-function(df,focal,scan,alters,nperm,progress=T,method='sri'){
-  col.scan=df.col.findId(df,scan)
-  col.alters=df.col.findId(df,alters)
-  col.focal=df.col.findId(df,focal)
-  ctrl=c(col.scan,col.focal)
-  df=df.ctrlFactor(df,control = ctrl)
-  df$control=as.factor(df$control)
-  
-  focalids=unique(df$control)
-  Vecids=unique(c(as.character(df[,col.alters]),as.character(df[,col.focal])))
-  group_scan=unique(df[,ncol(df)])
+perm.dataStream.focal <- function(df, focal, scan, alters, nperm, progress = T, method = "sri") {
+  col.scan <- df.col.findId(df, scan)
+  col.alters <- df.col.findId(df, alters)
+  col.focal <- df.col.findId(df, focal)
+  ctrl <- c(col.scan, col.focal)
+  df <- df.ctrlFactor(df, control = ctrl)
+  df$control <- as.factor(df$control)
 
-  GBI2=df_to_gbi(df,ncol(df),col.focal,Vecids,group_scan)
-  
-  GBI=df_to_gbi(df,ncol(df),col.alters,Vecids,group_scan)
+  focalids <- unique(df$control)
+  Vecids <- unique(c(as.character(df[, col.alters]), as.character(df[, col.focal])))
+  group_scan <- unique(df[, ncol(df)])
 
-  result=perm_dataStream1_focal(GBI,GBI2,nperm=nperm,progress=progress,method=method)
-  
-  result=lapply(seq_along(result),function(x,Vecids,i){
-    colnames(x[[i]])=Vecids
-    rownames(x[[i]])=Vecids
-    attr(x[[i]],'permutation')=i
-    return (x[[i]])},x=result,Vecids=Vecids)
-  
+  GBI2 <- df_to_gbi(df, ncol(df), col.focal, Vecids, group_scan)
+
+  GBI <- df_to_gbi(df, ncol(df), col.alters, Vecids, group_scan)
+
+  result <- perm_dataStream1_focal(GBI, GBI2, nperm = nperm, progress = progress, method = method)
+
+  result <- lapply(seq_along(result), function(x, Vecids, i) {
+    colnames(x[[i]]) <- Vecids
+    rownames(x[[i]]) <- Vecids
+    attr(x[[i]], "permutation") <- i
+    return(x[[i]])
+  }, x = result, Vecids = Vecids)
+
   return(result)
 }
