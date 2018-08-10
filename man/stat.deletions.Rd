@@ -13,7 +13,7 @@ stat.deletions(M, attr, target, ndel, nsim, weighted = T,
 
 \item{attr}{a factor vec for categorical attributes or a numeric vec for continuous attributes. The vector must have the same length and same order as the one in argument M.}
 
-\item{target}{a character or stirng if argument attr is categorical (for categorical attributes) indicating the category of individuals to delete. 
+\item{target}{a character or stirng if argument attr is categorical (for categorical attributes) indicating the category of individuals to delete.
 A string of two types : 1) 'decreasing', or 2) decreasing if argument attr is continuous (for continuous  attributes) to delete the individuals with greatest or lowest attributes values respectively.}
 
 \item{ndel}{an integer indicating the number of deletions to perform in each simulation.}

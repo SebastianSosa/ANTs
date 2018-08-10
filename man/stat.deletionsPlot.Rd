@@ -23,7 +23,7 @@ knockout analysis allows the study of resilience properties of networks when spe
 M=matrix(sample(c(1:20),100,TRUE),ncol=10,nrow=10)
 diag(M)=0
 attr=sample(c('a','b'),10,TRUE)
-target='a' #categorical target node attributes 
+target='a' #categorical target node attributes
 t=stat.deletions(M,attr = attr,target = target,nsim = 2,ndel=4)
 stat.deletionsPlot(t)
 }

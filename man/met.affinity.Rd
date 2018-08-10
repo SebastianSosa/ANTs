@@ -27,8 +27,8 @@ met.affinity(M, df = NULL, dfid = NULL, binary = F)
 Calculates the node metric \emph{affinity} for all the nodes of the network
 }
 \details{
-Affinity is a second-order metric that evaluates how alters of node i are connected. 
-The binary version is the average degree of alters of node i. 
+Affinity is a second-order metric that evaluates how alters of node i are connected.
+The binary version is the average degree of alters of node i.
 The weighted version is the ratio between the metric reach and the strength of node i. A high affinity reveals that nodes tend to be connected to alters with high degrees or strengths.
 Thus, this metric informs on node assortativity by vertex met.degree, i.e. connections between nodes with similar degrees or strengths.
 }
