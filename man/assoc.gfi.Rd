@@ -11,7 +11,7 @@ assoc.gfi(M1, M2, fr = T, sym = F, erase.diag = T)
 
 \item{M2}{a square adjacency matrix representing individual values of confounding factors.}
 
-\item{fr}{if \emph{true}, it considers the argument M1 as an adjacency matrix representing interaction frequencies between individuals. 
+\item{fr}{if \emph{true}, it considers the argument M1 as an adjacency matrix representing interaction frequencies between individuals.
 Otherwise, it considers the argument M1 as an adjacency matrix representing associations between individuals.}
 
 \item{sym}{if \emph{true}, it considers the argument M1 as an adjacency matrix representing symmetric interactions/associations.}
@@ -27,7 +27,7 @@ Computes generalized affiliation indices based on a matrix of interactions or as
 \details{
 Generalized affiliation indices allow to control for individual associations by a given confounding factor (such as temporal or spatial overlaps, gregariousness, social unit membership, kinship...).
 The principle is to perform a Generalized Linear Regression (GLR) on both matrices (one representing the individual interactions/associations and the other one representing the confounding factor)
-and to use GLR residuals as association indices. For an adjacency matrix representing individual interactions, the GLR belongs to the Poisson family. For an adjacency matrix representing individual associations, the GLR belongs to the Binomial family. 
+and to use GLR residuals as association indices. For an adjacency matrix representing individual interactions, the GLR belongs to the Poisson family. For an adjacency matrix representing individual associations, the GLR belongs to the Binomial family.
 High positive values suggest strong associations between two individuals and negative values suggest avoidance between two individuals.
 }
 \references{
