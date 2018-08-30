@@ -29,25 +29,25 @@ Rcpp::CharacterVector vec_char_extract_IdValue(CharacterVector y, NumericVector 
 //' @author Sebastian Sosa, Ivan Puga-Gonzales.
 //' @keywords internal
 // [[Rcpp::export]]
-Rcpp::NumericMatrix gbi_createEmpty(Rcpp::DataFrame d,int col_scan,
+NumericMatrix gbi_createEmpty(DataFrame d,int col_scan,
                               int col_id) {
 
-  Rcpp::CharacterVector scansC=d[col_scan-1]; // scans vectors
-  Rcpp::CharacterVector ids=d[col_id-1]; // id vector
+  CharacterVector scansC=d[col_scan-1]; // scans vectors
+  CharacterVector ids=d[col_id-1]; // id vector
 
-  Rcpp::CharacterVector uScans=unique(scansC); // unique scans
-  Rcpp::CharacterVector uIds=unique(ids);// unique scans
+  CharacterVector uScans=unique(scansC); // unique scans
+  CharacterVector uIds=unique(ids);// unique scans
 
-  Rcpp::NumericMatrix GBI(uScans.size(),uIds.size()); //empty gbi (row= scans, col=individuals)
-  Rcpp::colnames(GBI)=uIds;
-  Rcpp::rownames(GBI)=uScans;
+  NumericMatrix GBI(uScans.size(),uIds.size()); //empty gbi (row= scans, col=individuals)
+  colnames(GBI)=uIds;
+  rownames(GBI)=uScans;
 
   for(int a=0;a<uScans.size();a++){
-    Rcpp::CharacterVector levela=Rcpp::as<std::string>(uScans[0]); //level a of scans
-    Rcpp::NumericVector who=vec_match(scansC,levela); //Which lines match with this level of scan
-    Rcpp::CharacterVector ids_levela= vec_char_extract_IdValue(ids,who); //which id are on this lines
-    Rcpp::CharacterVector uIds_levela = unique(ids_levela); //extract the unics id
-    Rcpp:NumericVector ok=vec_match(uIds_levela,uIds); //which of this unique are in the list of all the ID
+    CharacterVector levela=as<std::string>(uScans[0]); //level a of scans
+    NumericVector who=vec_match(scansC,levela); //Which lines match with this level of scan
+    CharacterVector ids_levela= vec_char_extract_IdValue(ids,who); //which id are on this lines
+    CharacterVector uIds_levela = unique(ids_levela); //extract the unics id
+    NumericVector ok=vec_match(uIds_levela,uIds); //which of this unique are in the list of all the ID
 
     for(int b=0;b<uIds_levela.size();b++){
       int col=ok[b];

@@ -22,11 +22,11 @@ NumericMatrix vec_lowertri_to_mat(NumericVector& vec, int col, bool diag) {
     NumericMatrix& Mpoint=M;
     int mem=0;
     for(int a=0;a<col-1;a++){
-      int start= mem;
+      int starts= mem;
       int end= mem+(col-a-1);
       NumericVector tmp_vec(col);
       NumericVector& vec2=tmp_vec;
-      std::copy(vec.begin()+start,vec.begin()+end,vec2.begin()+a+1);
+      std::copy(vec.begin()+starts,vec.begin()+end,vec2.begin()+a+1);
       Mpoint(_,a)=vec2;
       mem=end;
     }
@@ -38,7 +38,7 @@ NumericMatrix vec_lowertri_to_mat(NumericVector& vec, int col, bool diag) {
     NumericMatrix& Mpoint=M;
     int mem=0;
     for(int a=0;a<col-1;a++){
-      int start= mem;
+      int starts= mem;
       int end= mem+(col-a);
       NumericVector tmp_vec(col);
       NumericVector& vec2=tmp_vec;

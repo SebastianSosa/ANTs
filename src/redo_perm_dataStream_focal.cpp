@@ -131,7 +131,7 @@ Rcpp::List  redo_perm_dataStream_focal(Rcpp::DataFrame df,Rcpp::List ldf1, int n
   // Converting the data frame into a matrix
   int N=newDf.nrows();
   NumericVector W(N,1.);
-  int ncol=newDf.size();
+  //int ncol=newDf.size();
   DataFrame to_convert=DataFrame::create(_["from"]= newDf[col_focal-1], _["to"]= newDf[col_alters-1], _["weight"]= W); 
   NumericMatrix M=edgl_to_matrix(to_convert,true);
   CharacterVector names = colnames(M);

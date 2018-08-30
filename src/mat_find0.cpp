@@ -33,7 +33,7 @@ Rcpp::DataFrame mat_find0(arma::mat m) {
     double c=element/nrow;
     int element_col=ceil(c);
     double v=floor(c);
-    int element_row;
+    int element_row=0;
     if(c-v==0){int element_row=nrow;}
     else{int element_row=ceil((c-v)*nrow);}
     row_id[a]=element_row;
