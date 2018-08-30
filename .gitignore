@@ -33,7 +33,7 @@ vignettes/*.pdf
 *.knit.md
 .Rproj.user
 
-# Rcpp related files
+# Rcpp
 src/*.o
 src/*.so
 src/*.dll
