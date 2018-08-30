@@ -29,9 +29,9 @@ import.mat <- function(header = T, sep = ",", row.names = 1, ...) {
   files <- list.files(getwd())
 
   if (length(files) > 1) {
-    M <- lapply(file, function(x, header, sep, row.names, ...) {
-      r <- as.matrix(read.csv(file = x, header = header, sep = sep, row.names = row.names, ...))
-    }, header = header, sep = sep, row.names = row.names, ...)
+    M <- lapply(files, function(x, header, sep, row.names) {
+      r <- as.matrix(read.csv(file = x, header = header, sep = sep, row.names = row.names))
+    }, header = header, sep = sep, row.names = row.names)
     files <- gsub(".csv", "", files)
     names(M) <- files
   }
