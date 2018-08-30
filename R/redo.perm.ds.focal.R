@@ -45,7 +45,11 @@ redo.ds.focal.glmm <- function(family, formula, new.perm, gbi, gbi2, oda, odf, t
 
     # Checking error or warnings
     if (isS4(r)) {
-      test <- c(!is(r, "error"), !is(r, "warning"), length(r@optinfo$conv$lme4$messages) == 0)
+      r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+      if(max(abs(r2))<0.001){test=TRUE}
+      else{
+        test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+      }
     }
     if (is(r, "error")) {
       test <- FALSE
@@ -102,7 +106,11 @@ redo.ds.focal.glmm <- function(family, formula, new.perm, gbi, gbi2, oda, odf, t
 
     # Checking error or warnings
     if (isS4(r)) {
-      test <- c(!is(r, "error"), !is(r, "warning"), length(r@optinfo$conv$lme4$messages) == 0)
+      r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+      if(max(abs(r2))<0.001){test=TRUE}
+      else{
+        test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+      }
     }
     if (is(r, "error")) {
       test <- FALSE

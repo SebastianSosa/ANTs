@@ -66,7 +66,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           stop()
         }
         else {
-          test <- c(!is(tmp, "warning"), length(tmp@optinfo$conv$lme4$messages) == 0)
+          r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
+          if(max(abs(r2))<0.001){test=TRUE}
+          else{
+            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
+          }
         }
       }
       if (is(tmp, "error")) {
@@ -81,7 +85,12 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
       if (all(test) != TRUE) {
         # play.sound(FALSE)
         warning("The model on your original data contains the following warnings.")
-        cat(tmp$message)
+        if (isS4(tmp)) {
+          print(tmp@optinfo$conv$lme4$messages)
+        }
+        else {
+          cat(tmp$message)
+        }
         answer <- readline(prompt = "Do you want to continue (y/n)? ")
 
         while (answer != "y" & answer != "n") {
@@ -143,7 +152,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = ant[[i]], ...)), error = identity)
 
           if (isS4(r)) {
-            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+            if(max(abs(r2))<0.001){test=TRUE}
+            else{
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            }
           }
           if (is(r, "error")) {
             test <- FALSE
@@ -175,7 +188,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = ant[[i]], ...)), error = identity)
 
           if (isS4(r)) {
-            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+            if(max(abs(r2))<0.001){test=TRUE}
+            else{
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            }
           }
           if (is(r, "error")) {
             test <- FALSE
@@ -214,7 +231,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           stop()
         }
         else {
-          test <- c(!is(tmp, "warning"), length(tmp@optinfo$conv$lme4$messages) == 0)
+          r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
+          if(max(abs(r2))<0.001){test=TRUE}
+          else{
+            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
+          }
         }
       }
       if (is(tmp, "error")) {
@@ -229,7 +250,12 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
       if (all(test) != TRUE) {
         # play.sound(FALSE)
         warning("The model on your original data contains the following warnings.")
-        cat(tmp$message)
+        if (isS4(tmp)) {
+          print(tmp@optinfo$conv$lme4$messages)
+        }
+        else {
+          cat(tmp$message)
+        }
         answer <- readline(prompt = "Do you want to continue (y/n)? ")
 
         while (answer != "y" & answer != "n") {
@@ -291,7 +317,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = ant[[i]], family = family, ...)), error = identity)
 
           if (isS4(r)) {
-            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+            if(max(abs(r2))<0.001){test=TRUE}
+            else{
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            }
           }
           if (is(r, "error")) {
             test <- FALSE
@@ -323,7 +353,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = ant[[i]], family = family, ...)), error = identity)
 
           if (isS4(r)) {
-            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+            if(max(abs(r2))<0.001){test=TRUE}
+            else{
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            }
           }
           if (is(r, "error")) {
             test <- FALSE
@@ -377,7 +411,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           stop()
         }
         else {
-          test <- c(!is(tmp, "warning"), length(tmp@optinfo$conv$lme4$messages) == 0)
+          r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
+          if(max(abs(r2))<0.001){test=TRUE}
+          else{
+            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
+          }
         }
       }
       if (is(tmp, "error")) {
@@ -392,7 +430,12 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
       if (all(test) != TRUE) {
         # play.sound(FALSE)
         warning("The model on your original data contains the following warnings.")
-        cat(tmp$message)
+        if (isS4(tmp)) {
+          print(tmp@optinfo$conv$lme4$messages)
+        }
+        else {
+          cat(tmp$message)
+        }
         answer <- readline(prompt = "Do you want to continue (y/n)? ")
 
         while (answer != "y" & answer != "n") {
@@ -457,7 +500,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = d, ...)), error = identity)
 
           if (isS4(r)) {
-            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+            if(max(abs(r2))<0.001){test=TRUE}
+            else{
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            }
           }
           if (is(r, "error")) {
             test <- FALSE
@@ -491,7 +538,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = d, ...)), error = identity)
 
           if (isS4(r)) {
-            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+            if(max(abs(r2))<0.001){test=TRUE}
+            else{
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            }
           }
           if (is(r, "error")) {
             test <- FALSE
@@ -533,7 +584,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           stop()
         }
         else {
-          test <- c(!is(tmp, "warning"), length(tmp@optinfo$conv$lme4$messages) == 0)
+          r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
+          if(max(abs(r2))<0.001){test=TRUE}
+          else{
+            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
+          }
         }
       }
       if (is(tmp, "error")) {
@@ -548,7 +603,12 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
       if (all(test) != TRUE) {
         # play.sound(FALSE)
         warning("The model on your original data contains the following warnings.")
-        cat(tmp$message)
+        if (isS4(tmp)) {
+          print(tmp@optinfo$conv$lme4$messages)
+        }
+        else {
+          cat(tmp$message)
+        }
         answer <- readline(prompt = "Do you want to continue (y/n)? ")
 
         while (answer != "y" & answer != "n") {
@@ -609,7 +669,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = d, ...)), error = identity)
 
           if (isS4(r)) {
-            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+            if(max(abs(r2))<0.001){test=TRUE}
+            else{
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            }
           }
           if (is(r, "error")) {
             test <- FALSE
@@ -644,7 +708,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = d, ...)), error = identity)
 
           if (isS4(r)) {
-            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+            if(max(abs(r2))<0.001){test=TRUE}
+            else{
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            }
           }
           if (is(r, "error")) {
             test <- FALSE
@@ -697,7 +765,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           stop()
         }
         else {
-          test <- c(!is(tmp, "error"), !is(tmp, "warning"), tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
+          r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
+          if(max(abs(r2))<0.001){test=TRUE}
+          else{
+            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
+          }
         }
       }
       if (is(tmp, "error")) {
@@ -712,7 +784,12 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
       if (all(test) != TRUE) {
         # play.sound(FALSE)
         warning("The model on your original data contains the following warnings.")
-        cat(tmp$message)
+        if (isS4(tmp)) {
+          print(tmp@optinfo$conv$lme4$messages)
+        }
+        else {
+          cat(tmp$message)
+        }
         answer <- readline(prompt = "Do you want to continue (y/n)? ")
 
         while (answer != "y" & answer != "n") {
@@ -756,7 +833,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = ant[[i]])), error = identity)
 
           if (isS4(r)) {
-            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+            if(max(abs(r2))<0.001){test=TRUE}
+            else{
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            }
           }
           if (is(r, "error")) {
             test <- FALSE
@@ -772,7 +853,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
               r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = newdf, ...)), error = identity)
 
               if (isS4(r)) {
-                test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+                r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+                if(max(abs(r2))<0.001){test=TRUE}
+                else{
+                  test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+                }
               }
               if (is(r, "error")) {
                 test <- FALSE
@@ -799,7 +884,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = ant[[i]], ...)), error = identity)
 
           if (isS4(r)) {
-            test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+            if(max(abs(r2))<0.001){test=TRUE}
+            else{
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            }
           }
           if (is(r, "error")) {
             test <- FALSE
@@ -815,7 +904,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
               r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = newdf, ...)), error = identity)
 
               if (isS4(r)) {
-                test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+                r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+                if(max(abs(r2))<0.001){test=TRUE}
+                else{
+                  test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+                }
               }
               if (is(r, "error")) {
                 test <- FALSE
@@ -839,7 +932,6 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
 
       tmp <- suppressWarnings(tryCatch(lme4::glmer(formula = formula, data = odf, family = family, ...), error = identity))
       print(tmp)
-      print(tmp@optinfo$optimizer)
       if (isS4(tmp)) {
         if (is(tmp, "error")) {
           print("The model on your original data contains the following errors.")
@@ -847,7 +939,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           stop()
         }
         else {
-          test <- c(!is(tmp, "warning"), length(tmp@optinfo$conv$lme4$messages) == 0)
+          r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
+          if(max(abs(r2))<0.001){test=TRUE}
+          else{
+            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
+          }
         }
       }
       if (is(tmp, "error")) {
@@ -863,7 +959,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
         # play.sound(FALSE)
         warning("The model on your original data contains the following warnings.")
         if (isS4(tmp)) {
-          cat(tmp@optinfo$conv$lme4$messages)
+          print(tmp@optinfo$conv$lme4$messages)
         }
         else {
           cat(tmp$message)
@@ -909,11 +1005,10 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = d, family = family, ...)), error = identity)
 
           if (isS4(r)) {
-            if (r@optinfo$warnings == "Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.") {
-              test <- TRUE
-            }
-            else {
-              test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+            if(max(abs(r2))<0.001){test=TRUE}
+            else{
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
             }
           }
           if (is(r, "error")) {
@@ -928,16 +1023,14 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           }
 
           while (all(test) != TRUE) {
-            print("repermuting")
             newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
             r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = newdf, family = family, ...)), error = identity)
             print(r@optinfo$warnings)
             if (isS4(r)) {
-              if (r@optinfo$warnings == "Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.") {
-                test <- TRUE
-              }
-              else {
-                test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+              r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+              if(max(abs(r2))<0.001){test=TRUE}
+              else{
+                test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
               }
             }
             if (is(r, "error")) {
@@ -961,11 +1054,10 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = d, family = family, ...)), error = identity)
 
           if (isS4(r)) {
-            if (r@optinfo$warnings == "Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.") {
-              test <- TRUE
-            }
-            else {
-              test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+            r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+            if(max(abs(r2))<0.001){test=TRUE}
+            else{
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
             }
           }
           if (is(r, "error")) {
@@ -980,16 +1072,14 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           }
 
           while (all(test) != TRUE) {
-            print("repermuting")
             newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
             r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = newdf, family = family, ...)), error = identity)
             print(r@optinfo$warnings)
             if (isS4(r)) {
-              if (r@optinfo$warnings == "Parameters or bounds appear to have different scalings.\n  This can cause poor performance in optimization. \n  It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.") {
-                test <- TRUE
-              }
-              else {
-                test <- c(!is(r, "error"), !is(r, "warning"), r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+              r2=with(r@optinfo$derivs,solve(Hessian,gradient))
+              if(max(abs(r2))<0.001){test=TRUE}
+              else{
+                test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
               }
             }
             if (is(r, "error")) {

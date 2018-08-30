@@ -413,7 +413,11 @@ redo.ds.grp <- function(family, new.perm, gbi, oda, odf, target.metrics, formula
 
     # Checking error or warnings
     if (isS4(model)) {
-      test <- c(!is(model, "error"), !is(model, "warning"), model@optinfo$conv$opt == 0, length(model@optinfo$conv$lme4$messages) == 0, length(model@optinfo$warnings) == 0)
+      r=with(model@optinfo$derivs,solve(Hessian,gradient))
+      if(max(abs(r))<0.001){test=TRUE}
+      else{
+        test <- c(!is(model, "error"), !is(model, "warning"),model@optinfo$conv$opt == 0, length(model@optinfo$conv$lme4$messages) == 0, length(model@optinfo$warnings) == 0)
+      }
     }
     if (is(model, "error")) {
       test <- FALSE
@@ -464,7 +468,11 @@ redo.ds.grp <- function(family, new.perm, gbi, oda, odf, target.metrics, formula
 
     # Checking error or warnings
     if (isS4(model)) {
-      test <- c(!is(model, "error"), !is(model, "warning"), model@optinfo$conv$opt == 0, length(model@optinfo$conv$lme4$messages) == 0, length(model@optinfo$warnings) == 0)
+      r=with(model@optinfo$derivs,solve(Hessian,gradient))
+      if(max(abs(r))<0.001){test=TRUE}
+      else{
+        test <- c(!is(model, "error"), !is(model, "warning"),model@optinfo$conv$opt == 0, length(model@optinfo$conv$lme4$messages) == 0, length(model@optinfo$warnings) == 0)
+      }
     }
     if (is(model, "error")) {
       test <- FALSE
