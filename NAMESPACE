@@ -1,4 +1,4 @@
-import(lme4)
+importFrom("lme4", "lmer", "lmerControl", "glmer", "glmerControl")
 importFrom("grDevices", "dev.new", "dev.off", "recordPlot")
 importFrom("graphics", "abline", "axis", "hist", "legend", "lines",
               "mtext", "par", "plot","segments","points","title")
