@@ -931,7 +931,6 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
       odf <- ant[[1]]
 
       tmp <- suppressWarnings(tryCatch(lme4::glmer(formula = formula, data = odf, family = family, ...), error = identity))
-      print(tmp)
       if (isS4(tmp)) {
         if (is(tmp, "error")) {
           print("The model on your original data contains the following errors.")
@@ -1025,7 +1024,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           while (all(test) != TRUE) {
             newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
             r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = newdf, family = family, ...)), error = identity)
-            print(r@optinfo$warnings)
+            
             if (isS4(r)) {
               r2=with(r@optinfo$derivs,solve(Hessian,gradient))
               if(max(abs(r2))<0.001){test=TRUE}
@@ -1074,7 +1073,6 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           while (all(test) != TRUE) {
             newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
             r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = newdf, family = family, ...)), error = identity)
-            print(r@optinfo$warnings)
             if (isS4(r)) {
               r2=with(r@optinfo$derivs,solve(Hessian,gradient))
               if(max(abs(r2))<0.001){test=TRUE}

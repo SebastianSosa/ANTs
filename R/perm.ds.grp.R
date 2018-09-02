@@ -36,7 +36,7 @@
 #' t=perm.ds.grp(df=sim.grp,scan='location',ctrlf='time',perm=10,,method='sri')
 
 perm.ds.grp <- function(df, scan, ctrlf = NULL, method = "sri", perm, progress = T) {
-  test <- check.df(df)
+  test <- check.df(df) 
   if (test == "df ok") {
     result <- perm.dataStream.group(df, scan = scan, control_factor = ctrlf, method = method, perm = perm, progress = progress)
     attr(result, "ANT") <- "ANT data stream group sampling single matrix"

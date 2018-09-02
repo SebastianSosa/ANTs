@@ -107,12 +107,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // gbi_createEmpty
-Rcpp::NumericMatrix gbi_createEmpty(Rcpp::DataFrame d, int col_scan, int col_id);
+NumericMatrix gbi_createEmpty(DataFrame d, int col_scan, int col_id);
 RcppExport SEXP _ant_gbi_createEmpty(SEXP dSEXP, SEXP col_scanSEXP, SEXP col_idSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type d(dSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type d(dSEXP);
     Rcpp::traits::input_parameter< int >::type col_scan(col_scanSEXP);
     Rcpp::traits::input_parameter< int >::type col_id(col_idSEXP);
     rcpp_result_gen = Rcpp::wrap(gbi_createEmpty(d, col_scan, col_id));
