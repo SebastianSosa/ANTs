@@ -1,0 +1,12 @@
+bibentry(bibtype = "article",
+author = "Sosa, Sebastian and Puga-Gonzalez, Ivan and Hu Feng, He and Zhang, Peng and Xiaohua, Xie and Sueur, Cedric",
+title = "A multilevel statistical toolkit to study animal social networks: Animal Network Toolkit (ANT) R package",
+year = "2018",
+doi = "10.1101/347005",
+publisher = "Cold Spring Harbor Laboratory",
+abstract = "How animals interact and develop social relationships regarding, individual attributes, sociodemographic and ecological pressures is of great interest. New methodologies, in particular Social Network Analysis, allow us to elucidate these types of questions. However, the different methodologies developed to that end and the speed at which they emerge make their use difficult. Moreover, the lack of communication between the different software developed to provide an answer to the same/different research questions is a source of confusion. The R package Animal Network Toolkit (ANT) was developed with the aim of implementing in one package the many different social network analysis techniques currently used in the study of animal social networks. Hence, ANT is a toolkit for animal research allowing among other things to: 1) measure global, dyadic and nodal networks metrics; 2) perform data randomization: pre-network and network (node and link) permutations; 3) perform statistical permutation tests. The package is partially coded in C++ for an optimal coding speed, and it gives researchers a workflow from raw data to the achievement of statistical analyses, allowing for a multilevel approach: from individual position and role within the network, to the identification of interaction patterns, and the analysis of the overall network properties.",
+URL = "https://www.biorxiv.org/content/early/2018/06/14/347005",
+eprint = "https://www.biorxiv.org/content/early/2018/06/14/347005.full.pdf",
+journal = "bioRxiv"
+)
+
