@@ -27,15 +27,18 @@
 #' t=perm.net.degree(sim.m,nperm=10)
 
 perm.net.degree <- function(M, nperm) {
+  # Check argument M is matrix of list of matrices
   if (is.list(M) == FALSE & is.matrix(M) == FALSE) {
     stop("Argument M is incorrect, a list of matrices is needed")
   }
+  # argument M is a matrix do permutations
   if (is.list(M) == FALSE) {
     if (is.matrix(M) == FALSE) {
       stop("Argument M is incorrect, a matrix is needed")
     }
     P.M <- perm.met.degree.single(M, nperm)
   }
+  # argument M is a list of matrices, do permutations on each element
   else {
     if (sum(unlist(lapply(M, is.matrix))) != length(M)) {
       stop("Argument M is incorrect, one of the elements in the list is not a matrix")

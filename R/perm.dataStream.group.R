@@ -40,10 +40,10 @@
 
 # factor= according to which factors creat the gbi. enter the name of the column.
 perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progress = T, method = "sri") {
-  ## FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
+  ## !!!! FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
   # perm WITHIN SCANS NO CONTROL FACTORS  -----------------------------------------------
   if (is.null(control_factor)) {
-    ### Get the column of scan; can also be used col_scan=grep("Scan",colnames(df)) ????
+     ### Get index of column with the scan
     col_scan <- df.col.findId(df, scan)
     if (length(col_scan) > 1) {
       df$scan <- apply(df[, col_scan ], 1, paste, collapse = "_")
@@ -52,16 +52,17 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
     }
     ### convert the scan columns to factors, necessary for GBI
     df$scan <- as.factor(df$scan)
-    ## group_scan=levels(df$scan) NOT NECESSARY ANYMORE CAN BE DELETED
-    ids <- levels(df$ID) #### IDS NEED TO BE CHARACTER OR FACTOR SO HERE I GET LEVELS; see cpp function
-    col_scan <- df.col.findId(df, "scan") ### THIS IS NECESSARY, CPP FUNCTION TAKES ONE VALUE NOT A VECTOR OF VALUES!!!!!!
+    #### set ids to levels; necessary for cpp function
+    ids <- levels(df$ID)
+    ### ### Get index of column with the scan
+    col_scan <- df.col.findId(df, "scan")
     ### Get the index column belonging to ID
     col_ID <- grep("^ID$", colnames(df))
     ### Create gbi matrix (GBI) groups = Scan
     GBI <- df.to.gbi(df, col_scan, col_ID)
-    ### list_gbi=list() NO NEEDED ANYMORE!!!
-    list_gbi <- perm_dataStream1(GBI, perm, progress = progress, method = method) ### I PUT LIST_GBI, IT WAS RETURNING TO NO OBJECT!!!
-    # list_gbi=lapply(list_gbi,function(X,ids){colnames(X)=ids; rownames(X)=ids;return (X)},ids)
+    ### Permute data and obtain list of recalculated associations index according to each permutation
+    list_gbi <- perm_dataStream1(GBI, perm, progress = progress, method = method)
+    ### Add individuals' names to association matrices
     list_gbi <- lapply(seq_along(list_gbi), function(x, ids, i) {
       colnames(x[[i]]) <- ids
       rownames(x[[i]]) <- ids
@@ -72,8 +73,8 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
 
   # perm WITHIN CONTROL FACTORS ---------------------------------------------------------
   else {
-    ## FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
-    ### Get the column of scan; can also be used col_scan=grep("Scan",colnames(df)) ????
+    ## !!!!FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
+     ### Get index of column with the scan
     col_scan <- df.col.findId(df, scan)
     if (length(col_scan) > 1) {
       df$scan <- apply(df[, col_scan ], 1, paste, collapse = "_")
@@ -82,9 +83,11 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
     }
     ### convert the scan columns to factors, necessary for GBI
     df$scan <- as.factor(df$scan)
-    ### get ids, and col numbers of IDs and Controls
+    #### set ids to levels; necessary for cpp function
     ids <- levels(df$ID)
-    col_scan <- df.col.findId(df, "scan") ### THIS IS NECESSARY, CPP FUNCTION TAKES ONE VALUE NOT A VECTOR OF VALUES!!!!!!
+    ### Get index of column with the scan
+    col_scan <- df.col.findId(df, "scan")
+    ### Get the index column belonging to ID
     col_ID <- grep("^ID$", colnames(df))
     ### CREATE A LIST OF DIFFERENT DFs DEPENDING ON FACTORS TO CONTROL
     col_id <- df.col.findId(df, control_factor)
@@ -103,7 +106,9 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
     ##################################
     GBI <- do.call(rbind, GBIcontrols)
     CumGbiSizes <- c(0, cumsum(sapply(GBIcontrols, nrow))) ### starts on 0 cause of C++ indexes
+    ## Perform permutations
     list_gbi <- perm_dataStream_ControlFactor(GBIcontrols, GBI, perm, CumGbiSizes, progress = progress, method = method)
+    ## rename columns and rows of the association matrices
     list_gbi <- lapply(seq_along(list_gbi), function(x, ids, i) {
       colnames(x[[i]]) <- ids
       rownames(x[[i]]) <- ids
@@ -111,8 +116,5 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
       return(x[[i]])
     }, x = list_gbi, ids = ids)
   }
-
-  # Transform all GBI to association matrices according to method(default=SRI) ------------------
-  ## Matrix_List=lapply(list_gbi,assoc_mat,method=method)
   return(list_gbi)
 }

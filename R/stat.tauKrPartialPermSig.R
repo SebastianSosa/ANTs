@@ -24,6 +24,7 @@
 #' @keywords internal
 #' @references Hemelrijk, C. K. 1990. A matrix partial correlation test used in investigations of reciprocity and other social interaction patterns at a group level. Journal of theoretical Biology, 143, 405-420.
 stat.tauKrPartialPermSig <- function(X, Y, Z, nperm, omitDiag = T) {
+  ## Compute statistic original data
   PartialTauKr <- stat.tauKrPartial(X, Y, Z, omitDiag)
   le <- 0
   ge <- 0
@@ -36,7 +37,9 @@ stat.tauKrPartialPermSig <- function(X, Y, Z, nperm, omitDiag = T) {
     ))
   }
   else {
+    ## do permutations and calculate statistic of each permutation
     for (n in 1:nperm) {
+      ## permute X or Y matrix
       PP <- sample(1:dim(X)[[2]])
       if (n %% 2 != 0) {
         P <- stat.tauKrPartial(X[PP, PP], Y, Z, omitDiag)

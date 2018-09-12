@@ -36,7 +36,9 @@
 #' t=perm.ds.grp(df=sim.grp,scan='location',ctrlf='time',perm=10,,method='sri')
 
 perm.ds.grp <- function(df, scan, ctrlf = NULL, method = "sri", perm, progress = T) {
+  ## check whether argument df is a single or a list of dataframes 
   test <- check.df(df) 
+  ## argument df is a single dataframe, perform permutations
   if (test == "df ok") {
     result <- perm.dataStream.group(df, scan = scan, control_factor = ctrlf, method = method, perm = perm, progress = progress)
     attr(result, "ANT") <- "ANT data stream group sampling single matrix"
@@ -45,6 +47,7 @@ perm.ds.grp <- function(df, scan, ctrlf = NULL, method = "sri", perm, progress =
     attr(result, "method") <- method
     return(result)
   }
+  ## argument df is a list of dataframes, perform permutations in each element of the list
   if (test == "df list ok") {
     result <- lapply(df, perm.dataStream.group, scan = scan, control_factor = ctrlf, method = method, perm = perm, progress = progress)
     attr(result, "ANT") <- "ANT data stream group sampling multiple matrices"

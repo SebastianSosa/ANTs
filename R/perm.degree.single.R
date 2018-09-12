@@ -27,7 +27,9 @@
 #' @keywords internal
 
 perm.met.degree.single <- function(M, perm) {
+  # list to hold the permuted matrices	
   MPerm <- list()
+  # Perform link permutations
   for (a in 1:perm) {
     pp <- sample(1:dim(M)[[2]])
     MPerm[[a]] <- M[pp, pp]

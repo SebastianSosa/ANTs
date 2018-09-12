@@ -25,23 +25,28 @@
 #' @references Hemelrijk, C. K. 1990. A matrix partial correlation test used in investigations of reciprocity and other social interaction patterns at a group level. Journal of theoretical Biology, 143, 405-420.
 
 stat.tauKr <- function(X, Y, Z = NULL, nperm = NULL, omitDiag) {
+  ############ TauKr matrix correlation ##################
+  ### Compute correlation without significance test (no permuations)
   if (is.null(Z) & is.null(nperm)) {
     stopifnot(is.matrix(X), is.matrix(Y))
     stopifnot(dim(X) <= dim(Y))
     result <- stat.tauKrSimple(X, Y, omitDiag = omitDiag)
   }
+  ## Compute correlation with significance test (permuations)
   if (is.null(Z) & !is.null(nperm)) {
     stopifnot(is.matrix(X), is.matrix(Y))
     stopifnot(dim(X) <= dim(Y))
     result <- stat.tauKrPermSig(X, Y, nperm = nperm, omitDiag = omitDiag)
   }
-  ################# TauKr partial Correlations###################################
+  #################TauKr partial Correlations###################################
+  ### Compute partial correlation without significance test (no permuations)
   if (!is.null(Z) & is.null(nperm)) {
     stopifnot(is.matrix(X), is.matrix(Y), is.matrix(Z))
     stopifnot(dim(X) <= dim(Y))
     stopifnot(dim(X) <= dim(Z))
     result <- stat.tauKrPartial(X, Y, Z, omitDiag = omitDiag)
   }
+  ### Compute partial correlation with significance test (permuations)
   if (!is.null(Z) & !is.null(nperm)) {
     stopifnot(is.matrix(X), is.matrix(Y), is.matrix(Z))
     stopifnot(dim(X) == dim(Y))

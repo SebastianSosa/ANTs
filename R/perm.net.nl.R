@@ -30,6 +30,7 @@
 #' t=perm.net.nl(df,labels='sex',rf=NULL,nperm=1000,progress=TRUE)
 
 perm.net.nl <- function(ldf, labels, rf = NULL, nperm, progress = T) {
+  ### Permutations on a single dataframe, rf has to be null in this case
   if (is.data.frame(ldf) && is.null(rf)) {
     if (is.null(rf)) {
       if (is.data.frame(ldf) == FALSE) {
@@ -42,6 +43,7 @@ perm.net.nl <- function(ldf, labels, rf = NULL, nperm, progress = T) {
       return(result)
     }
   }
+  ### Permutations in a list of dataframes, rf cannot be null in this case
   if (is.data.frame(ldf) && !is.null(rf)) {
     stop("Argument ldf is incorrect. Node label permutations with random factors cannot be run on a single data frame. Argument ldf has to be a list of data frames for this type of permutation approach.")
   }
