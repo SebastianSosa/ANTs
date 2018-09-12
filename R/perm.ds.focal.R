@@ -34,6 +34,7 @@
 #' t=perm.ds.focal(sim.focal.undirected,focal=3,ctrl=1,alters=4,nperm=10,progress=TRUE,method='sri')
 
 perm.ds.focal <- function(df, focal, ctrl = NULL, alters, nperm, progress = T, method = "sri") {
+  ## check for the presence of control arguments
   if (is.null(ctrl)) {
     stop("Argument ctrl cannot be empty")
   }
@@ -41,6 +42,7 @@ perm.ds.focal <- function(df, focal, ctrl = NULL, alters, nperm, progress = T, m
   if (is.null(test)) {
     "Argument df is not a data frame or a list of data frames."
   }
+  ## argument df is a single dataframe, perform permutations
   if (test == "df ok") {
     result <- perm.dataStream.focal(df = df, focal = focal, scan = ctrl, alters = alters, nperm = nperm, progress = progress, method = method)
     attr(result, "ANT") <- "ANT data stream focal sampling single matrix"
@@ -50,6 +52,7 @@ perm.ds.focal <- function(df, focal, ctrl = NULL, alters, nperm, progress = T, m
     attr(result, "method") <- method
     return(result)
   }
+  ## argument df is a list of dataframes, perform permutations in each element of the list
   if (test == "df list ok") {
     result <- lapply(df, perm.dataStream.focal, focal = focal, scan = ctrl, alters = alters, nperm = nperm, progress = progress, method = method)
     attr(result, "ANT") <- "ANT data stream focal sampling multiple matrices"

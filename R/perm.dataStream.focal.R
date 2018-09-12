@@ -22,23 +22,29 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
 perm.dataStream.focal <- function(df, focal, scan, alters, nperm, progress = T, method = "sri") {
+  # find the column index corresponding to the scan
   col.scan <- df.col.findId(df, scan)
+  # find the column index corresponding to the alters
   col.alters <- df.col.findId(df, alters)
+  # find the column index corresponding to the focal
   col.focal <- df.col.findId(df, focal)
+  # columns indexes to used as controls
   ctrl <- c(col.scan, col.focal)
+  # Creates a column of control factors and inserts in the data frame
   df <- df.ctrlFactor(df, control = ctrl)
   df$control <- as.factor(df$control)
 
+  # create a vector of ids of focal individuals
   focalids <- unique(df$control)
   Vecids <- unique(c(as.character(df[, col.alters]), as.character(df[, col.focal])))
   group_scan <- unique(df[, ncol(df)])
-
+  # gbi on which permutations will be done
   GBI2 <- df_to_gbi(df, ncol(df), col.focal, Vecids, group_scan)
-
+  # original gbi
   GBI <- df_to_gbi(df, ncol(df), col.alters, Vecids, group_scan)
-
+  # returns list of matrices with recalculated association indexes after each permutation
   result <- perm_dataStream1_focal(GBI, GBI2, nperm = nperm, progress = progress, method = method)
-
+  # add individuals names to rows and columns of the association matrices
   result <- lapply(seq_along(result), function(x, Vecids, i) {
     colnames(x[[i]]) <- Vecids
     rownames(x[[i]]) <- Vecids

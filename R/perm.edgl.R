@@ -23,6 +23,7 @@
 
 perm.edgl <- function(edgelist, perm) {
   MP <- list()
+  # Perform permutations and store new matrix in MP
   for (i in 1:perm)
   {
     Perm <- sample(edgelist$weight)

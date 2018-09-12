@@ -31,10 +31,13 @@
 
 
 perm.nodeLabel <- function(df, labels, nperm, progress = T) {
+## check argument df is a dataframe, otherwise stop
   if (is.data.frame(df) == FALSE) {
     stop("Argument df is not a data frame")
   }
+  ## find the column to permute
   col.id <- df.col.findId(df, labels)
+  ## do permutations
   result <- perm_nodeLabels(df, label = col.id, nperm, progress = progress)
   return(result)
 }

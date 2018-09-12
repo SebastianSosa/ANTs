@@ -31,18 +31,22 @@
 
 
 stat.p <- function(metrics, histogram = F) {
+  ### Vector with permuted values, first element is observed value
   if (is.vector(metrics)) {
     v <- metrics[1]
     v_perm <- metrics[-1]
   }
+  ### List with permuted values, first element is observed value
   if (is.data.frame(metrics)) {
     v <- metrics[1, ]
     v_perm <- metrics[-1, ]
   }
 
+  ## Calculate p-value on the left side
   p_valuevalue_left_side <- sum(v_perm < v) / length(v_perm)
   p_valuevalue_right_side <- sum(v_perm > v) / length(v_perm)
 
+  ## create histogram from permuted values
   if (histogram == T) {
     histo <- asna:::histogram(v, v_perm)
     p <- c("p-value_left_side" = p_valuevalue_left_side, "p-value_left_side" = p_valuevalue_right_side)

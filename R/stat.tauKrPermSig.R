@@ -23,6 +23,7 @@
 #' @keywords internal
 #' @references Hemelrijk, C. K. 1990. Models of, and tests for, reciprocity, unidirectional and other social interaction patterns at a group level. Animal Behavior, 39, 1013-1029
 stat.tauKrPermSig <- function(X, Y, nperm = nperm, omitDiag = T) {
+  ## Compute statistic original data
   o <- tauSD(X, Y, NULL, omitDiag)
   le <- 0
   ge <- 0
@@ -30,12 +31,14 @@ stat.tauKrPermSig <- function(X, Y, nperm = nperm, omitDiag = T) {
     return(list(tau = NA, pR = NA, pL = NA))
   }
   else {
+    ## do permutations and compute statistic of each permutation
     for (n in 1:nperm) {
       pp <- sample(1:dim(X)[[2]])
       p <- tauSD(X[pp, pp], Y, NULL, omitDiag)
       if (p$tau >= o$tau) ge <- ge + 1
       if (p$tau <= o$tau) le <- le + 1
     }
+    ## calculate p-values and return result
     return(list(
       tau = o$tau,
       pR = (ge + 1) / (nperm + 1),

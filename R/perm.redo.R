@@ -22,7 +22,7 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
 perm.redo <- function(df, labels, ctrl) {
-  # Split df according to the control
+   # Split df according to the control
   col.ctrl <- df.col.findId(df, ctrl)
   if (length(col.ctrl) > 1) {
     df$control <- apply(df[, col.ctrl], 1, paste, collapse = "_")
@@ -32,13 +32,13 @@ perm.redo <- function(df, labels, ctrl) {
   }
   ldf <- split(df, df$control)
 
-  # Permutation through the list
+  # Do permutations on each element of the list
   col.id <- df.col.findId(df, labels)
   perm <- lapply(ldf, function(x, col.id) {
     r <- perm_nodeLabels(df = x, nperm = 1, label = col.id, progress = F)[[2]]
   }, col.id)
 
-  # Merge the list permuted
+  # Merge the permuted elements in the list
   result <- do.call("rbind", perm)
   result <- result[, -c(max(ncol(result)))]
   return(result)

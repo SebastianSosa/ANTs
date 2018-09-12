@@ -23,10 +23,12 @@
 #' @keywords internal
 #' @references Hemelrijk, C. K. 1990. A matrix partial correlation test used in investigations of reciprocity and other social interaction patterns at a group level. Journal of theoretical Biology, 143, 405-420.
 stat.tauKrPartial <- function(X, Y, Z, omitDiag = T) {
+  ## calculate statistic
   Tauxyz <- 0
   Txy <- tauSD(X, Y, NULL, omitDiag)
   Txz <- tauSD(X, Z, NULL, omitDiag)
   Tyz <- tauSD(Y, Z, NULL, omitDiag)
+  # if nan, return NA
   if (is.nan(Txy$tau) || is.nan(Txz$tau) || is.nan(Tyz$tau)) {
     return(list(Tauxy = NA, Tauxz = NA, Tauyz = NA, Tauxyz = NA))
   }
