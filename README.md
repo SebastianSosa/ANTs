@@ -1,5 +1,5 @@
-# <img src="https://github.com/SebastianSosa/ANTs/blob/master/inst/ressources/ANT.png" alt="alt text" width="10%" height="10%"> 
-# Animal Network Toolkit Software (ANTs)
+# <img src="https://github.com/SebastianSosa/ANTs/blob/master/inst/ressources/ANT.png" alt="alt text" width="10%" height="10%">  # Animal Network Toolkit Software (ANTs)
+
 
 Animal Network Toolkit Software (ANT) is a free open R package for analysing animal networks.
 
@@ -14,7 +14,7 @@ For more information, visit our websites:
    https://www.researchgate.net/project/A-multilevel-statistical-toolkit-to-study-animal-social-networks-Animal-Network-Toolkit-ANT-R-package
    
    
-<i><b>Authors</b>: Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Peng Zhang, Xiaohua Xie, Cédric Sueur<i>
+<i><b>Authors</b>: Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Peng Zhang, Xiaohua Xie, Cédric Sueur</i>
 
 # Description
 
