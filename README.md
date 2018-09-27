@@ -30,7 +30,8 @@ Furthermore, ANTs also provides a guideline on the SNA techniques used: 1) from 
 
 # Installation
 To install the package in R, use the following command:
-devtools::install_github("SebastianSosa/ANTs")
+
+<i>devtools::install_github("SebastianSosa/ANTs")</i>
 
 or download and install the package following the standard R installation process
 
