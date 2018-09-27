@@ -14,7 +14,7 @@ For more information, visit our websites:
    https://www.researchgate.net/project/A-multilevel-statistical-toolkit-to-study-animal-social-networks-Animal-Network-Toolkit-ANT-R-package
    
    
-<b>Authors</b>: Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Peng Zhang, Xiaohua Xie, Cédric Sueur
+<i><b>Authors</b>: Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Peng Zhang, Xiaohua Xie, Cédric Sueur<i>
 
 <b>Description</b>: How animals interact and develop social relationships in face of sociodemographic and ecological pressures is of great interest. New methodologies, in particular Social Network Analysis (SNA), allow us to elucidate these types of questions. However, the different methodologies developed to that end and the speed at which they emerge make their use difficult. Moreover, the lack of communication between the different software developed to provide an answer to the same/different research questions is a source of confusion. 
 
