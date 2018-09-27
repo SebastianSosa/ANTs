@@ -85,6 +85,7 @@ extern SEXP _ant_vec_levels(SEXP);
 extern SEXP _ant_vec_lowertri_to_mat(SEXP, SEXP, SEXP);
 extern SEXP _ant_vec_match(SEXP, SEXP);
 extern SEXP _ant_vec_merge(SEXP, SEXP);
+extern SEXP _ant_vec_fill(SEXP, SEXP, SEXP);
 extern SEXP _ant_vec_num_extract(SEXP, SEXP);
 extern SEXP _ant_vec_num_extract_IdValue(SEXP, SEXP);
 extern SEXP _ant_vec_sample(SEXP, SEXP, SEXP);
