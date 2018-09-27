@@ -1,3 +1,4 @@
+# <img src="https://github.com/SebastianSosa/ANTs/blob/master/inst/ressources/ANT.png" alt="alt text" width="10%" height="10%"> 
 # Animal Network Toolkit Software (ANTs)
 
 Animal Network Toolkit (ANT) is a free open R package for analysing animal networks.
@@ -24,3 +25,5 @@ The package is partially coded in C++ using the R package Rcpp for an optimal co
 The package gives researchers a workflow from the raw data to the achievement of statistical analyses, allowing for a multilevel approach: from the individual’s position and role within the network, to the identification of interactional patterns, and the study of the overall network properties. 
 
 Furthermore, ANT also provides a guideline on the SNA techniques used: 1) from the appropriate randomization technique according to the data collected; 2) to the choice, the meaning, the limitations and advantages of the network metrics to apply, 3) and the type of statistical tests to run. The ANT project is multi-collaborative, aiming to provide access to advanced social network analysis techniques and to create new ones that meet researchers’ needs in future versions.
+
+
