@@ -25,7 +25,6 @@ DataFrame df_merge(DataFrame df1, DataFrame df2) {
 
   List l(df1.size());
   for (int a=0; a<df1.size();a++){
-
     SEXP vec1=df1[a];
     SEXP vec2=df2[a];
     SEXP vec=vec_merge(vec1,vec2);
