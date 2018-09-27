@@ -1,7 +1,7 @@
 # <img src="https://github.com/SebastianSosa/ANTs/blob/master/inst/ressources/ANT.png" alt="alt text" width="10%" height="10%"> 
 # Animal Network Toolkit Software (ANTs)
 
-Animal Network Toolkit (ANT) is a free open R package for analysing animal networks.
+Animal Network Toolkit Software (ANT) is a free open R package for analysing animal networks.
 
 ANT is a multi-collaborative project and is meant to continuously evolve. If you wish to contribute by providing suggestions or additional codes please contact us at: ant@s-sosa.com
 
@@ -16,7 +16,8 @@ For more information, visit our websites:
    
 <i><b>Authors</b>: Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Peng Zhang, Xiaohua Xie, Cédric Sueur<i>
 
-<b>Description</b>: How animals interact and develop social relationships in face of sociodemographic and ecological pressures is of great interest. New methodologies, in particular Social Network Analysis (SNA), allow us to elucidate these types of questions. However, the different methodologies developed to that end and the speed at which they emerge make their use difficult. Moreover, the lack of communication between the different software developed to provide an answer to the same/different research questions is a source of confusion. 
+#Description
+How animals interact and develop social relationships in face of sociodemographic and ecological pressures is of great interest. New methodologies, in particular Social Network Analysis (SNA), allow us to elucidate these types of questions. However, the different methodologies developed to that end and the speed at which they emerge make their use difficult. Moreover, the lack of communication between the different software developed to provide an answer to the same/different research questions is a source of confusion. 
 
 The R package ‘Animal Network Toolkit’ (ANT) was developed with the aim of implementing in one package the different social network analysis techniques currently used in the study of animal social networks. Hence, ANT is a toolkit for animal research allowing among other things to: 1) measure global, dyadic and nodal networks metrics; 2) perform data randomization: pre- and post-network (node and link permutations); 3) perform statistical permutation tests as correlation test, t-test, General Linear Model, General Linear Mixed Model, deletion simulation, Matrix TauKr correlations. 
 
