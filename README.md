@@ -1,5 +1,4 @@
 # Animal Network Toolkit Software (ANTs)
-!https://github.com/SebastianSosa/ANTs/blob/master/inst/ressources/ANT.png
 
 Animal Network Toolkit (ANT) is a free open R package for analysing animal networks.
 
