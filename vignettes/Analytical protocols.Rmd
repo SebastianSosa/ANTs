@@ -1,0 +1,14 @@
+---
+output: pdf_document
+geometry: "left=0cm,right=0cm,top=0cm,bottom=-0cm"
+classoption: landscape
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+
+---
+
+```{r, out.width = "100%", out.height="100%", out.align="center", echo=FALSE}
+knitr::include_graphics("Analytical.protocols.png")
+```
