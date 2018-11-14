@@ -9,7 +9,7 @@ If you need help or if you want to report bugs, please contact us at: ant.help@s
 
 For more information, visit our websites:
 
-   www.s-sosa.com/ant
+   www.s-sosa.com/ants
    
    https://www.researchgate.net/project/A-multilevel-statistical-toolkit-to-study-animal-social-networks-Animal-Network-Toolkit-ANT-R-package
    
