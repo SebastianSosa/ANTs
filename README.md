@@ -33,6 +33,8 @@ To install the package in R, use the following command: <i>devtools::install_git
 
 Or download and install the package following the standard R installation process.
 
+# Vignette
+<img src="https://github.com/SebastianSosa/ANTs/blob/master/vignettes/Analytical.protocols.png" alt="alt text"> 
 # Tutorials
 To find information on how to use ANTs, follow this link: 
 https://www.s-sosa.com/videos
