@@ -33,7 +33,7 @@ met.affinity.single <- function(M, df = NULL, dfid = NULL, binary = FALSE) {
     affinity=met_sum_egos_strength(M)
   }
   else{
-    reach <- met.reach.single(M, return.strength = T)
+    reach <- met.reach.single(M, return.strength = TRUE)
     affinity <- reach[[1]] / reach[[2]]
   }
 

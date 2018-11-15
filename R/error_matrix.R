@@ -35,15 +35,15 @@ error_matrix <- function(M) {
     }
   }
   else {
-    if (is.data.frame(M) == T) {
+    if (is.data.frame(M) == TRUE) {
       stop("Argument is a data frame, not a matrix.")
     }
-    if (is.vector(M) == T) {
+    if (is.vector(M) == TRUE) {
       stop("Argument is a vector, not a matrix")
     }
-    if (is.list(M) == T) {
+    if (is.list(M) == TRUE) {
       if (sum(unlist(lapply(M, function(x) {
-        is.matrix(x) & is.square(x) == T
+        is.matrix(x) & is.square(x) == TRUE
       }))) != length(M)) {
         stop("Incorrect data input, one of the elements in the list is not a matrix or a square matrix.")
       }

@@ -34,13 +34,13 @@ met.all.single.mat <- function(M, df, vec) {
   option <- metrics %in% vec
 
   # Affinity ------------------------------------------------------------------------------------
-  if (option[1] == T) {
-    t <- met.affinity.single(M, binary = T)
+  if (option[1] == TRUE) {
+    t <- met.affinity.single(M, binary = TRUE)
 
     df$instrength <- t
   }
-  if (option[2] == T) {
-    t <- met.affinity.single(M, binary = T)
+  if (option[2] == TRUE) {
+    t <- met.affinity.single(M, binary = TRUE)
 
     df$affinityB <- t
   }
@@ -171,11 +171,11 @@ met.all.single.mat <- function(M, df, vec) {
     df$disparity <- t
   }
   # else{
-  # tmp=met.disparity.single(M,directed=T)
+  # tmp=met.disparity.single(M,directed=TRUE)
   # tmp=do.call('rbind',tmp)
-  # if(option[24]==T){df$disparity=tmp[,1]}
-  # if(option[25]==T){df$indisparity=tmp[,1]}
-  # if(option[26]==T){df$outdisparity=tmp[,1]}
+  # if(option[24]==TRUE){df$disparity=tmp[,1]}
+  # if(option[25]==TRUE){df$indisparity=tmp[,1]}
+  # if(option[26]==TRUE){df$outdisparity=tmp[,1]}
   # }
 
   # Eigenvector ---------------------------------------------------------------------------------

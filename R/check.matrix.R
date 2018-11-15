@@ -34,7 +34,7 @@ check.mat <- function(M) {
   }
   
   # Check if argument M is a list of square matrices----------------------
-  if (is.list(M) == T) {
+  if (is.list(M) == TRUE) {
       if (sum(unlist(lapply(M, function(x) {
         is.matrix(x) & dim(x)[1] == dim(x)[2]
         }))) != length(M)) {

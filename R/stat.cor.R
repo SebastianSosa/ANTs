@@ -33,13 +33,13 @@
 #' @references D. J. Best & D. E. Roberts (1975), Algorithm AS 89: The Upper Tail Probabilities of Spearman's rho. Applied Statistics, 24, 377-379.
 #' @references Myles Hollander & Douglas A. Wolfe (1973), Nonparametric Statistical Methods. New York: John Wiley & Sons. Pages 185-194 (Kendall and Spearman tests).
 
-stat.cor <- function(ant, var1, var2, method = "pearson", progress = T) {
+stat.cor <- function(ant, var1, var2, method = "pearson", progress = TRUE) {
   # Extract columns id
   id1 <- df.col.findId(ant[[1]], var1)
   id2 <- df.col.findId(ant[[1]], var2)
   
   # Compute correlation coefficient in the list of data frames returned by ANTs data object originating from permutations
- if (progress == T) {
+ if (progress == TRUE) {
     # Compute correlation coefficient in the list of data frames returned by ANTs data object originating from permutations
     result <- lapply(ant, function(d, id1, id2, method) {
       cat("  Processing file: ", attr(d, "permutation"), "\r")

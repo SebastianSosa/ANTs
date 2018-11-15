@@ -6,7 +6,7 @@
 #' @param progress a boolean indicating the visualization of the permutation process.
 #' @keywords internal
 #' @examples 
-#' m=matrix(sample(c(0:5),100,T),10,10)
+#' m=matrix(sample(c(0:5),100,TRUE),10,10)
 #' diag(m)=0
 #' colnames(m)=letters[1:10]
 #' rownames(m)=letters[1:10]

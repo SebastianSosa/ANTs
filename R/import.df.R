@@ -23,7 +23,7 @@
 #' @param ... Further arguments to be passed to \code{\link{read.csv}}.
 #' #' @return a single data frame or a list of data frames according to the number of files in the selected folder.
 #' @details  After selecting the directory, this function returns a single data frame if there is only one file in the folder or a list of data frames in the same order as in the original folder if there are several files in the folder.
-#' by default it considers that the data frame has header=T and row names=1.
+#' by default it considers that the data frame has header= TRUE and row names= 1.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @seealso \code{read.csv}
 

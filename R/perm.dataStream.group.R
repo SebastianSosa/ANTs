@@ -39,7 +39,7 @@
 
 
 # factor= according to which factors creat the gbi. enter the name of the column.
-perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progress = T, method = "sri") {
+perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progress = TRUE, method = "sri") {
   ## !!!! FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
   # perm WITHIN SCANS NO CONTROL FACTORS  -----------------------------------------------
   if (is.null(control_factor)) {

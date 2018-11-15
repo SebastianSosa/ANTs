@@ -36,7 +36,7 @@
 met.disparity.single <- function(M, df = NULL, dfid = NULL) {
   # Compute network metric
   s <- met.strength(M) / 2
-  m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = T)
+  m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = TRUE)
   disparity <- rowSums((M / m.strength)^2)
 
   # If argument df is null

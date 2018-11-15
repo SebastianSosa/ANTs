@@ -23,20 +23,20 @@
 #' @examples
 #' mat.to.edgl(sim.m, sym = FALSE, erase.diag = TRUE)
 
-mat.to.edgl <- function(M, sym = F, erase.diag = T) {
+mat.to.edgl <- function(M, sym = FALSE, erase.diag = TRUE) {
   # If argument sym is equal to TRUE----------------------
   if (sym) {
     # If argument erase.diag is equal to TRUE
-    if (erase.diag == T) {
+    if (erase.diag == TRUE) {
       test <- lower.tri(M) # Extract matrix lower triangle
     }
     else {
-      test <- lower.tri(M, diag = T) # Extract matrix lower triangle and diagonal
+      test <- lower.tri(M, diag = TRUE) # Extract matrix lower triangle and diagonal
     }
     # Extract matrix cells
     weight <- M[test]
     # Extract cells ids
-    tmp <- which(test, arr.ind = T)
+    tmp <- which(test, arr.ind = TRUE)
     # Create an edgelist if actor, receiver and interactions weights
     DF <- cbind("from" = colnames(M)[tmp[, 1]], "to" = colnames(M)[tmp[, 2]])
     DF <- data.frame(DF, weight)
@@ -53,7 +53,7 @@ mat.to.edgl <- function(M, sym = F, erase.diag = T) {
     # Create a data frame of those vectors
     DF <- data.frame(from, to, weight)
     # if argument erase diag is equal to TRUE
-    if (erase.diag == T) {
+    if (erase.diag == TRUE) {
       diagonals <- which(DF$from == DF$to) # Remove case where actor is equal to receiver
       DF <- DF[-c(diagonals), ]
     }

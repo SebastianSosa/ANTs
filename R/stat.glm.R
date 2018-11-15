@@ -143,7 +143,7 @@ stat.glm <- function(ant, oda, formula, family = "gaussian", progress = TRUE, st
           # Extract coefficients
           r <- summary(r)$coefficients[, 1]
           return(r)
-        }, ant = ant, formula = formula, progress = T, odf = odf, labels = labels, family = family, start = start, control = control, model = model, method = method, x = x, y = y, contrasts = contrasts, ...)
+        }, ant = ant, formula = formula, progress = TRUE, odf = odf, labels = labels, family = family, start = start, control = control, model = model, method = method, x = x, y = y, contrasts = contrasts, ...)
         cat("\n")
       }
 
@@ -176,7 +176,7 @@ stat.glm <- function(ant, oda, formula, family = "gaussian", progress = TRUE, st
           # Extract coefficients
           r <- summary(r)$coefficients[, 1]
           return(r)
-        }, ant = ant, formula = formula, progress = T, odf = odf, labels = labels, family = family, start = start, control = control, model = model, method = method, x = x, y = y, contrasts = contrasts, ...)
+        }, ant = ant, formula = formula, progress = TRUE, odf = odf, labels = labels, family = family, start = start, control = control, model = model, method = method, x = x, y = y, contrasts = contrasts, ...)
         cat("\n")
       }
     }

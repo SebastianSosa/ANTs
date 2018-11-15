@@ -57,7 +57,7 @@ df.to.mat <- function(df, actor, receiver, weighted = NULL, tobs = NULL, sym = F
         m <- edgl_to_matrix(edgl, sym = sym)
 
         # If argument num.ids is TRUE the convert colnames and rows into numerics and order them
-        if (num.ids == T) {
+        if (num.ids == TRUE) {
           m <- m[order(as.numeric(as.character(rownames(m)))), order(as.numeric(as.character(colnames(m))))]
         }
 
@@ -100,7 +100,7 @@ df.to.mat <- function(df, actor, receiver, weighted = NULL, tobs = NULL, sym = F
         m <- edgl_to_matrix(edgl, sym = sym)
 
         # If argument num.ids is TRUE the convert colnames and rows into numerics and order them
-        if (num.ids == T) {
+        if (num.ids == TRUE) {
           m <- m[order(as.numeric(as.character(rownames(m)))), order(as.numeric(as.character(colnames(m))))]
         }
 
@@ -133,7 +133,7 @@ df.to.mat <- function(df, actor, receiver, weighted = NULL, tobs = NULL, sym = F
     m <- edgl_to_matrix(edgl, sym = sym)
 
     # If argument num.ids is TRUE the convert colnames and rows into numerics and order them
-    if (num.ids == T) {
+    if (num.ids == TRUE) {
       m <- m[order(as.numeric(as.character(rownames(m)))), order(as.numeric(as.character(colnames(m))))]
     }
 

@@ -30,7 +30,7 @@
 #' @keywords internal
 
 
-perm.nodeLabel <- function(df, labels, nperm, progress = T) {
+perm.nodeLabel <- function(df, labels, nperm, progress = TRUE) {
 ## check argument df is a dataframe, otherwise stop
   if (is.data.frame(df) == FALSE) {
     stop("Argument df is not a data frame")

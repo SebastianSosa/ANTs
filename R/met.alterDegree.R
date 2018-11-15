@@ -25,7 +25,7 @@
 met.alterDegree <- function(M, i, av = FALSE, binary = FALSE) {
   nodes_degree <- mat_cols_sums(M)
   if (nodes_degree[i] != 0) {
-    if (binary == T) {
+    if (binary == TRUE) {
       M <- mat_filter(M, 1, 1)
     }
     alters_id <- which(M[, i] > 0)

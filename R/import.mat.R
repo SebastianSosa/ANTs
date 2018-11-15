@@ -25,7 +25,7 @@
 #' It also orders the matrix according to row names.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 
-import.mat <- function(header = T, sep = ",", row.names = 1, ...) {
+import.mat <- function(header = TRUE, sep = ",", row.names = 1, ...) {
   # Extract files names----------------------
   files <- list.files(getwd())
 

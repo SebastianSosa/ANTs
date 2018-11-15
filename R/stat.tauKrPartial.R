@@ -22,7 +22,7 @@
 #' @author Ivan Puga-Gonzalez, Sebastian Sosa.
 #' @keywords internal
 #' @references Hemelrijk, C. K. 1990. A matrix partial correlation test used in investigations of reciprocity and other social interaction patterns at a group level. Journal of theoretical Biology, 143, 405-420.
-stat.tauKrPartial <- function(X, Y, Z, omitDiag = T) {
+stat.tauKrPartial <- function(X, Y, Z, omitDiag = TRUE) {
   ## calculate statistic
   Tauxyz <- 0
   Txy <- tauSD(X, Y, NULL, omitDiag)

@@ -34,12 +34,12 @@
 #' @references Farine, D. R. (2014). Measuring phenotypic assortment in animal social networks: weighted associations are more robust than binary edges. Animal Behaviour, 89, 141-153.
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 
-met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, perm.nl = T) {
+met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, perm.nl = TRUE) {
   # Checking if argument M is a square matrix 
   test <- is.matrix(M)
   if (test) {
     # Checking if argument attr is a factor, a character or a numeric vector
-    if (all(!is.factor(attr), !is.character(attr), !is.numeric(attr)) == T) {
+    if (all(!is.factor(attr), !is.character(attr), !is.numeric(attr)) == TRUE) {
       stop("Argument attr must be a factor or numeric vector.")
     }
     # If argument attr is a factor or a character vector, function computes categorical assortativity.
@@ -65,7 +65,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
       # Check if argument M is an object returned by perm.ds.grp, perm.ds.focal or perm.net.nl----------------------
       # This part was created to handle repermutation in functions stat.lm, stat.glm and stat.glmm
       if (!is.null(attributes(M)$ANT)) {
-        if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == T) {
+        if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == TRUE) {
           stop("Argument attr must be a factor or numeric vector.")
         }
         # Check if argument M originates from a single network protocol
@@ -81,7 +81,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
         # If argumpent M originates from a single network protocol, we work on a list of matrices
         if (any(test1, test2, test3)) {
           # Checking if argument attr is a factor, a character or a numeric vector
-          if (all(!is.factor(attr), !is.character(attr), !is.numeric(attr)) == T) {
+          if (all(!is.factor(attr), !is.character(attr), !is.numeric(attr)) == TRUE) {
             stop("Argument attr must be a factor or numeric vector.")
           }
           # If argument attr is a factor or a character vector, function computes categorical assortativity on each matrix of the list M and permutes argument attr for each element.
@@ -238,7 +238,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
         # If argument M originates from a multiple network protocol, we work on a list of lists of matrices
         if (any(test4, test5, test6)) {
           # Checking if argument attr is a factor, a character or a numeric vector
-          if (all(!is.factor(attr), !is.character(attr), !is.numeric(attr)) == T) {
+          if (all(!is.factor(attr), !is.character(attr), !is.numeric(attr)) == TRUE) {
             stop("Argument attr must be a factor or numeric vector.")
           }
           # If argument attr is a factor or a character vector, function computes categorical assortativity on each matrix of the list of lists M.
@@ -448,7 +448,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
           if (is.null(df)) {
             # Check if argument attr is a list of factors, characters or numeric vectors. If so, function uses each element of the list attr to compute the assortativity of the corresponding element of the list of matrices M.
             if (is.list(attr)) {
-              if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == T) {
+              if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == TRUE) {
                 stop("Argument attr must be a list of factors, characters or numeric vectors.")
               }
               # If argument attr is a list of factors or character vectors, function computes categorical assortativity on each matrix of the list M.
@@ -510,7 +510,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
                 }
                 # If argument df is null, return a list of assortativity values for each element of the list M
                 else {
-                  if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == T) {
+                  if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == TRUE) {
                     stop("Argument attr must be a factor or numeric vector.")
                   }
                   # If argument attr is a list of factors or character vectors, function computes categorical assortativity on each matrix of the list M.
@@ -573,7 +573,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
     # If argument perm.nl is equal to FALSE, same as previously but without permuting argument attr
     else {
       if (!is.null(attributes(M)$ANT)) {
-        if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == T) {
+        if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == TRUE) {
           stop("Argument attr must be a factor or numeric vector.")
         }
         test1 <- attributes(M)$ANT == "ANT data stream focal sampling single matrix"
@@ -585,7 +585,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
         test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
 
         if (any(test1, test2, test3)) {
-          if (all(!is.factor(attr), !is.character(attr), !is.numeric(attr)) == T) {
+          if (all(!is.factor(attr), !is.character(attr), !is.numeric(attr)) == TRUE) {
             stop("Argument attr must be a factor or numeric vector.")
           }
           if (is.factor(attr[[1]]) | is.character(attr[[1]])) {
@@ -823,7 +823,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
         if (is.list(M)) {
           if (is.null(df)) {
             if (is.list(attr)) {
-              if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == T) {
+              if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == TRUE) {
                 stop("Argument attr must be a factor or numeric vector.")
               }
               if (is.factor(attr[[1]]) | is.character(attr[[1]])) {
@@ -880,7 +880,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
                   stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
                 }
                 else {
-                  if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == T) {
+                  if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == TRUE) {
                     stop("Argument attr must be a factor or numeric vector.")
                   }
                   if (is.factor(attr[[1]]) | is.character(attr[[1]])) {

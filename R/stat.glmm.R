@@ -30,7 +30,7 @@
 #' @seealso \code{\link{lmer}} or \code{\link{glmer}}
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 
-stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
+stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
   if (is.null(attributes(ant)$ANT)) {
     stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions")
   }
@@ -663,7 +663,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
       new.oda <- NULL
       er <- NULL
       if (progress == TRUE) {
-        permuted <- lapply(ant, function(d, formula, family, progress = T, odf, oda, target.metrics, focal, ctrl, alters, new.perm, new.oda, fam, ...) {
+        permuted <- lapply(ant, function(d, formula, family, progress = TRUE, odf, oda, target.metrics, focal, ctrl, alters, new.perm, new.oda, fam, ...) {
           cat("  Processing permutation : ", attributes(d)$permutation, "\r")
           attr(odf, "permutation") <- 0
           r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = d, ...)), error = identity)
@@ -699,11 +699,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           }
           r <- summary(r)$coefficients[, 1]
           return(r)
-        }, formula, family, progress = T, odf = odf, oda = oda, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, new.perm = new.perm, new.oda = new.oda, fam = fam, ...)
+        }, formula, family, progress = TRUE, odf = odf, oda = oda, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, new.perm = new.perm, new.oda = new.oda, fam = fam, ...)
         cat("\n")
       }
       else {
-        permuted <- lapply(ant, function(d, formula, family, progress = T, odf, oda, target.metrics, focal, ctrl, alters, new.perm, new.oda, fam, ...) {
+        permuted <- lapply(ant, function(d, formula, family, progress = TRUE, odf, oda, target.metrics, focal, ctrl, alters, new.perm, new.oda, fam, ...) {
           attr(odf, "permutation") <- 0
           r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = d, ...)), error = identity)
 
@@ -738,7 +738,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           }
           r <- summary(r)$coefficients[, 1]
           return(r)
-        }, formula, family, progress = T, odf = odf, oda = oda, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, new.perm = new.perm, new.oda = new.oda, fam = fam, ...)
+        }, formula, family, progress = TRUE, odf = odf, oda = oda, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, new.perm = new.perm, new.oda = new.oda, fam = fam, ...)
       }
     }
 
@@ -871,7 +871,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- summary(r)$coefficients[, 1]
 
           return(r)
-        }, ant = ant, formula, progress = T, ctrl = ctrl, odf = odf, labels = labels, ...)
+        }, ant = ant, formula, progress = TRUE, ctrl = ctrl, odf = odf, labels = labels, ...)
         cat("\n")
       }
       else {
@@ -922,7 +922,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           r <- summary(r)$coefficients[, 1]
 
           return(r)
-        }, ant = ant, formula, progress = T, ctrl = ctrl, odf = odf, labels = labels, ...)
+        }, ant = ant, formula, progress = TRUE, ctrl = ctrl, odf = odf, labels = labels, ...)
       }
     }
 

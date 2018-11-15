@@ -35,7 +35,7 @@
 #' head(sim.grp)
 #' t=perm.ds.grp(df=sim.grp,scan='location',ctrlf='time',perm=10,,method='sri')
 
-perm.ds.grp <- function(df, scan, ctrlf = NULL, method = "sri", perm, progress = T) {
+perm.ds.grp <- function(df, scan, ctrlf = NULL, method = "sri", perm, progress = TRUE) {
   ## check whether argument df is a single or a list of dataframes 
   test <- check.df(df) 
   ## argument df is a single dataframe, perform permutations

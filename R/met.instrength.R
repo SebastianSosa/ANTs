@@ -253,14 +253,14 @@ met.instrength<- function(M, df = NULL, dfid = NULL) {
       # Check if argument dfid is not NULL
       if (!is.null(dfid)) {
         # Compute network metric
-        result <- mapply(met.instrength.single, M, df = df, dfid = dfid, SIMPLIFY = F)
+        result <- mapply(met.instrength.single, M, df = df, dfid = dfid, SIMPLIFY = FALSE)
         return(result)
       }
       # Check if argument dfid is NULL and print warning
       else {
         # Compute network metric
         warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
-        result <- mapply(met.instrength.single, M, df = df, SIMPLIFY = F)
+        result <- mapply(met.instrength.single, M, df = df, SIMPLIFY = FALSE)
         return(result)
       }
     }

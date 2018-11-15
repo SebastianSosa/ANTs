@@ -29,14 +29,14 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @seealso \code{\link{t.test}}
 
-stat.t <- function(ant, formula, alternative = "two.sided", na.action = na.omit, mu = 0, paired = FALSE, var.equal = FALSE, progress = T) {
+stat.t <- function(ant, formula, alternative = "two.sided", na.action = na.omit, mu = 0, paired = FALSE, var.equal = FALSE, progress = TRUE) {
   # Extract observed data
   obs <- ant[[1]]
   # T-test on observed data
   obs <- t.test(formula, data = obs, na.action = , mu = mu, paired = paired, var.equal = var.equal)
   ant <- ant[-1]
 
-  if (progress == T) {
+  if (progress == TRUE) {
     # T-test on permuted data
     results <- lapply(ant, function(d, formula = formula, na.action = na.action, mu = mu, paired = paired, var.equal = var.equal) {
       cat("  Processing file: ", attr(d, "permutation"), "\r")

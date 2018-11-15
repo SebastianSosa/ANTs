@@ -28,7 +28,7 @@ df.col.findId <- function(df, label_name) {
   }
 
   # If argument label_name is a character, which column number correspond to this character----------------------
-  if (is.character(label_name) == T) {
+  if (is.character(label_name) == TRUE) {
     if (all(!is.na(label_name))) {
       col.id <- match(label_name, colnames(df))
       if(any(is.na(col.id))){

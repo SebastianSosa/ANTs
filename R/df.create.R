@@ -26,15 +26,15 @@
 #' sim.m
 #' df.create(sim.m)
 
-df.create <- function(M, names = T) {
+df.create <- function(M, names = TRUE) {
   # Check if argument M is a single matrix----------------------
-  if (is.matrix(M) == T) {
+  if (is.matrix(M) == TRUE) {
     # Create a data frame with number of rows corresponding to the number of columns of argument M
     df <- df.create.single(M, names)
     return(df)
   }
   # Check if argument M is a list of matrices----------------------
-  if (!is.matrix(M) & is.list(M) == T) {
+  if (!is.matrix(M) & is.list(M) == TRUE) {
     # Create a list of data frames with number of rows corresponding to the number of columns of the corresponding matrix in argument M
     df <- lapply(M, df.create.single, names = names)
     return(df)

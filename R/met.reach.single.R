@@ -26,7 +26,7 @@
 #' @keywords internal
 
 
-met.reach.single <- function(M, df = NULL, dfid = NULL, return.strength = F) {
+met.reach.single <- function(M, df = NULL, dfid = NULL, return.strength = FALSE) {
   # Compute node instrength
   if (isSymmetric(M)) {
     s <- met.instrength(M)
@@ -39,7 +39,7 @@ met.reach.single <- function(M, df = NULL, dfid = NULL, return.strength = F) {
   # If argument df is null
   if (is.null(df)) {
     # Compute network metric
-    m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = T)
+    m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = TRUE)
     result <- rowSums(m.strength * M)
     attr(result, "names") <- colnames(M)
     if (return.strength) {

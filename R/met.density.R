@@ -48,7 +48,7 @@ met.density <- function(M, df = NULL) {
     #  ego. ANT function is being developed and is not implemented in this version of ANTs
     if (all(c(!is.null(attributes(M)$ANT), 
         attributes(M)$ANT != "Ego-network list", 
-        attributes(M)$ANT != "Ego-network list whitout ego")==T)) {
+        attributes(M)$ANT != "Ego-network list whitout ego")==TRUE)) {
         # None of the permutation approches generate network density variation, thus density can be tested for permuted approaches
         stop("None of the permutation approaches available in ANT allow to make density variation.")
     }

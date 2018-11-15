@@ -35,7 +35,7 @@
 #' @examples
 #' met.geodesic(sim.m)
 
-met.geodesic <- function(M, weighted = T, shortest.weight = F, normalization = T, directed = T, out = T) {
+met.geodesic <- function(M, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = TRUE) {
   test <- is.matrix(M)
   if (test) {
     result <- met.geodesicDiameter.single(M, weighted, shortest.weight, normalization, directed, out)[[2]]

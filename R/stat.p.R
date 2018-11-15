@@ -45,7 +45,7 @@ stat.p <- function(metrics, stat.hist = FALSE) {
   p_valuevalue_right_side <- sum(v_perm > v) / length(v_perm)
 
   # Posterior distribution
-  if (stat.hist == T) {
+  if (stat.hist == TRUE) {
     histo <- stat.hist(v, v_perm)
     p <- c("p-value_left_side" = p_valuevalue_left_side, "p-value_left_side" = p_valuevalue_right_side)
     return(list("p-values" = p, "stat.hist" = histo))

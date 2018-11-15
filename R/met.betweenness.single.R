@@ -16,7 +16,7 @@
 #' @description Compute node betweenness
 #' @keywords internal
 
-met.betweenness.single <- function(m, binary = T, shortest.weight = F, normalization = T, sym = T, out = T, df = NULL, dfid = NULL) {
+met.betweenness.single <- function(m, binary = TRUE, shortest.weight = FALSE, normalization = TRUE, sym = TRUE, out = TRUE, df = NULL, dfid = NULL) {
   # Organizing matrix according to arguments user declaration
   name <- colnames(m)
   if (binary) {

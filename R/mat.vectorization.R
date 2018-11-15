@@ -27,7 +27,7 @@ mat.vectorization <- function(M, sym = FALSE, erase.diag = TRUE) {
       y <- M[lower.tri(M)]# Extract matrix lower triangle without diagonal
     }
     else {
-      y <- M[lower.tri(M, diag = T)]# Extract matrix lower triangle and diagonal
+      y <- M[lower.tri(M, diag = TRUE)]# Extract matrix lower triangle and diagonal
     }
   }
   # If argument sym is equal to FALSE----------------------

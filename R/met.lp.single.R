@@ -28,7 +28,7 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 
-met.lp.single <- function(M, df = NULL, dfid = NULL, binary = F) {
+met.lp.single <- function(M, df = NULL, dfid = NULL, binary = FALSE) {
   # Compute network metric
   if(binary) {
     result <- met.lpcB(M)

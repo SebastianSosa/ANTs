@@ -21,7 +21,7 @@
 #' @details Control factors are used in permutation approaches to constrain their permutations.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
-perm.dataStream.focal <- function(df, focal, scan, alters, nperm, progress = T, method = "sri") {
+perm.dataStream.focal <- function(df, focal, scan, alters, nperm, progress = TRUE, method = "sri") {
   # find the column index corresponding to the scan
   col.scan <- df.col.findId(df, scan)
   # find the column index corresponding to the alters
