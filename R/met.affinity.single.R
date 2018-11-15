@@ -27,7 +27,7 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 
-met.affinity.single <- function(M, df = NULL, dfid = NULL, binary = F) {
+met.affinity.single <- function(M, df = NULL, dfid = NULL, binary = FALSE) {
   # Compute network metric
   if(binary){
     affinity=met_sum_egos_strength(M)
@@ -46,7 +46,7 @@ met.affinity.single <- function(M, df = NULL, dfid = NULL, binary = F) {
 
   else {
     # If argument dfid is not null
-    if (is.data.frame(df) == F) {
+    if (is.data.frame(df) == FALSE) {
       stop("Argument df must be a data frame")
     }
     if (!is.null(dfid)) {

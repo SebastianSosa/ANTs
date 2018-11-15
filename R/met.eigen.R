@@ -38,7 +38,7 @@
 #' head(sim.df)
 #' met.eigen(sim.m,df=sim.df)
 
-met.eigen <- function(M, df = NULL, dfid = NULL, sym = T, binary = F, out = F) {
+met.eigen <- function(M, df = NULL, dfid = NULL, sym = TRUE, binary = FALSE, out = FALSE) {
   # Check if argument M is a square matrix or a list of square matrices----------------------
   test <- check.mat(M)
 
@@ -345,14 +345,14 @@ met.eigen <- function(M, df = NULL, dfid = NULL, sym = T, binary = F, out = F) {
       # Check if argument dfid is not NULL
       if (!is.null(dfid)) {
         # Compute network metric
-        result <- mapply(met.eigen.single, M, df = df, dfid = dfid, sym = sym, binary = binary, out = out, SIMPLIFY = F)
+        result <- mapply(met.eigen.single, M, df = df, dfid = dfid, sym = sym, binary = binary, out = out, SIMPLIFY = FALSE)
         return(result)
       }
       # Check if argument dfid is NULL and print warning
       else {
         # Compute network metric
         warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
-        result <- mapply(met.eigen.single, M, df = df, sym = sym, binary = binary, out = out, SIMPLIFY = F)
+        result <- mapply(met.eigen.single, M, df = df, sym = sym, binary = binary, out = out, SIMPLIFY = FALSE)
         return(result)
       }
     }

@@ -31,9 +31,6 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 
 stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
-  if(!is.null(weights)){
-    w = ANTs:::df.col.findId(ant[[1]],weights)
-  }
   if (is.null(attributes(ant)$ANT)) {
     stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions")
   }

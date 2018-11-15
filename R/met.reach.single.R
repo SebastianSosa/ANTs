@@ -59,11 +59,11 @@ met.reach.single <- function(M, df = NULL, dfid = NULL, return.strength = F) {
       col.id <- df.col.findId(df, dfid)
       df <- df[match(colnames(M), df[, col.id]), ]
     }
-    if (is.data.frame(df) == F) {
+    if (is.data.frame(df) == FALSE) {
       stop("Argument df must be a data frame")
     }
     # Compute network metric
-    m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = T)
+    m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = TRUE)
     result <- rowSums(m.strength * M)
     df$reach <- result
     return(df)

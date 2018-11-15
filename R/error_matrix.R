@@ -30,7 +30,7 @@ error_matrix <- function(M) {
     is.matrix(M)
   }
   if (is.matrix(M)) {
-    if (is.square(M) == F) {
+    if (is.square(M) == FALSE) {
       stop("Argument is not a square matrix.")
     }
   }

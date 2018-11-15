@@ -28,7 +28,7 @@
 #' @keywords internal
 
 
-stat.p <- function(metrics, stat.hist = F) {
+stat.p <- function(metrics, stat.hist = FALSE) {
   if (is.vector(metrics)) {
     # First value is the one of the real data
     v <- metrics[1]

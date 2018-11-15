@@ -59,7 +59,7 @@ setGeneric(name = "ant", ant <- function(x) {
       par(bg = "gray63")
       # Is the observed correlation superior to the posterior mean
       if (obs > m) {
-        h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = F))
+        h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = FALSE))
         cuts <- cut(h$breaks, c(obs, Inf))
         cuts <- ifelse(is.na(cuts), "gray10", "gray25")
         plot(h, col = cuts, border = cuts, xlab = paste(attributes(x)$comment), main = paste(attributes(x)$comment, "posterior distribution"), xaxt = "n")
@@ -70,7 +70,7 @@ setGeneric(name = "ant", ant <- function(x) {
         p <- recordPlot()
       }
       else {
-        h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = F))
+        h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = FALSE))
         cuts <- cut(h$breaks, c(obs, Inf))
         cuts <- ifelse(is.na(cuts), "gray25", "gray10")
         plot(h, col = cuts, border = cuts, xlab = paste(attributes(x)$comment), main = paste(attributes(x)$comment, "posterior distribution"), xaxt = "n")
@@ -168,7 +168,7 @@ setGeneric(name = "ant", ant <- function(x) {
       # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------     
       stat <- NULL
       for (a in 1:ncol(v_perms)) {
-        r <- ANTs:::stat.ci(v_perms[, a])
+        r <- stat.ci(v_perms[, a])
         stat[[a]] <- data.frame(
           sum(v_perms[, a] < obs[a]) / length(v_perms[, a]),
           sum(v_perms[, a] > obs[a]) / length(v_perms[, a]),
@@ -184,7 +184,7 @@ setGeneric(name = "ant", ant <- function(x) {
       s$coefficients <- cbind(s$coefficients, stat)
 
       # Create posterior distribution plots----------------------
-      post.dist <- ANTs:::post.dist(v_perms, Obs = obs)
+      post.dist <- post.dist(v_perms, Obs = obs)
 
       # Extract model family and formula----------------------
       attr(x$Original.model, "family") <- attributes(x)$family
@@ -227,7 +227,7 @@ setGeneric(name = "ant", ant <- function(x) {
       par(bg = "gray63")
       # Is the observed correlation superior to the posterior mean
       if (obs > m) {
-        h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = F))
+        h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = FALSE))
         cuts <- cut(h$breaks, c(obs, Inf))
         cuts <- ifelse(is.na(cuts), "gray10", "gray25")
         plot(h, col = cuts, border = cuts, xlab = paste(attributes(x)$comment), main = paste(attributes(x)$comment, "posterior distribution"), xaxt = "n")
@@ -238,7 +238,7 @@ setGeneric(name = "ant", ant <- function(x) {
         p <- recordPlot()
       }
       else {
-        h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = F))
+        h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = FALSE))
         cuts <- cut(h$breaks, c(obs, Inf))
         cuts <- ifelse(is.na(cuts), "gray25", "gray10")
         plot(h, col = cuts, border = cuts, xlab = paste(attributes(x)$comment), main = paste(attributes(x)$comment, "posterior distribution"), xaxt = "n")
@@ -320,7 +320,7 @@ setGeneric(name = "ant", ant <- function(x) {
       par(bg = "gray63")
       # Is the observed correlation superior to the posterior mean
       if (obs > m) {
-        h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = F))
+        h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = FALSE))
         cuts <- cut(h$breaks, c(obs, Inf))
         cuts <- ifelse(is.na(cuts), "gray10", "gray25")
         plot(h, col = cuts, border = cuts, xlab = "statistic value", main = "Statistic value posterior distribution", xaxt = "n")
@@ -331,7 +331,7 @@ setGeneric(name = "ant", ant <- function(x) {
         p <- recordPlot()
       }
       else {
-        h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = F))
+        h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = FALSE))
         cuts <- cut(h$breaks, c(obs, Inf))
         cuts <- ifelse(is.na(cuts), "gray25", "gray10")
         plot(h, col = cuts, border = cuts, xlab = "statistic value", main = "Statistic value posterior distribution", xaxt = "n")

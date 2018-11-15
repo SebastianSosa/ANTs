@@ -16,11 +16,11 @@
 perm.net.weigths <- function(M, sym = FALSE, nperm = NULL, progress = TRUE){
   if(is.null(nperm)){stop("Argument nperm have to declare.")}
   require(ANTs)
-  edg = ANTs:::mat.to.edgl(M = M, sym = sym, erase.diag = TRUE)
+  edg = mat.to.edgl(M = M, sym = sym, erase.diag = TRUE)
   edg = edg[edg$weight!=0,]# If one node is isolated it will be lost!
   
   # To translate in cpp
-  result = ANTs:::perm_net_weigths(edg, sym, nperm, progress)
+  result = perm_net_weigths(edg, sym, nperm, progress)
   cat("\n")
   return(result)
 }

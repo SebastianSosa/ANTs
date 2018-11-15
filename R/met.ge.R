@@ -36,7 +36,7 @@
 #' @examples
 #' met.ge(sim.m)
 
-met.ge <- function(M, df = NULL, weighted = T, shortest.weight = F, normalization = T, directed = T, out = T) {
+met.ge <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = TRUE) {
   test <- is.matrix(M)
   if (test) {
     result <- met.ge.single(M, weighted, shortest.weight, normalization, directed, out)
@@ -52,10 +52,10 @@ met.ge <- function(M, df = NULL, weighted = T, shortest.weight = F, normalizatio
 
   else {
     tmp <- "tmp"
-    if (weighted == F) {
+    if (weighted == FALSE) {
       if (normalization) {
         if (shortest.weight) {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "norm.short.geB"
           }
           else {
@@ -68,7 +68,7 @@ met.ge <- function(M, df = NULL, weighted = T, shortest.weight = F, normalizatio
           }
         }
         else {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "norm.geB"
           }
           else {
@@ -83,7 +83,7 @@ met.ge <- function(M, df = NULL, weighted = T, shortest.weight = F, normalizatio
       }
       else {
         if (shortest.weight) {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "short.geB"
           }
           else {
@@ -96,7 +96,7 @@ met.ge <- function(M, df = NULL, weighted = T, shortest.weight = F, normalizatio
           }
         }
         else {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "geB"
           }
           else {
@@ -113,7 +113,7 @@ met.ge <- function(M, df = NULL, weighted = T, shortest.weight = F, normalizatio
     else {
       if (normalization) {
         if (shortest.weight) {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "norm.short.ge"
           }
           else {
@@ -126,7 +126,7 @@ met.ge <- function(M, df = NULL, weighted = T, shortest.weight = F, normalizatio
           }
         }
         else {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "norm.ge"
           }
           else {
@@ -141,7 +141,7 @@ met.ge <- function(M, df = NULL, weighted = T, shortest.weight = F, normalizatio
       }
       else {
         if (shortest.weight) {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "short.ge"
           }
           else {
@@ -154,7 +154,7 @@ met.ge <- function(M, df = NULL, weighted = T, shortest.weight = F, normalizatio
           }
         }
         else {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "ge"
           }
           else {
@@ -323,7 +323,7 @@ met.ge <- function(M, df = NULL, weighted = T, shortest.weight = F, normalizatio
             y$ge <- met.ge.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
             colnames(y)[ncol(y)] <- t
             return(y)
-          }, x = M, y = df, t = attributes(tmp)$name, SIMPLIFY = F)
+          }, x = M, y = df, t = attributes(tmp)$name, SIMPLIFY = FALSE)
           return(result)
         }
       }

@@ -43,7 +43,7 @@ mat.to.edgl <- function(M, sym = F, erase.diag = T) {
   }
   # If argument sym is equal to FALSE----------------------
   else {
-    if(is.null(colnames(m))){stop("Argument M doesn't have column names.")}
+    if(is.null(colnames(M))){stop("Argument M doesn't have column names.")}
     # Create a vector of actors
     from <- rep(c(colnames(M)), dim(M)[2])
     # Create a vector of receivers

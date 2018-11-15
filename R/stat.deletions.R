@@ -60,7 +60,7 @@
 #' t=stat.deletions(mb,attr = attr,target = 'decreasing',nsim = 2,ndel=4);
 
 
-stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.weight = F, normalization = F, directed = T, out = T, progress = T, return.mat = F) {
+stat.deletions <- function(M, attr, target, ndel, nsim, weighted = TRUE, shortest.weight = FALSE, normalization = FALSE, directed = TRUE, out = TRUE, progress = TRUE, return.mat = FALSE) {
   if (!is.factor(attr) & !is.character(attr) & !is.numeric(attr)) {
     stop("Argument attr must be a numeric or a vector of factors.")
   }
@@ -87,7 +87,7 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
   R.Density[1] <- Density[1]
 
   # If user selected return matrix, create an object that stores the matrix along the deletions
-  if (return.mat == T) {
+  if (return.mat == TRUE) {
     MAT <- rep(list(NA), 2)
     TMAT <- rep(list(NA), ndel + 1)
     TMAT[[1]] <- M
@@ -146,7 +146,7 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
         R.GE[i] <- met.ge(MR, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
         R.Density[i] <- met.density(MR)
 
-        if (return.mat == T) {
+        if (return.mat == TRUE) {
           TMAT[i] <- MT
           RMAT[i] <- MR
         }
@@ -161,7 +161,7 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
       R.GLOBAL[[j]] <- R.GE
       R.DENSITY[[j]] <- R.Density
 
-      if (return.mat == T) {
+      if (return.mat == TRUE) {
         MAT[[1]] <- TMAT
         MAT[[2]] <- RMAT
       }
@@ -186,10 +186,10 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
     }
     # Selecting target nodes
     if (target == "decreasing") {
-      ids.ordered <- order(attr, decreasing = T)
+      ids.ordered <- order(attr, decreasing = TRUE)
     }
     if (target == "increasing") {
-      ids.ordered <- order(attr, decreasing = F)
+      ids.ordered <- order(attr, decreasing = FALSE)
     }
     DIAM <- rep(list(NA), nsim)
     GLOBAL <- rep(list(NA), nsim)
@@ -227,7 +227,7 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
         R.GE[i] <- met.ge(MR, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
         R.Density[i] <- met.density(MR)
 
-        if (return.mat == T) {
+        if (return.mat == TRUE) {
           TMAT[i] <- MT
           RMAT[i] <- MR
         }
@@ -242,7 +242,7 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
       R.GLOBAL[[j]] <- R.GE
       R.DENSITY[[j]] <- R.Density
 
-      if (return.mat == T) {
+      if (return.mat == TRUE) {
         MAT[[1]] <- TMAT
         MAT[[2]] <- RMAT
       }
@@ -293,11 +293,11 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
     r <- rbind(x, y)
     rownames(r) <- c(1:nrow(r))
     return(r)
-  }, stat.target.deletion, stat.random.deletion, SIMPLIFY = F)
+  }, stat.target.deletion, stat.random.deletion, SIMPLIFY = FALSE)
 
   # return -----------------------------------------------------------------------------------------
   cat("\n")
-  if (return.mat == F) {
+  if (return.mat == FALSE) {
     attr(result, "ANT") <- c("ANT deletions simulations whithout matrices")
     attr(result, "deletions") <- paste(ndel)
     return(result)

@@ -31,7 +31,7 @@
 #' @examples
 #' met.ci(sim.m)
 
-met.ci <- function(M, df = NULL, binary = F, sym = T) {
+met.ci <- function(M, df = NULL, dfid = NULL binary = FALSE, sym = TRUE) {
   # Checking if argument M is a square matrix 
   test <- is.matrix(M)
   if (test) {
@@ -236,7 +236,7 @@ met.ci <- function(M, df = NULL, binary = F, sym = T) {
           result <- mapply(function(x, y) {
             y$ci <- met.ci.single(x)
             return(y)
-          }, x = M, y = df, SIMPLIFY = F)
+          }, x = M, y = df, SIMPLIFY = FALSE)
           return(result)
         }
       }

@@ -35,7 +35,7 @@ perm.redo <- function(df, labels, ctrl) {
   # Do permutations on each element of the list
   col.id <- df.col.findId(df, labels)
   perm <- lapply(ldf, function(x, col.id) {
-    r <- perm_nodeLabels(df = x, nperm = 1, label = col.id, progress = F)[[2]]
+    r <- perm_nodeLabels(df = x, nperm = 1, label = col.id, progress = FALSE)[[2]]
   }, col.id)
 
   # Merge the permuted elements in the list

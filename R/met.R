@@ -178,7 +178,7 @@ met <- function(M, df = NULL, dfid = NULL) {
           df <- df[match(colnames(x), df[, col.id]), ]
           r <- data.frame(df, r)
           return(r)
-        }, M, df = df, dfid = dfid, op = op, SIMPLIFY = F)
+        }, M, df = df, dfid = dfid, op = op, SIMPLIFY = FALSE)
         return(result)
       }
     }

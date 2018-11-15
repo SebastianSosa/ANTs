@@ -493,7 +493,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               if (is.vector(attr)) {
                 # Check if it is a character or factor vector and compute the categorical assortativity
                 if (is.factor(attr) | is.character(attr)) {
-                  result <- mapply(M, met.assortativityCat, df = df, attr = sample(attr), SIMPLIFY = F)
+                  result <- mapply(M, met.assortativityCat, df = df, attr = sample(attr), SIMPLIFY = FALSE)
                   return(result)
                 }
                 # Else, compute continuous assortativity
@@ -867,7 +867,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
             if (!is.data.frame(df) & is.list(df)) {
               if (is.vector(attr)) {
                 if (is.factor(attr) | is.character(attr)) {
-                  result <- mapply(M, met.assortativityCat, df = df, attr = attr, SIMPLIFY = F)
+                  result <- mapply(M, met.assortativityCat, df = df, attr = attr, SIMPLIFY = FALSE)
                   return(result)
                 }
                 else {

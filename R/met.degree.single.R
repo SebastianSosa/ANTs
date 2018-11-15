@@ -47,7 +47,7 @@ met.degree.single <- function(M, df = NULL, dfid = NULL) {
       col.id <- df.col.findId(df, dfid)
       df <- df[match(colnames(M), df[, col.id]), ]
     }
-    if (is.data.frame(df) == F) {
+    if (is.data.frame(df) == FALSE) {
       stop("Argument df must be a data frame")
     }
       # Add vector of network metrics in a new column

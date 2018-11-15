@@ -28,7 +28,7 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @references Whitehead, H., & James, R. (2015). Generalized affiliation indices extract affiliations from social network data. Methods in Ecology and Evolution, 6(7), 836-844.
 
-assoc.gfi <- function(M1, M2, fr = T, sym = F, erase.diag = T) {
+assoc.gfi <- function(M1, M2, fr = T, sym = FALSE, erase.diag = T) {
   # Vectorize Matrix----------------------
   y <- mat.vectorization(M1, sym, erase.diag)
   x <- mat.vectorization(M2, sym, erase.diag)

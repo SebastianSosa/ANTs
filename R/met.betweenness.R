@@ -522,7 +522,7 @@ met.betweenness <- function(M, binary = FALSE, shortest.weight = FALSE, normaliz
             r <- met.betweenness.single(m = M, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, dfid = dfid)
             colnames(r)[ncol(r)] <- tmp1
             return(r)
-          }, M = M, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, dfid = dfid, tmp1=n, SIMPLIFY = F)
+          }, M = M, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, dfid = dfid, tmp1=n, SIMPLIFY = FALSE)
           return(result)
         }
         else {
@@ -532,7 +532,7 @@ met.betweenness <- function(M, binary = FALSE, shortest.weight = FALSE, normaliz
             r <- met.betweenness.single(m = M, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df)
             colnames(r)[ncol(r)] <- colnames(r)[ncol(r)] <- tmp1
             return(r)
-          }, M = M, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, tmp1=n, SIMPLIFY = F)
+          }, M = M, binary = binary, shortest.weight = shortest.weight, normalization = normalization, sym = sym, out = out, df = df, tmp1=n, SIMPLIFY = FALSE)
           return(result)
         }
       }

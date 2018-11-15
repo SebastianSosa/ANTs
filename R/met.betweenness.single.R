@@ -37,7 +37,7 @@ met.betweenness.single <- function(m, binary = T, shortest.weight = F, normaliza
     m <- m + t(m)
   }
   else {
-    if (out == F) {
+    if (out == FALSE) {
       m <- t(m)
     }
   }
@@ -51,7 +51,7 @@ met.betweenness.single <- function(m, binary = T, shortest.weight = F, normaliza
     return(result)
   }
   else {
-    if (is.data.frame(df) == F) {
+    if (is.data.frame(df) == FALSE) {
       stop("Argument df must be a data frame")
     }
     # If argument dfid is not null

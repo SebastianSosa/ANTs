@@ -30,20 +30,20 @@
 
 #' @keywords internal
 
-met.dge.single <- function(m, weighted = T, shortest.weight = F, normalization = T, directed = T) {
-  if (weighted == F) {
+met.dge.single <- function(m, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE) {
+  if (weighted == FALSE) {
     m <- mat_filter(m, 1, 1)
   }
-  if (shortest.weight == F) {
+  if (shortest.weight == FALSE) {
     # opshal method
     avg_strength <- mean(m)
-    if (normalization == T) {
+    if (normalization == TRUE) {
       m <- m / avg_strength
     }
     m <- 1 / m
     m[is.infinite(m)] <- 0
   }
-  if (directed == F) {
+  if (directed == FALSE) {
     m <- m + t(m)
     result <- metric_global_shortestPath(m)[[1]]
     diag(result) <- 0

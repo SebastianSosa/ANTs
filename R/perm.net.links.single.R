@@ -23,11 +23,11 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
 
-perm.net.links.single <- function(M, sym = F, erase.diag = T, nperm, progress = T) {
+perm.net.links.single <- function(M, sym = FALSE, erase.diag = TRUE, nperm, progress = TRUE) {
   if (progress) {
     # If argument sym is TRUE
     if (sym) {
-      if (erase.diag == T) {
+      if (erase.diag == TRUE) {
         result <- lapply(seq_len(nperm), function(x, y) {
           cat("Permutation: ", x, "\r")
           #Extract only lower triangle, sample it
@@ -43,7 +43,7 @@ perm.net.links.single <- function(M, sym = F, erase.diag = T, nperm, progress = 
       else {
         result <- lapply(seq_len(nperm), function(x, y) {
           cat("Permutation: ", x, "\r")
-          y[lower.tri(y, diag = T)] <- sample(y[lower.tri(y, diag = T)])
+          y[lower.tri(y, diag = TRUE)] <- sample(y[lower.tri(y, diag = TRUE)])
           y[upper.tri(y)] <- y[lower.tri(y)]
           return(y)
         }, y = M)
@@ -91,8 +91,8 @@ perm.net.links.single <- function(M, sym = F, erase.diag = T, nperm, progress = 
   }
   # If argument progress is FALSE do the same as previoulsy but without printing permutations progress
   else {
-    if (sym == T) {
-      if (erase.diag == T) {
+    if (sym == TRUE) {
+      if (erase.diag == TRUE) {
         result <- lapply(seq_len(nperm + 1), function(x, y, z) {
           if (x == 1) {
             return(y)
@@ -109,7 +109,7 @@ perm.net.links.single <- function(M, sym = F, erase.diag = T, nperm, progress = 
           if (x == 1) {
             return(y)
           }
-          y[lower.tri(y, diag = T)] <- sample(y[lower.tri(y, diag = T)])
+          y[lower.tri(y, diag = TRUE)] <- sample(y[lower.tri(y, diag = TRUE)])
           y[upper.tri(y)] <- y[lower.tri(y)]
           return(y)
         }, y = M)
@@ -118,7 +118,7 @@ perm.net.links.single <- function(M, sym = F, erase.diag = T, nperm, progress = 
       }
     }
     else {
-      if (erase.diag == T) {
+      if (erase.diag == TRUE) {
         col <- ncol(M)
         ncell <- (col * col) - col
         result <- lapply(seq_len(nperm + 1), function(x, y, z) {

@@ -19,7 +19,7 @@
 #' @param erase.diag if \emph{true} will not keep the diagonal of the matrix.
 #' @description Transform a matrix into a vector.
 #' @keywords internal
-mat.vectorization <- function(M, sym = F, erase.diag = T) {
+mat.vectorization <- function(M, sym = FALSE, erase.diag = TRUE) {
   # If argument sym is equal to TRUE----------------------
   if (sym) {
     # If argument erase.diag is equal to TRUE

@@ -26,9 +26,9 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 
-met.lpcentEvcent <- function(M, binary = F) {
+met.lpcentEvcent <- function(M, binary = FALSE) {
   error_matrix(M)
-  if (binary == T) {
+  if (binary == TRUE) {
     M <- mat.binaryzation(M)
   }
   laplacian_energy_0 <- met.lpEnergyEigen(M)

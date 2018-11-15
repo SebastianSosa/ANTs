@@ -29,7 +29,7 @@
 #' df=met.strength(sim.m,df=sim.df)
 #' t=perm.net.nl(df,labels='sex',rf=NULL,nperm=1000,progress=TRUE)
 
-perm.net.nl <- function(ldf, labels, rf = NULL, nperm, progress = T) {
+perm.net.nl <- function(ldf, labels, rf = NULL, nperm, progress = TRUE) {
   ### Permutations on a single dataframe, rf has to be null in this case
   if (is.data.frame(ldf) && is.null(rf)) {
     if (is.null(rf)) {

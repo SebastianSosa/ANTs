@@ -63,7 +63,7 @@ stat.t <- function(ant, formula, alternative = "two.sided", na.action = na.omit,
 
   # Extract T-test information
   attr(result, "class") <- "ant t-test"
-  if (paired == F) {
+  if (paired == FALSE) {
     attr(result, "comment") <- "unpaired"
   }
   else {

@@ -65,7 +65,7 @@ met.density <- function(M, df = NULL) {
           result <- mapply(function(x, y) {
             y$density <- met_density(x)
             return(y)
-          }, x = M, y = df, SIMPLIFY = F)
+          }, x = M, y = df, SIMPLIFY = FALSE)
           return(result)
         }
       }

@@ -22,7 +22,7 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 #' @keywords internal
 
-met.alterDegree <- function(M, i, av = F, binary = F) {
+met.alterDegree <- function(M, i, av = FALSE, binary = FALSE) {
   nodes_degree <- mat_cols_sums(M)
   if (nodes_degree[i] != 0) {
     if (binary == T) {
@@ -30,7 +30,7 @@ met.alterDegree <- function(M, i, av = F, binary = F) {
     }
     alters_id <- which(M[, i] > 0)
     alters_d <- nodes_degree[alters_id]
-    if (av == F) {
+    if (av == FALSE) {
       alters_metric <- sum(alters_d)
     }
     else {

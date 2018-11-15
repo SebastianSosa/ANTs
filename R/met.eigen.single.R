@@ -27,13 +27,13 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 #'
-met.eigen.single <- function(M, df = NULL, dfid = NULL, sym = T, binary = F, out = F) {
+met.eigen.single <- function(M, df = NULL, dfid = NULL, sym = TRUE, binary = FALSE, out = FALSE) {
   # Organizing matrix according to arguments user declaration
   if (sym & out) {
     stop("Argument out cannot be TRUE when argument sym is TRUE.")
   }
   # Transpose matrix
-  if (sym == F & out == F) {
+  if (sym == FALSE & out == FALSE) {
     M <- t(M)
   }
   # Symetrize matrix
@@ -61,28 +61,28 @@ met.eigen.single <- function(M, df = NULL, dfid = NULL, sym = T, binary = F, out
       col.id <- df.col.findId(df, dfid)
       df[match(colnames(M), df[, col.id]), ]
     }
-    if (is.data.frame(df) == F) {
+    if (is.data.frame(df) == FALSE) {
       stop("Argument df must be a data frame")
     }
     # Add vector of network metrics in a new column
     df$eigen <- result
-    if (sym == T) {
+    if (sym == TRUE) {
       df$eigen <- result
     }
-    if (sym == F & out == F) {
+    if (sym == FALSE & out == FALSE) {
       df$ineigen <- result
     }
-    if (sym == F & out == T) {
+    if (sym == FALSE & out == TRUE) {
       df$outeigen <- result
     }
 
-    if (binary == T) {
+    if (binary == TRUE) {
       df$eigenB <- result
     }
-    if (binary == T & sym == F & out == F) {
+    if (binary == TRUE & sym == FALSE & out == FALSE) {
       df$ineigenB <- result
     }
-    if (binary == T & sym == F & out == T) {
+    if (binary == TRUE & sym == FALSE & out == TRUE) {
       df$outeigenB <- result
     }
     return(df)

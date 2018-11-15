@@ -198,13 +198,13 @@ met.indegree <- function(M, df = NULL, dfid = NULL) {
       # Argument df is a data frame
       if (!is.null(dfid)) {
         # Compute network metric
-        result <- mapply(met.indegree.single, M, df = df, dfid = dfid, SIMPLIFY = F)
+        result <- mapply(met.indegree.single, M, df = df, dfid = dfid, SIMPLIFY = FALSE)
         return(result)
       }
       else {
         # Compute network metric
         warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
-        result <- mapply(met.indegree.single, M, df = df, SIMPLIFY = F)
+        result <- mapply(met.indegree.single, M, df = df, SIMPLIFY = FALSE)
         return(result)
       }
     }

@@ -157,226 +157,226 @@ met.all <- function(M, df, vec) {
   option <- metrics %in% vec
 
   # Affinity ------------------------------------------------------------------------------------
-  if (option[1] == T) {
-    t <- lapply(M, met.affinity.single, binary = T)
+  if (option[1] == TRUE) {
+    t <- lapply(M, met.affinity.single, binary = TRUE)
     t <- do.call("c", t)
     df$instrength <- t
   }
-  if (option[2] == T) {
-    t <- lapply(M, met.affinity.single, binary = T)
+  if (option[2] == TRUE) {
+    t <- lapply(M, met.affinity.single, binary = TRUE)
     t <- do.call("c", t)
     df$affinityB <- t
   }
 
   # Betweenness ---------------------------------------------------------------------------------
   # Binary not noarmalized  betweenness
-  if (option[3] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = F, shortest.weight = F, normalization = F, directed = F, out = T)
+  if (option[3] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = FALSE, shortest.weight = FALSE, normalization = FALSE, directed = FALSE, out = TRUE)
     t <- do.call("c", t)
     df$betweennessB <- t
   }
-  if (option[4] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = F, shortest.weight = F, normalization = F, directed = T, out = F)
+  if (option[4] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = FALSE, shortest.weight = FALSE, normalization = FALSE, directed = TRUE, out = FALSE)
     t <- do.call("c", t)
     df$inbetweennessB <- t
   }
-  if (option[5] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = F, shortest.weight = F, normalization = F, directed = T, out = T)
+  if (option[5] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = FALSE, shortest.weight = FALSE, normalization = FALSE, directed = TRUE, out = TRUE)
     t <- do.call("c", t)
     df$outbetweennessB <- t
   }
   # Binary noarmalized  betweenness
-  if (option[6] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = F, shortest.weight = F, normalization = T, directed = F, out = T)
+  if (option[6] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = FALSE, shortest.weight = FALSE, normalization = TRUE, directed = FALSE, out = TRUE)
     t <- do.call("c", t)
     df$norm.betweennessB <- t
   }
-  if (option[7] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = F, shortest.weight = F, normalization = T, directed = T, out = F)
+  if (option[7] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = FALSE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = FALSE)
     t <- do.call("c", t)
     df$norm.inbetweennessB <- t
   }
-  if (option[8] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = F, shortest.weight = F, normalization = T, directed = T, out = T)
+  if (option[8] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = FALSE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = TRUE)
     t <- do.call("c", t)
     df$norm.outbetweennessB <- t
   }
 
   # weighted non noarmalized and through strongest links betweenness
-  if (option[9] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = T, shortest.weight = F, normalization = F, directed = F, out = T)
+  if (option[9] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = TRUE, shortest.weight = FALSE, normalization = FALSE, directed = FALSE, out = TRUE)
     t <- do.call("c", t)
     df$betweenness <- t
   }
-  if (option[10] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = T, shortest.weight = F, normalization = F, directed = T, out = F)
+  if (option[10] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = TRUE, shortest.weight = FALSE, normalization = FALSE, directed = TRUE, out = FALSE)
     t <- do.call("c", t)
     df$inbetweenness <- t
   }
-  if (option[11] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = T, shortest.weight = F, normalization = F, directed = T, out = F)
+  if (option[11] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = TRUE, shortest.weight = FALSE, normalization = FALSE, directed = TRUE, out = FALSE)
     t <- do.call("c", t)
     df$outbetweenness <- t
   }
 
   # weighted non noarmalized and through weakest links betweenness
-  if (option[12] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = T, shortest.weight = T, normalization = F, directed = F, out = T)
+  if (option[12] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = TRUE, shortest.weight = TRUE, normalization = FALSE, directed = FALSE, out = TRUE)
     t <- do.call("c", t)
     df$short.betweenness <- t
   }
-  if (option[13] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = T, shortest.weight = T, normalization = F, directed = T, out = F)
+  if (option[13] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = TRUE, shortest.weight = TRUE, normalization = FALSE, directed = TRUE, out = FALSE)
     t <- do.call("c", t)
     df$short.inbetweenness <- t
   }
-  if (option[14] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = T, shortest.weight = T, normalization = F, directed = T, out = F)
+  if (option[14] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = TRUE, shortest.weight = TRUE, normalization = FALSE, directed = TRUE, out = FALSE)
     t <- do.call("c", t)
     df$short.outbetweenness <- t
   }
 
   # weighted noarmalized and through strongest links betweenness
-  if (option[15] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = T, shortest.weight = F, normalization = T, directed = F, out = T)
+  if (option[15] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = FALSE, out = TRUE)
     t <- do.call("c", t)
     df$norm.betweenness <- t
   }
-  if (option[16] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = T, shortest.weight = F, normalization = T, directed = T, out = F)
+  if (option[16] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = FALSE)
     t <- do.call("c", t)
     df$norm.inbetweenness <- t
   }
-  if (option[17] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = T, shortest.weight = F, normalization = T, directed = T, out = F)
+  if (option[17] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = FALSE)
     t <- do.call("c", t)
     df$norm.outbetweenness <- t
   }
 
   # weighted noarmalized and through weakest links betweenness
-  if (option[18] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = T, shortest.weight = T, normalization = T, directed = F, out = T)
+  if (option[18] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = TRUE, shortest.weight = TRUE, normalization = TRUE, directed = FALSE, out = TRUE)
     t <- do.call("c", t)
     df$norm.short.betweenness <- t
   }
-  if (option[19] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = T, shortest.weight = T, normalization = T, directed = T, out = F)
+  if (option[19] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = TRUE, shortest.weight = TRUE, normalization = TRUE, directed = TRUE, out = FALSE)
     t <- do.call("c", t)
     df$norm.short.inbetweenness <- t
   }
-  if (option[20] == T) {
-    t <- lapply(M, met.betweenness.single, weighted = T, shortest.weight = T, normalization = T, directed = T, out = F)
+  if (option[20] == TRUE) {
+    t <- lapply(M, met.betweenness.single, weighted = TRUE, shortest.weight = TRUE, normalization = TRUE, directed = TRUE, out = FALSE)
     t <- do.call("c", t)
     df$norm.short.outbetweenness <- t
   }
 
   # Degree --------------------------------------------------------------------------------------
-  if (option[21] == T) {
+  if (option[21] == TRUE) {
     t <- lapply(M, met.degree.single)
     t <- do.call("c", t)
     df$degree <- t
   }
-  if (option[22] == T) {
+  if (option[22] == TRUE) {
     t <- lapply(M, met.outdegree.single)
     t <- do.call("c", t)
     df$outdegree <- t
   }
-  if (option[23] == T) {
+  if (option[23] == TRUE) {
     t <- lapply(M, met.indegree.single)
     t <- do.call("c", t)
     df$indegree <- t
   }
 
   # Disparity -----------------------------------------------------------------------------------
-  if (option[24] == T & any(option[c(25, 26)]) == F) {
-    t <- lapply(M, met.disparity.single, directed = F)
+  if (option[24] == TRUE & any(option[c(25, 26)]) == FALSE) {
+    t <- lapply(M, met.disparity.single, directed = FALSE)
     t <- do.call("c", t)
     df$disparity <- t
   }
   # else{
-  # tmp=lapply(M,met.disparity.single,directed=T)
+  # tmp=lapply(M,met.disparity.single,directed=TRUE)
   # tmp=do.call('rbind',tmp)
-  # if(option[24]==T){df$disparity=tmp[,1]}
-  # if(option[25]==T){df$indisparity=tmp[,1]}
-  # if(option[26]==T){df$outdisparity=tmp[,1]}
+  # if(option[24]==TRUE){df$disparity=tmp[,1]}
+  # if(option[25]==TRUE){df$indisparity=tmp[,1]}
+  # if(option[26]==TRUE){df$outdisparity=tmp[,1]}
   # }
 
   # Eigenvector ---------------------------------------------------------------------------------
-  if (option[27] == T) {
-    t <- lapply(M, met.eigen, sym = T, binary = T, out = F)
+  if (option[27] == TRUE) {
+    t <- lapply(M, met.eigen, sym = TRUE, binary = TRUE, out = FALSE)
     t <- do.call("c", t)
     df$eigenB <- t
   }
-  if (option[28] == T) {
-    t <- lapply(M, met.eigen, binary = T, sym = F, out = T)
+  if (option[28] == TRUE) {
+    t <- lapply(M, met.eigen, binary = TRUE, sym = FALSE, out = TRUE)
     t <- do.call("c", t)
     df$outeigenB <- t
   }
-  if (option[29] == T) {
-    t <- lapply(M, met.eigen, binary = T, sym = F, out = F)
+  if (option[29] == TRUE) {
+    t <- lapply(M, met.eigen, binary = TRUE, sym = FALSE, out = FALSE)
     t <- do.call("c", t)
     df$ineigenB <- t
   }
-  if (option[30] == T) {
-    t <- lapply(M, met.eigen, binary = F, sym = T, out = F)
+  if (option[30] == TRUE) {
+    t <- lapply(M, met.eigen, binary = FALSE, sym = TRUE, out = FALSE)
     t <- do.call("c", t)
     df$eigen <- t
   }
 
-  if (option[31] == T) {
-    t <- lapply(M, met.eigen, binary = F, sym = F, out = T)
+  if (option[31] == TRUE) {
+    t <- lapply(M, met.eigen, binary = FALSE, sym = FALSE, out = TRUE)
     t <- do.call("c", t)
     df$outeigen <- t
   }
-  if (option[32] == T) {
-    t <- lapply(M, met.eigen, binary = F, sym = F, out = F)
+  if (option[32] == TRUE) {
+    t <- lapply(M, met.eigen, binary = FALSE, sym = FALSE, out = FALSE)
     t <- do.call("c", t)
     df$ineigen <- t
   }
 
   # Laplacian centrality ------------------------------------------------------------------------
-  if (option[33] == T) {
+  if (option[33] == TRUE) {
     t <- lapply(M, met.lpcB)
     t <- do.call("c", t)
     df$lpB <- t
   }
-  if (option[34] == T) {
+  if (option[34] == TRUE) {
     t <- lapply(M, met.lpcW)
     t <- do.call("c", t)
     df$lp <- t
   }
 
   # Reach ---------------------------------------------------------------------------------------
-  if (option[35] == T) {
-    t <- lapply(M, met.reach, binary = F)
+  if (option[35] == TRUE) {
+    t <- lapply(M, met.reach, binary = FALSE)
     t <- do.call("c", t)
     df$reach <- t
   }
-  if (option[36] == T) {
-    t <- lapply(M, met.reach, binary = T)
+  if (option[36] == TRUE) {
+    t <- lapply(M, met.reach, binary = TRUE)
     t <- do.call("c", t)
     df$reachB <- t
   }
 
   # RI index ------------------------------------------------------------------------------------
-  if (option[37] == T) {
+  if (option[37] == TRUE) {
     t <- lapply(M, met.ri.single)
     t <- do.call("c", t)
     df$ri <- t
   }
 
   # strength ------------------------------------------------------------------------------------
-  if (option[38] == T) {
+  if (option[38] == TRUE) {
     t <- lapply(M, met.strength.single)
     t <- do.call("c", t)
     df$strength <- t
   }
-  if (option[39] == T) {
+  if (option[39] == TRUE) {
     t <- lapply(M, met.outstrength.single)
     t <- do.call("c", t)
     df$outstrength <- t
   }
-  if (option[40] == T) {
+  if (option[40] == TRUE) {
     t <- lapply(M, met.instrength.single)
     t <- do.call("c", t)
     df$instrength <- t

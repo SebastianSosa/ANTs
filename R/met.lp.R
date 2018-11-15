@@ -37,7 +37,7 @@
 #' head(sim.df)
 #' met.lp(sim.m,df=sim.df)
 
-met.lp <- function(M, df = NULL, dfid = NULL, binary = F) {
+met.lp <- function(M, df = NULL, dfid = NULL, binary = FALSE) {
   # Check if argument M is a square matrix or a list of square matrices----------------------
   test <- check.mat(M)
 
@@ -278,14 +278,14 @@ met.lp <- function(M, df = NULL, dfid = NULL, binary = F) {
         # Check if argument dfid is not NULL
         if (!is.null(dfid)) {
           # Compute network metric
-          result <- mapply(met.lp.single, M, df = df, dfid = dfid, binary = binary, SIMPLIFY = F)
+          result <- mapply(met.lp.single, M, df = df, dfid = dfid, binary = binary, SIMPLIFY = FALSE)
           return(result)
         }
         # Check if argument dfid is NULL and print warning
         else {
           # Compute network metric
           warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
-          result <- mapply(met.lp.single, M, df = df, binary = binary, SIMPLIFY = F)
+          result <- mapply(met.lp.single, M, df = df, binary = binary, SIMPLIFY = FALSE)
           return(result)
         }
       }      

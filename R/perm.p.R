@@ -30,7 +30,7 @@
 #' @keywords interanl
 
 
-stat.p <- function(metrics, histogram = F) {
+stat.p <- function(metrics, histogram = FALSE) {
   ### Vector with permuted values, first element is observed value
   if (is.vector(metrics)) {
     v <- metrics[1]
@@ -48,7 +48,7 @@ stat.p <- function(metrics, histogram = F) {
 
   ## create histogram from permuted values
   if (histogram == T) {
-    histo <- asna:::histogram(v, v_perm)
+    histo <- histogram(v, v_perm)
     p <- c("p-value_left_side" = p_valuevalue_left_side, "p-value_left_side" = p_valuevalue_right_side)
     return(list("p-values" = p, "histogram" = histo))
   }

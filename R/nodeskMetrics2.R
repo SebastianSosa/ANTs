@@ -42,11 +42,11 @@ nodeskMetrics2 <- function(M, option, df = NULL, dfid = NULL) {
 
   # Affinity ------------------------------------------------------------------------------------
   if (option[1] == 1) {
-    affinityB <- met.affinity(M, binary = T)
+    affinityB <- met.affinity(M, binary = TRUE)
     df <- data.frame(df, affinityB)
   }
   if (option[2] == 1) {
-    affinity <- met.affinity(M, binary = F)
+    affinity <- met.affinity(M, binary = FALSE)
     df <- data.frame(df, affinity)
   }
 
@@ -70,83 +70,83 @@ nodeskMetrics2 <- function(M, option, df = NULL, dfid = NULL) {
     if (option3) {
       # Binary not noarmalized  betweenness
       if (option4 & !option8) {
-        betweennessB <- met.betweenness(M, binary = T, shortest.weight = F, normalization = F, sym = T)
+        betweennessB <- met.betweenness(M, binary = TRUE, shortest.weight = FALSE, normalization = FALSE, sym = TRUE)
         df <- data.frame(df, betweennessB)
       }
       if (option5 & !option8) {
-        outbetweennessB <- met.betweenness(M, binary = T, shortest.weight = F, normalization = F, sym = F, out = T)
+        outbetweennessB <- met.betweenness(M, binary = TRUE, shortest.weight = FALSE, normalization = FALSE, sym = FALSE, out = TRUE)
         df <- data.frame(df, outbetweennessB)
       }
       if (option6 & !option8) {
-        inbetweennessB <- met.betweenness(M, binary = T, shortest.weight = F, normalization = F, sym = F, out = F)
+        inbetweennessB <- met.betweenness(M, binary = TRUE, shortest.weight = FALSE, normalization = FALSE, sym = FALSE, out = FALSE)
         df <- data.frame(df, inbetweennessB)
       }
       # Binary noarmalized  betweenness
       if (option4 & option8) {
-        norm.betweennessB <- met.betweenness(M, binary = T, shortest.weight = F, normalization = T, sym = T)
+        norm.betweennessB <- met.betweenness(M, binary = TRUE, shortest.weight = FALSE, normalization = TRUE, sym = TRUE)
         df <- data.frame(df, norm.betweennessB)
       }
       if (option5 & option8) {
-        norm.outbetweennessB <- met.betweenness(M, binary = T, shortest.weight = F, normalization = T, sym = F, out = T)
+        norm.outbetweennessB <- met.betweenness(M, binary = TRUE, shortest.weight = FALSE, normalization = TRUE, sym = FALSE, out = TRUE)
         df <- data.frame(df, norm.outbetweennessB)
       }
       if (option6 & option8) {
-        norm.inbetweennessB <- met.betweenness(M, binary = T, shortest.weight = F, normalization = T, sym = F, out = F)
+        norm.inbetweennessB <- met.betweenness(M, binary = TRUE, shortest.weight = FALSE, normalization = TRUE, sym = FALSE, out = FALSE)
         df <- data.frame(df, norm.inbetweennessB)
       }
     }
     if (option7) {
       # weighted non noarmalized and through strongest links betweenness
       if (option4 & !option8 & !option9) {
-        betweenness <- met.betweenness(M, binary = F, shortest.weight = F, normalization = F, sym = T)
+        betweenness <- met.betweenness(M, binary = FALSE, shortest.weight = FALSE, normalization = FALSE, sym = TRUE)
         df <- data.frame(df, betweenness)
       }
       if (option5 & !option8 & !option9) {
-        outbetweenness <- met.betweenness(M, binary = F, shortest.weight = F, normalization = F, sym = F, out = T)
+        outbetweenness <- met.betweenness(M, binary = FALSE, shortest.weight = FALSE, normalization = FALSE, sym = FALSE, out = TRUE)
         df <- data.frame(df, outbetweenness)
       }
       if (option6 & !option8 & !option9) {
-        inbetweenness <- met.betweenness(M, binary = F, shortest.weight = F, normalization = F, sym = F, out = F)
+        inbetweenness <- met.betweenness(M, binary = FALSE, shortest.weight = FALSE, normalization = FALSE, sym = FALSE, out = FALSE)
         df <- data.frame(df, inbetweenness)
       }
       # weighted noarmalized and through weakest links betweenness
       if (option4 & !option8 & option9) {
-        norm.short.betweenness <- met.betweenness(M, binary = F, shortest.weight = T, normalization = T, sym = T)
+        norm.short.betweenness <- met.betweenness(M, binary = FALSE, shortest.weight = TRUE, normalization = TRUE, sym = TRUE)
         df <- data.frame(df, norm.short.betweenness)
       }
       if (option5 & !option8 & option9) {
-        norm.short.outbetweenness <- met.betweenness(M, binary = F, shortest.weight = T, normalization = T, sym = F, out = T)
+        norm.short.outbetweenness <- met.betweenness(M, binary = FALSE, shortest.weight = TRUE, normalization = TRUE, sym = FALSE, out = TRUE)
         df <- data.frame(df, norm.short.outbetweenness)
       }
       if (option6 & !option8 & option9) {
-        norm.short.inbetweenness <- met.betweenness(M, binary = F, shortest.weight = T, normalization = T, sym = F, out = F)
+        norm.short.inbetweenness <- met.betweenness(M, binary = FALSE, shortest.weight = TRUE, normalization = TRUE, sym = FALSE, out = FALSE)
         df <- data.frame(df, norm.short.inbetweenness)
       }
 
       # weighted noarmalized and through strongest links betweenness
       if (option4 & option8 & !option9) {
-        norm.betweenness <- met.betweenness(M, binary = F, shortest.weight = F, normalization = T, sym = T)
+        norm.betweenness <- met.betweenness(M, binary = FALSE, shortest.weight = FALSE, normalization = TRUE, sym = TRUE)
         df <- data.frame(df, norm.betweenness)
       }
       if (option5 & option8 & !option9) {
-        norm.outbetweenness <- met.betweenness(M, binary = F, shortest.weight = F, normalization = T, sym = F, out = T)
+        norm.outbetweenness <- met.betweenness(M, binary = FALSE, shortest.weight = FALSE, normalization = TRUE, sym = FALSE, out = TRUE)
         df <- data.frame(df, norm.outbetweenness)
       }
       if (option6 & option8 & !option9) {
-        norm.inbetweenness <- met.betweenness(M, binary = F, shortest.weight = F, normalization = T, sym = F, out = F)
+        norm.inbetweenness <- met.betweenness(M, binary = FALSE, shortest.weight = FALSE, normalization = TRUE, sym = FALSE, out = FALSE)
         df <- data.frame(df, norm.inbetweenness)
       }
       # weighted noarmalized and through weakest links betweenness
       if (option4 & option8 & option9) {
-        norm.short.betweenness <- met.betweenness(M, binary = F, shortest.weight = T, normalization = T, sym = T)
+        norm.short.betweenness <- met.betweenness(M, binary = FALSE, shortest.weight = TRUE, normalization = TRUE, sym = TRUE)
         df <- data.frame(df, norm.short.betweenness)
       }
       if (option5 & option8 & option9) {
-        norm.short.outbetweenness <- met.betweenness(M, binary = F, shortest.weight = T, normalization = T, sym = F, out = T)
+        norm.short.outbetweenness <- met.betweenness(M, binary = FALSE, shortest.weight = TRUE, normalization = TRUE, sym = FALSE, out = TRUE)
         df <- data.frame(df, norm.short.outbetweenness)
       }
       if (option6 & option8 & option9) {
-        norm.short.inbetweenness <- met.betweenness(M, binary = F, shortest.weight = T, normalization = T, sym = F, out = F)
+        norm.short.inbetweenness <- met.betweenness(M, binary = FALSE, shortest.weight = TRUE, normalization = TRUE, sym = FALSE, out = FALSE)
         df <- data.frame(df, norm.short.inbetweenness)
       }
     }
@@ -172,7 +172,7 @@ nodeskMetrics2 <- function(M, option, df = NULL, dfid = NULL) {
     df <- data.frame(df, disparity)
   }
   # if(option[14]==1 | option[15]==1 ){
-  # disDir=met.disparity(M,directed=T)
+  # disDir=met.disparity(M,directed=TRUE)
   # if(option[13]==1){df=data.frame(df,disDir)}
   # else{
   # disDir=disDir[,-1]
@@ -190,29 +190,29 @@ nodeskMetrics2 <- function(M, option, df = NULL, dfid = NULL) {
 
     if (option16) {
       if (option17) {
-        eigenB <- met.eigen(M, sym = T, binary = T, out = F)
+        eigenB <- met.eigen(M, sym = TRUE, binary = TRUE, out = FALSE)
         df <- data.frame(df, eigenB)
       }
       if (option18) {
-        outeigenB <- met.eigen(M, sym = F, binary = T, out = T)
+        outeigenB <- met.eigen(M, sym = FALSE, binary = TRUE, out = TRUE)
         df <- data.frame(df, outeigenB)
       }
       if (option19) {
-        ineigenB <- met.eigen(M, sym = F, binary = T, out = F)
+        ineigenB <- met.eigen(M, sym = FALSE, binary = TRUE, out = FALSE)
         df <- data.frame(df, ineigenB)
       }
     }
     if (option20) {
       if (option17) {
-        eigen <- met.eigen(M, sym = T, binary = T, out = F)
+        eigen <- met.eigen(M, sym = TRUE, binary = TRUE, out = FALSE)
         df <- data.frame(df, eigen)
       }
       if (option18) {
-        outeigen <- met.eigen(M, sym = T, binary = T, out = T)
+        outeigen <- met.eigen(M, sym = TRUE, binary = TRUE, out = TRUE)
         df <- data.frame(df, outeigen)
       }
       if (option19) {
-        ineigen <- met.eigen(M, sym = T, binary = T, out = F)
+        ineigen <- met.eigen(M, sym = TRUE, binary = TRUE, out = FALSE)
         df <- data.frame(df, ineigen)
       }
     }
@@ -220,11 +220,11 @@ nodeskMetrics2 <- function(M, option, df = NULL, dfid = NULL) {
 
   # Laplacian centrality ------------------------------------------------------------------------
   if (option[21] == 1) {
-    lpB <- met.lp(M, binary = T)
+    lpB <- met.lp(M, binary = TRUE)
     df <- data.frame(df, lpB)
   }
   if (option[22] == 1) {
-    lp <- met.lp(M, binary = F)
+    lp <- met.lp(M, binary = FALSE)
     df <- data.frame(df, lp)
   }
 

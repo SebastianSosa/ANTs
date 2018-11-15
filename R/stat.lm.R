@@ -126,7 +126,7 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
             # While error or warning
             while (is(r, "error") | is(r, "warning")) {
               # Permuted labels
-              newdf <- perm.net.nl(odf, labels, rf = NULL, nperm = 1, progress = F)[[2]]
+              newdf <- perm.net.nl(odf, labels, rf = NULL, nperm = 1, progress = FALSE)[[2]]
               # Redo LM
               r <- tryCatch(lm(formula = formula, data = newdf, method = method, model = model, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...), error = identity)
             }
@@ -144,7 +144,7 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
           if (is(r, "error") | is(r, "warning")) {
             tmp.env$error <- c(tmp.env$error, attributes(d)$permutation)
             while (is(r, "error") | is(r, "warning")) {
-              newdf <- perm.net.nl(odf, labels, rf = NULL, nperm = 1, progress = F)[[2]]
+              newdf <- perm.net.nl(odf, labels, rf = NULL, nperm = 1, progress = FALSE)[[2]]
               r <- tryCatch(lm(formula = formula, data = newdf, method = method, model = model, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...), error = identity)
             }
           }

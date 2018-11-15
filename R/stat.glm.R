@@ -132,7 +132,7 @@ stat.glm <- function(ant, oda, formula, family = "gaussian", progress = TRUE, st
             # While error or warning
             while (is(r, "error") | is(r, "warning")) {
               # Permuted labels 
-              newdf <- perm.net.nl(odf, labels, rf = NULL, nperm = 1, progress = F)[[2]]
+              newdf <- perm.net.nl(odf, labels, rf = NULL, nperm = 1, progress = FALSE)[[2]]
               # Redo GLM
               r <- tryCatch(glm(
                 formula = formula, data = newdf, family = family, start = start, control = control,
@@ -165,7 +165,7 @@ stat.glm <- function(ant, oda, formula, family = "gaussian", progress = TRUE, st
             # While error or warning
             while (is(r, "error") | is(r, "warning")) {
               # Permuted labels 
-              newdf <- perm.net.nl(odf, labels, rf = NULL, nperm = 1, progress = F)[[2]]
+              newdf <- perm.net.nl(odf, labels, rf = NULL, nperm = 1, progress = FALSE)[[2]]
               # Redo GLM
               r <- tryCatch(glm(
                 formula = formula, data = newdf, family = family, start = start, control = control,

@@ -256,7 +256,7 @@ met.reach <- function(M, df = NULL, dfid = NULL) {
         # Check if argument dfid is not NULL
         if (!is.null(dfid)) {
           # Compute network metric
-          result <- mapply(met.reach.single, M, df = df, dfid = dfid, SIMPLIFY = F)
+          result <- mapply(met.reach.single, M, df = df, dfid = dfid, SIMPLIFY = FALSE)
           return(result)
         }
         # Check if argument dfid is NULL and print warning
@@ -265,7 +265,7 @@ met.reach <- function(M, df = NULL, dfid = NULL) {
             warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
           }
           # Compute network metric
-          result <- mapply(met.reach.single, M, df = df, SIMPLIFY = F)
+          result <- mapply(met.reach.single, M, df = df, SIMPLIFY = FALSE)
           return(result)
         }
       }       

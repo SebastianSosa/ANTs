@@ -27,7 +27,7 @@
 #' head(sim.focal.directed)
 #' df.to.mat(df=sim.focal.directed,actor='actor', receiver='receiver')
 
-df.to.mat <- function(df, actor, receiver, weighted = NULL, tobs = NULL, sym = F, num.ids = F) {
+df.to.mat <- function(df, actor, receiver, weighted = NULL, tobs = NULL, sym = FALSE, num.ids = FALSE) {
   # Check if argument df is a list of data frames----------------------
   if (!is.data.frame(df) & is.list(df)) {
     # If argument tobs (time of obeservation per individuals) is not NULL----------------------
