@@ -36,7 +36,7 @@
 #' @examples
 #' met.diameter(sim.m)
 
-met.diameter <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = TRUE) {
+met.diameter <- function(M, df = NULL, dfid = NULL, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = TRUE) {
   # Checking if argument M is a square matrix 
   test <- is.matrix(M)
   if (test) {

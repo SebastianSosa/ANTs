@@ -51,7 +51,6 @@ met.geodesic <- function(M, weighted = TRUE, shortest.weight = FALSE, normalizat
         result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
           r <- met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[2]]
         }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
-        attr(result, "name") <- attributes(tmp)$name
         return(result)
       }
     }

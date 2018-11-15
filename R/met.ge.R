@@ -259,7 +259,7 @@ met.ge <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE, norma
               df[[x]]$ge <- tmp[[x]]
               colnames(df[[x]])[ncol(df[[x]])] <- attributes(tmp)$name
               return(df[[x]])
-            }, tmp2 = tmp2, df = df, tmp= tm^p)
+            }, tmp2 = tmp2, df = df, tmp= tmp)
           }
           else {
             # dataframe manipulation

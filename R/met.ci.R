@@ -31,7 +31,7 @@
 #' @examples
 #' met.ci(sim.m)
 
-met.ci <- function(M, df = NULL, dfid = NULL binary = FALSE, sym = TRUE) {
+met.ci <- function(M, df = NULL, dfid = NULL, binary = FALSE, sym = TRUE) {
   # Checking if argument M is a square matrix 
   test <- is.matrix(M)
   if (test) {
