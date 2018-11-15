@@ -1,4 +1,4 @@
-
+library(testthat)
 library(ant)
 load("C:/Users/Sebastian/Dropbox/ant/data/sim.m.RData")
 load("C:/Users/Sebastian/Dropbox/ant/data/sim.df.RData")
@@ -301,15 +301,12 @@ test_that("testing strength",{
 })
 
 
-
-
-
 #Testing permutations approaches-----------------------------------------------------------------------------------------------
 context("Testing permutations approaches")
 df=met.strength(sim.m,df=sim.df,1)
 
 # Nodes labels permutations---------------
-test_that("testing node label permutations",{
+test_that("testing node labels permutations",{
   # Argument df as single data frame
   expect_output(str(perm.net.nl(df,labels='sex',rf=NULL,nperm=1000,progress=FALSE)), "List of 1001")
   expect_equal(perm.net.nl(df,labels='sex',rf=NULL,nperm=1000,progress=FALSE)[[2]]$id,df$id)
@@ -324,7 +321,136 @@ test_that("Testing link permutations",{
   expect_output(str(perm.net.lk(sim.m, sym = FALSE, erase.diag = TRUE, nperm=10, progress=F)), "List of 11")
 })
 
-#Testing cpp functions----------------------------------------------------------------------------------------------
+# Data stream permutation with group fellow----------------------
+load("C:/Users/Sebastian/Dropbox/ant/data/sim.grp")
+test_that("Testing data stream permutations with group fellow",{
+  t=perm.ds.grp(df=sim.grp,scan='location',ctrlf='time',perm=10,method='sri')
+  expect_output(str(t), "List of 11")
+  expect_equal(attributes(t)$`ANT`,"ANT data stream group sampling single matrix")
+  expect_equal(attributes(t)$scan,"location")
+  expect_equal(attributes(t)$ctrlf,"time")
+  expect_equal(attributes(t)$method,"sri")
+})
+
+# Data stream permutation with focal sampling----------------------
+load("C:/Users/Sebastian/Dropbox/ant/data/sim.focal.undirected")
+test_that("Testing data stream permutations focal sampling",{
+  t=perm.ds.focal(sim.focal.undirected,focal=3,ctrl=1,alters=4,nperm=10,progress=TRUE,method='sri')
+  expect_output(str(t), "List of 11")
+  expect_equal(attributes(t)$`ANT`,"ANT data stream focal sampling single matrix")
+  expect_equal(attributes(t)$focal,3)
+  expect_equal(attributes(t)$ctrl,1)
+  expect_equal(attributes(t)$alters,4)
+  expect_equal(attributes(t)$method,"sri")
+})
+
+# Permute network keeping degree structure----------------------
+load("C:/Users/Sebastian/Dropbox/ant/data/sim.focal.undirected")
+test_that("Testing degrees permutations",{
+  t=perm.net.degree(sim.m,nperm=10)
+  expect_output(str(t), "List of 11")
+})
+
+#Testing permuted statistical tests-----------------------------------------------------------------------------------------------
+# Correlation----------------------
+t=met.strength(sim.m,sim.df,1)
+t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE)
+test_that("Testing Correlation test with permutations",{
+  r.c=stat.cor(t,'age','strength',progress=FALSE)
+  expect_output(nrow(r.c), 11)
+  expect_equal(attr(r.c,"class"),"ant cor")
+})
+# T-test----------------------
+t=met.strength(sim.m,sim.df,1)
+t=perm.net.nl(t,labels='sex',rf=NULL,nperm=10,progress=FALSE)
+test_that("Testing t-test with permutations",{
+  r.t=stat.t(t,formula = strength ~ sex,progress=FALSE)
+  expect_output(str(r.t),"List of 2")
+  expect_output(nrow(r.t[[2]]), 10)
+  expect_equal(attr(r.t,"class"),"ant t-test")
+})
+# LM----------------------
+t=met.strength(sim.m,sim.df,1)
+t=perm.net.nl(t,labels='sex',rf=NULL,nperm=10,progress=FALSE)
+test_that("Testing LM test with permutations",{
+  r.lm=stat.lm(t,formula = strength ~ sex,progress=FALSE)
+  expect_output(str(r.lm),"List of 3")
+  expect_output(nrow(r.lm[[2]]), 10)
+  expect_equal(attr(r.lm,"class"),"ant lm")
+})
+# GLM----------------------
+t=met.degree(sim.m,sim.df,1)
+t=perm.net.nl(t,labels='sex',rf=NULL,nperm=10,progress=FALSE)
+test_that("Testing GLM test with permutations",{
+  r.glm=stat.glm(ant = t,formula = degree ~ sex,progress=FALSE)
+  expect_output(str(r.glm),"List of 3")
+  expect_output(nrow(r.glm[[2]]), 10)
+  expect_equal(attr(r.glm,"class"),"ant glm")
+})
+
+# GLMM----------------------
+#Simulating second perido of observation
+m2=matrix(sample(sim.m),20,20)
+diag(m2)=0
+colnames(m2)=colnames(sim.m)
+row.names(m2)=row.names(sim.m)
+df2=sim.df
+df2$age=df2$age+1
+df1=sim.df
+df1$period=rep(1,nrow(df1))
+df2$period=rep(2,nrow(df2))
+# Data structure for multiple matrices analytical protocol
+sim.lm=list(sim.m,m2)
+sim.ldf=list(df1,df2)
+
+t=met.degree(sim.lm,sim.ldf,1)
+t=perm.net.nl(t,labels='sex',rf='period',nperm=10,progress=FALSE)
+test_that("Testing GLMM test with permutations",{
+  r.glmm=suppressMessages(stat.glmm(ant = t,formula = degree ~ age + (1|id),family = gaussian(), progress=TRUE))
+  expect_output(str(r.glmm),"List of 3")
+  expect_output(nrow(r.glmm[[2]]), 10)
+  expect_equal(attr(r.glmm,"class"),"ant glmm")
+})
+
+# Deletion simulations----------------------
+t=met.degree(sim.m,sim.df,1)
+test_that("Testing Deletion ssimulations",{
+  t=stat.deletions(sim.m,attr = t$degree,target = 'decreasing',nsim = 2,ndel=4)
+  expect_output(str(t),"List of 3")
+  expect_output(nrow(t[[1]]), 10)
+  expect_equal(attr(t,"ANT"),"ANT deletions simulations whithout matrices")
+})
+#Testing statistical test diagnostic-----------------------------------------------------------------------------------------------
+# Correlation----------------------
+test_that("Correlation diagnostic",{
+  r=ant(r.c)
+  expect_output(str(r),"List of 2")
+  expect_output(str(r[[1]]), "data.frame")
+})
+# T-test----------------------
+test_that("T-test diagnostic",{
+  r=ant(r.t)
+  expect_output(str(r),"List of 2")
+  expect_output(str(r[[1]]), "data.frame")
+})
+# LM----------------------
+test_that("T-test diagnostic",{
+  r=ant(r.lm)
+  expect_output(str(r),"List of 3")
+})
+# GLM----------------------
+r=ant(r.glm)
+test_that("T-test diagnostic",{
+  r=ant(r.glm)
+  expect_output(str(r),"List of 3")
+})
+# GLMM----------------------
+r=ant(r.glmm)
+test_that("T-test diagnostic",{
+  r=ant(r.glmm)
+  expect_output(str(r),"List of 3")
+})
+#Testing cpp functions (work in progress)----------------------------------------------------------------------------------------------
 test_that("Testing cpp vector functions",{
   expect_equal(ant:::vec_intersect(c('a','b','e'),c('e','t','z')), intersect(c('a','b','e'),c('e','t','z')))#not handling integers
   expect_equal(ant:::vec_num_extract_IdValue(c(3,4,10,22), c(4,1)),c(3,4,10,22)[c(4,1)])
