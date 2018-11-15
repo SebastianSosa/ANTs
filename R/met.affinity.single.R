@@ -20,7 +20,7 @@
 #' @param binary a boolean, if \emph{true}, it calculates the binary version of the affinity.
 #' @return Integer vector of each vertices met.affinity.
 
-#' @details  Affinity is a second order metric that try to evaluate to which egos, node \emph{in} is connected. The binary version  is simply the average met.degree of alters of node i. The weighted version is ratio between the met.reach metric and the met.strength of node i.A high met.affinity reveals that nodes tend to be connected to alters of high degrees or strengths. Thus, both metrics provide information on node assortativity by vertex met.degree, i.e. connections between nodes with similar degrees or strengths.
+#' @details  Affinity is a second order metric that try to evaluate to which egos, node \emph{in} is connected. The binary version  is simply the average degree of alters of node i. The weighted version is ratio between the met.reach metric and the met.strength of node i.A high met.affinity reveals that nodes tend to be connected to alters of high degrees or strengths. Thus, both metrics provide information on node assortativity by vertex met.degree, i.e. connections between nodes with similar degrees or strengths.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 
 #' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
@@ -28,14 +28,24 @@
 #' @keywords internal
 
 met.affinity.single <- function(M, df = NULL, dfid = NULL, binary = F) {
-  if (is.null(df)) {
+  # Compute network metric
+  if(binary){
+    affinity=met_sum_egos_strength(M)
+  }
+  else{
     reach <- met.reach.single(M, return.strength = T)
     affinity <- reach[[1]] / reach[[2]]
+  }
+
+  # If argument df is null
+  if (is.null(df)) {
+    # Colnames or argument M as names of the vector
     attr(affinity, "names") <- colnames(M)
     return(affinity)
   }
 
   else {
+    # If argument dfid is not null
     if (is.data.frame(df) == F) {
       stop("Argument df must be a data frame")
     }
@@ -43,11 +53,11 @@ met.affinity.single <- function(M, df = NULL, dfid = NULL, binary = F) {
       if (is.null(colnames(M))) {
         stop("Argument M doesn't have column names")
       }
+      # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
       df <- df[match(colnames(M), df[, col.id]), ]
     }
-    reach <- met.reach.single(M, return.strength = T)
-    affinity <- reach[[1]] / reach[[2]]
+    # Add vector of network metrics in a new column
     if (binary) {
       df$affinityB <- affinity
     }

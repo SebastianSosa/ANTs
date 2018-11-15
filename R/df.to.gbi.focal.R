@@ -24,16 +24,23 @@
 #' df.to.gbi.focal(df=sim.focal.undirected,focal='focal', alters='alter',ctrl='nfocal')
 #' @keywords internal
 df.to.gbi.focal <- function(df, focal, alters, ctrl) {
+  # Find columns ids  corresponding to individuals, corresponding focal and cotnrol factor(s)----------------------
   col.alters <- df.col.findId(df, alters)
   col.focal <- df.col.findId(df, focal)
   col.ctrl <- df.col.findId(df, ctrl)
 
+  # Create new column with a collapse between focal and control factor(s)----------------------
   ctrl <- c(col.ctrl, col.focal)
   df <- df.ctrlFactor(df, control = ctrl)
   df$control <- as.factor(df$control)
 
+  # Find all unique individuals----------------------
   Vecids <- unique(c(as.character(df[, col.focal]), as.character(df[, col.alters])))
+
+  # Find all uniquecontrols----------------------
   group_scan <- unique(df$control)
+
+  # Convert data frames to a matrix of Group By Individuals (GBI)----------------------
   GBI <- df_to_gbi(df, col.ctrl, col.alters, Vecids, group_scan)
   GBI
 }

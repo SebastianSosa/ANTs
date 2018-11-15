@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 
 redo.perm.ds.focal.cum.scd <- function(GBI, GBI2, method, nperm) {
-  r <- redo_perm_dataStream1_focal(GBI, GBI2, nperm = nperm, method = method) ### I PUT LIST_GBI, IT WAS RETURNING TO NO OBJECT!!!
+  r <- redo_perm_dataStream1_focal(GBI, GBI2, nperm = nperm, method = method)
   colnames(r[[1]]) <- colnames(GBI)
   rownames(r[[1]]) <- rownames(GBI)
 

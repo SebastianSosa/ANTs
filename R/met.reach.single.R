@@ -27,14 +27,18 @@
 
 
 met.reach.single <- function(M, df = NULL, dfid = NULL, return.strength = F) {
+  # Compute node instrength
   if (isSymmetric(M)) {
     s <- met.instrength(M)
   }
+  # Compute node strength
   else {
     s <- met.strength(M)
   }
 
+  # If argument df is null
   if (is.null(df)) {
+    # Compute network metric
     m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = T)
     result <- rowSums(m.strength * M)
     attr(result, "names") <- colnames(M)
@@ -46,16 +50,19 @@ met.reach.single <- function(M, df = NULL, dfid = NULL, return.strength = F) {
     }
   }
   else {
+    # If argument dfid is not null
     if (!is.null(dfid)) {
       if (is.null(colnames(M))) {
         stop("Argument M doesn't have column names")
       }
+      # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
       df <- df[match(colnames(M), df[, col.id]), ]
     }
     if (is.data.frame(df) == F) {
       stop("Argument df must be a data frame")
     }
+    # Compute network metric
     m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = T)
     result <- rowSums(m.strength * M)
     df$reach <- result

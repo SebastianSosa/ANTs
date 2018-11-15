@@ -12,7 +12,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-#' @title ANT tcltk GUI code.
+#' @title ANTs tcltk GUI code.
 #' @description tcltk code for ANT GUI.
 #' @keywords internal
 nodeskMetrics <- function() {

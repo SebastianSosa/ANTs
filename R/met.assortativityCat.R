@@ -25,14 +25,26 @@
 
 
 met.assortativityCat <- function(M, attr, df = NULL) {
+  # Handling NA
+  test = which(is.na(attr) == TRUE)
+  if(length(test) != 0){
+    attr = attr[-test]
+    M = M[-test, -test]
+  }
+  # If argument df is null
   if (is.null(df)) {
+    # Compute categorical assortativity
     tmp <- met_assor_cat(M, attr)
+    # Creating mixing matrix
     colnames(tmp[[2]]) <- tmp[[3]]
     rownames(tmp[[2]]) <- tmp[[3]]
     result <- list("assortativity.cat" = tmp[[1]], "mixing.mat" = tmp[[2]])
+    # Return result
     return(result)
   }
+  # Else
   else {
+    # Compute categorical assortativity and add it to argument data frame by creating a new column named 'assortativity.cat'.
     df$assortativity.cat <- met_assor_cat(M, attr)[[1]]
     return(df)
   }

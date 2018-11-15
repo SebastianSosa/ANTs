@@ -12,7 +12,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-#' @title Creates a column of control factors in a data frame
+#' @title Creates a column which collapse multiple columns !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #' @description Creates a new column in the input data frame corresponding to the combination of given control factors.
 #' @param df a data frame.
 #' @param control a numeric or character vector representing one or more columns that are combined into one column of control factors.
@@ -21,12 +21,18 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @keywords internal
 df.ctrlFactor <- function(df, control) {
+  # Find columns id(s)----------------------
   col.ctrl <- df.col.findId(df, control)
+
+  # Check number of columns to collapse----------------------
   if (length(control) == 1) {
     df$control <- df[, col.ctrl]
   }
+
+  # Collapse columns----------------------
   else {
     df$control <- apply(df[, col.ctrl ], 1, paste, collapse = "_")
   }
+  
   return(df)
 }

@@ -23,22 +23,28 @@ stat.model.diag <- function(model) {
   par(mfrow = c(1, 2))
   if (attr(model, "class") == "summary.lm") {
     formula <- model$call
+    # Fitted values versus residuals
     plot(model$fit, resid(model), xlab = "fitted values", ylab = "residuals", main = c("Fitted values Vs residuals", paste(c(formula))), col = "white")
     abline(h = 0, col = "white")
+    # Residuals qqplot
     qqnorm(resid(model), col = "white")
     qqline(resid(model), col = "white")
   }
   if (attr(model, "class") == "summary.glm") {
     formula <- model$call
+    # Fitted values versus residuals
     plot(model$fit, model$resid, xlab = "fitted values", ylab = "residuals", main = c("Fitted values Vs residuals", paste(c(formula))), col = "white")
     abline(h = 0, col = "white")
+    # Residuals qqplot
     qqnorm(model$resid, col = "white")
     qqline(model$resid, col = "white")
   }
   if (attr(model, "class") == "summary.merMod") {
     formula <- attributes(model)$formula
+    # Fitted values versus residuals
     plot(model$fit, resid(model), main = c("Fitted values Vs residuals", paste(c(formula))), ylab = "residuals", xlab = "fitted values", col = "white")
     abline(h = 0, col = "white")
+    # Residuals qqplot
     qqnorm(resid(model), col = "white")
     qqline(resid(model), col = "white")
   }

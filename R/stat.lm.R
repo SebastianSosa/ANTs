@@ -40,13 +40,16 @@
 
 stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = TRUE,
                     x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE, contrasts = NULL, ...) {
-  # Test on observe data ------------------------------------------------------------------------
+  # LM on observed data ------------------------------------------------------------------------
   odf <- ant[[1]]
+  # Model on original data
   tmp <- tryCatch(lm(
     formula = formula, data = odf, method = method,
     model = model, x = x, y = y, qr = qr, singular.ok = singular.ok,
     contrasts = contrasts, ...
   ), error = identity)
+
+  # Check for errors and warnings.
   if (is(tmp, "error")) {
     print("The model on your original data contains the following errors.")
     stop(tmp$message)
@@ -65,6 +68,7 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
       suppressMessages(stop(print(tmp)))
     }
   }
+  # Extract GLM informations
   else {
     obs <- summary(tmp)
     obs$fit <- fitted(tmp)
@@ -80,7 +84,12 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
   ant <- ant[-1]
   attributes(ant) <- at
 
-  # LM along permutations ------------------------------------------
+  # Checking if argument ant is an object returned by ANTs functions perm.ds.grp, per.ds.focal or per.ds.nl--------------------------
+  # For each type of permutation, the process is the following:
+  # 1. Compute model on a single permutation
+  # 2. Check for warnings or errors
+  # 3. If error, redo a permutation
+  # 4. Perform steps 1, 2, 3 until there is no more error or warning
   if (is.null(attributes(ant)$ANT)) {
     stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions")
   }
@@ -91,23 +100,34 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
   test2 <- attributes(ant)$ANT == "ANT data stream group sampling single matrix"
   test3 <- attributes(ant)$ANT == "ANT data stream focal sampling single matrix"
 
+  # LM along permutations ------------------------------------------
   if (any(test1, test2, test3)) {
+    # If node label permutations
     if (test1) {
+      # Create en environment to store the permutations that return model error
       tmp.env <- new.env()
       tmp.env$error <- NULL
+      # Store label permutation information (random factors and permuted labels)
       ctrl <- attributes(ant)$rf
       labels <- attributes(ant)$labels
 
       if (progress) {
+        # LM on permuted data
         results <- lapply(ant, function(d, formula, ctrl = ctrl, odf, labels, method, model, x, y, qr, singular.ok, contrasts, ...) {
           cat("  Processing permutation : ", attributes(d)$permutation, "\r")
 
+          # LM
           r <- tryCatch(lm(formula = formula, data = d, method = method, model = model, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...), error = identity)
 
+          # If error or warning
           if (is(r, "error") | is(r, "warning")) {
+            # Extract permutation number
             tmp.env$error <- c(tmp.env$error, attributes(d)$permutation)
+            # While error or warning
             while (is(r, "error") | is(r, "warning")) {
+              # Permuted labels
               newdf <- perm.net.nl(odf, labels, rf = NULL, nperm = 1, progress = F)[[2]]
+              # Redo LM
               r <- tryCatch(lm(formula = formula, data = newdf, method = method, model = model, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...), error = identity)
             }
           }
@@ -116,6 +136,7 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
         }, formula = formula, odf = odf, labels = labels, method = method, model = model, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...)
         cat("\n")
       }
+      # If argument progress is FALSE, same as previoulsy but without printing statisitical test progress
       else {
         results <- lapply(ant, function(d, formula, ctrl = ctrl, odf, labels, method, model, x, y, qr, singular.ok, contrasts, ...) {
           r <- tryCatch(lm(formula = formula, data = d, method = method, model = model, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...), error = identity)
@@ -127,55 +148,69 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
               r <- tryCatch(lm(formula = formula, data = newdf, method = method, model = model, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...), error = identity)
             }
           }
+          # Extract coefficients
           r <- summary(r)$coefficients[, 1]
           return(r)
         }, formula = formula, odf = odf, labels = labels, method = method, model = model, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...)
       }
     }
 
-    # finding nodes metrics to permute in case of warnign or error along LM on permuted data
+    # Finding node metrics to recompute in case of warning or error along LM on permuted data
+    # Extract metrics inside the formula
     arguments <- all.vars(formula)
+    # All metrics available in ANTs
     metrics <- c(
       "degree", "outdegree", "indegree", "strength", "outstrength", "instrength", "affinityB", "affinity", "affinityW", "disparity", "indisparity", "outdisparity",
       "eigenB", "eigenU", "outeigen", "ineigen", "eigenW", "eigen", "lpB", "lpW", "reach", "riB", "riW", "ri"
     )
 
+    # Which metric in formula are present in ANTs list
     target.metrics <- metrics[metrics %in% arguments]
 
-    # Removing nodes metrics from original data frame
+    # Removing node metrics from original data frame
     odf <- odf[, -c(df.col.findId(odf, target.metrics))]
 
+    # ANTs data stream group sampling  ------------------------------------------
     if (test2) {
-      # Finding scan and control factor do redo data stream permutation
+      # Finding scan and control factor to redo data stream permutation
       Scan <- attributes(ant)$scan
       ctrlf <- attributes(ant)$ctrlf
       index <- attributes(ant)$method
 
+      # New environment to store the new gbi, errors and original data
       tmp.env <- new.env()
       tmp.env$new.perm <- 0
       tmp.env$new.oda <- NULL
       tmp.env$error <- NULL
 
       if (progress) {
+        # LM on permuted data
         results <- lapply(ant, function(d, formula, index, method, model, x, y, qr, singular.ok, contrasts, odf, oda, target.metrics, Scan = Scan, ctrlf) {
           cat("  Processing file: ", attributes(d)$permutation, "\r")
           attr(oda, "permutation") <- 0
+          # LM
           r <- tryCatch(lm(formula = formula, data = d, method = method, model = model, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...), error = identity)
 
+          # If error
           if (is(r, "error") | is(r, "warning")) {
+            # Extract permutation number
             attr(odf, "permutation") <- attributes(d)$permutation
+            # redo data stream permutations with group follow protocol and recompute network metrics
             r <- redo.ds.grp.lm(new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, formula = formula, Scan = Scan, ctrlf = ctrlf, index = index, method = method, model = model, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...)
+            # Store information for future repermutations
             tmp.env$new.perm <- r[[1]]
             tmp.env$error <- c(tmp.env$error, r[[1]])
             tmp.env$gbi <- r[[2]]
             return(r[[3]])
           }
 
+          # Extract coefficients
           r <- summary(r)$coefficients[, 1]
           return(r)
         }, formula, index, method, model, x, y, qr, singular.ok, contrasts, odf, oda, target.metrics, Scan = Scan, ctrlf)
         cat("\n")
       }
+      # If argument progress is FALSE, same as previoulsy but without printing statistical test progress
       else {
         results <- lapply(ant, function(d, formula, index, method, model, x, y, qr, singular.ok, contrasts, odf, oda, target.metrics, Scan = Scan, ctrlf) {
           cat("  Processing file: ", attributes(d)$permutation, "\r")
@@ -197,12 +232,15 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
       }
     }
 
+    # ANTs data stream focal sampling  ------------------------------------------
     if (test3) {
+      # Finding focals, control factors, alters and method to redo data stream permutation
       focal <- attributes(ant)$focal
       ctrl <- attributes(ant)$ctrl
       alters <- attributes(ant)$alters
       index <- attributes(ant)$method
 
+      # New environment to store the new gbi, errors and original data
       tmp.env <- new.env()
       tmp.env$new.perm <- 0
       tmp.env$gbi <- NULL
@@ -210,17 +248,20 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
       tmp.env$error <- NULL
 
       if (progress) {
+        # LM on permuted data
         results <- lapply(ant, function(d, formula, method, model, x, y, qr, singular.ok, contrasts, odf, oda, target.metrics, focal, ctrl, alters, index, ...) {
           cat("  Processing file: ", attributes(d)$permutation, "\r")
           attr(oda, "permutation") <- 0
+          # LM
           r <- tryCatch(lm(formula = formula, data = d, model = model, method = method, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...), error = identity)
 
+          # If error
           if (is(r, "error") | is(r, "warning")) {
             print("redo")
-            # redo a permutations on raw data
-            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            # redo a permutation on raw data
+            # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(d)$permutation
-            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) LM estimates
+            # redo.ds.grp.first return 3 elements: 1) permutation index, 2) permuted data frame of associations 3) LM estimates
             r <- redo.ds.focal.lm(formula = formula, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, gbi2 = tmp.env$gbi2, oda = oda, odf = odf, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, model = model, method = method, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...)
             tmp.env$new.perm <- r[[1]]
             tmp.env$error <- c(tmp.env$error, r[[1]])
@@ -229,22 +270,23 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
             result <- r[[4]]
             return(result)
           }
-
+          # Extract coefficients
           r <- summary(r)$coefficients[, 1]
           return(r)
         }, formula = formula, method = method, model = model, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, odf = odf, oda = oda, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, ...)
         cat("\n")
       }
+      # If argument progress is FALSE, same as previoulsy but without printing statistical test progress
       else {
         results <- lapply(ant, function(d, formula, method, model, x, y, qr, singular.ok, contrasts, odf, oda, target.metrics, focal, ctrlf, alters, index, ...) {
           attr(oda, "permutation") <- 0
           r <- tryCatch(lm(formula = formula, data = d, model = model, method = method, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...), error = identity)
 
           if (is(r, "error") | is(r, "warning")) {
-            # redo a permutations on raw data
-            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            # redo a permutation on raw data
+            # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(d)$permutation
-            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) LM estimates
+            # redo.ds.grp.first return 3 elements: 1) permutation index, 2) permuted data frame of associations 3) LM estimates
             r <- redo.ds.focal.lm(formula = formula, new.perm = tmp.env$new.perm, new.odf = tmp.env$new.oda, oda = oda, odf = odf, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, model = model, method = method, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...)
             tmp.env$new.perm <- r[[1]]
             tmp.env$error <- c(tmp.env$error, r[[1]])
@@ -263,7 +305,9 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
     stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions of type 'single matrix'.")
   }
 
+  # Merge list of coefficients
   results <- do.call("rbind", results)
+  # Create an object with the original model, the permuted coefficients, the permutation numbers that require repermutations
   result <- list("Original.model" = t, "permutations" = results, "errors" = tmp.env$error)
   attr(result, "class") <- "ant lm"
   attr(result, "formula") <- paste(format(formula))

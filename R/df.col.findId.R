@@ -22,17 +22,25 @@
 #' @keywords internal
 
 df.col.findId <- function(df, label_name) {
+  # Check if argument label_name is a character or a numeric----------------------
   if (!is.character(label_name) & !is.numeric(label_name)) {
     stop("Argument label_name is not a character or a numeric vector.")
   }
+
+  # If argument label_name is a character, which column number correspond to this character----------------------
   if (is.character(label_name) == T) {
     if (all(!is.na(label_name))) {
       col.id <- match(label_name, colnames(df))
+      if(any(is.na(col.id))){
+        stop(paste("Error in argument label_name. label_name #", which(is.na(col.id)), " doesn't match with any column name of argument df."))
+      }
     }
     else {
       stop("Argument label_name doesn't match any column name.")
     }
   }
+
+  # Else argument label_name is numeric and correspond to column number----------------------
   else {
     if (length(label_name) <= ncol(df)) {
       col.id <- label_name

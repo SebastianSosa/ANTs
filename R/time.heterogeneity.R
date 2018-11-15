@@ -12,8 +12,9 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-#' @title Control heterogeneity of time of observation
-#' @description repeat a numeric vector n times, where n is the length of this vecctor
+#' @title Create a matrix of time of observation per dyades
+#' @description Creat a a matrix of time of observation per dyades in order to control for time of observation
+#' @param vec a numeric vector
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 #' @keywords internal
 time.heterogeneity <- function(vec) {

@@ -28,29 +28,30 @@
 #' @keywords internal
 
 met.degree.single <- function(M, df = NULL, dfid = NULL) {
-  if (is.matrix(M)) {
-    if (is.null(df)) {
-      d <- met_degree(M)
-      attr(d, "names") <- colnames(M)
-      return(d)
+  # Compute network metric
+  d <- met_degree(M)
+
+  # If argument df is null
+  if (is.null(df)) {
+    #Colnames or argument M as names of the vector
+    attr(d, "names") <- colnames(M)
+    return(d)
+  }
+  else {
+    # If argument dfid is not null
+    if (!is.null(dfid)) {
+      if (is.null(colnames(M))) {
+        stop("Argument M doesn't have column names")
+      }
+      # Order data frame according to argument dfid
+      col.id <- df.col.findId(df, dfid)
+      df <- df[match(colnames(M), df[, col.id]), ]
     }
-    else {
-      if (!is.null(dfid)) {
-        if (is.null(colnames(M))) {
-          stop("Argument M doesn't have column names")
-        }
-        col.id <- df.col.findId(df, dfid)
-        df <- df[match(colnames(M), df[, col.id]), ]
-      }
-      if (is.data.frame(df) == F) {
-        stop("Argument df must be a data frame")
-      }
-      d <- met_degree(M)
+    if (is.data.frame(df) == F) {
+      stop("Argument df must be a data frame")
+    }
+      # Add vector of network metrics in a new column
       df$degree <- d
       return(df)
     }
-  }
-  else {
-    stop("Argument M must be a matrix.")
-  }
 }

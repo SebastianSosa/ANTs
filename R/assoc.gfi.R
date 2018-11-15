@@ -29,16 +29,27 @@
 #' @references Whitehead, H., & James, R. (2015). Generalized affiliation indices extract affiliations from social network data. Methods in Ecology and Evolution, 6(7), 836-844.
 
 assoc.gfi <- function(M1, M2, fr = T, sym = F, erase.diag = T) {
+  # Vectorize Matrix----------------------
   y <- mat.vectorization(M1, sym, erase.diag)
   x <- mat.vectorization(M2, sym, erase.diag)
+
+  # Is argument M1 is an adjacency matrix representing associations between individuals----------------------
   if (fr == T) {
     res <- glm(y ~ x, family = poisson(link = "log"))$residuals
   }
+
+  # Check if argument M1 is an adjacency matrix representing associations between individuals----------------------
   else {
     res <- glm(y ~ x, family = binomial(link = "logit"))$residuals
   }
+
+  # Convert residuals into a matrix----------------------
+  # Creat edglist of all possible associations/interactions
   new_df <- mat.to.edgl(M1, sym, erase.diag)
+  # Add residuals as weigth of associations/interactions
   new_df[, 3] <- res
+  # Convert the edgelist into a matrix
   g_associations_matrix <- edgl_to_matrix(new_df)
+
   return(g_associations_matrix)
 }

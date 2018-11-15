@@ -31,6 +31,9 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 
 stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
+  if(!is.null(weights)){
+    w = ANTs:::df.col.findId(ant[[1]],weights)
+  }
   if (is.null(attributes(ant)$ANT)) {
     stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions")
   }
@@ -54,7 +57,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
     }
 
     if (fam == "gaussian") {
-      # Test on observe data ------------------------------------------------------------------------
+      # Test on observed data ------------------------------------------------------------------------
       odf <- ant[[1]]
 
       tmp <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = odf)), error = identity)
@@ -120,8 +123,8 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
       at <- attributes(ant)
       ant <- ant[-1]
       attributes(ant) <- at
-      # Parametrisation in case of error or warnign -------------------------------------------------
-      # finding nodes metrics to permute in case of warnign or error along GLMM on permuted data
+      # Parametrisation in case of error or warning -------------------------------------------------
+      # finding node metrics to permute in case of warning or error along GLMM on permuted data
       arguments <- all.vars(formula)
       metrics <- c(
         "degree", "outdegree", "indegree", "strength", "outstrength", "instrength", "affinityB", "affinity", "affinityW",
@@ -131,10 +134,10 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
 
       target.metrics <- metrics[metrics %in% arguments]
 
-      # Removing nodes metrics from original data frame
+      # Removing node metrics from original data frame
       odf <- odf[, -c(df.col.findId(odf, target.metrics))]
 
-      # Finding scan and control factor do redo data stream permutation
+      # Finding scan and control factor to redo data stream permutation
       Scan <- attributes(ant)$scan
       ctrlf <- attributes(ant)$ctrlf
       method <- attributes(ant)$method
@@ -166,10 +169,10 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           }
 
           if (all(test) != TRUE) {
-            # redo a permutations on raw data
-            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            # redo a permutation on raw data
+            # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(ant[[i]])$permutation
-            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
+            # redo.ds.grp.first return 3 elements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
             r <- redo.ds.grp(family = "gaussian", new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, formula = formula, Scan = Scan, method = method, ctrlf = ctrlf, fam = fam, ...)
             tmp.env$new.perm <- r[[1]]
             tmp.env$error <- c(tmp.env$error, r[[1]])
@@ -202,10 +205,10 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           }
 
           if (all(test) != TRUE) {
-            # redo a permutations on raw data
-            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            # redo a permutation on raw data
+            # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(ant[[i]])$permutation
-            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
+            # redo.ds.grp.first return 3 elements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
             r <- redo.ds.grp(family = "gaussian", new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, formula = formula, Scan = Scan, method = method, ctrlf = ctrlf, fam = fam, ...)
             tmp.env$new.perm <- r[[1]]
             tmp.env$error <- c(tmp.env$error, r[[1]])
@@ -219,7 +222,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
       }
     }
     if (fam != "gaussian") {
-      # Test on observe data ------------------------------------------------------------------------
+      # Test on observed data ------------------------------------------------------------------------
       odf <- ant[[1]]
 
       tmp <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = odf, family = family, ...)), error = identity)
@@ -286,8 +289,8 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
       ant <- ant[-1]
       attributes(ant) <- at
 
-      # Parametrisation in case of error or warnign -------------------------------------------------
-      # finding nodes metrics to permute in case of warnign or error along GLMM on permuted data
+      # Parametrisation in case of error or warning -------------------------------------------------
+      # finding node metrics to permute in case of warning or error along GLMM on permuted data
       arguments <- all.vars(formula)
       metrics <- c(
         "degree", "outdegree", "indegree", "strength", "outstrength", "instrength", "affinityB", "affinity", "affinityW",
@@ -297,10 +300,10 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
 
       target.metrics <- metrics[metrics %in% arguments]
 
-      # Removing nodes metrics from original data frame
+      # Removing node metrics from original data frame
       odf <- odf[, -c(df.col.findId(odf, target.metrics))]
 
-      # Finding scan and control factor do redo data stream permutation
+      # Finding scan and control factor to redo data stream permutation
       Scan <- attributes(ant)$scan
       ctrlf <- attributes(ant)$ctrlf
       method <- attributes(ant)$method
@@ -331,11 +334,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           }
 
           if (all(test) != TRUE) {
-            # redo a permutations on raw data
-            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            # redo a permutation on raw data
+            # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(ant[[i]])$permutation
 
-            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
+            # redo.ds.grp.first return 3 elements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
             r <- redo.ds.grp(family = family, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, formula = formula, Scan = Scan, method = method, ctrlf = ctrlf, fam = fam, ...)
             tmp.env$new.perm <- r[[1]]
             tmp.env$error <- c(tmp.env$error, r[[1]])
@@ -367,11 +370,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           }
 
           if (all(test) != TRUE) {
-            # redo a permutations on raw data
-            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            # redo a permutation on raw data
+            # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(ant[[i]])$permutation
 
-            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
+            # redo.ds.grp.first return 3 elements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
             r <- redo.ds.grp(family = family, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, formula = formula, Scan = Scan, method = method, ctrlf = ctrlf, fam = fam, ...)
             tmp.env$new.perm <- r[[1]]
             tmp.env$error <- c(tmp.env$error, r[[1]])
@@ -399,7 +402,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
     }
 
     if (fam == "gaussian") {
-      # Test on observe data ------------------------------------------------------------------------
+      # Test on observed data ------------------------------------------------------------------------
       odf <- ant[[1]]
 
       tmp <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = odf, ...)), error = identity)
@@ -466,8 +469,8 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
       ant <- ant[-1]
       attributes(ant) <- at
 
-      # Parametrisation in case of error or warnign -------------------------------------------------
-      # finding nodes metrics to permute in case of warnign or error along GLMM on permuted data
+      # Parametrisation in case of error or warning -------------------------------------------------
+      # finding node metrics to permute in case of warning or error along GLMM on permuted data
       arguments <- all.vars(formula)
       metrics <- c(
         "degree", "outdegree", "indegree", "strength", "outstrength", "instrength", "affinityB", "affinity", "affinityW",
@@ -477,10 +480,10 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
 
       target.metrics <- metrics[metrics %in% arguments]
 
-      # Removing nodes metrics from original data frame
+      # Removing node metrics from original data frame
       odf <- odf[, -c(df.col.findId(odf, target.metrics))]
 
-      # Finding scan and control factor do redo data stream permutation
+      # Finding scan and control factor to redo data stream permutation
       focal <- attributes(ant)$focal
       ctrl <- attributes(ant)$ctrl
       alters <- attributes(ant)$alters
@@ -514,10 +517,10 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           }
 
           if (all(test) != TRUE) {
-            # redo a permutations on raw data
-            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            # redo a permutation on raw data
+            # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(d)$permutation
-            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
+            # redo.ds.grp.first return 3 elements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
             r <- redo.ds.focal.glmm(family = family, formula = formula, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, gbi2 = tmp.env$gbi2, oda = oda, odf = odf, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
             tmp.env$new.perm <- r[[1]]
             tmp.env$error <- c(tmp.env$error, r[[1]])
@@ -552,10 +555,10 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           }
 
           if (all(test) != TRUE) {
-            # redo a permutations on raw data
-            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            # redo a permutation on raw data
+            # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(d)$permutation
-            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
+            # redo.ds.grp.first return 3 elements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
             r <- redo.ds.focal.glmm(family = family, formula = formula, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, gbi2 = tmp.env$gbi2, oda = oda, odf = odf, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
             tmp.env$new.perm <- r[[1]]
             tmp.env$error <- c(tmp.env$error, r[[1]])
@@ -572,7 +575,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
     }
 
     if (fam != "gaussian") {
-      # Test on observe data ------------------------------------------------------------------------
+      # Test on observed data ------------------------------------------------------------------------
       odf <- ant[[1]]
 
       tmp <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = odf, ...)), error = identity)
@@ -638,8 +641,8 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
       ant <- ant[-1]
       attributes(ant) <- at
 
-      # Parametrisation in case of error or warnign -------------------------------------------------
-      # finding nodes metrics to permute in case of warnign or error along GLMM on permuted data
+      # Parametrisation in case of error or warning -------------------------------------------------
+      # finding node metrics to permute in case of warning or error along GLMM on permuted data
       arguments <- all.vars(formula)
       metrics <- c(
         "degree", "outdegree", "indegree", "strength", "outstrength", "instrength", "affinityB", "affinity", "affinityW",
@@ -649,10 +652,10 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
 
       target.metrics <- metrics[metrics %in% arguments]
 
-      # Removing nodes metrics from original data frame
+      # Removing node metrics from original data frame
       odf <- odf[, -c(df.col.findId(odf, target.metrics))]
 
-      # Finding scan and control factor do redo data stream permutation
+      # Finding scan and control factor to redo data stream permutation
       focal <- attributes(ant)$focal
       ctrl <- attributes(ant)$ctrl
       alters <- attributes(ant)$alters
@@ -683,13 +686,13 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           }
 
           if (all(test) != TRUE) {
-            # redo a permutations on raw data
+            # redo a permutation on raw data
             er <- c(er, attributes(d)$permutation)
             cat("  Processing permutation ", attributes(d)$permutation, " resampling", "\r")
-            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(d)$permutation
 
-            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
+            # redo.ds.grp.first return 3 elements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
             r <- redo.ds.focal.glmm(family = family, formula = formula, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, gbi2 = tmp.env$gbi2, oda = oda, odf = odf, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
 
             new.perm <- r[[1]]
@@ -722,13 +725,13 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
           }
 
           if (all(test) != TRUE) {
-            # redo a permutations on raw data
+            # redo a permutation on raw data
             er <- c(er, attributes(d)$permutation)
             cat("  Processing permutation ", attributes(d)$permutation, " resampling", "\r")
-            # Giving to the original data frame of individuals characteristics (odf) the permutation number where error or warning have been found
+            # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(d)$permutation
 
-            # redo.ds.grp.first return 3 ellements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
+            # redo.ds.grp.first return 3 elements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
             r <- redo.ds.focal.glmm(family = family, formula = formula, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, gbi2 = tmp.env$gbi2, oda = oda, odf = odf, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
 
             new.perm <- r[[1]]
@@ -753,7 +756,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
 
   if (attributes(ant)$ANT == "ANT node label permutation with random factors") {
     if (fam == "gaussian") {
-      # Test on observe data ------------------------------------------------------------------------
+      # Test on observed data ------------------------------------------------------------------------
       odf <- ant[[1]]
 
       tmp <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = odf, ...)), error = identity)
@@ -830,7 +833,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
         permuted <- lapply(seq_along(ant), function(i, ant, formula, progress, ctrl, odf, labels, ...) {
           cat("  Processing permutation : ", attributes(ant[[i]])$permutation, "\r")
 
-          r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = ant[[i]])), error = identity)
+          r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = ant[[i]], ...)), error = identity)
 
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
@@ -927,7 +930,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
     }
 
     if (fam != "gaussian") {
-      # Test on observe data ------------------------------------------------------------------------
+      # Test on observed data ------------------------------------------------------------------------
       odf <- ant[[1]]
 
       tmp <- suppressWarnings(tryCatch(lme4::glmer(formula = formula, data = odf, family = family, ...), error = identity))
@@ -1049,7 +1052,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = T, ...) {
         tmp.env <- new.env()
         tmp.env$error <- NULL
 
-        permuted <- lapply(ant, function(d, formula, family, ctrl, labels, odf, ...) {
+        permuted <- lapply(ant, function(d, formula, family, ctrl, labels, odf, w, ...) {
           r <- tryCatch(suppressWarnings(lme4::glmer(formula = formula, data = d, family = family, ...)), error = identity)
 
           if (isS4(r)) {

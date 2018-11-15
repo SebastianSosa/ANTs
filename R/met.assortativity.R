@@ -35,11 +35,14 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 
 met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, perm.nl = T) {
+  # Checking if argument M is a square matrix 
   test <- is.matrix(M)
   if (test) {
+    # Checking if argument attr is a factor, a character or a numeric vector
     if (all(!is.factor(attr), !is.character(attr), !is.numeric(attr)) == T) {
       stop("Argument attr must be a factor or numeric vector.")
     }
+    # If argument attr is a factor or a character vector, function computes categorical assortativity.
     if (is.factor(attr) | is.character(attr)) {
       # Simple matrix
       if (se == TRUE) {
@@ -47,34 +50,46 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
       }
       return(met.assortativityCat(M, attr, df = df))
     }
+    # Else, it computes continous assorativity.
     else {
       return(met.assortatvityContinuous(M, se = se, values = attr, weighted = weighted, df = df))
     }
   }
+  # If argument M is not a matrix, function works on permutation approaches
   else {
     if (se) {
       stop("Argument se is not available for permutations approaches")
     }
+    # If argument perm.nl is equal to TRUE, argument attr is permuted
     if (perm.nl) {
+      # Check if argument M is an object returned by perm.ds.grp, perm.ds.focal or perm.net.nl----------------------
+      # This part was created to handle repermutation in functions stat.lm, stat.glm and stat.glmm
       if (!is.null(attributes(M)$ANT)) {
         if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == T) {
           stop("Argument attr must be a factor or numeric vector.")
         }
+        # Check if argument M originates from a single network protocol
         test1 <- attributes(M)$ANT == "ANT data stream focal sampling single matrix"
         test2 <- attributes(M)$ANT == "ANT data stream group sampling single matrix"
         test3 <- attributes(M)$ANT == "ANT link permutations single matrix"
 
+        # Check if argument M originates from a multiple network protocol
         test4 <- attributes(M)$ANT == "ANT data stream focal sampling multiple matrices"
         test5 <- attributes(M)$ANT == "ANT data stream group sampling multiple matrices"
         test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
 
+        # If argumpent M originates from a single network protocol, we work on a list of matrices
         if (any(test1, test2, test3)) {
+          # Checking if argument attr is a factor, a character or a numeric vector
           if (all(!is.factor(attr), !is.character(attr), !is.numeric(attr)) == T) {
             stop("Argument attr must be a factor or numeric vector.")
           }
+          # If argument attr is a factor or a character vector, function computes categorical assortativity on each matrix of the list M and permutes argument attr for each element.
           if (is.factor(attr[[1]]) | is.character(attr[[1]])) {
             if (is.null(df)) {
+              # Compute categorical assortativity
               result <- lapply(seq_along(M), function(x, M, attr) {
+                # First element is the categorical assortativity of the original network
                 if (x == 1) {
                   r <- met.assortativityCat(M[[x]], attr)[[1]]
                 }
@@ -85,8 +100,10 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
                 return(r)
               }, M = M, attr = attr)
 
+              # Merge results
               result <- do.call("rbind", result)
 
+              # Adapt name of result according to user option selection
               if (weighted) {
                 attr(result, "comment") <- paste("Weighted categorical assortativity")
               }
@@ -95,8 +112,11 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               }
               attr(result, "class") <- "ant assortativity single matrix"
             }
+            # If argument df is equal to TRUE, same as previously but adding results in the data frame
             else {
+              # Compute categorical assortativity
               result <- lapply(seq_along(M), function(x, M, attr, df) {
+                # First element is the categorical assortativity of the original network
                 if (x == 1) {
                   r <- met.assortativityCat(M[[x]], sample(attr), df = df)
                 }
@@ -107,6 +127,10 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
                 return(r)
               }, M = M, attr = attr, df = df)
             }
+
+            # If argument M is an object returned by perm.ds.grp, 
+            # Store argument M attributes 'scan', 'ctrlf', 'method' and 'ANT'
+            # In case of future repermutations            
             if (test1) {
               attr(result, "focal") <- attributes(M)$focal
               attr(result, "ctrl") <- attributes(M)$ctrl
@@ -115,6 +139,10 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               attr(result, "ANT") <- attributes(M)$ANT
               return(result)
             }
+
+            # If argument M is an object returned by perm.ds.focal, 
+            # Store argument M attributes 'focal', 'ctrl', 'alters', 'method' and 'ANT'
+            # In case of future repermutations
             if (test2) {
               attr(result, "scan") <- attributes(M)$scan
               attr(result, "ctrlf") <- attributes(M)$ctrlf
@@ -122,14 +150,22 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               attr(result, "ANT") <- attributes(M)$ANT
               return(result)
             }
+
+            # If argument M is an object returned by perm.net.nl, 
+            # Store argument M attributes 'ANT'
+            # In case of future repermutations            
             if (test3) {
               attr(result, "ANT") <- attributes(M)$ANT
               return(result)
             }
           }
+
+          # If argument attr is a numeric vector, function computes continuous assortativity on each matrix of the list M and permutes argument attr for each element.
           else {
             if (is.null(df)) {
+              # Compute continuous assortativity
               result <- lapply(seq_along(M), function(x, M, values, weighted) {
+                # First element is the continuous assortativity of the original network
                 if (x == 1) {
                   r <- met.assortatvityContinuous(M[[x]], values = values, weighted = weighted)
                 }
@@ -140,8 +176,10 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
                 return(r)
               }, M = M, values = attr, weighted = weighted)
 
+              # Merge results
               result <- do.call("rbind", result)
 
+              # Adapt name of result according to user option selection
               if (weighted) {
                 attr(result, "comment") <- paste("Weighted continuous assortativity")
               }
@@ -150,6 +188,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               }
               attr(result, "class") <- "ant assortativity single matrix"
             }
+            # If argument df is equal to TRUE, same as previously but adding results in the data frame
             else {
               result <- lapply(seq_along(M), function(x, M, values, weighted, df) {
                 if (x == 1) {
@@ -162,6 +201,10 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
                 return(r)
               }, M = M, values = attr, weighted = weighted, df = df)
             }
+
+            # If argument M is an object returned by perm.ds.grp, 
+            # Store argument M attributes 'scan', 'ctrlf', 'method' and 'ANT'
+            # In case of future repermutations
             if (test1) {
               attr(result, "focal") <- attributes(M)$focal
               attr(result, "ctrl") <- attributes(M)$ctrl
@@ -170,6 +213,10 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               attr(result, "ANT") <- attributes(M)$ANT
               return(result)
             }
+
+            # If argument M is an object returned by perm.ds.focal, 
+            # Store argument M attributes 'focal', 'ctrl', 'alters', 'method' and 'ANT'
+            # In case of future repermutations
             if (test2) {
               attr(result, "scan") <- attributes(M)$scan
               attr(result, "ctrlf") <- attributes(M)$ctrlf
@@ -177,6 +224,10 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               attr(result, "ANT") <- attributes(M)$ANT
               return(result)
             }
+
+            # If argument M is an object returned by perm.net.nl, 
+            # Store argument M attributes 'ANT'
+            # In case of future repermutations
             if (test3) {
               attr(result, "ANT") <- attributes(M)$ANT
               return(result)
@@ -184,11 +235,21 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
           }
         }
 
+        # If argument M originates from a multiple network protocol, we work on a list of lists of matrices
         if (any(test4, test5, test6)) {
+          # Checking if argument attr is a factor, a character or a numeric vector
+          if (all(!is.factor(attr), !is.character(attr), !is.numeric(attr)) == T) {
+            stop("Argument attr must be a factor or numeric vector.")
+          }
+          # If argument attr is a factor or a character vector, function computes categorical assortativity on each matrix of the list of lists M.
+          # M[i] being a list of permutations of a specific matrix.
+          # Function permutes argument attr for each element.
           if (is.factor(attr[[1]]) | is.character(attr[[1]])) {
             if (is.null(df)) {
+              # Compute categorical assortativity
               result <- lapply(seq_along(M), function(i, M, attr) {
                 r1 <- lapply(seq_along(M[[i]]), function(j, m, attr) {
+                  # First element is the categorical assortativity of the original network
                   if (j == 1) {
                     r2 <- met.assortativityCat(m[[j]], attr)[[1]]
                   }
@@ -200,6 +261,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
                 }, m = M[[i]], attr = attr[[i]])
               }, M = M, attr)
             }
+            # If argument df is equal to TRUE, same as previously but adding results in the data frame
             else {
               if (!is.null(df) & is.data.frame(df)) {
                 stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
@@ -243,6 +305,9 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               }
             }
 
+            # If argument M is an object returned by perm.ds.grp, 
+            # Store argument M attributes 'scan', 'ctrlf', 'method' and 'ANT'
+            # In case of future repermutations
             if (test4) {
               attr(result, "focal") <- attributes(M)$focal
               attr(result, "ctrl") <- attributes(M)$ctrl
@@ -251,6 +316,10 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               attr(result, "ANT") <- attributes(M)$ANT
               return(result)
             }
+
+            # If argument M is an object returned by perm.ds.focal, 
+            # Store argument M attributes 'focal', 'ctrl', 'alters', 'method' and 'ANT'
+            # In case of future repermutations
             if (test5) {
               attr(result, "scan") <- attributes(M)$scan
               attr(result, "ctrlf") <- attributes(M)$ctrlf
@@ -258,15 +327,24 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               attr(result, "ANT") <- attributes(M)$ANT
               return(result)
             }
+
+            # If argument M is an object returned by perm.net.nl, 
+            # Store argument M attributes 'ANT'
+            # In case of future repermutations
             if (test6) {
               attr(result, "ANT") <- attributes(M)$ANT
               return(result)
             }
           }
+          # If argument attr is a numeric vector, function computes continuous assortativity on each matrix of the list of lists M.
+          # M[i] being a list of permutations of a specific matrix.
+          # Function permutes argument attr for each element.          
           else {
             if (is.null(df)) {
+              # Compute continuous assortativity
               result <- lapply(seq_along(M), function(i, M, att, weighted) {
                 r1 <- lapply(seq_along(M[[i]]), function(j, m, values, weighted) {
+                  # First element is the categorical assortativity of the original network
                   if (j == 1) {
                     r2 <- met.assortatvityContinuous(m[[j]], values = values, weighted = weighted)
                   }
@@ -279,6 +357,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               }, M = M, att = attr, weighted = weighted)
               result <- do.call(Map, c(c, result))
             }
+            # If argument df is equal to TRUE, same as previously but adding results in the data frame
             else {
               if (!is.null(df) & is.data.frame(df)) {
                 stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
@@ -328,6 +407,9 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               }
             }
 
+            # If argument M is an object returned by perm.ds.grp, 
+            # Store argument M attributes 'scan', 'ctrlf', 'method' and 'ANT'
+            # In case of future repermutations
             if (test4) {
               attr(result, "focal") <- attributes(M)$focal
               attr(result, "ctrl") <- attributes(M)$ctrl
@@ -336,6 +418,10 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               attr(result, "ANT") <- attributes(M)$ANT
               return(result)
             }
+
+            # If argument M is an object returned by perm.ds.focal, 
+            # Store argument M attributes 'focal', 'ctrl', 'alters', 'method' and 'ANT'
+            # In case of future repermutations            
             if (test5) {
               attr(result, "scan") <- attributes(M)$scan
               attr(result, "ctrlf") <- attributes(M)$ctrlf
@@ -343,6 +429,10 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               attr(result, "ANT") <- attributes(M)$ANT
               return(result)
             }
+
+            # If argument M is an object returned by perm.net.nl, 
+            # Store argument M attributes 'ANT'
+            # In case of future repermutations
             if (test6) {
               attr(result, "ANT") <- attributes(M)$ANT
               return(result)
@@ -350,14 +440,20 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
           }
         }
       }
+
+      # If argument M is a list of square matrices----------------------
       else {
         if (is.list(M)) {
+          # Check if argument dfid is NULL
           if (is.null(df)) {
+            # Check if argument attr is a list of factors, characters or numeric vectors. If so, function uses each element of the list attr to compute the assortativity of the corresponding element of the list of matrices M.
             if (is.list(attr)) {
               if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == T) {
-                stop("Argument attr must be a factor or numeric vector.")
+                stop("Argument attr must be a list of factors, characters or numeric vectors.")
               }
+              # If argument attr is a list of factors or character vectors, function computes categorical assortativity on each matrix of the list M.
               if (is.factor(attr[[1]]) | is.character(attr[[1]])) {
+                # Compute categorical assortativity
                 result <- lapply(seq_along(M), function(i, M, attr) {
                   r <- met.assortativityCat(M[[i]], sample(attr[[i]]))[[1]]
                   attr(r, "permutation") <- attributes(M[[i]])$permutation
@@ -365,7 +461,9 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
                 }, M = M, attr)
                 return(result)
               }
+              # If argument attr is a list of numeric vectors, function computes categorical assortativity on each matrix of the list M.
               else {
+                # Compute continuous assortativity
                 result <- lapply(seq_along(M), function(i, M, att, weighted) {
                   r <- met.assortatvityContinuous(M[[i]], values = sample(att[[i]]), weighted = weighted)
                   attr(r, "permutation") <- attributes(M[[i]])$permutation
@@ -374,56 +472,73 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
                 return(result)
               }
             }
+            # If argument attr is a vector, the function computes the assortativity on all elements of the list M with this specific vector.
             if (is.vector) {
+              # If argument attr is a factor or character vector, compute categorical assortativity
               if (is.factor(attr) | is.character(attr)) {
                 result <- lapply(M, met.assortativityCat, sample(attr), df = df)[[1]]
                 return(result)
               }
+              # If argument attr is a numeric vector, compute continuous assortativity
               else {
                 result <- lapply(M, met.assortatvityContinuous, se = se, values = sample(attr), weighted = weighted, df = df)
                 return(result)
               }
             }
           }
+          # If argument df is a list of data frames
           else {
             if (!is.data.frame(df) & is.list(df)) {
+              # If argument attr is a vector
               if (is.vector(attr)) {
+                # Check if it is a character or factor vector and compute the categorical assortativity
                 if (is.factor(attr) | is.character(attr)) {
                   result <- mapply(M, met.assortativityCat, df = df, attr = sample(attr), SIMPLIFY = F)
                   return(result)
                 }
+                # Else, compute continuous assortativity
                 else {
                   result <- lapply(M, met.assortatvityContinuous, df = df, se = se, values = sample(attr), weighted = weighted)
                   return(result)
                 }
               }
+              # If argument attr is a list
               if (is.list(attr)) {
+                # Check if argument df is not null 
                 if (!is.null(df) & is.data.frame(df)) {
                   stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
                 }
+                # If argument df is null, return a list of assortativity values for each element of the list M
                 else {
                   if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == T) {
                     stop("Argument attr must be a factor or numeric vector.")
                   }
+                  # If argument attr is a list of factors or character vectors, function computes categorical assortativity on each matrix of the list M.
                   if (is.factor(attr[[1]]) | is.character(attr[[1]])) {
+                    # Merge data frame list
                     ldf <- do.call("rbind", df)
 
+                    # Compute categorical assortativity
                     tmp <- lapply(seq_along(M), function(i, M, values, weighted) {
                       r1 <- lapply(seq_along(M[[i]]), function(j, m, values, weighted) {
                         r2 <- met.assortatvityContinuous(m[[j]], values = sample(values), weighted = weighted)[[1]]
                       }, m = M[[i]], values = values[[i]], weighted = weighted)
                     }, M = M, values = attr, weighted = weighted)
 
+                    # Merge results
                     tmp <- do.call(Map, c(c, tmp))
 
+                    # Combine results with data frame in a new column named 'assor.conti'
                     result <- lapply(seq_along(tmp), function(i, tmp, ldf) {
                       ldf$assor.conti <- tmp[[i]]
                       attr(ldf, "permutation") <- i
                       return(ldf)
                     }, tmp = tmp, ldf = ldf)
 
+                    # Return results
                     return(result)
                   }
+                  # Same as previously but for continuous assortativity
                   else {
                     if (!is.null(df) & is.data.frame(df)) {
                       stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
@@ -455,6 +570,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
         }
       }
     }
+    # If argument perm.nl is equal to FALSE, same as previously but without permuting argument attr
     else {
       if (!is.null(attributes(M)$ANT)) {
         if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == T) {

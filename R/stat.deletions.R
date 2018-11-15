@@ -67,6 +67,7 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
   # Parametrization --------------------------------------------------------------------
   ids <- colnames(M)
 
+  # Compute metrics on argument M
   Diam <- vector(mode = "numeric", length = ndel + 1)
   Diam[1] <- met.geodesicDiameter.single(M, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
 
@@ -85,6 +86,7 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
   R.Density <- vector(mode = "numeric", length = ndel + 1)
   R.Density[1] <- Density[1]
 
+  # If user selected return matrix, create an object that stores the matrix along the deletions
   if (return.mat == T) {
     MAT <- rep(list(NA), 2)
     TMAT <- rep(list(NA), ndel + 1)
@@ -93,8 +95,9 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
     RMAT[[1]] <- M
   }
 
-  # Deletions simulation for categorical attributes---------------------------------------------------------------------
+  # Deletion simulations for categorical attributes---------------------------------------------------------------------
   if (is.factor(attr) | is.character(attr)) {
+    # Extract nodes to delete
     target.nodes <- which(attr == target)
     if (!is.character(target)) {
       stop("Argument target must be a character when argument attr is a character or a vector of factors.")
@@ -116,8 +119,9 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
     R.GLOBAL <- rep(list(NA), nsim)
     R.DENSITY <- rep(list(NA), nsim)
 
+    # For each simulation
     for (j in 1:nsim) {
-      # Selectiing target nodes
+      # Selecting target nodes
       T.target.nodes <- target.nodes
       R.nodes <- c(1:length(attr))
 
@@ -137,7 +141,7 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
         R.S[i - 1] <- sample(R.nodes, 1) # pick a node randomly in attr attributes.
         R.nodes <- R.nodes[!R.nodes %in% R.S] # delete in vec node the node picked.
         MR <- M[-R.S, -R.S] # delete the row and the column of the node picked.
-        # Computing networks metrics
+        # Computing network metrics
         R.Diam[i] <- met.geodesicDiameter.single(MR, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
         R.GE[i] <- met.ge(MR, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
         R.Density[i] <- met.density(MR)
@@ -147,6 +151,8 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
           RMAT[i] <- MR
         }
       }
+
+      # Storing results
       DIAM[[j]] <- Diam
       GLOBAL[[j]] <- GE
       DENSITY[[j]] <- Density
@@ -161,7 +167,7 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
       }
     }
   }
-  # Deletions simulation for continuous attributes---------------------------------------------------------------------
+  # Deletion simulations for continuous attributes---------------------------------------------------------------------
   if (is.numeric(attr)) {
     if (target != "decreasing" & target != "increasing") {
       stop("Argument target must be 'decreasing' or 'increasing' when argument attr is numeric.")
@@ -173,12 +179,12 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
       stop("Argument ndel must be numeric when argument attr is a numeric vector.")
     }
     if (length(ndel) != 1) {
-      stop("Argument ndel must of length 1.")
+      stop("Argument ndel must be of length 1.")
     }
     if (factorial(ndel) < nsim) {
       stop("Argument nsim is higher than argument ndel. You are trying to realize a number of simulations higher than the possible combinations of deletions.")
     }
-    # Selectiing target nodes
+    # Selecting target nodes
     if (target == "decreasing") {
       ids.ordered <- order(attr, decreasing = T)
     }
@@ -193,10 +199,11 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
     R.GLOBAL <- rep(list(NA), nsim)
     R.DENSITY <- rep(list(NA), nsim)
 
+    # For each simulation
     for (j in 1:nsim) {
-      # Selectiing target nodes for traget deletion
+      # Selecting target nodes for target deletion
       T.target.nodes <- ids.ordered[1:ndel]
-      # Selectiing all nodes for random deletion
+      # Selecting all nodes for random deletion
       R.nodes <- c(1:length(attr))
 
       S <- NULL
@@ -206,7 +213,7 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
         S[i - 1] <- sample(T.target.nodes, 1) # pick a node randomly
         T.target.nodes <- T.target.nodes[!T.target.nodes %in% S] # delete in target.nodes node the node picked.
         MT <- M[-S, -S] # delete the row and the column of the node picked.
-        # Computing networks metrics
+        # Computing network metrics
         Diam[i] <- met.geodesicDiameter.single(MT, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
         GE[i] <- met.ge(MT, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
         Density[i] <- met.density(MT)
@@ -215,7 +222,7 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
         R.S[i - 1] <- sample(R.nodes, 1) # pick a node randomly in attr attributes.
         R.nodes <- R.nodes[!R.nodes %in% R.S] # delete in vec node the node picked.
         MR <- M[-R.S, -R.S] # delete the row and the column of the node picked.
-        # Computing networks metrics
+        # Computing network metrics
         R.Diam[i] <- met.geodesicDiameter.single(MR, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
         R.GE[i] <- met.ge(MR, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
         R.Density[i] <- met.density(MR)
@@ -225,6 +232,8 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
           RMAT[i] <- MR
         }
       }
+
+      # store results
       DIAM[[j]] <- Diam
       GLOBAL[[j]] <- GE
       DENSITY[[j]] <- Density
@@ -239,8 +248,8 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
       }
     }
   }
-  # Data oprganisation ---------------------------------------------------------------------
-  # Merge network metrics variations
+  # Data organization ---------------------------------------------------------------------
+  # Merge network metric variations
   target.deletion <- rep(list(vector(mode = "numeric", length = ndel + 1)), 3)
   names(target.deletion) <- c("diameter", "global.efficiency", "density")
   target.deletion[[1]] <- do.call("rbind", DIAM)
@@ -253,7 +262,7 @@ stat.deletions <- function(M, attr, target, ndel, nsim, weighted = T, shortest.w
   random.deletion[[2]] <- do.call("rbind", R.GLOBAL)
   random.deletion[[3]] <- do.call("rbind", R.DENSITY)
 
-  # Create a data frame with the mean, the sd, the deletion number and the type of deletion
+  # Create a data frame with mean, sd, deletion number and type of deletion
   Tndel <- c(0:ndel)
   Dtype <- rep("target", ndel + 1)
   stat.target.deletion <- lapply(target.deletion, function(x, Dtype, Tndel) {

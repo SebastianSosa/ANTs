@@ -29,47 +29,40 @@
 #' @keywords internal
 
 met.lp.single <- function(M, df = NULL, dfid = NULL, binary = F) {
-  if (binary == F) {
-    if (is.null(df)) {
-      result <- met.lpcW(M)
-      attr(result, "names") <- colnames(M)
-      return(result)
-    }
-    else {
-      if (!is.null(dfid)) {
-        if (is.null(colnames(M))) {
-          stop("Argument M doesn't have column names")
-        }
-        col.id <- df.col.findId(df, dfid)
-        df <- df[match(colnames(M), df[, col.id]), ]
-      }
-      if (is.data.frame(df) == F) {
-        stop("Argument df must be a data frame")
-      }
-      df$lp <- met.lpcW(M)
-      return(df)
-    }
+  # Compute network metric
+  if(binary) {
+    result <- met.lpcB(M)
   }
-  if (binary == T) {
-    if (is.null(df)) {
-      result <- met.lpcB(M)
-      attr(result, "names") <- colnames(M)
-      return(result)
+  else {    
+    result <- met.lpcW(M)
+  }
+
+  # If argument df is null
+  if (is.null(df)) {
+    # Colnames or argument M as names of the vector
+    attr(result, "names") <- colnames(M)
+    return(result)
+  }
+  else {
+    # If argument dfid is not null
+    if (!is.null(dfid)) {
+      if (is.null(colnames(M))) {
+        stop("Argument M doesn't have column names")
+      }
+      # Order data frame according to argument dfid
+      col.id <- df.col.findId(df, dfid)
+      df <- df[match(colnames(M), df[, col.id]), ]
     }
-    else {
-      if (!is.null(dfid)) {
-        col.id <- df.col.findId(df, dfid)
-        df <- df[match(colnames(M), df[, col.id]), ]
-      }
-      else {
-        cat("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.", "\n")
-      }
-      if (is.data.frame(df) == F) {
-        stop("Argument df must be a data frame")
-      }
-      result <- met.lpcB(M)
+    if (is.data.frame(df) == F) {
+      stop("Argument df must be a data frame")
+    }
+    # Add vector of network metrics in a new colum
+    if(binary){
       df$lpB <- result
-      return(df)
+    }
+    else{
+      df$lp <- met.lpcW(M)
+    }      
+    return(df)
     }
   }
-}

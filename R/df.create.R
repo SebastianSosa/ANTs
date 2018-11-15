@@ -18,8 +18,8 @@
 #' @param names a boolean, if \emph{true} then a column is added in the data frame with the names of the matrix columns.
 #' @return
 #' \itemize{
-#' \item if argument M is a matrix, then it creates a single empty data frame with as many rows or columns as in the corresponding matrix.
-#' \item if the argument M is a list of matrices, it creates a list of empty data frames with as many rows or columns as in the corresponding matrix in the list.
+#' \item if argument M is a matrix, then it creates a single empty data frame with as many rows as columns of the corresponding matrix. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#' \item if the argument M is a list of matrices, it creates a list of empty data frames with as many rows as columns of the corresponding matrix in the list. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #' }
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @examples
@@ -27,16 +27,17 @@
 #' df.create(sim.m)
 
 df.create <- function(M, names = T) {
+  # Check if argument M is a single matrix----------------------
   if (is.matrix(M) == T) {
+    # Create a data frame with number of rows corresponding to the number of columns of argument M
     df <- df.create.single(M, names)
     return(df)
   }
-
+  # Check if argument M is a list of matrices----------------------
   if (!is.matrix(M) & is.list(M) == T) {
-    if (is.matrix(M[[1]])) { # !!!!!!!!!!!!!!! check if all elements of the lis is a matrix
-      df <- lapply(M, df.create.single, names = names)
-      return(df)
-    }
+    # Create a list of data frames with number of rows corresponding to the number of columns of the corresponding matrix in argument M
+    df <- lapply(M, df.create.single, names = names)
+    return(df)
   }
 
   else {

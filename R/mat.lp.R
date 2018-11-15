@@ -26,12 +26,13 @@
 
 
 mat.lp <- function(M) {
-  # Degrees matrix
+  # Create the degrees matrix----------------------
   m0 <- M
   m0[m0 > 0] <- 0
   met.degree <- mat_cols_sums(M)
   diag(m0) <- met.degree
-  # Laplacian matrix
+
+  # Create the Laplacian matrix----------------------
   LM <- m0 - M
   return(LM)
 }

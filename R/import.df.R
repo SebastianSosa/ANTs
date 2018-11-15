@@ -29,20 +29,26 @@
 
 import.df <- function(header = TRUE, sep = ",", quote = "\"", dec = ".",
                       fill = TRUE, comment.char = "", ...) {
+  # Extract files names----------------------
   files <- list.files(getwd())
 
+  # If their is no file in the folder----------------------
+  if (length(files) == 0) {
+    stop("Your repertory is emtpy")
+  }
+
+  # If just one file in the folder then use read.csv----------------------
   if (length(files) > 1) {
     DF <- lapply(files, read.csv, header = header, sep = sep, quote = quote, dec = dec, fill = fill, comment.char = comment.char, ...)
     files <- gsub(".csv", "", files)
     names(DF) <- files
   }
 
+  # Else apply read.csv for all files and store them in a list of data frames----------------------
   if (length(files) == 1) {
     DF <- read.csv(file = files[1], header = header, sep = sep, quote = quote, dec = dec, fill = fill, comment.char = comment.char, ...)
     print("You could have used the function read.csv")
   }
-  if (length(files) == 0) {
-    stop("Your repertory is emtpy")
-  }
+
   return(DF)
 }

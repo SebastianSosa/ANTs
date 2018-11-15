@@ -32,29 +32,39 @@
 #' met.ci(sim.m)
 
 met.ci <- function(M, df = NULL, binary = F, sym = T) {
+  # Checking if argument M is a square matrix 
   test <- is.matrix(M)
   if (test) {
+    # Compute network metric
     result <- met.ci.single(M)
     if (is.null(df)) {
       return(result)
     }
     else {
+      # Adding network metric in argument df
       df$ci <- result
       return(df)
     }
   }
   else {
+    # Check if argument M is an object returned by perm.ds.grp, perm.ds.focal or perm.net.nl----------------------
+    # This part was created to handle repermutation in functions stat.lm, stat.glm and stat.glmm
     if (!is.null(attributes(M)$ANT)) {
+      # Check if argument M originates from a single network protocol
       test1 <- attributes(M)$ANT == "ANT data stream focal sampling single matrix"
       test2 <- attributes(M)$ANT == "ANT data stream group sampling single matrix"
       test3 <- attributes(M)$ANT == "ANT link permutations single matrix"
 
+      # Check if argument M originates from a multiple network protocol
       test4 <- attributes(M)$ANT == "ANT data stream focal sampling multiple matrices"
       test5 <- attributes(M)$ANT == "ANT data stream group sampling multiple matrices"
       test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
 
+       # If argument M originates from a single network protocol, we work on a list of matrices
       if (any(test1, test2, test3)) {
+        # Check if argument df is not NULL
         if (is.null(df)) {
+          # Compute network metric
           result <- lapply(M, function(x) {
             r <- met.ci.single(x)
             attr(r, "permutation") <- attributes(x)$permutation
@@ -65,6 +75,7 @@ met.ci <- function(M, df = NULL, binary = F, sym = T) {
           if (!is.data.frame(df)) {
             stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function", "\r")
           }
+          # Compute network metric
           result <- lapply(M, function(x, df) {
             df$ci <- met.ci.single(x)
             attr(df, "permutation") <- attributes(x)$permutation
@@ -72,6 +83,9 @@ met.ci <- function(M, df = NULL, binary = F, sym = T) {
           }, df = df)
         }
 
+        # If argument M is an object returned by perm.ds.grp, 
+        # Store argument M attributes 'scan', 'ctrlf', 'method' and 'ANT'
+        # In case of future repermutations
         if (test1) {
           attr(result, "focal") <- attributes(M)$focal
           attr(result, "ctrl") <- attributes(M)$ctrl
@@ -81,6 +95,9 @@ met.ci <- function(M, df = NULL, binary = F, sym = T) {
           return(result)
         }
 
+        # If argument M is an object returned by perm.ds.focal, 
+        # Store argument M attributes 'focal', 'ctrl', 'alters', 'method' and 'ANT'
+        # In case of future repermutations
         if (test2) {
           attr(result, "scan") <- attributes(M)$scan
           attr(result, "ctrlf") <- attributes(M)$ctrlf
@@ -89,14 +106,20 @@ met.ci <- function(M, df = NULL, binary = F, sym = T) {
           return(result)
         }
 
+        # If argument M is an object returned by perm.net.nl, 
+        # Store argument M attributes 'ANT'
+        # In case of future repermutations
         if (test3) {
           attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
       }
 
+      # If argument M originates from a multiple network protocol, we work on a list of lists of matrices. M[i] being a list of permutations of a specific matrix.
       if (any(test4, test5, test6)) {
+        # Check if argument df is NULL
         if (is.null(df)) {
+          # Compute network metric
           result <- lapply(M, function(x) {
             r1 <- lapply(x, function(y) {
               r2 <- met.ci.single(y)
@@ -111,34 +134,50 @@ met.ci <- function(M, df = NULL, binary = F, sym = T) {
           attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
+
+        # Check if argument df is not NULL
         else {
-          if (!is.null(df) & is.data.frame(df)) {
+          # Check if argument df is a data frame
+          if (is.data.frame(df)) {
             stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
           }
-          if (length(M) == nrow(df)) {
+          # Check if argument dfid is NULL
+          if (is.null(dfid)) {
+            warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
+          }
+          # Check if each matrix size is equal to corresponding data frame size
+          # Which means we are working on a case of multiple repermutations
+          # Thus with a list of lists of matrices and data frames
+          if (sum(unlist(lapply(seq_along(M), function(i, a) {
+            nrow(a[[i]][[1]])
+          }, a = M))) == nrow(df[[1]])) {
             tmp <- lapply(M, function(x) {
               r1 <- lapply(x, function(y) {
                 r2 <- met.ci.single(y)
               })
             })
 
+            # Merge vector
             tmp <- do.call(Map, c(c, tmp))
 
+            # Adding network metric in argument df
             result <- lapply(seq_along(tmp), function(x, tmp, df) {
               df[[x]]$ci <- tmp[[x]]
               return(df[[x]])
             }, tmp = tmp, df = df)
           }
           else {
-            # data fame manipulation
+            # Merge list of data frames in a data frame
             ldf <- do.call("rbind", df)
 
+            # Compute network metric
             tmp <- lapply(M, function(x) {
               r1 <- lapply(x, function(y) {
                 r2 <- met.ci.single(y)
               })
             })
 
+            # merge element one of each list together, merge element two of each list together, etc...
             tmp <- do.call(Map, c(c, tmp))
 
             result <- lapply(seq_along(tmp), function(tmp, ldf, i) {
@@ -149,6 +188,9 @@ met.ci <- function(M, df = NULL, binary = F, sym = T) {
           }
         }
 
+        # If argument M is an object returned by perm.ds.grp, 
+        # Store argument M attributes 'scan', 'ctrlf', 'method' and 'ANT'
+        # In case of future repermutations
         if (test4) {
           attr(result, "focal") <- attributes(M)$focal
           attr(result, "ctrl") <- attributes(M)$ctrl
@@ -158,6 +200,9 @@ met.ci <- function(M, df = NULL, binary = F, sym = T) {
           return(result)
         }
 
+        # If argument M is an object returned by perm.ds.focal, 
+        # Store argument M attributes 'focal', 'ctrl', 'alters', 'method' and 'ANT'
+        # In case of future repermutations
         if (test5) {
           attr(result, "scan") <- attributes(M)$scan
           attr(result, "ctrlf") <- attributes(M)$ctrlf
@@ -166,20 +211,28 @@ met.ci <- function(M, df = NULL, binary = F, sym = T) {
           return(result)
         }
 
+        # If argument M is an object returned by perm.net.nl, 
+        # Store argument M attributes 'ANT'
+        # In case of future repermutations
         if (test6) {
           attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
       }
     }
+
+  # If argument M is a list of square matrices----------------------
     else {
       if (!test & is.list(M)) {
+        # Check if argument dfid is NULL
         if (is.null(df)) {
           result <- lapply(M, met.ci.single)
           return(result)
         }
 
+        # Check if argument df is not NULL, is not a data frame and is a list
         if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+          # Compute network metric
           result <- mapply(function(x, y) {
             y$ci <- met.ci.single(x)
             return(y)

@@ -22,14 +22,23 @@
 
 
 df.create.single <- function(M, names = T) {
+  # Check if argument M is a single matrix----------------------
+  if(!is.matrix(M)){
+  	stop("Argument M is not a matrix")
+  }
+  # Check if argument M is a square matrix----------------------
+  dim.tmp=dim(M)
+  if(dim.tmp[1]!=dim.tmp[2]){
+  	stop("Argument M is a non square matrix")
+  }
+
+  # Create a data frame without columns of number of rows equal to number of columns of argument M----------------------
   df <- data.frame(matrix(ncol = 0, nrow = ncol(M)))
 
+  # If argument names is TRUE then add column with label id and storing column names of argument M----------------------
   if (names) {
     df$id <- colnames(M)
   }
 
   return(df)
 }
-
-# work that still remain in this function:
-# - Add a error check if col=T but in reality is not

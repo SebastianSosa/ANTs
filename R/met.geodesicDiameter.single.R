@@ -33,23 +33,23 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
 #'
-met.geodesicDiameter.single <- function(m, weighted = T, shortest.weight = F, normalization = T, directed = T, out = T) {
-  if (weighted == FALSE & normalization == T) {
+met.geodesicDiameter.single <- function(m, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = TRUE) {
+  if (weighted == FALSE & normalization == TRUE) {
     stop("Argument normalization can't be TRUE when  argument weighted is FALSE.")
   }
-  if (weighted == F) {
+  if (weighted == FALSE) {
     m <- mat_filter(m, 1, 1)
   }
-  if (shortest.weight == F) {
+  if (shortest.weight == FALSE) {
     # opshal method
     avg_strength <- sum(m) / (ncol(m) * (ncol(m) - 1))
-    if (normalization == T) {
+    if (normalization == TRUE) {
       m <- m / avg_strength
     }
     m <- 1 / m
     m[is.infinite(m)] <- 0
   }
-  if (directed == F) {
+  if (directed == FALSE) {
     m <- m + t(m)
     results <- metric_global_shortestPath(m)
     r1 <- results[[2]]
@@ -58,7 +58,7 @@ met.geodesicDiameter.single <- function(m, weighted = T, shortest.weight = F, no
     return(list("diameter" = r1, "geodesic" = r2))
   }
   else {
-    if (out == T) {
+    if (out == TRUE) {
       results <- metric_global_shortestPath(m)
       r1 <- results[[2]]
       r2 <- results[[1]]

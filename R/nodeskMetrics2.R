@@ -29,6 +29,7 @@ nodeskMetrics2 <- function(M, option, df = NULL, dfid = NULL) {
   #                      'ri',
   #                      ''str','strOut','strIn')
 
+  # If no data frame create one to store all the metrics
   if (!is.null(df) & !is.null(dfid)) {
     col.id <- df.col.findId(df, dfid)
     df <- df[match(colnames(M), df[, col.id]), ]

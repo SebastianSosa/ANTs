@@ -190,11 +190,12 @@ met.ge <- function(M, df = NULL, weighted = T, shortest.weight = F, normalizatio
           if (!is.data.frame(df)) {
             stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function", "\r")
           }
-          result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out, df) {
+          result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out, df, tmp) {
             df$ge <- met.ge.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+            names(df)[ncol(df)] = attributes(tmp)$name
             attr(df, "permutation") <- attributes(x)$permutation
             return(df)
-          }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out, df = df)
+          }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out, df = df,  tmp = tmp)
         }
 
         if (test1) {
@@ -238,37 +239,46 @@ met.ge <- function(M, df = NULL, weighted = T, shortest.weight = F, normalizatio
           if (!is.null(df) & is.data.frame(df)) {
             stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
           }
-          if (length(M) == nrow(df)) {
-            tmp <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
+          # Check if each matrix size is equal to the corresponding dataframe size
+          # Which means we are working on a case with multiple repermutations
+          # Thus with a list of lists of matrices and dataframes
+          if (sum(unlist(lapply(seq_along(M), function(i, a) {
+            nrow(a[[i]][[1]])
+          }, a = M))) == nrow(df[[1]])) {
+            tmp2 <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
               r1 <- lapply(x, function(y, weighted, shortest.weight, normalization, directed, out) {
                 r2 <- met.ge.single(y, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
               }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
             }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
 
-            tmp <- do.call(Map, c(c, tmp))
+            tmp2 <- do.call(Map, c(c, tmp2))
 
-            result <- lapply(seq_along(tmp), function(x, tmp, df) {
+            # Paste each of the new vectors in a list of dataframes
+            # and name column of dataframe according to user arguments binary, sym, out declaration
+            result <- lapply(seq_along(tmp2), function(x, tmp2, df, tmp) {
               df[[x]]$ge <- tmp[[x]]
+              colnames(df[[x]])[ncol(df[[x]])] <- attributes(tmp)$name
               return(df[[x]])
-            }, tmp = tmp, df = df)
+            }, tmp2 = tmp2, df = df, tmp= tm^p)
           }
           else {
-            # data fame manipulation
+            # dataframe manipulation
             ldf <- do.call("rbind", df)
 
-            tmp <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
+            tmp2 <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
               r1 <- lapply(x, function(y, weighted, shortest.weight, normalization, directed, out) {
                 r2 <- met.ge.single(y, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
               }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
             }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
 
-            tmp <- do.call(Map, c(c, tmp))
+            tmp2 <- do.call(Map, c(c, tmp2))
 
-            result <- lapply(seq_along(tmp), function(tmp, ldf, i) {
+            result <- lapply(seq_along(tmp2), function(tmp2, tmp, ldf, i) {
               ldf$ge <- tmp[[i]]
+              names(ldf)[ncol(ldf)] = attributes(tmp)$name
               attr(ldf, "permutation") <- i
               return(ldf)
-            }, tmp = tmp, ldf = ldf)
+            }, tmp2 = tmp2, tmp = tmp, ldf = ldf)
           }
         }
 

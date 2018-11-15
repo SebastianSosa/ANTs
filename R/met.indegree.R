@@ -35,46 +35,61 @@
 #' met.indegree(sim.m,df=sim.df)
 
 met.indegree <- function(M, df = NULL, dfid = NULL) {
-  test <- is.matrix(M)
-  if (test) {
+  # Check if argument M is a square matrix or a list of square matrices----------------------
+  test <- check.mat(M)
+  # If argument M is a square Matrix----------------------
+  if (test=="M ok") {
+    # If argument df is NULL return a simple numeric vector
     if (is.null(df)) {
+      # Compute network metric
       result <- met.indegree.single(M, df = df, dfid = dfid)
       return(result)
     }
+    # If argument df is not NULL return a data frame
     else {
+      #If argument dfid is NULL simply add the network metric vector into the data frame,
+      # else order data frame according matrix column order 
       if (is.null(dfid)) {
         warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
-        result <- met.indegree.single(M, df = df, dfid = dfid)
-        return(result)
       }
-      else{
-        result <- met.indegree.single(M, df = df, dfid = dfid)
-        return(result)
-      }
+      # Compute network metric
+      result <- met.indegree.single(M, df = df, dfid = dfid)
+      return(result)
     }
   }
 
+  # Check if argument M is an object returned by perm.ds.grp, perm.ds.focal or perm.net.nl----------------------
+  # This part was created to handle repermutation in functions stat.lm, stat.glm and stat.glmm
   if (!is.null(attributes(M)$ANT)) {
+    # Check if argument M originates from a single network protocol
     test1 <- attributes(M)$ANT == "ANT data stream group sampling single matrix"
     test2 <- attributes(M)$ANT == "ANT data stream focal sampling single matrix"
     test3 <- attributes(M)$ANT == "ANT link permutations single matrix"
 
+    # Check if argument M is issue from a multiples network protocol
     test4 <- attributes(M)$ANT == "ANT data stream group sampling multiple matrices"
     test5 <- attributes(M)$ANT == "ANT data stream focal sampling multiple matrices"
     test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
 
+    # If argumpent M originates from a single network protocol, we work on a list of matrices
     if (test1 | test2 | test4 | test5) {
       stop("Argument M is a list of permuted matrices through data stream approach. Such pre-network permutations do not make any degree variation across permuted networks.")
     }
+
+    # If argumpent M is issue single network protocol with node label permutations, we work on a list of list of Matrices
     if (test3) {
+      # If argument df is not not null
       if (!is.null(df)) {
+        # If argument df is not a data frame
         if (!is.data.frame(df)) {
           stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function", "\r")
         }
       }
+      # If argument dfid is null
       if (is.null(dfid)) {
         warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
       }
+      # Compute network metric
       result <- lapply(M, function(x, df = df, dfid = dfid) {
         r <- met.indegree.single(x, df = df, dfid = dfid)
         attr(r, "permutation") <- attributes(x)$permutation
@@ -84,8 +99,11 @@ met.indegree <- function(M, df = NULL, dfid = NULL) {
       return(result)
     }
 
+    # If argumpent M is issue multiples network protocol with node links permutations, we work on a list of list of Matrices
     if (test6) {
+      # If argument df is null
       if (is.null(df)) {
+        # Compute network metric
         result <- lapply(M, function(x) {
           r1 <- lapply(x, function(y) {
             r2 <- met.indegree.single(y)
@@ -96,13 +114,20 @@ met.indegree <- function(M, df = NULL, dfid = NULL) {
         attr(result, "ANT") <- attributes(M)$ANT
         return(result)
       }
+      # If argument df is not null
       else {
+        # Check if argument df is a data frame
+        if (is.data.frame(df)) {
+          stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
+        }
+        # Check if argument is null
         if (is.null(dfid)) {
           warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
         }
-        if (!is.null(df) & is.data.frame(df)) {
-          stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
-        }
+
+        # Check if each matrix size is equal to corresponding data frame size
+        # Which means, we are working on a case of multiple repermutations
+        # Thus with a list of lists of matrices and data frames
         if (sum(unlist(lapply(seq_along(M), function(i, a) {
           nrow(a[[i]][[1]])
         }, a = M))) == nrow(df[[1]])) {
@@ -115,21 +140,29 @@ met.indegree <- function(M, df = NULL, dfid = NULL) {
           tmp <- do.call(Map, c(c, tmp))
 
           result <- lapply(seq_along(df), function(i, a, b) {
-            a[[i]]$indegree <- b[[i]]
+            a[[i]]$degree <- b[[i]]
             return(a[[i]])
           }, a = df, b = tmp)
-
+          attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
+        # Else, we are working on a case of single repermutation with a list of matrices and data frames
         else {
+          # Check if argument dfid is not NULL, then order data frame
           if (!is.null(dfid)) {
             dfid <- df.col.findId(df[[1]], dfid)
             df <- lapply(df, function(x) {
               x <- x[order(x[[dfid]]), ]
             })
           }
+           # Else warning
+          else {
+            warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
+          }
+          # Merge list of data frames
           ldf <- do.call("rbind", df)
 
+          # Compute network metric
           tmp <- lapply(M, function(x) {
             r1 <- lapply(x, function(y) {
               r2 <- met.indegree.single(y)
@@ -137,7 +170,7 @@ met.indegree <- function(M, df = NULL, dfid = NULL) {
           })
           tmp <- do.call(Map, c(c, tmp))
           result <- lapply(seq_along(tmp), function(tmp, ldf, i) {
-            ldf$indegree <- tmp[[i]]
+            ldf$degree <- tmp[[i]]
             attr(ldf, "permutation") <- i
             return(ldf)
           }, tmp = tmp, ldf = ldf)
@@ -148,23 +181,28 @@ met.indegree <- function(M, df = NULL, dfid = NULL) {
       }
     }
   }
-
-  if (!test & is.list(M)) {
+  
+  # If argument M is a list of square matrices----------------------
+  if (test =="M list ok") {
+    # Check if argument df is NULL and not argument dfid
     if (is.null(df) & !is.null(dfid)) {
       stop("Argument 'df' can't be NULL when argument 'dfid' isn't", "\r")
     }
-
+    # Check if argument df and dfid are NULL
     if (is.null(df) & is.null(dfid)) {
       result <- lapply(M, met.indegree.single)
       return(result)
     }
-
+    # Check if argument df is not NULL, is not a data frame and is a list
     if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+      # Argument df is a data frame
       if (!is.null(dfid)) {
+        # Compute network metric
         result <- mapply(met.indegree.single, M, df = df, dfid = dfid, SIMPLIFY = F)
         return(result)
       }
       else {
+        # Compute network metric
         warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
         result <- mapply(met.indegree.single, M, df = df, SIMPLIFY = F)
         return(result)

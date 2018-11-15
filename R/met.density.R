@@ -28,29 +28,39 @@
 #' met.density(sim.m)
 
 met.density <- function(M, df = NULL) {
+  # Checking if argument M is a square matrix 
   test <- is.matrix(M)
   if (test) {
+    # Compute network metric
     result <- met_density(M)    
     if (is.null(df)) {
       names(result) <- "Density"
       return(result)
     }
     else {
+      # Adding network metric in argument df
       df$density <- result
       return(df)
     }
   }
   else {
-    if (!is.null(attributes(M)$ANT)) {
-      stop("None of the permutation approaches available in ANT allow to make density variation.")
+    # Check if argument M is an object returned by perm.ds.grp, perm.ds.focal or perm.net.nl or ego. ANT function----------------------
+    #  ego. ANT function is being developed and is not implemented in this version of ANTs
+    if (all(c(!is.null(attributes(M)$ANT), 
+        attributes(M)$ANT != "Ego-network list", 
+        attributes(M)$ANT != "Ego-network list whitout ego")==T)) {
+        # None of the permutation approches generate network density variation, thus density can be tested for permuted approaches
+        stop("None of the permutation approaches available in ANT allow to make density variation.")
     }
+    # If argument M is a list of square matrices----------------------
     else {
       if (!test & is.list(M)) {
+        # Check if argument dfid is NULL
         if (is.null(df)) {
           result <- lapply(M, met_density)
           return(result)
         }
-
+        # Check if argument df is not NULL, is not a data frame and is a list
         if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
           result <- mapply(function(x, y) {
             y$density <- met_density(x)

@@ -17,6 +17,7 @@
 #' @keywords internal
 
 met.betweenness.single <- function(m, binary = T, shortest.weight = F, normalization = T, sym = T, out = T, df = NULL, dfid = NULL) {
+  # Organizing matrix according to arguments user declaration
   name <- colnames(m)
   if (binary) {
     m <- mat_filter(m, 1, 1)
@@ -40,25 +41,30 @@ met.betweenness.single <- function(m, binary = T, shortest.weight = F, normaliza
       m <- t(m)
     }
   }
+  # Compute network metric
+  result <- metric_node_betweeness(m)
+  
+  # If argument df is null
   if (is.null(df)) {
-    result <- metric_node_betweeness(m)
+    # Colnames or argument M as names of the vector
     attr(result, "names") <- colnames(m)
     return(result)
   }
   else {
+    if (is.data.frame(df) == F) {
+      stop("Argument df must be a data frame")
+    }
+    # If argument dfid is not null
     if (!is.null(dfid)) {
       if (is.null(colnames(m))) {
         stop("Argument m doesn't have column names")
       }
+      # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
       df <- df[match(colnames(m), df[, col.id]), ]
     }
-    if (is.data.frame(df) == F) {
-      stop("Argument df must be a data frame")
-    }
-    result <- metric_node_betweeness(m)
+    # Add vector of network metrics in a new column
+    df[, ncol(df) + 1] <- result
+    return(df)
   }
-
-  df[, ncol(df) + 1] <- result
-  return(df)
 }

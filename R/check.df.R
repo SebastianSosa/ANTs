@@ -17,25 +17,19 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 #' @keywords internal
 check.df <- function(df) {
-  ## df is a single dataframe
+  # Check if argument df is a single dataframe----------------------
   if (is.data.frame(df)) {
     return("df ok")
   }
-  ## df is a list of dataframes
+
+  # Check if argument df is a list of dataframes----------------------
   if (!is.data.frame(df) & is.list(df)) {
     if (all(unlist(lapply(df, is.data.frame)))) {
       return("df list ok")
     }
     else {
-      stop("Argument df is not a valid ANT object.", "\n")
+      stop("Argument df is not a list of data frames.", "\n")
     }
   }
-  ## df is a matrix, stop
-  if (is.matrix(df)) {
-    stop("Argument df is a matrix, not a data frame.", "\n")
-  }
-  ## df is a vector, stop
-  if (is.vector(df)) {
-    stop("Argument df is a vector, not a data frame.", "\n")
-  }
+  else{stop("Argument df is not a data frame or a list of data frames")}
 }

@@ -27,22 +27,29 @@
 #' @keywords internal
 
 met.indegree.single <- function(M, df = NULL, dfid = NULL) {
+  # Compute network metric
+  BID <- mat_col_sumsBinary(M)
+
+  # If argument df is null
   if (is.null(df)) {
-    BID <- mat_col_sumsBinary(M)
+    # Colnames or argument M as names of the vector
     attr(BID, "names") <- colnames(M)
     return(BID)
   }
   else {
+    # If argument dfid is not null
     if (!is.null(dfid)) {
       if (is.null(colnames(M))) {
         stop("Argument M doesn't have column names")
       }
+      # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
       df <- df[match(colnames(M), df[, col.id]), ]
     }
     if (is.data.frame(df) == F) {
       stop("Argument df must be a data frame")
     }
+    # Add vector of network metrics in a new column
     BID <- mat_col_sumsBinary(M)
     df$indegree <- BID
     return(df)

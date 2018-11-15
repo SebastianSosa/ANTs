@@ -9,7 +9,7 @@
 #
 # ANT is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 
 #' @title Strength
@@ -24,24 +24,29 @@
 
 #' @keywords internal
 met.strength.single <- function(M, df = NULL, dfid = NULL) {
+  # Compute network metric
   s <- as.vector(met_strength(M))
 
+  # If argument df is null
   if (is.null(df)) {
+    # Colnames or argument M as names of the vector
     attr(s, "names") <- colnames(M)
     return(s)
   }
   else {
+    # If argument dfid is not null
     if (!is.null(dfid)) {
       if (is.null(colnames(M))) {
         stop("Argument M doesn't have column names")
       }
+      # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
       df <- df[match(colnames(M), df[, col.id]), ]
     }
     if (is.data.frame(df) == F) {
       stop("Argument df must be a data frame")
     }
-
+    # Add vector of network metrics in a new column
     df$strength <- s
     return(df)
   }

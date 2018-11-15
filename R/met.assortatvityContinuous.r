@@ -32,6 +32,13 @@ met.assortatvityContinuous <- function(Matrix, se = FALSE, values, weighted = TR
   if (ncol(Matrix) != length(values)) {
     stop("number of elements in 'values' is not equal to number of nodes")
   }
+  # Handling NA
+  test = which(is.na(values) == TRUE)
+  if(length(test) != 0){
+    values = values[-test]
+    Matrix = Matrix[-test, -test]
+  }
+  
   if (weighted) {
     MATjk <- Matrix
   } else {

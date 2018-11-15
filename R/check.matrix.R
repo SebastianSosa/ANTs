@@ -23,34 +23,27 @@
 #' @keywords internal
 
 check.mat <- function(M) {
-  if (is.matrix(M)) {
-    if (mat_isSquare(M)) {
-      cat("Argument M is a valid matrix.")
-      return("mat ok")
+  if(is.matrix(M)){
+    # Check if  argument M a square Matrix
+    if(dim(M)[1] != dim(M)[2]){
+    stop("Argument M is not a square matrix.")
     }
-    else {
-      warning("Argument M is not a valid matrix.")
-      return("mat list ok")
-    }
-  }
-  if (is.list(M)) {
-    if (all(unlist(lapply(M, function(x) {
-      test <- all(c(is.matrix(x), mat_isSquare(x)))
-    })))) {
-      cat("Argument M is a valid matrix.")
-      return(TRUE)
-    }
-    else {
-      warning("Argument M is not a valid matrix.")
-      return(FALSE)
+    else{
+      return("M ok")
     }
   }
-  if (is.data.frame(M)) {
-    warning("Argument M is a data frame, not a matrix")
-    return(FALSE)
+  
+  # Check if argument M is a list of square matrices----------------------
+  if (is.list(M) == T) {
+      if (sum(unlist(lapply(M, function(x) {
+        is.matrix(x) & dim(x)[1] == dim(x)[2]
+        }))) != length(M)) {
+        stop("Incorrect data input, one of the elements in the list is not a matrix or a square matrix.")
+      }
+      else{return("M list ok")}
   }
-  if (is.vector(M)) {
-    warning("Argument M is a vector, not a matrix")
-    return(FALSE)
-  }
+
+  # If none of the test work then argument M is not a square matrix neither a list of square matrices----------------------
+  else{stop("Argument M is not a matrix or a list of matrices")}
+  
 }

@@ -25,23 +25,27 @@
 #' @keywords internal
 
 met.ri.single <- function(M, df = NULL, dfid = NULL) {
-  if (is.null(df)) {
-    ri <- met.outstrength(M) / (met.outstrength(M) + met.instrength(M))
+  # Compute network metric
+  ri <- met.outstrength(M) / (met.outstrength(M) + met.instrength(M))
+  # If argument df is null
+  if (is.null(df)) {    
     attr(ri, "names") <- colnames(M)
     return(ri)
   }
   else {
+    # If argument dfid is not null
     if (!is.null(dfid)) {
       if (is.null(colnames(M))) {
         stop("Argument M doesn't have column names")
       }
+      # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
       df <- df[match(colnames(M), df[, col.id]), ]
     }
     if (is.data.frame(df) == F) {
       stop("Argument df must be a data frame")
     }
-    ri <- met.outstrength(M) / (met.outstrength(M) + met.instrength(M))
+     # Add vector of network metrics in a new column
     df$ri <- ri
     return(df)
   }

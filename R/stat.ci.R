@@ -25,21 +25,25 @@ stat.ci <- function(x, conf.level = 95) {
   if (conf.level != 25 && conf.level != 50 && conf.level != 95 && conf.level != 99) {
     stop("Argument conf.level must be : 25, 50, 95 or 99")
   }
+  # 25% confidence interval 
   if (conf.level == 25) {
     E <- qt(.125, df = length(x) - 1) * sd(x) / sqrt(length(x))
     stat.ci <- mean(x) + c(E, -E)
   }
 
+  # 50% confidence interval 
   if (conf.level == 50) {
     E <- qt(.250, df = length(x) - 1) * sd(x) / sqrt(length(x))
     stat.ci <- mean(x) + c(E, -E)
   }
 
+  # 95% confidence interval 
   if (conf.level == 95) {
     E <- qt(.975, df = length(x) - 1) * sd(x) / sqrt(length(x))
     stat.ci <- mean(x) + c(-E, E)
   }
 
+  # 99% confidence interval 
   if (conf.level == 99) {
     E <- qt(.995, df = length(x) - 1) * sd(x) / sqrt(length(x))
     stat.ci <- mean(x) + c(-E, E)

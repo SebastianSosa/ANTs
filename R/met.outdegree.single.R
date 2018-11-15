@@ -28,23 +28,29 @@
 #' @keywords internal
 
 met.outdegree.single <- function(M, df = NULL, dfid = NULL) {
-  if (is.null(df)) {
-    BOD <- mat_rows_sumsBinary(M)
+  # Compute network metric
+  BOD <- mat_rows_sumsBinary(M)
+
+  # If argument df is null
+  if (is.null(df)) {    
+     # Colnames or argument M as names of the vector
     attr(BOD, "names") <- colnames(M)
     return(BOD)
   }
   else {
+    # If argument dfid is not null
     if (!is.null(dfid)) {
       if (is.null(colnames(M))) {
         stop("Argument M doesn't have column names")
       }
+      # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
       df <- df[match(colnames(M), df[, col.id]), ]
     }
     if (is.data.frame(df) == F) {
       stop("Argument df must be a data frame")
     }
-    BOD <- mat_rows_sumsBinary(M)
+    # Add vector of network metrics in a new column
     df$outdegree <- BOD
     return(df)
   }

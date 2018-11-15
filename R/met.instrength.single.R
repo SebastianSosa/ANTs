@@ -28,23 +28,29 @@
 #' @keywords internal
 
 met.instrength.single <- function(M, df = NULL, dfid = NULL) {
+  # Compute network metric
+  instrength <- mat_cols_sums(M)
+
+  # If argument df is null
   if (is.null(df)) {
-    instrength <- mat_cols_sums(M)
+    # Colnames or argument M as names of the vector
     attr(instrength, "names") <- colnames(M)
     return(instrength)
   }
   else {
+    # If argument dfid is not null
     if (!is.null(dfid)) {
       if (is.null(colnames(M))) {
         stop("Argument M doesn't have column names")
       }
+      # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
       df <- df[match(colnames(M), df[, col.id]), ]
     }
     if (is.data.frame(df) == F) {
       stop("Argument df must be a data frame")
     }
-    instrength <- mat_cols_sums(M)
+    # Add vector of network metrics in a new column
     df$instrength <- instrength
     return(df)
   }

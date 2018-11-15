@@ -20,20 +20,25 @@
 #' @description Transform a matrix into a vector.
 #' @keywords internal
 mat.vectorization <- function(M, sym = F, erase.diag = T) {
+  # If argument sym is equal to TRUE----------------------
   if (sym) {
+    # If argument erase.diag is equal to TRUE
     if (erase.diag) {
-      y <- M[lower.tri(M)]
+      y <- M[lower.tri(M)]# Extract matrix lower triangle without diagonal
     }
     else {
-      y <- M[lower.tri(M, diag = T)]
+      y <- M[lower.tri(M, diag = T)]# Extract matrix lower triangle and diagonal
     }
   }
+  # If argument sym is equal to FALSE----------------------
   else {
+    # If argument erase.diag is equal to TRUE
     if (erase.diag) {
-      diag(M) <- NA
-      y <- as.vector(M)
-      y <- y[!is.na(y)]
+      diag(M) <- NA # Convert diagonals into NA values
+      y <- as.vector(M) # Vectorize Matirx
+      y <- y[!is.na(y)] # Eraze NA values
     }
+    # If argument erase.diag is equal to FALSE
     else {
       y <- as.vector(M)
     }

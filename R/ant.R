@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 
 #' @title ANT diagnostic for permuted statistics
-#' @param x an ANT object originating from the statistical functions of class 'stat.'
+#' @param x an ANT object from functions: stat.t, stat.c, stat.lm, stat.glm, stat.glmm pr a numeric vector or a data frame with only numeric values.
 #' @description ANT method to make a diagnostic of all ANT permutation tests. This method adapts the diagnostic results according to the data input. The
 #' output is adapted to the type of test run. However, some outputs are common to all tests.
 #' @return
@@ -31,13 +31,22 @@
 #' }
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 setGeneric(name = "ant", ant <- function(x) {
+  # Check if argument x is an ANTs object
   if (!is.null(attr(x, "class"))) {
+    # Check if argument x is an ANTs object from function stat.c----------------------
     if (attr(x, "class") == "ant cor") {
+      # Separate correlation from the original data (first value) from the permuted ones----------------------
       obs <- x[, 1][1]
       v_perm <- x[, 1][-1]
+
+      # Create object to return----------------------
+      diag <- list()
+
+      # Compute permuted p-values----------------------
       p_valuevalue_left_side <- sum(v_perm < obs) / length(v_perm)
       p_valuevalue_right_side <- sum(v_perm > obs) / length(v_perm)
-      diag <- list()
+
+      # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------
       p <- c(p_valuevalue_left_side, p_valuevalue_right_side)
       stat.ci <- stat.ci(v_perm)
       m <- mean(v_perm)
@@ -45,7 +54,10 @@ setGeneric(name = "ant", ant <- function(x) {
       colnames(df) <- (c("Observed correlation", "p left", "p right", "95ci lower", "95ci upper", "mean"))
       rownames(df) <- c("statistics")
       diag$statistics <- df
+
+      # Create posterior distribution plots----------------------
       par(bg = "gray63")
+      # Is the observed correlation superior to the posterior mean
       if (obs > m) {
         h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = F))
         cuts <- cut(h$breaks, c(obs, Inf))
@@ -71,19 +83,30 @@ setGeneric(name = "ant", ant <- function(x) {
       diag$post.dist <- p
       dev.off()
       dev.new()
+
+      # Print dataframe & return data frame and plot----------------------
       cat("Correlation test for", length(v_perm), "perm :", "\n")
       cat("Observed correlation: ", obs, "\n")
       cat("P-values and effect sizes: \n")
       print(df)
       invisible(return(diag))
     }
+
+    # Check if argument x is an ANTs object from function stat.t----------------------
     if (attr(x, "class") == "ant t-test") {
       v <- do.call("rbind", x[[2]][, 1])
+      # Separate correlation from the original data (first value) from the permuted ones----------------------
       obs <- x[[1]]$statistic
       v_perm <- v[, 1]
-      p_valuevalue_left_side <- sum(v_perm < obs) / length(v_perm)
-      p_valuevalue_right_side <- sum(v_perm > obs) / length(v_perm)
+
+      # Create object to return----------------------      
       diag <- list()
+
+      # Compute permuted p-values----------------------
+      p_valuevalue_left_side <- sum(v_perm < obs) / length(v_perm)
+      p_valuevalue_right_side <- sum(v_perm > obs) / length(v_perm) 
+
+      # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------     
       p <- c(p_valuevalue_left_side, p_valuevalue_right_side)
       stat.ci <- stat.ci(v_perm)
       m <- mean(v_perm)
@@ -91,7 +114,10 @@ setGeneric(name = "ant", ant <- function(x) {
       colnames(df) <- (c("t observed", "p left", "p right", "95ci lower", "95ci upper", "mean"))
       rownames(df) <- c("statistics")
       diag$statistics <- df
+
+      # Create posterior distribution plots----------------------
       par(bg = "gray63")
+      # Is the observed correlation superior to the posterior mean
       if (obs > m) {
         h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = FALSE))
         cuts <- cut(h$breaks, c(obs, Inf))
@@ -117,6 +143,8 @@ setGeneric(name = "ant", ant <- function(x) {
       diag$post.dist <- p
       dev.off()
       dev.new()
+
+      # Print dataframe & return data frame and plot----------------------
       cat("t test for", length(v_perm), "perm :", "\n")
       cat("t observed: ", obs, "\n")
       cat("P-values and effect sizes: \n")
@@ -124,14 +152,23 @@ setGeneric(name = "ant", ant <- function(x) {
       dev.off()
       invisible(return(diag))
     }
+
+    # Check if argument x is an ANTs object from function stat.lm, stat.glm or stat.glmm----------------------
     if (attr(x, "class") == "ant lm" | attr(x, "class") == "ant glm" | attr(x, "class") == "ant glmm") {
-      # P values and model summary
+      # Extract original model----------------------
       s <- x$Original.model
+
+      # Extract model coefficients----------------------
       obs <- x$Original.model$coefficients[, 1]
+      diag <- list()
+
+      # Extract permuted coefficients----------------------
       v_perms <- x$permutations
+
+      # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------     
       stat <- NULL
       for (a in 1:ncol(v_perms)) {
-        r <- stat.ci(v_perms[, a])
+        r <- ANTs:::stat.ci(v_perms[, a])
         stat[[a]] <- data.frame(
           sum(v_perms[, a] < obs[a]) / length(v_perms[, a]),
           sum(v_perms[, a] > obs[a]) / length(v_perms[, a]),
@@ -142,26 +179,42 @@ setGeneric(name = "ant", ant <- function(x) {
       stat <- do.call("rbind", stat)
       colnames(stat) <- c("p.left", "p.rigth", "lower.ci", "uper.ci", "mean")
       rownames(stat) <- colnames(v_perms)
+
+      # Add permuted p-values, 95% confidence interval and mean posterior distribution to original model----------------------
       s$coefficients <- cbind(s$coefficients, stat)
-      # Posterior distribution histogrames
-      post.dist <- post.dist(v_perms, Obs = obs)
-      # Original model diagnostic
+
+      # Create posterior distribution plots----------------------
+      post.dist <- ANTs:::post.dist(v_perms, Obs = obs)
+
+      # Extract model family and formula----------------------
       attr(x$Original.model, "family") <- attributes(x)$family
       attr(x$Original.model, "formula") <- attributes(x)$formula
+
+      # Model diagnostic (qqplot and fitted values versus residuals)----------------------
       diagnostic <- stat.model.diag(x$Original.model)
-      diag <- list()
+
+      # Return results 1) model summary (with permuted statistics), 2) model diagnostic and 3) posterior distributions----------------------
       diag[[1]] <- s
       diag[[2]] <- diagnostic
       diag[[3]] <- post.dist
       names(diag) <- c("model", "model.diagnostic", "post.dist")
       invisible(return(diag))
     }
+
+    # Check if argument x is an ANTs object from function met.assortativity----------------------
     if (attr(x, "class") == "ant assortativity single matrix") {
+      # Separate correlation from the original data (first value) from the permuted ones----------------------
       obs <- x[, 1][1]
       v_perm <- x[, 1][-1]
-      p_valuevalue_left_side <- sum(v_perm < obs) / length(v_perm)
-      p_valuevalue_right_side <- sum(v_perm > obs) / length(v_perm)
+
+      # Create object to return----------------------      
       diag <- list()
+
+      # Compute permuted p-values----------------------
+      p_valuevalue_left_side <- sum(v_perm < obs) / length(v_perm)
+      p_valuevalue_right_side <- sum(v_perm > obs) / length(v_perm) 
+
+      # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------     
       p <- c(p_valuevalue_left_side, p_valuevalue_right_side)
       stat.ci <- stat.ci(v_perm)
       m <- mean(v_perm)
@@ -169,7 +222,10 @@ setGeneric(name = "ant", ant <- function(x) {
       colnames(df) <- (c("Observed correlation", "p left", "p right", "95ci lower", "95ci upper", "mean"))
       rownames(df) <- c("statistics")
       diag$statistics <- df
+
+      # Create posterior distribution plots----------------------
       par(bg = "gray63")
+      # Is the observed correlation superior to the posterior mean
       if (obs > m) {
         h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = F))
         cuts <- cut(h$breaks, c(obs, Inf))
@@ -195,6 +251,8 @@ setGeneric(name = "ant", ant <- function(x) {
       diag$post.dist <- p
       dev.off()
       dev.new()
+
+      # Print data frame & return dataframe and plot----------------------
       cat("assortativity permuted test", length(v_perm), "perm :", "\n")
       cat("Observed assortativity: ", obs, "\n")
       cat("P-values and effect sizes: \n")
@@ -202,10 +260,13 @@ setGeneric(name = "ant", ant <- function(x) {
       dev.off()
       invisible(return(diag))
     }
+    # Check if argument x is a dataframe----------------------
     if (is.data.frame(x)) {
-      # P values and model summary
+      # Separate correlation from the original data (first value) from the permuted ones----------------------
       obs <- x[1, ]
       v_perms <- x[-1, ]
+
+      # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------  
       stat <- NULL
       for (a in 1:ncol(v_perms)) {
         r <- stat.ci(v_perms[, a])
@@ -220,9 +281,10 @@ setGeneric(name = "ant", ant <- function(x) {
       colnames(stat) <- c("p.left", "p.rigth", "lower.ci", "uper.ci", "mean")
       rownames(stat) <- colnames(v_perms)
 
-      # Posterior distribution histogrames
+     # Create posterior distribution plots----------------------
       post.dist <- post.dist(v_perms, obs)
 
+      # Return results 1) permuted statistics and 2) posterior distributions----------------------
       diag <- list()
       diag[[1]] <- stat
       diag[[2]] <- post.dist
@@ -232,12 +294,20 @@ setGeneric(name = "ant", ant <- function(x) {
     stop("Argument x is not an object of class 'ant cor', 'ant t-test', 'ant lm', 'ant glm', 'ant glmm' or a data frame.")
   }
   else {
+    # Check if argument x is a vector
     if (is.vector(x)) {
+      # Separate correlation from the original data (first value) from the permuted ones----------------------
       obs <- x[1]
       v_perm <- x[-1]
+
+      # Create object to return----------------------
+      diag <- list()
+
+      # Compute permuted p-values----------------------
       p_valuevalue_left_side <- sum(v_perm < obs) / length(v_perm)
       p_valuevalue_right_side <- sum(v_perm > obs) / length(v_perm)
-      diag <- list()
+
+      # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------
       p <- c(p_valuevalue_left_side, p_valuevalue_right_side)
       stat.ci <- stat.ci(v_perm)
       m <- mean(v_perm)
@@ -245,7 +315,10 @@ setGeneric(name = "ant", ant <- function(x) {
       colnames(df) <- (c("Observed value", "p left", "p right", "95ci lower", "95ci upper", "mean"))
       rownames(df) <- c("statistics")
       diag$statistics <- df
+
+      # Create posterior distribution plots----------------------
       par(bg = "gray63")
+      # Is the observed correlation superior to the posterior mean
       if (obs > m) {
         h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = F))
         cuts <- cut(h$breaks, c(obs, Inf))
@@ -271,12 +344,15 @@ setGeneric(name = "ant", ant <- function(x) {
       diag$post.dist <- p
       dev.off()
       dev.new()
+
+      # Print dataframe & return dataframe and plot----------------------
       cat("Permuted test for", length(v_perm), "permutations :", "\n")
       cat("Observed statistic value: ", obs, "\n")
       cat("P-values and effect sizes: \n")
       print(df)
       invisible(return(diag))
     }
+    # Argument x doesn't correspond to any object type accepted by this function----------------------
     stop("Argument x is not an object of class 'ant cor', 'ant t-test', 'ant lm', 'ant glm', 'ant glmm', a vector or a data frame.")
   }
 })

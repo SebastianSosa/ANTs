@@ -30,7 +30,9 @@
 
 stat.p <- function(metrics, stat.hist = F) {
   if (is.vector(metrics)) {
+    # First value is the one of the real data
     v <- metrics[1]
+    # Other ones are the permuted ones
     v_perm <- metrics[-1]
   }
   if (is.data.frame(metrics)) {
@@ -38,9 +40,11 @@ stat.p <- function(metrics, stat.hist = F) {
     v_perm <- metrics[-1, ]
   }
 
+  # Computing two-side p-values
   p_valuevalue_left_side <- sum(v_perm < v) / length(v_perm)
   p_valuevalue_right_side <- sum(v_perm > v) / length(v_perm)
 
+  # Posterior distribution
   if (stat.hist == T) {
     histo <- stat.hist(v, v_perm)
     p <- c("p-value_left_side" = p_valuevalue_left_side, "p-value_left_side" = p_valuevalue_right_side)

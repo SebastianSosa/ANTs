@@ -16,33 +16,45 @@
 #' @description Converts a square adjacency matrix into a data frame of three columns representing an edge list. Columns are: actor, receiver and weight.
 
 #' @param M a square adjacency matrix.
-#' @param sym if \emph{true}, it extracts the lower triangle of the matrix only.
-#' @param erase.diag if \emph{true}, it omits diagonals.
+#' @param sym if \emph{TRUE}, it extracts the lower triangle of the matrix only.
+#' @param erase.diag if \emph{TRUE}, it omits diagonals.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @examples
 #' mat.to.edgl(sim.m, sym = FALSE, erase.diag = TRUE)
 
 mat.to.edgl <- function(M, sym = F, erase.diag = T) {
+  # If argument sym is equal to TRUE----------------------
   if (sym) {
+    # If argument erase.diag is equal to TRUE
     if (erase.diag == T) {
-      test <- lower.tri(M)
+      test <- lower.tri(M) # Extract matrix lower triangle
     }
     else {
-      test <- lower.tri(M, diag = T)
+      test <- lower.tri(M, diag = T) # Extract matrix lower triangle and diagonal
     }
+    # Extract matrix cells
     weight <- M[test]
+    # Extract cells ids
     tmp <- which(test, arr.ind = T)
+    # Create an edgelist if actor, receiver and interactions weights
     DF <- cbind("from" = colnames(M)[tmp[, 1]], "to" = colnames(M)[tmp[, 2]])
     DF <- data.frame(DF, weight)
   }
+  # If argument sym is equal to FALSE----------------------
   else {
+    if(is.null(colnames(m))){stop("Argument M doesn't have column names.")}
+    # Create a vector of actors
     from <- rep(c(colnames(M)), dim(M)[2])
+    # Create a vector of receivers
     to <- rep(c(colnames(M)), each = dim(M)[1])
+    # Extract matrix cells
     weight <- as.vector(M)
+    # Create a data frame of those vectors
     DF <- data.frame(from, to, weight)
+    # if argument erase diag is equal to TRUE
     if (erase.diag == T) {
-      diagonals <- which(DF$from == DF$to)
+      diagonals <- which(DF$from == DF$to) # Remove case where actor is equal to receiver
       DF <- DF[-c(diagonals), ]
     }
   }

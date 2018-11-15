@@ -40,10 +40,14 @@ stat.deletionsPlot <- function(ant, col.target = NULL, col.random = NULL) {
     # First plot----
     ant1 <- split(ant[[a]], ant[[a]]$deletion.type)
     attr(ant1, "comment") <- paste(names(ant)[a])
+
+    # Plot mean variation (obtained through simulations) for each deletion
     plot(ant1[[1]][, 1],
       type = "l", col = col.target, ylab = comment(ant1), xlab = "Deletions", xaxt = "n",
       ylim = c(min(ant[[a]]$mean) - (max(ant[[a]]$s) / 2), max(ant[[a]]$mean) + (max(ant[[a]]$s) / 2))
     )
+
+    # sd bar
     y0 <- ant1[[1]]$mean - ant1[[1]]$sd
     y1 <- ant1[[1]]$mean + ant1[[1]]$sd
     x0 <- ant1[[1]]$deletion.nbr + 1
@@ -54,12 +58,14 @@ stat.deletionsPlot <- function(ant, col.target = NULL, col.random = NULL) {
     points(ant1[[1]][, 1], col = col.target)
 
     # second plot----
+    # Plot mean variation (obtained through simulations) for each deletion
     lines(ant1[[2]][, 1], type = "l", col = col.random)
     y0 <- ant1[[2]]$mean - ant1[[2]]$sd
     y1 <- ant1[[2]]$mean + ant1[[2]]$sd
     x0 <- ant1[[2]]$deletion.nbr + 1
     segments(y0 = y0, y1 = y1, x0 = x0, col = col.random)
     e <- 0.1
+    # sd bar
     segments(y0 = y0, x0 = x0 - e, x1 = x0 + e, col = col.random)
     segments(y0 = y1, x0 = x0 - e, x1 = x0 + e, col = col.random)
     points(ant1[[2]][, 1], col = col.random)

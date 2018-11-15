@@ -30,23 +30,29 @@
 
 
 met.outstrength.single <- function(M, df = NULL, dfid = NULL) {
+  # Compute network metric
+  outstrength <- mat_rows_sums(M)
+
+  # If argument df is nul
   if (is.null(df)) {
-    outstrength <- mat_rows_sums(M)
+    # Colnames or argument M as names of the vector
     attr(outstrength, "names") <- colnames(M)
     return(outstrength)
   }
   else {
+    # If argument dfid is not null
     if (!is.null(dfid)) {
       if (is.null(colnames(M))) {
         stop("Argument M doesn't have column names")
       }
+      # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
       df <- df[match(colnames(M), df[, col.id]), ]
     }
     if (is.data.frame(df) == F) {
       stop("Argument df must be a data frame")
     }
-    outstrength <- mat_rows_sums(M)
+    # Add vector of network metrics in a new column
     df$outstrength <- outstrength
     return(df)
   }

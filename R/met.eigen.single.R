@@ -28,33 +28,43 @@
 #' @keywords internal
 #'
 met.eigen.single <- function(M, df = NULL, dfid = NULL, sym = T, binary = F, out = F) {
+  # Organizing matrix according to arguments user declaration
   if (sym & out) {
     stop("Argument out cannot be TRUE when argument sym is TRUE.")
   }
+  # Transpose matrix
   if (sym == F & out == F) {
     M <- t(M)
   }
+  # Symetrize matrix
   if (sym) {
     M <- M + t(M)
   }
+  # Binarize matrix
   if (binary) {
     M <- mat.binaryzation(M)
   }
 
+  # Compute network metric
+  result <- met_eigen(M)
+
+  # If argument df is null
   if (is.null(df)) {
-    result <- met_eigen(M)
+    # Colnames or argument M as names of the vector
     attr(result, "names") <- colnames(M)
     return(result)
   }
   else {
+    # If argument dfid is not null
     if (!is.null(dfid)) {
+      # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
       df[match(colnames(M), df[, col.id]), ]
     }
     if (is.data.frame(df) == F) {
       stop("Argument df must be a data frame")
     }
-    result <- met_eigen(M)
+    # Add vector of network metrics in a new column
     df$eigen <- result
     if (sym == T) {
       df$eigen <- result

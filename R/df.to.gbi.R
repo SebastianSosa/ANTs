@@ -26,16 +26,27 @@
 #' df.to.gbi(sim.grp,scan=c('location','time'),id='ID')
 
 df.to.gbi <- function(df, scan, id) {
+  # Find columns ids  corresponding to individuals----------------------
   col.id <- df.col.findId(df, id)
+
+  # Check if argument scan correspond to multiples columns or to a single one----------------------
   if (length(scan > 1)) {
+    # Find id columns correspondign to argment scan----------------------
     df <- df.ctrlFactor(df, scan)
+    # Creat new column with a fusion of thos scan columns----------------------
     col.scan <- df.col.findId(df, "control")
   }
+
   else {
     col.scan <- df.col.findId(df, scan)
   }
+  # Find all unique individuals----------------------
   Vecids <- unique(df[, id])
+
+  # Find all unique scan----------------------
   group_scan <- unique(df[, col.scan])
+
+  # Convert data frames to a matrix of Group By Individuals (GBI)----------------------
   GBI <- df_to_gbi(df, col.scan, col.id, Vecids, group_scan)
   GBI
 }

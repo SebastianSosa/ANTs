@@ -24,9 +24,14 @@
 #' convert.socprog(sim.socprog,id=3,scan=c(1,2),sep=";")
 
 convert.socprog <- function(df, id, scan, sep = ";") {
+  # Find columns ids corresponding to individuals----------------------
   col.id <- df.col.findId(df, id)
+
+  # Create a new column in case of argument scan is multiple columns----------------------
   df <- df.ctrlFactor(df, scan)
   col.scan <- ncol(df)
+
+  # Vectorize socprog data frame according to separator----------------------
   r <- apply(df, 1, function(x, col.id, col.scan, sep) {
     ID <- strsplit(x[col.id], split = sep)
     scan <- rep(x[col.scan], length(ID))

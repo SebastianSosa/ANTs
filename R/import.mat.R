@@ -26,8 +26,15 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 
 import.mat <- function(header = T, sep = ",", row.names = 1, ...) {
+  # Extract files names----------------------
   files <- list.files(getwd())
 
+  # If their is no file in the folder----------------------
+  if (length(files) == 0) {
+    stop("Your repertory is empty")
+  }
+
+  # If just one file in the folder then use as.matrix----------------------
   if (length(files) > 1) {
     M <- lapply(files, function(x, header, sep, row.names) {
       r <- as.matrix(read.csv(file = x, header = header, sep = sep, row.names = row.names))
@@ -36,11 +43,9 @@ import.mat <- function(header = T, sep = ",", row.names = 1, ...) {
     names(M) <- files
   }
 
+  # Else apply read.csv for all files and store them in a list of matrices----------------------
   if (length(files) == 1) {
     M <- as.matrix(read.csv(file = files[1], header = header, sep = sep, row.names = row.names))
-  }
-  if (length(files) == 0) {
-    stop("Your repertory is empty")
   }
   return(M)
 }

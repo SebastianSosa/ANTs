@@ -25,17 +25,21 @@
 
 perm.net.links.single <- function(M, sym = F, erase.diag = T, nperm, progress = T) {
   if (progress) {
+    # If argument sym is TRUE
     if (sym) {
       if (erase.diag == T) {
         result <- lapply(seq_len(nperm), function(x, y) {
           cat("Permutation: ", x, "\r")
+          #Extract only lower triangle, sample it
           y[lower.tri(y)] <- sample(y[lower.tri(y)])
+          # Past lower triangle inot uper one
           y[upper.tri(y)] <- y[lower.tri(y)]
           return(y)
         }, y = M)
         cat("\n")
         return(result)
       }
+      # If argument erase.diag is TRUE, same as previously but with the matrix diagonal
       else {
         result <- lapply(seq_len(nperm), function(x, y) {
           cat("Permutation: ", x, "\r")
@@ -47,6 +51,7 @@ perm.net.links.single <- function(M, sym = F, erase.diag = T, nperm, progress = 
         return(result)
       }
     }
+    # If argument sym is FALSE
     else {
       if (erase.diag) {
         col <- ncol(M)
@@ -56,7 +61,9 @@ perm.net.links.single <- function(M, sym = F, erase.diag = T, nperm, progress = 
             return(y)
           }
           cat("Permutation: ", x - 1, "\r")
+          # Sample lower and uper triangle of argument M
           perm <- sample(c(y[lower.tri(y)], y[upper.tri(y)]))
+          # Replace values by samples ones
           y[lower.tri(y)] <- perm[1:(z / 2)]
           y[upper.tri(y)] <- perm[((z / 2) + 1):z]
           return(y)
@@ -64,6 +71,7 @@ perm.net.links.single <- function(M, sym = F, erase.diag = T, nperm, progress = 
         cat("\n")
         return(result)
       }
+      # If argument erase.diag is TRUE, same as previously but with the matrix diagonal
       else {
         col <- ncol(M)
         result <- lapply(seq_len(nperm + 1), function(x, y, z) {
@@ -81,6 +89,7 @@ perm.net.links.single <- function(M, sym = F, erase.diag = T, nperm, progress = 
       }
     }
   }
+  # If argument progress is FALSE do the same as previoulsy but without printing permutations progress
   else {
     if (sym == T) {
       if (erase.diag == T) {

@@ -36,26 +36,30 @@
 #' @examples
 #' met.diameter(sim.m)
 
-met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normalization = T, directed = T, out = T) {
+met.diameter <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = TRUE) {
+  # Checking if argument M is a square matrix 
   test <- is.matrix(M)
   if (test) {
+    # Compute network metric
     result <- met.geodesicDiameter.single(M, weighted, shortest.weight, normalization, directed, out)[[1]]
     if (is.null(df)) {
       names(result) <- "Diameter"
       return(result)
     }
     else {
+      # Adding network metric in argument df
       df$diameter <- result
       return(df)
     }
   }
 
   else {
+    # Selecting the appropriate name of diameter selected by user
     tmp <- "tmp"
-    if (weighted == F) {
+    if (weighted == FALSE) {
       if (normalization) {
         if (shortest.weight) {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "norm.short.diameterB"
           }
           else {
@@ -68,7 +72,7 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
           }
         }
         else {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "norm.diameterB"
           }
           else {
@@ -83,7 +87,7 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
       }
       else {
         if (shortest.weight) {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "short.diameterB"
           }
           else {
@@ -96,7 +100,7 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
           }
         }
         else {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "diameterB"
           }
           else {
@@ -113,7 +117,7 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
     else {
       if (normalization) {
         if (shortest.weight) {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "norm.short.diameter"
           }
           else {
@@ -126,7 +130,7 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
           }
         }
         else {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "norm.diameter"
           }
           else {
@@ -141,7 +145,7 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
       }
       else {
         if (shortest.weight) {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "short.diameter"
           }
           else {
@@ -154,7 +158,7 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
           }
         }
         else {
-          if (directed == F) {
+          if (directed == FALSE) {
             attr(tmp, "name") <- "diameter"
           }
           else {
@@ -169,35 +173,45 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
       }
     }
 
+    # Check if argument M is an object returned by perm.ds.grp, perm.ds.focal or perm.net.nl----------------------
+    # This part was created to handle repermutation in functions stat.lm, stat.glm and stat.glmm
     if (!is.null(attributes(M)$ANT)) {
+      # Check if argument M originates from a single network protocol
       test1 <- attributes(M)$ANT == "ANT data stream focal sampling single matrix"
       test2 <- attributes(M)$ANT == "ANT data stream group sampling single matrix"
       test3 <- attributes(M)$ANT == "ANT link permutations single matrix"
 
+      # Check if argument M originates from a multiple network protocol
       test4 <- attributes(M)$ANT == "ANT data stream focal sampling multiple matrices"
       test5 <- attributes(M)$ANT == "ANT data stream group sampling multiple matrices"
       test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
 
+      # If argument M originates from a single network protocol, we work on a list of matrices
       if (any(test1, test2, test3)) {
-        if (is.null(df)) {
-          result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
-            r <- met.ge.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
-            attr(r, "permutation") <- attributes(x)$permutation
-            return(r)
-          }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
-        }
-        else {
+        # Check if argument df is not NULL
+        if (!is.null(df)) {
+          # Check if argument df is a data frame
           if (!is.data.frame(df)) {
             stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function", "\r")
           }
-          result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out, df) {
-            df$diameter <- met.ge.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
-            colnames(df)[ncol(df)] <- attributes(tmp)$name
+        } 
+        # Check if argument dfid is NULL
+        if (is.null(dfid)) {
+          warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
+        }
+        # Compute network metric and keep attribute permutations 
+        # and name column of data frame according to user arguments binary,sym, out declaration
+          result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out, df, tmp) {
+            df$ge <- met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+            names(df)[ncol(df)] = attributes(tmp)$name
             attr(df, "permutation") <- attributes(x)$permutation
             return(df)
-          }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out, df = df)
-        }
+          }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out, df = df,  tmp = tmp)
+        
 
+        # If argument M is an object returned by perm.ds.grp, 
+        # Store argument M attributes 'scan', 'ctrlf', 'method' and 'ANT'
+        # In case of future repermutations
         if (test1) {
           attr(result, "name") <- attributes(tmp)$name
           attr(result, "focal") <- attributes(M)$focal
@@ -208,6 +222,9 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
           return(result)
         }
 
+        # If argument M is an object returned by perm.ds.focal, 
+        # Store argument M attributes 'focal', 'ctrl', 'alters', 'method' and 'ANT'
+        # In case of future repermutations
         if (test2) {
           attr(result, "name") <- attributes(tmp)$name
           attr(result, "scan") <- attributes(M)$scan
@@ -217,6 +234,9 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
           return(result)
         }
 
+        # If argument M is an object returned by perm.net.nl, 
+        # Store argument M attributes 'ANT'
+        # In case of future repermutations
         if (test3) {
           attr(result, "name") <- attributes(tmp)$name
           attr(result, "ANT") <- attributes(M)$ANT
@@ -224,55 +244,70 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
         }
       }
 
+      # If argument M originates from a multiple network protocol, we work on a list of lists of matrices. M[i] being a list of permutations of a specific matrix.
       if (any(test4, test5, test6)) {
+        # Check if argument df is NULL
         if (is.null(df)) {
           result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
             r1 <- lapply(x, function(y, weighted, shortest.weight, normalization, directed, out) {
-              r2 <- met.ge.single(y, weighted, shortest.weight, normalization, directed, out)[[1]]
+              r2 <- met.geodesicDiameter.single(y, weighted, shortest.weight, normalization, directed, out)[[1]]
               attr(r2, "permutation") <- attributes(y)$permutation
               return(r2)
             }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
             return(r1)
           }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
         }
+        # Check if argument df is not NULL
         else {
           if (!is.null(df) & is.data.frame(df)) {
             stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
           }
-          if (length(M) == nrow(df)) {
+          # Check if each matrix size is equal to the corresponding data frame size
+          # Which means, we are working on a case of multiple repermutations
+          # Thus with a list of lists of matrices and data frames
+          if (sum(unlist(lapply(seq_along(M), function(i, a) {
+            nrow(a[[i]][[1]])
+          }, a = M))) == nrow(df[[1]]))  {
             tmp2 <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
               r1 <- lapply(x, function(y, weighted, shortest.weight, normalization, directed, out) {
-                r2 <- met.ge.single(y, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+                r2 <- met.geodesicDiameter.single(y, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
               }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
             }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
 
             tmp2 <- do.call(Map, c(c, tmp2))
 
+            # Paste each of these new vectors in a list of data frames
+            # and name column of data frame according to user arguments binary,sym, out declaration
             result <- lapply(seq_along(tmp2), function(x, tmp2, df, tmp) {
               df[[x]]$diameter <- tmp[[x]]
               colnames(df[[x]])[ncol(df[[x]])] <- attributes(tmp)$name
               return(df[[x]])
             }, tmp2 = tmp2, df = df, tmp = tmp)
           }
+          # Else, we are working on a case of single repermutation with a list of matrices and data frames
           else {
-            # data fame manipulation
+            # data frame manipulation
             ldf <- do.call("rbind", df)
 
-            tmp <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
+            tmp2 <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
               r1 <- lapply(x, function(y, weighted, shortest.weight, normalization, directed, out) {
-                r2 <- met.ge.single(y, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+                r2 <- met.geodesicDiameter.single(y, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
               }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
             }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
 
-            tmp <- do.call(Map, c(c, tmp))
-            result <- lapply(seq_along(tmp), function(tmp, ldf, i) {
-              ldf$diameter <- tmp[[i]]
+            tmp2 <- do.call(Map, c(c, tmp2))
+
+            # Name column of data frame according to user arguments binary,sym, out declaration
+             result <- lapply(seq_along(tmp2), function(tmp2, tmp, ldf, i) {
+              ldf$diamter <- tmp[[i]]
+              names(ldf)[ncol(ldf)] = attributes(tmp)$name
               attr(ldf, "permutation") <- i
               return(ldf)
-            }, tmp = tmp, ldf = ldf)
-          }
-        }
+            }, tmp2 = tmp2, tmp = tmp, ldf = ldf)
 
+            # If argument M is an object returned by perm.ds.grp, 
+            # Store argument M attributes 'scan', 'ctrlf', 'method' and 'ANT'
+            # In case of future repermutations
         if (test4) {
           attr(result, "name") <- attributes(tmp)$name
           attr(result, "focal") <- attributes(M)$focal
@@ -282,7 +317,10 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
           attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
-
+  
+            # If argument M is an object returned by perm.ds.focal, 
+            # Store argument M attributes 'focal', 'ctrl', 'alters', 'method' and 'ANT'
+            # In case of future repermutations
         if (test5) {
           attr(result, "name") <- attributes(tmp)$name
           attr(result, "scan") <- attributes(M)$scan
@@ -292,16 +330,24 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
           return(result)
         }
 
+            # If argument M is an object returned by perm.net.nl, 
+            # Store argument M attributes 'ANT'
+            # In case of future repermutations
         if (test6) {
           attr(result, "name") <- attributes(tmp)$name
           attr(result, "ANT") <- attributes(M)$ANT
           return(result)
         }
+          }
+        }
       }
-    }
+    
+    # If argument M is a list of square matrices----------------------        
     else {
       if (!test & is.list(M)) {
+        # Check if argument dfid is NULL
         if (is.null(df)) {
+          # Compute network metric
           result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
             r <- met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
           }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
@@ -309,15 +355,18 @@ met.diameter <- function(M, df = NULL, weighted = T, shortest.weight = F, normal
           return(result)
         }
 
+        # Check if argument df is not NULL, is not a data frame and is a list
         if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+          
           result <- mapply(function(x, y, t) {
             y$diameter <- met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
             colnames(y)[ncol(y)] <- t
             return(y)
-          }, x = M, y = df, t = attributes(tmp)$name, SIMPLIFY = F)
+          }, x = M, y = df, t = attributes(tmp)$name, SIMPLIFY = FALSE)
           return(result)
         }
       }
     }
+  }
   }
 }

@@ -19,9 +19,9 @@
 #' @keywords internal
 
 mat.symetrize <- function(M) {
-  if (isSymmetric(M) == FALSE) {
+  if (check.mat(M) == "M ok") {
     M <- M + t(M)
-    return(M)
   }
+  
   return(M)
 }

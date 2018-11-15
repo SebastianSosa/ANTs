@@ -16,21 +16,24 @@
 #' @description Perform cumulative data stream permutations for scan sampling. Is the core function for the permutations.
 #' @keywords internal
 redo.ds.focal.cum <- function(df, focal, alters, ctrl, nperm, method) {
+
+  # Extracting permutations informations
   col.ctrl <- df.col.findId(df, ctrl)
   col.alters <- df.col.findId(df, alters)
   col.focal <- df.col.findId(df, focal)
   ctrl <- c(col.ctrl, col.focal)
   df <- df.ctrlFactor(df, control = ctrl)
   df$control <- as.factor(df$control)
-
   focalids <- unique(df$control)
   Vecids <- unique(c(as.character(df[, col.alters]), as.character(df[, col.focal])))
   group_scan <- unique(df[, ncol(df)])
 
+  # Compute GBI
   GBI2 <- df_to_gbi(df, ncol(df), col.focal, Vecids, group_scan)
 
   GBI <- df_to_gbi(df, ncol(df), col.alters, Vecids, group_scan)
 
+  # Permute gbi
   r <- redo_perm_dataStream1_focal(M = GBI, M2 = GBI2, nperm = nperm, method = method)
 
   colnames(r[[1]]) <- Vecids
