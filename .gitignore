@@ -1,7 +1,6 @@
 # History files
 .Rhistory
 .Rapp.history
-
 # Session Data files
 .RData
 # Example code in package build process
@@ -29,3 +28,4 @@ src/*.so
 src/*.dll
 .Rproj.user
 inst/doc
+.dropbox
