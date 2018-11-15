@@ -7,9 +7,75 @@
 
 using namespace Rcpp;
 
+// ComplexEigen
+Eigen::MatrixXd ComplexEigen(Eigen::MatrixXd M);
+RcppExport SEXP _ANTs_ComplexEigen(SEXP MSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type M(MSEXP);
+    rcpp_result_gen = Rcpp::wrap(ComplexEigen(M));
+    return rcpp_result_gen;
+END_RCPP
+}
+// metric_global_shortestPath
+SEXP metric_global_shortestPath(NumericMatrix disMap);
+RcppExport SEXP _ANTs_metric_global_shortestPath(SEXP disMapSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
+    rcpp_result_gen = Rcpp::wrap(metric_global_shortestPath(disMap));
+    return rcpp_result_gen;
+END_RCPP
+}
+// metric_global_shortestDetails
+SEXP metric_global_shortestDetails(NumericMatrix disMap);
+RcppExport SEXP _ANTs_metric_global_shortestDetails(SEXP disMapSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
+    rcpp_result_gen = Rcpp::wrap(metric_global_shortestDetails(disMap));
+    return rcpp_result_gen;
+END_RCPP
+}
+// metric_global_shortestDetailsBasedBetween
+SEXP metric_global_shortestDetailsBasedBetween(NumericMatrix disMap);
+RcppExport SEXP _ANTs_metric_global_shortestDetailsBasedBetween(SEXP disMapSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
+    rcpp_result_gen = Rcpp::wrap(metric_global_shortestDetailsBasedBetween(disMap));
+    return rcpp_result_gen;
+END_RCPP
+}
+// metric_node_betweeness
+SEXP metric_node_betweeness(NumericMatrix disMap);
+RcppExport SEXP _ANTs_metric_node_betweeness(SEXP disMapSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
+    rcpp_result_gen = Rcpp::wrap(metric_node_betweeness(disMap));
+    return rcpp_result_gen;
+END_RCPP
+}
+// metric_global_triangle
+SEXP metric_global_triangle(NumericMatrix disMap);
+RcppExport SEXP _ANTs_metric_global_triangle(SEXP disMapSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
+    rcpp_result_gen = Rcpp::wrap(metric_global_triangle(disMap));
+    return rcpp_result_gen;
+END_RCPP
+}
 // assoc_mat
 arma::mat assoc_mat(arma::mat Mgbi, std::string method);
-RcppExport SEXP _ant_assoc_mat(SEXP MgbiSEXP, SEXP methodSEXP) {
+RcppExport SEXP _ANTs_assoc_mat(SEXP MgbiSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -21,7 +87,7 @@ END_RCPP
 }
 // assoc_mat_one_id
 arma::rowvec assoc_mat_one_id(arma::mat Mgbi, int id, std::string method);
-RcppExport SEXP _ant_assoc_mat_one_id(SEXP MgbiSEXP, SEXP idSEXP, SEXP methodSEXP) {
+RcppExport SEXP _ANTs_assoc_mat_one_id(SEXP MgbiSEXP, SEXP idSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -32,20 +98,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ComplexEigen
-Eigen::MatrixXd ComplexEigen(Eigen::MatrixXd M);
-RcppExport SEXP _ant_ComplexEigen(SEXP MSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type M(MSEXP);
-    rcpp_result_gen = Rcpp::wrap(ComplexEigen(M));
-    return rcpp_result_gen;
-END_RCPP
-}
 // df_merge
 DataFrame df_merge(DataFrame df1, DataFrame df2);
-RcppExport SEXP _ant_df_merge(SEXP df1SEXP, SEXP df2SEXP) {
+RcppExport SEXP _ANTs_df_merge(SEXP df1SEXP, SEXP df2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -57,7 +112,7 @@ END_RCPP
 }
 // df_to_gbi
 Rcpp::NumericMatrix df_to_gbi(Rcpp::DataFrame d, int col_scan, int col_id, Rcpp::CharacterVector uIds, Rcpp::CharacterVector uScans);
-RcppExport SEXP _ant_df_to_gbi(SEXP dSEXP, SEXP col_scanSEXP, SEXP col_idSEXP, SEXP uIdsSEXP, SEXP uScansSEXP) {
+RcppExport SEXP _ANTs_df_to_gbi(SEXP dSEXP, SEXP col_scanSEXP, SEXP col_idSEXP, SEXP uIdsSEXP, SEXP uScansSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -72,7 +127,7 @@ END_RCPP
 }
 // edgl_to_matrix
 NumericMatrix edgl_to_matrix(DataFrame df, bool sym);
-RcppExport SEXP _ant_edgl_to_matrix(SEXP dfSEXP, SEXP symSEXP) {
+RcppExport SEXP _ANTs_edgl_to_matrix(SEXP dfSEXP, SEXP symSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -84,7 +139,7 @@ END_RCPP
 }
 // euclidean
 double euclidean(NumericVector vec);
-RcppExport SEXP _ant_euclidean(SEXP vecSEXP) {
+RcppExport SEXP _ANTs_euclidean(SEXP vecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -95,7 +150,7 @@ END_RCPP
 }
 // fastLm_Impl
 Rcpp::List fastLm_Impl(Rcpp::NumericMatrix X, Rcpp::NumericVector y, int type);
-RcppExport SEXP _ant_fastLm_Impl(SEXP XSEXP, SEXP ySEXP, SEXP typeSEXP) {
+RcppExport SEXP _ANTs_fastLm_Impl(SEXP XSEXP, SEXP ySEXP, SEXP typeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -108,7 +163,7 @@ END_RCPP
 }
 // gbi_createEmpty
 NumericMatrix gbi_createEmpty(DataFrame d, int col_scan, int col_id);
-RcppExport SEXP _ant_gbi_createEmpty(SEXP dSEXP, SEXP col_scanSEXP, SEXP col_idSEXP) {
+RcppExport SEXP _ANTs_gbi_createEmpty(SEXP dSEXP, SEXP col_scanSEXP, SEXP col_idSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -119,64 +174,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// metric_global_shortestPath
-SEXP metric_global_shortestPath(NumericMatrix disMap);
-RcppExport SEXP _ant_metric_global_shortestPath(SEXP disMapSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
-    rcpp_result_gen = Rcpp::wrap(metric_global_shortestPath(disMap));
-    return rcpp_result_gen;
-END_RCPP
-}
-// metric_global_shortestDetails
-SEXP metric_global_shortestDetails(NumericMatrix disMap);
-RcppExport SEXP _ant_metric_global_shortestDetails(SEXP disMapSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
-    rcpp_result_gen = Rcpp::wrap(metric_global_shortestDetails(disMap));
-    return rcpp_result_gen;
-END_RCPP
-}
-// metric_global_shortestDetailsBasedBetween
-SEXP metric_global_shortestDetailsBasedBetween(NumericMatrix disMap);
-RcppExport SEXP _ant_metric_global_shortestDetailsBasedBetween(SEXP disMapSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
-    rcpp_result_gen = Rcpp::wrap(metric_global_shortestDetailsBasedBetween(disMap));
-    return rcpp_result_gen;
-END_RCPP
-}
-// metric_node_betweeness
-SEXP metric_node_betweeness(NumericMatrix disMap);
-RcppExport SEXP _ant_metric_node_betweeness(SEXP disMapSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
-    rcpp_result_gen = Rcpp::wrap(metric_node_betweeness(disMap));
-    return rcpp_result_gen;
-END_RCPP
-}
-// metric_global_triangle
-SEXP metric_global_triangle(NumericMatrix disMap);
-RcppExport SEXP _ant_metric_global_triangle(SEXP disMapSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
-    rcpp_result_gen = Rcpp::wrap(metric_global_triangle(disMap));
-    return rcpp_result_gen;
-END_RCPP
-}
 // ldf_merge
 DataFrame ldf_merge(List ldf);
-RcppExport SEXP _ant_ldf_merge(SEXP ldfSEXP) {
+RcppExport SEXP _ANTs_ldf_merge(SEXP ldfSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -185,9 +185,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// listDf_merge_single_column
+SEXP listDf_merge_single_column(Rcpp::DataFrame df, Rcpp::List ldf, int col);
+RcppExport SEXP _ANTs_listDf_merge_single_column(SEXP dfSEXP, SEXP ldfSEXP, SEXP colSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type ldf(ldfSEXP);
+    Rcpp::traits::input_parameter< int >::type col(colSEXP);
+    rcpp_result_gen = Rcpp::wrap(listDf_merge_single_column(df, ldf, col));
+    return rcpp_result_gen;
+END_RCPP
+}
 // list_lapply
 List list_lapply(List input, Function f);
-RcppExport SEXP _ant_list_lapply(SEXP inputSEXP, SEXP fSEXP) {
+RcppExport SEXP _ANTs_list_lapply(SEXP inputSEXP, SEXP fSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -199,7 +212,7 @@ END_RCPP
 }
 // list_to_df
 List list_to_df(List a);
-RcppExport SEXP _ant_list_to_df(SEXP aSEXP) {
+RcppExport SEXP _ANTs_list_to_df(SEXP aSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -208,22 +221,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// listDf_merge_single_column
-SEXP listDf_merge_single_column(Rcpp::DataFrame df, Rcpp::List ldf, int col);
-RcppExport SEXP _ant_listDf_merge_single_column(SEXP dfSEXP, SEXP ldfSEXP, SEXP colSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List >::type ldf(ldfSEXP);
-    Rcpp::traits::input_parameter< int >::type col(colSEXP);
-    rcpp_result_gen = Rcpp::wrap(listDf_merge_single_column(df, ldf, col));
-    return rcpp_result_gen;
-END_RCPP
-}
 // mat_binaryzation
 arma::mat mat_binaryzation(arma::mat M);
-RcppExport SEXP _ant_mat_binaryzation(SEXP MSEXP) {
+RcppExport SEXP _ANTs_mat_binaryzation(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -234,7 +234,7 @@ END_RCPP
 }
 // mat_col_extract
 NumericVector mat_col_extract(NumericMatrix m, int x);
-RcppExport SEXP _ant_mat_col_extract(SEXP mSEXP, SEXP xSEXP) {
+RcppExport SEXP _ANTs_mat_col_extract(SEXP mSEXP, SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -246,7 +246,7 @@ END_RCPP
 }
 // mat_col_sumsBinary
 NumericVector mat_col_sumsBinary(NumericMatrix m);
-RcppExport SEXP _ant_mat_col_sumsBinary(SEXP mSEXP) {
+RcppExport SEXP _ANTs_mat_col_sumsBinary(SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -257,7 +257,7 @@ END_RCPP
 }
 // mat_cols_sums
 NumericVector mat_cols_sums(NumericMatrix m);
-RcppExport SEXP _ant_mat_cols_sums(SEXP mSEXP) {
+RcppExport SEXP _ANTs_mat_cols_sums(SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -268,7 +268,7 @@ END_RCPP
 }
 // mat_dim
 NumericVector mat_dim(NumericMatrix m);
-RcppExport SEXP _ant_mat_dim(SEXP mSEXP) {
+RcppExport SEXP _ANTs_mat_dim(SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -279,7 +279,7 @@ END_RCPP
 }
 // mat_erase_col
 NumericMatrix mat_erase_col(NumericMatrix M, int a);
-RcppExport SEXP _ant_mat_erase_col(SEXP MSEXP, SEXP aSEXP) {
+RcppExport SEXP _ANTs_mat_erase_col(SEXP MSEXP, SEXP aSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -291,7 +291,7 @@ END_RCPP
 }
 // mat_fill_upper
 NumericMatrix mat_fill_upper(NumericMatrix m);
-RcppExport SEXP _ant_mat_fill_upper(SEXP mSEXP) {
+RcppExport SEXP _ANTs_mat_fill_upper(SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -302,7 +302,7 @@ END_RCPP
 }
 // mat_filter
 arma::mat mat_filter(arma::mat m, double threshold, double replace);
-RcppExport SEXP _ant_mat_filter(SEXP mSEXP, SEXP thresholdSEXP, SEXP replaceSEXP) {
+RcppExport SEXP _ANTs_mat_filter(SEXP mSEXP, SEXP thresholdSEXP, SEXP replaceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -315,7 +315,7 @@ END_RCPP
 }
 // mat_find0
 Rcpp::DataFrame mat_find0(arma::mat m);
-RcppExport SEXP _ant_mat_find0(SEXP mSEXP) {
+RcppExport SEXP _ANTs_mat_find0(SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -326,7 +326,7 @@ END_RCPP
 }
 // mat_isSquare
 bool mat_isSquare(NumericMatrix m);
-RcppExport SEXP _ant_mat_isSquare(SEXP mSEXP) {
+RcppExport SEXP _ANTs_mat_isSquare(SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -337,7 +337,7 @@ END_RCPP
 }
 // mat_lowertri_to_vec
 NumericVector mat_lowertri_to_vec(Rcpp::NumericMatrix& m, bool diag);
-RcppExport SEXP _ant_mat_lowertri_to_vec(SEXP mSEXP, SEXP diagSEXP) {
+RcppExport SEXP _ANTs_mat_lowertri_to_vec(SEXP mSEXP, SEXP diagSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -349,7 +349,7 @@ END_RCPP
 }
 // mat_row_extract
 NumericVector mat_row_extract(NumericMatrix m, int x);
-RcppExport SEXP _ant_mat_row_extract(SEXP mSEXP, SEXP xSEXP) {
+RcppExport SEXP _ANTs_mat_row_extract(SEXP mSEXP, SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -361,7 +361,7 @@ END_RCPP
 }
 // mat_rows_sums
 NumericVector mat_rows_sums(NumericMatrix x);
-RcppExport SEXP _ant_mat_rows_sums(SEXP xSEXP) {
+RcppExport SEXP _ANTs_mat_rows_sums(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -372,7 +372,7 @@ END_RCPP
 }
 // mat_rows_sumsBinary
 NumericVector mat_rows_sumsBinary(NumericMatrix x);
-RcppExport SEXP _ant_mat_rows_sumsBinary(SEXP xSEXP) {
+RcppExport SEXP _ANTs_mat_rows_sumsBinary(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -383,7 +383,7 @@ END_RCPP
 }
 // mat_row_wise_multiplication
 NumericVector mat_row_wise_multiplication(NumericMatrix m, NumericVector v);
-RcppExport SEXP _ant_mat_row_wise_multiplication(SEXP mSEXP, SEXP vSEXP) {
+RcppExport SEXP _ANTs_mat_row_wise_multiplication(SEXP mSEXP, SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -395,7 +395,7 @@ END_RCPP
 }
 // mat_sym_by_lowertri
 SEXP mat_sym_by_lowertri(NumericMatrix& M);
-RcppExport SEXP _ant_mat_sym_by_lowertri(SEXP MSEXP) {
+RcppExport SEXP _ANTs_mat_sym_by_lowertri(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -406,7 +406,7 @@ END_RCPP
 }
 // mat_symetrization
 NumericMatrix mat_symetrization(NumericMatrix M);
-RcppExport SEXP _ant_mat_symetrization(SEXP MSEXP) {
+RcppExport SEXP _ANTs_mat_symetrization(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -417,7 +417,7 @@ END_RCPP
 }
 // mat_to_vec
 NumericVector mat_to_vec(NumericMatrix M, int ncol);
-RcppExport SEXP _ant_mat_to_vec(SEXP MSEXP, SEXP ncolSEXP) {
+RcppExport SEXP _ANTs_mat_to_vec(SEXP MSEXP, SEXP ncolSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -429,7 +429,7 @@ END_RCPP
 }
 // met_assor_cat
 List met_assor_cat(arma::mat& M, CharacterVector& att);
-RcppExport SEXP _ant_met_assor_cat(SEXP MSEXP, SEXP attSEXP) {
+RcppExport SEXP _ANTs_met_assor_cat(SEXP MSEXP, SEXP attSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -441,7 +441,7 @@ END_RCPP
 }
 // met_cc
 NumericVector met_cc(NumericMatrix& M, std::string method);
-RcppExport SEXP _ant_met_cc(SEXP MSEXP, SEXP methodSEXP) {
+RcppExport SEXP _ANTs_met_cc(SEXP MSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -453,7 +453,7 @@ END_RCPP
 }
 // met_degree
 NumericVector met_degree(NumericMatrix M);
-RcppExport SEXP _ant_met_degree(SEXP MSEXP) {
+RcppExport SEXP _ANTs_met_degree(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -464,7 +464,7 @@ END_RCPP
 }
 // met_density
 double met_density(NumericMatrix M);
-RcppExport SEXP _ant_met_density(SEXP MSEXP) {
+RcppExport SEXP _ANTs_met_density(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -475,7 +475,7 @@ END_RCPP
 }
 // met_eigen
 NumericVector met_eigen(NumericMatrix M, double eps, int maxiter);
-RcppExport SEXP _ant_met_eigen(SEXP MSEXP, SEXP epsSEXP, SEXP maxiterSEXP) {
+RcppExport SEXP _ANTs_met_eigen(SEXP MSEXP, SEXP epsSEXP, SEXP maxiterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -488,7 +488,7 @@ END_RCPP
 }
 // met_modularityU
 double met_modularityU(NumericMatrix M, NumericVector x);
-RcppExport SEXP _ant_met_modularityU(SEXP MSEXP, SEXP xSEXP) {
+RcppExport SEXP _ANTs_met_modularityU(SEXP MSEXP, SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -500,7 +500,7 @@ END_RCPP
 }
 // met_ei
 arma::cx_mat met_ei(arma::mat m);
-RcppExport SEXP _ant_met_ei(SEXP mSEXP) {
+RcppExport SEXP _ANTs_met_ei(SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -511,7 +511,7 @@ END_RCPP
 }
 // met_strength
 arma::rowvec met_strength(arma::mat M);
-RcppExport SEXP _ant_met_strength(SEXP MSEXP) {
+RcppExport SEXP _ANTs_met_strength(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -522,7 +522,7 @@ END_RCPP
 }
 // met_sum_egos_strength
 NumericVector met_sum_egos_strength(NumericMatrix M);
-RcppExport SEXP _ant_met_sum_egos_strength(SEXP MSEXP) {
+RcppExport SEXP _ANTs_met_sum_egos_strength(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -533,7 +533,7 @@ END_RCPP
 }
 // na_omit
 NumericVector na_omit(NumericVector x);
-RcppExport SEXP _ant_na_omit(SEXP xSEXP) {
+RcppExport SEXP _ANTs_na_omit(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -542,25 +542,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// perm_dataStream_ControlFactor
-Rcpp::List perm_dataStream_ControlFactor(Rcpp::List GBIList, arma::mat M, int nperm, Rcpp::IntegerVector CumSizesGbis, bool progress, std::string method);
-RcppExport SEXP _ant_perm_dataStream_ControlFactor(SEXP GBIListSEXP, SEXP MSEXP, SEXP npermSEXP, SEXP CumSizesGbisSEXP, SEXP progressSEXP, SEXP methodSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::List >::type GBIList(GBIListSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type M(MSEXP);
-    Rcpp::traits::input_parameter< int >::type nperm(npermSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type CumSizesGbis(CumSizesGbisSEXP);
-    Rcpp::traits::input_parameter< bool >::type progress(progressSEXP);
-    Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(perm_dataStream_ControlFactor(GBIList, M, nperm, CumSizesGbis, progress, method));
-    return rcpp_result_gen;
-END_RCPP
-}
 // perm_dataStream1
 Rcpp::List perm_dataStream1(arma::mat M, int nperm, bool progress, std::string method);
-RcppExport SEXP _ant_perm_dataStream1(SEXP MSEXP, SEXP npermSEXP, SEXP progressSEXP, SEXP methodSEXP) {
+RcppExport SEXP _ANTs_perm_dataStream1(SEXP MSEXP, SEXP npermSEXP, SEXP progressSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -574,7 +558,7 @@ END_RCPP
 }
 // perm_dataStream1_focal
 Rcpp::List perm_dataStream1_focal(arma::mat M, arma::mat M2, int nperm, bool progress, std::string method);
-RcppExport SEXP _ant_perm_dataStream1_focal(SEXP MSEXP, SEXP M2SEXP, SEXP npermSEXP, SEXP progressSEXP, SEXP methodSEXP) {
+RcppExport SEXP _ANTs_perm_dataStream1_focal(SEXP MSEXP, SEXP M2SEXP, SEXP npermSEXP, SEXP progressSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -587,9 +571,38 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// perm_dataStream_ControlFactor
+Rcpp::List perm_dataStream_ControlFactor(Rcpp::List GBIList, arma::mat M, int nperm, Rcpp::IntegerVector CumSizesGbis, bool progress, std::string method);
+RcppExport SEXP _ANTs_perm_dataStream_ControlFactor(SEXP GBIListSEXP, SEXP MSEXP, SEXP npermSEXP, SEXP CumSizesGbisSEXP, SEXP progressSEXP, SEXP methodSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List >::type GBIList(GBIListSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type M(MSEXP);
+    Rcpp::traits::input_parameter< int >::type nperm(npermSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type CumSizesGbis(CumSizesGbisSEXP);
+    Rcpp::traits::input_parameter< bool >::type progress(progressSEXP);
+    Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
+    rcpp_result_gen = Rcpp::wrap(perm_dataStream_ControlFactor(GBIList, M, nperm, CumSizesGbis, progress, method));
+    return rcpp_result_gen;
+END_RCPP
+}
+// perm_matVec
+NumericVector perm_matVec(NumericVector m, int n, IntegerVector rand);
+RcppExport SEXP _ANTs_perm_matVec(SEXP mSEXP, SEXP nSEXP, SEXP randSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type m(mSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type rand(randSEXP);
+    rcpp_result_gen = Rcpp::wrap(perm_matVec(m, n, rand));
+    return rcpp_result_gen;
+END_RCPP
+}
 // perm_mat_col_row
 NumericMatrix perm_mat_col_row(NumericMatrix M, int ncol, IntegerVector rand);
-RcppExport SEXP _ant_perm_mat_col_row(SEXP MSEXP, SEXP ncolSEXP, SEXP randSEXP) {
+RcppExport SEXP _ANTs_perm_mat_col_row(SEXP MSEXP, SEXP ncolSEXP, SEXP randSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -602,7 +615,7 @@ END_RCPP
 }
 // perm_mat_row_col
 NumericMatrix perm_mat_row_col(NumericMatrix& M, int col, IntegerVector& rand);
-RcppExport SEXP _ant_perm_mat_row_col(SEXP MSEXP, SEXP colSEXP, SEXP randSEXP) {
+RcppExport SEXP _ANTs_perm_mat_row_col(SEXP MSEXP, SEXP colSEXP, SEXP randSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -613,22 +626,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// perm_matVec
-NumericVector perm_matVec(NumericVector m, int n, IntegerVector rand);
-RcppExport SEXP _ant_perm_matVec(SEXP mSEXP, SEXP nSEXP, SEXP randSEXP) {
+// perm_net_weigths
+List perm_net_weigths(DataFrame df, bool sym, int nperm, bool progress);
+RcppExport SEXP _ANTs_perm_net_weigths(SEXP dfSEXP, SEXP symSEXP, SEXP npermSEXP, SEXP progressSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type m(mSEXP);
-    Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type rand(randSEXP);
-    rcpp_result_gen = Rcpp::wrap(perm_matVec(m, n, rand));
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< bool >::type sym(symSEXP);
+    Rcpp::traits::input_parameter< int >::type nperm(npermSEXP);
+    Rcpp::traits::input_parameter< bool >::type progress(progressSEXP);
+    rcpp_result_gen = Rcpp::wrap(perm_net_weigths(df, sym, nperm, progress));
     return rcpp_result_gen;
 END_RCPP
 }
 // perm_nl_rf
 List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress);
-RcppExport SEXP _ant_perm_nl_rf(SEXP ldfSEXP, SEXP lablesSEXP, SEXP npermSEXP, SEXP progressSEXP) {
+RcppExport SEXP _ANTs_perm_nl_rf(SEXP ldfSEXP, SEXP lablesSEXP, SEXP npermSEXP, SEXP progressSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -642,7 +656,7 @@ END_RCPP
 }
 // perm_nodeLabels
 Rcpp::List perm_nodeLabels(Rcpp::DataFrame df, Rcpp::NumericVector label, int nperm, bool progress);
-RcppExport SEXP _ant_perm_nodeLabels(SEXP dfSEXP, SEXP labelSEXP, SEXP npermSEXP, SEXP progressSEXP) {
+RcppExport SEXP _ANTs_perm_nodeLabels(SEXP dfSEXP, SEXP labelSEXP, SEXP npermSEXP, SEXP progressSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -656,7 +670,7 @@ END_RCPP
 }
 // perm_vec_factor
 IntegerVector perm_vec_factor(CharacterVector vec);
-RcppExport SEXP _ant_perm_vec_factor(SEXP vecSEXP) {
+RcppExport SEXP _ANTs_perm_vec_factor(SEXP vecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -667,7 +681,7 @@ END_RCPP
 }
 // perm_vec_int
 Rcpp::List perm_vec_int(NumericVector x, int nperm, bool progress);
-RcppExport SEXP _ant_perm_vec_int(SEXP xSEXP, SEXP npermSEXP, SEXP progressSEXP) {
+RcppExport SEXP _ANTs_perm_vec_int(SEXP xSEXP, SEXP npermSEXP, SEXP progressSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -678,9 +692,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// redo_perm_dataStream1_focal
+Rcpp::List redo_perm_dataStream1_focal(arma::mat M, arma::mat M2, int nperm, std::string method);
+RcppExport SEXP _ANTs_redo_perm_dataStream1_focal(SEXP MSEXP, SEXP M2SEXP, SEXP npermSEXP, SEXP methodSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type M(MSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type M2(M2SEXP);
+    Rcpp::traits::input_parameter< int >::type nperm(npermSEXP);
+    Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
+    rcpp_result_gen = Rcpp::wrap(redo_perm_dataStream1_focal(M, M2, nperm, method));
+    return rcpp_result_gen;
+END_RCPP
+}
 // redo_perm_dataStream_1
 Rcpp::List redo_perm_dataStream_1(arma::mat M, int nperm, std::string method);
-RcppExport SEXP _ant_redo_perm_dataStream_1(SEXP MSEXP, SEXP npermSEXP, SEXP methodSEXP) {
+RcppExport SEXP _ANTs_redo_perm_dataStream_1(SEXP MSEXP, SEXP npermSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -693,7 +721,7 @@ END_RCPP
 }
 // redo_perm_dataStream_ControlFactor
 Rcpp::List redo_perm_dataStream_ControlFactor(Rcpp::List GBIList, arma::mat M, int nperm, Rcpp::IntegerVector CumSizesGbis, std::string method);
-RcppExport SEXP _ant_redo_perm_dataStream_ControlFactor(SEXP GBIListSEXP, SEXP MSEXP, SEXP npermSEXP, SEXP CumSizesGbisSEXP, SEXP methodSEXP) {
+RcppExport SEXP _ANTs_redo_perm_dataStream_ControlFactor(SEXP GBIListSEXP, SEXP MSEXP, SEXP npermSEXP, SEXP CumSizesGbisSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -708,7 +736,7 @@ END_RCPP
 }
 // redo_perm_dataStream_ControlFactor_scd
 Rcpp::List redo_perm_dataStream_ControlFactor_scd(Rcpp::List GBIList, int nperm, std::string method);
-RcppExport SEXP _ant_redo_perm_dataStream_ControlFactor_scd(SEXP GBIListSEXP, SEXP npermSEXP, SEXP methodSEXP) {
+RcppExport SEXP _ANTs_redo_perm_dataStream_ControlFactor_scd(SEXP GBIListSEXP, SEXP npermSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -721,7 +749,7 @@ END_RCPP
 }
 // redo_perm_dataStream_focal
 Rcpp::List redo_perm_dataStream_focal(Rcpp::DataFrame df, Rcpp::List ldf1, int nperm, int col_focal, int col_alters, Rcpp::IntegerVector lengthList);
-RcppExport SEXP _ant_redo_perm_dataStream_focal(SEXP dfSEXP, SEXP ldf1SEXP, SEXP npermSEXP, SEXP col_focalSEXP, SEXP col_altersSEXP, SEXP lengthListSEXP) {
+RcppExport SEXP _ANTs_redo_perm_dataStream_focal(SEXP dfSEXP, SEXP ldf1SEXP, SEXP npermSEXP, SEXP col_focalSEXP, SEXP col_altersSEXP, SEXP lengthListSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -735,23 +763,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// redo_perm_dataStream1_focal
-Rcpp::List redo_perm_dataStream1_focal(arma::mat M, arma::mat M2, int nperm, std::string method);
-RcppExport SEXP _ant_redo_perm_dataStream1_focal(SEXP MSEXP, SEXP M2SEXP, SEXP npermSEXP, SEXP methodSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type M(MSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type M2(M2SEXP);
-    Rcpp::traits::input_parameter< int >::type nperm(npermSEXP);
-    Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(redo_perm_dataStream1_focal(M, M2, nperm, method));
-    return rcpp_result_gen;
-END_RCPP
-}
 // stat_chol2inv
 Rcpp::NumericVector stat_chol2inv(Rcpp::NumericMatrix M);
-RcppExport SEXP _ant_stat_chol2inv(SEXP MSEXP) {
+RcppExport SEXP _ANTs_stat_chol2inv(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -762,7 +776,7 @@ END_RCPP
 }
 // stat_t_value
 NumericVector stat_t_value(List lm, NumericMatrix x4);
-RcppExport SEXP _ant_stat_t_value(SEXP lmSEXP, SEXP x4SEXP) {
+RcppExport SEXP _ANTs_stat_t_value(SEXP lmSEXP, SEXP x4SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -774,7 +788,7 @@ END_RCPP
 }
 // test_nm
 double test_nm(Rcpp::NumericMatrix X);
-RcppExport SEXP _ant_test_nm(SEXP XSEXP) {
+RcppExport SEXP _ANTs_test_nm(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -785,7 +799,7 @@ END_RCPP
 }
 // test_arma
 double test_arma(arma::mat X);
-RcppExport SEXP _ant_test_arma(SEXP XSEXP) {
+RcppExport SEXP _ANTs_test_arma(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -796,7 +810,7 @@ END_RCPP
 }
 // test_nm_conv
 double test_nm_conv(Rcpp::NumericMatrix X);
-RcppExport SEXP _ant_test_nm_conv(SEXP XSEXP) {
+RcppExport SEXP _ANTs_test_nm_conv(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -807,7 +821,7 @@ END_RCPP
 }
 // test_const_arma
 double test_const_arma(const arma::mat& X);
-RcppExport SEXP _ant_test_const_arma(SEXP XSEXP) {
+RcppExport SEXP _ANTs_test_const_arma(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -818,7 +832,7 @@ END_RCPP
 }
 // met_ei2
 arma::cx_mat met_ei2(const arma::mat& m);
-RcppExport SEXP _ant_met_ei2(SEXP mSEXP) {
+RcppExport SEXP _ANTs_met_ei2(SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -829,7 +843,7 @@ END_RCPP
 }
 // tobs_to_mat
 NumericMatrix tobs_to_mat(NumericVector vec);
-RcppExport SEXP _ant_tobs_to_mat(SEXP vecSEXP) {
+RcppExport SEXP _ANTs_tobs_to_mat(SEXP vecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -840,7 +854,7 @@ END_RCPP
 }
 // vec_char_as_factor
 IntegerVector vec_char_as_factor(SEXP vec);
-RcppExport SEXP _ant_vec_char_as_factor(SEXP vecSEXP) {
+RcppExport SEXP _ANTs_vec_char_as_factor(SEXP vecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -851,7 +865,7 @@ END_RCPP
 }
 // vec_char_extract_IdValue
 Rcpp::CharacterVector vec_char_extract_IdValue(CharacterVector y, NumericVector x);
-RcppExport SEXP _ant_vec_char_extract_IdValue(SEXP ySEXP, SEXP xSEXP) {
+RcppExport SEXP _ANTs_vec_char_extract_IdValue(SEXP ySEXP, SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -863,7 +877,7 @@ END_RCPP
 }
 // vec_num_extract
 double vec_num_extract(NumericVector x, int y);
-RcppExport SEXP _ant_vec_num_extract(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _ANTs_vec_num_extract(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -873,9 +887,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// vec_fill
+SEXP vec_fill(SEXP vec1, SEXP vec2, int x);
+RcppExport SEXP _ANTs_vec_fill(SEXP vec1SEXP, SEXP vec2SEXP, SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type vec1(vec1SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type vec2(vec2SEXP);
+    Rcpp::traits::input_parameter< int >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(vec_fill(vec1, vec2, x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // vec_id_Equal0
 NumericVector vec_id_Equal0(NumericVector x);
-RcppExport SEXP _ant_vec_id_Equal0(SEXP xSEXP) {
+RcppExport SEXP _ANTs_vec_id_Equal0(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -886,7 +913,7 @@ END_RCPP
 }
 // vec_id_sup0
 NumericVector vec_id_sup0(NumericVector x);
-RcppExport SEXP _ant_vec_id_sup0(SEXP xSEXP) {
+RcppExport SEXP _ANTs_vec_id_sup0(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -897,7 +924,7 @@ END_RCPP
 }
 // vec_intersect
 CharacterVector vec_intersect(CharacterVector x, CharacterVector y);
-RcppExport SEXP _ant_vec_intersect(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _ANTs_vec_intersect(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -909,7 +936,7 @@ END_RCPP
 }
 // vec_levels
 CharacterVector vec_levels(CharacterVector v);
-RcppExport SEXP _ant_vec_levels(SEXP vSEXP) {
+RcppExport SEXP _ANTs_vec_levels(SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -920,7 +947,7 @@ END_RCPP
 }
 // vec_lowertri_to_mat
 NumericMatrix vec_lowertri_to_mat(NumericVector& vec, int col, bool diag);
-RcppExport SEXP _ant_vec_lowertri_to_mat(SEXP vecSEXP, SEXP colSEXP, SEXP diagSEXP) {
+RcppExport SEXP _ANTs_vec_lowertri_to_mat(SEXP vecSEXP, SEXP colSEXP, SEXP diagSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -933,7 +960,7 @@ END_RCPP
 }
 // vec_match
 NumericVector vec_match(CharacterVector x, CharacterVector y);
-RcppExport SEXP _ant_vec_match(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _ANTs_vec_match(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -945,7 +972,7 @@ END_RCPP
 }
 // vec_merge
 SEXP vec_merge(SEXP vec1, SEXP vec2);
-RcppExport SEXP _ant_vec_merge(SEXP vec1SEXP, SEXP vec2SEXP) {
+RcppExport SEXP _ANTs_vec_merge(SEXP vec1SEXP, SEXP vec2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -957,7 +984,7 @@ END_RCPP
 }
 // vec_num_extract_IdValue
 Rcpp::NumericVector vec_num_extract_IdValue(NumericVector y, NumericVector x);
-RcppExport SEXP _ant_vec_num_extract_IdValue(SEXP ySEXP, SEXP xSEXP) {
+RcppExport SEXP _ANTs_vec_num_extract_IdValue(SEXP ySEXP, SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -967,9 +994,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// vec_resize
+SEXP vec_resize(NumericVector vec, int x);
+RcppExport SEXP _ANTs_vec_resize(SEXP vecSEXP, SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type vec(vecSEXP);
+    Rcpp::traits::input_parameter< int >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(vec_resize(vec, x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // vec_sample
 SEXP vec_sample(SEXP vec1, int length, bool replace);
-RcppExport SEXP _ant_vec_sample(SEXP vec1SEXP, SEXP lengthSEXP, SEXP replaceSEXP) {
+RcppExport SEXP _ANTs_vec_sample(SEXP vec1SEXP, SEXP lengthSEXP, SEXP replaceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -981,19 +1020,19 @@ BEGIN_RCPP
 END_RCPP
 }
 // vec_sample_all
-SEXP vec_sample_all(SEXP vec1);
-RcppExport SEXP _ant_vec_sample_all(SEXP vec1SEXP) {
+SEXP vec_sample_all(SEXP vec);
+RcppExport SEXP _ANTs_vec_sample_all(SEXP vecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type vec1(vec1SEXP);
-    rcpp_result_gen = Rcpp::wrap(vec_sample_all(vec1));
+    Rcpp::traits::input_parameter< SEXP >::type vec(vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(vec_sample_all(vec));
     return rcpp_result_gen;
 END_RCPP
 }
 // vec_sum
 double vec_sum(NumericVector x);
-RcppExport SEXP _ant_vec_sum(SEXP xSEXP) {
+RcppExport SEXP _ANTs_vec_sum(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1004,7 +1043,7 @@ END_RCPP
 }
 // vec_to_mat
 NumericMatrix vec_to_mat(NumericVector vec, int ncol);
-RcppExport SEXP _ant_vec_to_mat(SEXP vecSEXP, SEXP ncolSEXP) {
+RcppExport SEXP _ANTs_vec_to_mat(SEXP vecSEXP, SEXP ncolSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1016,7 +1055,7 @@ END_RCPP
 }
 // vec_to_mat_add_diag
 NumericMatrix vec_to_mat_add_diag(NumericVector vec, int ncol);
-RcppExport SEXP _ant_vec_to_mat_add_diag(SEXP vecSEXP, SEXP ncolSEXP) {
+RcppExport SEXP _ANTs_vec_to_mat_add_diag(SEXP vecSEXP, SEXP ncolSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1028,7 +1067,7 @@ END_RCPP
 }
 // vec_unique
 Rcpp::CharacterVector vec_unique(Rcpp::CharacterVector v);
-RcppExport SEXP _ant_vec_unique(SEXP vSEXP) {
+RcppExport SEXP _ANTs_vec_unique(SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1039,7 +1078,7 @@ END_RCPP
 }
 // vec_unmatch
 NumericVector vec_unmatch(CharacterVector x, CharacterVector y);
-RcppExport SEXP _ant_vec_unmatch(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _ANTs_vec_unmatch(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1051,7 +1090,7 @@ END_RCPP
 }
 // vec_unmatch_indexcc
 NumericVector vec_unmatch_indexcc(CharacterVector x, CharacterVector y);
-RcppExport SEXP _ant_vec_unmatch_indexcc(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _ANTs_vec_unmatch_indexcc(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1063,7 +1102,7 @@ END_RCPP
 }
 // vec_vec_multiply
 NumericVector vec_vec_multiply(NumericVector x, NumericVector y);
-RcppExport SEXP _ant_vec_vec_multiply(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _ANTs_vec_vec_multiply(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1075,7 +1114,7 @@ END_RCPP
 }
 // vec_vec_sum
 NumericVector vec_vec_sum(NumericVector x, NumericVector y);
-RcppExport SEXP _ant_vec_vec_sum(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _ANTs_vec_vec_sum(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1087,7 +1126,7 @@ END_RCPP
 }
 // vector_abs
 NumericVector vector_abs(NumericVector vec);
-RcppExport SEXP _ant_vector_abs(SEXP vecSEXP) {
+RcppExport SEXP _ANTs_vector_abs(SEXP vecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1098,7 +1137,7 @@ END_RCPP
 }
 // which_equal
 arma::umat which_equal(arma::mat M, int x);
-RcppExport SEXP _ant_which_equal(SEXP MSEXP, SEXP xSEXP) {
+RcppExport SEXP _ANTs_which_equal(SEXP MSEXP, SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1107,4 +1146,108 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(which_equal(M, x));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_ANTs_ComplexEigen", (DL_FUNC) &_ANTs_ComplexEigen, 1},
+    {"_ANTs_metric_global_shortestPath", (DL_FUNC) &_ANTs_metric_global_shortestPath, 1},
+    {"_ANTs_metric_global_shortestDetails", (DL_FUNC) &_ANTs_metric_global_shortestDetails, 1},
+    {"_ANTs_metric_global_shortestDetailsBasedBetween", (DL_FUNC) &_ANTs_metric_global_shortestDetailsBasedBetween, 1},
+    {"_ANTs_metric_node_betweeness", (DL_FUNC) &_ANTs_metric_node_betweeness, 1},
+    {"_ANTs_metric_global_triangle", (DL_FUNC) &_ANTs_metric_global_triangle, 1},
+    {"_ANTs_assoc_mat", (DL_FUNC) &_ANTs_assoc_mat, 2},
+    {"_ANTs_assoc_mat_one_id", (DL_FUNC) &_ANTs_assoc_mat_one_id, 3},
+    {"_ANTs_df_merge", (DL_FUNC) &_ANTs_df_merge, 2},
+    {"_ANTs_df_to_gbi", (DL_FUNC) &_ANTs_df_to_gbi, 5},
+    {"_ANTs_edgl_to_matrix", (DL_FUNC) &_ANTs_edgl_to_matrix, 2},
+    {"_ANTs_euclidean", (DL_FUNC) &_ANTs_euclidean, 1},
+    {"_ANTs_fastLm_Impl", (DL_FUNC) &_ANTs_fastLm_Impl, 3},
+    {"_ANTs_gbi_createEmpty", (DL_FUNC) &_ANTs_gbi_createEmpty, 3},
+    {"_ANTs_ldf_merge", (DL_FUNC) &_ANTs_ldf_merge, 1},
+    {"_ANTs_listDf_merge_single_column", (DL_FUNC) &_ANTs_listDf_merge_single_column, 3},
+    {"_ANTs_list_lapply", (DL_FUNC) &_ANTs_list_lapply, 2},
+    {"_ANTs_list_to_df", (DL_FUNC) &_ANTs_list_to_df, 1},
+    {"_ANTs_mat_binaryzation", (DL_FUNC) &_ANTs_mat_binaryzation, 1},
+    {"_ANTs_mat_col_extract", (DL_FUNC) &_ANTs_mat_col_extract, 2},
+    {"_ANTs_mat_col_sumsBinary", (DL_FUNC) &_ANTs_mat_col_sumsBinary, 1},
+    {"_ANTs_mat_cols_sums", (DL_FUNC) &_ANTs_mat_cols_sums, 1},
+    {"_ANTs_mat_dim", (DL_FUNC) &_ANTs_mat_dim, 1},
+    {"_ANTs_mat_erase_col", (DL_FUNC) &_ANTs_mat_erase_col, 2},
+    {"_ANTs_mat_fill_upper", (DL_FUNC) &_ANTs_mat_fill_upper, 1},
+    {"_ANTs_mat_filter", (DL_FUNC) &_ANTs_mat_filter, 3},
+    {"_ANTs_mat_find0", (DL_FUNC) &_ANTs_mat_find0, 1},
+    {"_ANTs_mat_isSquare", (DL_FUNC) &_ANTs_mat_isSquare, 1},
+    {"_ANTs_mat_lowertri_to_vec", (DL_FUNC) &_ANTs_mat_lowertri_to_vec, 2},
+    {"_ANTs_mat_row_extract", (DL_FUNC) &_ANTs_mat_row_extract, 2},
+    {"_ANTs_mat_rows_sums", (DL_FUNC) &_ANTs_mat_rows_sums, 1},
+    {"_ANTs_mat_rows_sumsBinary", (DL_FUNC) &_ANTs_mat_rows_sumsBinary, 1},
+    {"_ANTs_mat_row_wise_multiplication", (DL_FUNC) &_ANTs_mat_row_wise_multiplication, 2},
+    {"_ANTs_mat_sym_by_lowertri", (DL_FUNC) &_ANTs_mat_sym_by_lowertri, 1},
+    {"_ANTs_mat_symetrization", (DL_FUNC) &_ANTs_mat_symetrization, 1},
+    {"_ANTs_mat_to_vec", (DL_FUNC) &_ANTs_mat_to_vec, 2},
+    {"_ANTs_met_assor_cat", (DL_FUNC) &_ANTs_met_assor_cat, 2},
+    {"_ANTs_met_cc", (DL_FUNC) &_ANTs_met_cc, 2},
+    {"_ANTs_met_degree", (DL_FUNC) &_ANTs_met_degree, 1},
+    {"_ANTs_met_density", (DL_FUNC) &_ANTs_met_density, 1},
+    {"_ANTs_met_eigen", (DL_FUNC) &_ANTs_met_eigen, 3},
+    {"_ANTs_met_modularityU", (DL_FUNC) &_ANTs_met_modularityU, 2},
+    {"_ANTs_met_ei", (DL_FUNC) &_ANTs_met_ei, 1},
+    {"_ANTs_met_strength", (DL_FUNC) &_ANTs_met_strength, 1},
+    {"_ANTs_met_sum_egos_strength", (DL_FUNC) &_ANTs_met_sum_egos_strength, 1},
+    {"_ANTs_na_omit", (DL_FUNC) &_ANTs_na_omit, 1},
+    {"_ANTs_perm_dataStream1", (DL_FUNC) &_ANTs_perm_dataStream1, 4},
+    {"_ANTs_perm_dataStream1_focal", (DL_FUNC) &_ANTs_perm_dataStream1_focal, 5},
+    {"_ANTs_perm_dataStream_ControlFactor", (DL_FUNC) &_ANTs_perm_dataStream_ControlFactor, 6},
+    {"_ANTs_perm_matVec", (DL_FUNC) &_ANTs_perm_matVec, 3},
+    {"_ANTs_perm_mat_col_row", (DL_FUNC) &_ANTs_perm_mat_col_row, 3},
+    {"_ANTs_perm_mat_row_col", (DL_FUNC) &_ANTs_perm_mat_row_col, 3},
+    {"_ANTs_perm_net_weigths", (DL_FUNC) &_ANTs_perm_net_weigths, 4},
+    {"_ANTs_perm_nl_rf", (DL_FUNC) &_ANTs_perm_nl_rf, 4},
+    {"_ANTs_perm_nodeLabels", (DL_FUNC) &_ANTs_perm_nodeLabels, 4},
+    {"_ANTs_perm_vec_factor", (DL_FUNC) &_ANTs_perm_vec_factor, 1},
+    {"_ANTs_perm_vec_int", (DL_FUNC) &_ANTs_perm_vec_int, 3},
+    {"_ANTs_redo_perm_dataStream1_focal", (DL_FUNC) &_ANTs_redo_perm_dataStream1_focal, 4},
+    {"_ANTs_redo_perm_dataStream_1", (DL_FUNC) &_ANTs_redo_perm_dataStream_1, 3},
+    {"_ANTs_redo_perm_dataStream_ControlFactor", (DL_FUNC) &_ANTs_redo_perm_dataStream_ControlFactor, 5},
+    {"_ANTs_redo_perm_dataStream_ControlFactor_scd", (DL_FUNC) &_ANTs_redo_perm_dataStream_ControlFactor_scd, 3},
+    {"_ANTs_redo_perm_dataStream_focal", (DL_FUNC) &_ANTs_redo_perm_dataStream_focal, 6},
+    {"_ANTs_stat_chol2inv", (DL_FUNC) &_ANTs_stat_chol2inv, 1},
+    {"_ANTs_stat_t_value", (DL_FUNC) &_ANTs_stat_t_value, 2},
+    {"_ANTs_test_nm", (DL_FUNC) &_ANTs_test_nm, 1},
+    {"_ANTs_test_arma", (DL_FUNC) &_ANTs_test_arma, 1},
+    {"_ANTs_test_nm_conv", (DL_FUNC) &_ANTs_test_nm_conv, 1},
+    {"_ANTs_test_const_arma", (DL_FUNC) &_ANTs_test_const_arma, 1},
+    {"_ANTs_met_ei2", (DL_FUNC) &_ANTs_met_ei2, 1},
+    {"_ANTs_tobs_to_mat", (DL_FUNC) &_ANTs_tobs_to_mat, 1},
+    {"_ANTs_vec_char_as_factor", (DL_FUNC) &_ANTs_vec_char_as_factor, 1},
+    {"_ANTs_vec_char_extract_IdValue", (DL_FUNC) &_ANTs_vec_char_extract_IdValue, 2},
+    {"_ANTs_vec_num_extract", (DL_FUNC) &_ANTs_vec_num_extract, 2},
+    {"_ANTs_vec_fill", (DL_FUNC) &_ANTs_vec_fill, 3},
+    {"_ANTs_vec_id_Equal0", (DL_FUNC) &_ANTs_vec_id_Equal0, 1},
+    {"_ANTs_vec_id_sup0", (DL_FUNC) &_ANTs_vec_id_sup0, 1},
+    {"_ANTs_vec_intersect", (DL_FUNC) &_ANTs_vec_intersect, 2},
+    {"_ANTs_vec_levels", (DL_FUNC) &_ANTs_vec_levels, 1},
+    {"_ANTs_vec_lowertri_to_mat", (DL_FUNC) &_ANTs_vec_lowertri_to_mat, 3},
+    {"_ANTs_vec_match", (DL_FUNC) &_ANTs_vec_match, 2},
+    {"_ANTs_vec_merge", (DL_FUNC) &_ANTs_vec_merge, 2},
+    {"_ANTs_vec_num_extract_IdValue", (DL_FUNC) &_ANTs_vec_num_extract_IdValue, 2},
+    {"_ANTs_vec_resize", (DL_FUNC) &_ANTs_vec_resize, 2},
+    {"_ANTs_vec_sample", (DL_FUNC) &_ANTs_vec_sample, 3},
+    {"_ANTs_vec_sample_all", (DL_FUNC) &_ANTs_vec_sample_all, 1},
+    {"_ANTs_vec_sum", (DL_FUNC) &_ANTs_vec_sum, 1},
+    {"_ANTs_vec_to_mat", (DL_FUNC) &_ANTs_vec_to_mat, 2},
+    {"_ANTs_vec_to_mat_add_diag", (DL_FUNC) &_ANTs_vec_to_mat_add_diag, 2},
+    {"_ANTs_vec_unique", (DL_FUNC) &_ANTs_vec_unique, 1},
+    {"_ANTs_vec_unmatch", (DL_FUNC) &_ANTs_vec_unmatch, 2},
+    {"_ANTs_vec_unmatch_indexcc", (DL_FUNC) &_ANTs_vec_unmatch_indexcc, 2},
+    {"_ANTs_vec_vec_multiply", (DL_FUNC) &_ANTs_vec_vec_multiply, 2},
+    {"_ANTs_vec_vec_sum", (DL_FUNC) &_ANTs_vec_vec_sum, 2},
+    {"_ANTs_vector_abs", (DL_FUNC) &_ANTs_vector_abs, 1},
+    {"_ANTs_which_equal", (DL_FUNC) &_ANTs_which_equal, 2},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_ANTs(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

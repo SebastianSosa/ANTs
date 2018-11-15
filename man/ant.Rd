@@ -7,7 +7,7 @@
 ant(x)
 }
 \arguments{
-\item{x}{an ANT object originating from the statistical functions of class 'stat.'}
+\item{x}{an ANT object from functions: stat.t, stat.c, stat.lm, stat.glm, stat.glmm pr a numeric vector or a data frame with only numeric values.}
 }
 \value{
 A list of two elements fot stat.cor, stat.t functions:
