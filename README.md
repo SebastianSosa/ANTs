@@ -14,7 +14,7 @@ For more information, visit our websites:
    https://www.researchgate.net/project/A-multilevel-statistical-toolkit-to-study-animal-social-networks-Animal-Network-Toolkit-ANT-R-package
    
    
-<i><b>Authors</b>: [Sebastian Sosa](https://scholar.google.fr/citations?user=R8MskkwAAAAJ&hl=fr&authuser=1), [Ivan Puga-Gonzalez](https://scholar.google.fr/citations?user=XIjvceIAAAAJ&hl=fr&oi=ao), Hu Feng He, Peng Zhang, Xiaohua Xie, [Cédric Sueur](https://scholar.google.fr/citations?user=2A3IqEsAAAAJ&hl=fr&authuser=1)</i>
+<i><b>Authors</b>: [Sebastian Sosa](https://scholar.google.fr/citations?user=R8MskkwAAAAJ&hl=fr&authuser=1), [Ivan Puga-Gonzalez](https://scholar.google.fr/citations?user=XIjvceIAAAAJ&hl=fr&oi=ao), Hu Feng He, Xiaohua Xie, [Cédric Sueur](https://scholar.google.fr/citations?user=2A3IqEsAAAAJ&hl=fr&authuser=1)</i>
 
 # Description
 
@@ -33,6 +33,8 @@ To install the package in R, use the following command: <i>devtools::install_git
 
 Or download and install the package following the standard R installation process.
 
+# Vignette
+<img src="https://github.com/SebastianSosa/ANTs/blob/master/vignettes/Analytical.protocols.png" alt="alt text"> 
 # Tutorials
 To find information on how to use ANTs, follow this link: 
 https://www.s-sosa.com/videos
