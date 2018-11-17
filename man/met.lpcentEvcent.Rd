@@ -4,7 +4,7 @@
 \alias{met.lpcentEvcent}
 \title{Laplacian centrality}
 \usage{
-met.lpcentEvcent(M, binary = F)
+met.lpcentEvcent(M, binary = FALSE)
 }
 \arguments{
 \item{M}{a square adjacency matrix.}

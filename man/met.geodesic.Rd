@@ -4,8 +4,8 @@
 \alias{met.geodesic}
 \title{Geodesic distances}
 \usage{
-met.geodesic(M, weighted = T, shortest.weight = F, normalization = T,
-  directed = T, out = T)
+met.geodesic(M, weighted = TRUE, shortest.weight = FALSE,
+  normalization = TRUE, directed = TRUE, out = TRUE)
 }
 \arguments{
 \item{M}{a square adjacency matrix, or a list of square adjacency matrices, or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.}

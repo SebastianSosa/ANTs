@@ -4,9 +4,9 @@
 \alias{stat.deletions}
 \title{Network target & random deletion simulations}
 \usage{
-stat.deletions(M, attr, target, ndel, nsim, weighted = T,
-  shortest.weight = F, normalization = F, directed = T, out = T,
-  progress = T, return.mat = F)
+stat.deletions(M, attr, target, ndel, nsim, weighted = TRUE,
+  shortest.weight = FALSE, normalization = FALSE, directed = TRUE,
+  out = TRUE, progress = TRUE, return.mat = FALSE)
 }
 \arguments{
 \item{M}{a square adjacency M.}
@@ -51,7 +51,7 @@ Knockout analysis allows the study of resilience properties of networks when spe
 # Simulating data
 m=matrix(sample(c(0:5),50*50,TRUE),50,50)
 diag(m)=0
-mb=ant:::mat.binaryzation(m)
+mb=ANTs:::mat.binaryzation(m)
 
 # Weighted categorical attribute example
 attr=sample(c('a','b'),50,TRUE);

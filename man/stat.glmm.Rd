@@ -4,7 +4,7 @@
 \alias{stat.glmm}
 \title{Extracts statistical measures of interest in Generalized Linear Mixed Models}
 \usage{
-stat.glmm(ant, formula, family, oda = NULL, progress = T, ...)
+stat.glmm(ant, formula, family, oda = NULL, progress = TRUE, ...)
 }
 \arguments{
 \item{ant}{an output of ANT function \code{perm.net.nl} with random factor stated, or output of ANT 'met' categories functions in which output of ANT functions \code{perm.ds.focal}, \code{perm.ds.grp} or \code{perm.net.lk} where multiple matrices have been used.}

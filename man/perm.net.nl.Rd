@@ -4,7 +4,7 @@
 \alias{perm.net.nl}
 \title{Node label permutations with or without random factor(s)}
 \usage{
-perm.net.nl(ldf, labels, rf = NULL, nperm, progress = T)
+perm.net.nl(ldf, labels, rf = NULL, nperm, progress = TRUE)
 }
 \arguments{
 \item{ldf}{a list of data frames, with each data frame representing a subset of the random factors (e.g. groups and/or periods)}

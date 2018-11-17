@@ -4,7 +4,7 @@
 \alias{perm.ds.grp}
 \title{Data stream permutation for association data}
 \usage{
-perm.ds.grp(df, scan, ctrlf = NULL, method = "sri", perm, progress = T)
+perm.ds.grp(df, scan, ctrlf = NULL, method = "sri", perm, progress = TRUE)
 }
 \arguments{
 \item{df}{A data frame.The data frame must have a column named 'ID'.}

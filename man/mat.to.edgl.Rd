@@ -4,14 +4,14 @@
 \alias{mat.to.edgl}
 \title{Matrix to edge list}
 \usage{
-mat.to.edgl(M, sym = F, erase.diag = T)
+mat.to.edgl(M, sym = FALSE, erase.diag = TRUE)
 }
 \arguments{
 \item{M}{a square adjacency matrix.}
 
-\item{sym}{if \emph{true}, it extracts the lower triangle of the matrix only.}
+\item{sym}{if \emph{TRUE}, it extracts the lower triangle of the matrix only.}
 
-\item{erase.diag}{if \emph{true}, it omits diagonals.}
+\item{erase.diag}{if \emph{TRUE}, it omits diagonals.}
 }
 \description{
 Converts a square adjacency matrix into a data frame of three columns representing an edge list. Columns are: actor, receiver and weight.

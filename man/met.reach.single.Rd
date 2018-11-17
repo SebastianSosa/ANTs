@@ -4,7 +4,7 @@
 \alias{met.reach.single}
 \title{Reach centrality}
 \usage{
-met.reach.single(M, df = NULL, dfid = NULL, return.strength = F)
+met.reach.single(M, df = NULL, dfid = NULL, return.strength = FALSE)
 }
 \arguments{
 \item{M}{a square adjacency matrix.}

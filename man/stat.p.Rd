@@ -5,9 +5,9 @@
 \alias{stat.p}
 \title{P-value}
 \usage{
-stat.p(metrics, stat.hist = F)
+stat.p(metrics, stat.hist = FALSE)
 
-stat.p(metrics, stat.hist = F)
+stat.p(metrics, stat.hist = FALSE)
 }
 \arguments{
 \item{metrics}{an integer vector of permuted statistical values of interest}

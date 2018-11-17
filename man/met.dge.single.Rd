@@ -4,8 +4,8 @@
 \alias{met.dge.single}
 \title{Average Dyadic Efficiency}
 \usage{
-met.dge.single(m, weighted = T, shortest.weight = F, normalization = T,
-  directed = T)
+met.dge.single(m, weighted = TRUE, shortest.weight = FALSE,
+  normalization = TRUE, directed = TRUE)
 }
 \arguments{
 \item{m}{a square adjacency matrix.}
@@ -31,6 +31,6 @@ The average dyadic efficiency provides a measure of how efficiently information 
 Pasquaretta, C., Levé, M., Claidiere, N., Van De Waal, E., Whiten, A., MacIntosh, A. J., ... & Crofoot, M. C. (2014). Social networks in primates: smart and tolerant species have more efficient networks. Scientific reports, 4, 7600.
 }
 \author{
-Sebastian Sosa, Ivan Puga-Gonzalez
+Sebastian Sosaez
 }
 \keyword{internal}

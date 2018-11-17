@@ -4,7 +4,7 @@
 \alias{stat.tauKrPartial}
 \title{Partial matrix TauKr correlations}
 \usage{
-stat.tauKrPartial(X, Y, Z, omitDiag = T)
+stat.tauKrPartial(X, Y, Z, omitDiag = TRUE)
 }
 \arguments{
 \item{X}{a square matrix of individual interactions or associations}

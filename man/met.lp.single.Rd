@@ -4,7 +4,7 @@
 \alias{met.lp.single}
 \title{Symetric Laplacian centrality}
 \usage{
-met.lp.single(M, df = NULL, dfid = NULL, binary = F)
+met.lp.single(M, df = NULL, dfid = NULL, binary = FALSE)
 }
 \arguments{
 \item{M}{a square adjacency matrix.}

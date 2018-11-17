@@ -4,7 +4,7 @@
 \alias{met.alterDegree}
 \title{Alters sum or average of met.degree or met.strength.}
 \usage{
-met.alterDegree(M, i, av = F, binary = F)
+met.alterDegree(M, i, av = FALSE, binary = FALSE)
 }
 \arguments{
 \item{M}{a square adjacency matrix.}

@@ -4,8 +4,8 @@
 \alias{met.geodesicDiameter.single}
 \title{Geodesic distances and diameter}
 \usage{
-met.geodesicDiameter.single(m, weighted = T, shortest.weight = F,
-  normalization = T, directed = T, out = T)
+met.geodesicDiameter.single(m, weighted = TRUE, shortest.weight = FALSE,
+  normalization = TRUE, directed = TRUE, out = TRUE)
 }
 \arguments{
 \item{m}{a square adjacency matrix.}

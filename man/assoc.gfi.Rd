@@ -4,7 +4,7 @@
 \alias{assoc.gfi}
 \title{Generalized affiliation index}
 \usage{
-assoc.gfi(M1, M2, fr = T, sym = F, erase.diag = T)
+assoc.gfi(M1, M2, fr = TRUE, sym = FALSE, erase.diag = TRUE)
 }
 \arguments{
 \item{M1}{a square adjacency matrix representing individual interactions or associations.}

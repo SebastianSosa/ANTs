@@ -2,12 +2,15 @@
 % Please edit documentation in R/time.heterogeneity.R
 \name{time.heterogeneity}
 \alias{time.heterogeneity}
-\title{Control heterogeneity of time of observation}
+\title{Create a matrix of time of observation per dyades}
 \usage{
 \method{time}{heterogeneity}(vec)
 }
+\arguments{
+\item{vec}{a numeric vector}
+}
 \description{
-repeat a numeric vector n times, where n is the length of this vecctor
+Creat a a matrix of time of observation per dyades in order to control for time of observation
 }
 \author{
 Sebastian Sosa, Ivan Puga-Gonzalez

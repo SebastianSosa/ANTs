@@ -5,7 +5,7 @@
 \title{T-test on data frame}
 \usage{
 stat.t(ant, formula, alternative = "two.sided", na.action = na.omit,
-  mu = 0, paired = FALSE, var.equal = FALSE, progress = T)
+  mu = 0, paired = FALSE, var.equal = FALSE, progress = TRUE)
 }
 \arguments{
 \item{ant}{an output of ANT function \code{perm.net.nl} without any random factor declared, or output of ANT 'met' categories functions in which output of ANT functions \code{perm.ds.focal}, \code{perm.ds.grp} or \code{perm.net.lk} where single matrix have been used.}

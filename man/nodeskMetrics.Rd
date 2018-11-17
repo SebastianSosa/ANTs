@@ -2,7 +2,7 @@
 % Please edit documentation in R/nodeskMetrics.R
 \name{nodeskMetrics}
 \alias{nodeskMetrics}
-\title{ANT tcltk GUI code.}
+\title{ANTs tcltk GUI code.}
 \usage{
 nodeskMetrics()
 }

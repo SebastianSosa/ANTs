@@ -4,7 +4,7 @@
 \alias{perm.dataStream.focal}
 \title{Converts a data frame of individual associations into a group by individual matrix.}
 \usage{
-perm.dataStream.focal(df, focal, scan, alters, nperm, progress = T,
+perm.dataStream.focal(df, focal, scan, alters, nperm, progress = TRUE,
   method = "sri")
 }
 \arguments{

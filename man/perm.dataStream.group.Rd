@@ -4,8 +4,8 @@
 \alias{perm.dataStream.group}
 \title{Data stream permutation for association data}
 \usage{
-perm.dataStream.group(df, scan, control_factor = NULL, perm, progress = T,
-  method = "sri")
+perm.dataStream.group(df, scan, control_factor = NULL, perm,
+  progress = TRUE, method = "sri")
 }
 \arguments{
 \item{df}{A data frame.The data frame must have a column named 'ID'.}

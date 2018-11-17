@@ -4,7 +4,7 @@
 \alias{perm.nodeLabel}
 \title{Node label permutations}
 \usage{
-perm.nodeLabel(df, labels, nperm, progress = T)
+perm.nodeLabel(df, labels, nperm, progress = TRUE)
 }
 \arguments{
 \item{df}{a dataframe or a list of data frames.}

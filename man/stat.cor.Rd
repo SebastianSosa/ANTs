@@ -4,7 +4,7 @@
 \alias{stat.cor}
 \title{Correlation test on permuted data.}
 \usage{
-stat.cor(ant, var1, var2, method = "pearson", progress = T)
+stat.cor(ant, var1, var2, method = "pearson", progress = TRUE)
 }
 \arguments{
 \item{ant}{an ant data object originating from permutations}

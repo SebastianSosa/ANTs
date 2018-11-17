@@ -4,7 +4,7 @@
 \alias{met.affinity}
 \title{Affinity}
 \usage{
-met.affinity(M, df = NULL, dfid = NULL, binary = F)
+met.affinity(M, df = NULL, dfid = NULL, binary = FALSE)
 }
 \arguments{
 \item{M}{a square adjacency matrix, or a list of square adjacency matrices, or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.}

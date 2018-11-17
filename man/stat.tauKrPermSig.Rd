@@ -4,7 +4,7 @@
 \alias{stat.tauKrPermSig}
 \title{Matrix TauKr correlations}
 \usage{
-stat.tauKrPermSig(X, Y, nperm = nperm, omitDiag = T)
+stat.tauKrPermSig(X, Y, nperm = nperm, omitDiag = TRUE)
 }
 \arguments{
 \item{X}{a square matrix of individual interactions or associations}

@@ -4,7 +4,7 @@
 \alias{met.affinity.single}
 \title{Affinity}
 \usage{
-met.affinity.single(M, df = NULL, dfid = NULL, binary = F)
+met.affinity.single(M, df = NULL, dfid = NULL, binary = FALSE)
 }
 \arguments{
 \item{M}{a square adjacency matrix.}
@@ -20,7 +20,7 @@ Integer vector of each vertices met.affinity.
 Calculate for all the vertices the node metric call Affinity
 }
 \details{
-Affinity is a second order metric that try to evaluate to which egos, node \emph{in} is connected. The binary version  is simply the average met.degree of alters of node i. The weighted version is ratio between the met.reach metric and the met.strength of node i.A high met.affinity reveals that nodes tend to be connected to alters of high degrees or strengths. Thus, both metrics provide information on node assortativity by vertex met.degree, i.e. connections between nodes with similar degrees or strengths.
+Affinity is a second order metric that try to evaluate to which egos, node \emph{in} is connected. The binary version  is simply the average degree of alters of node i. The weighted version is ratio between the met.reach metric and the met.strength of node i.A high met.affinity reveals that nodes tend to be connected to alters of high degrees or strengths. Thus, both metrics provide information on node assortativity by vertex met.degree, i.e. connections between nodes with similar degrees or strengths.
 }
 \references{
 Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.

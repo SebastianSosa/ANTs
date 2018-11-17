@@ -4,7 +4,7 @@
 \alias{met.ci}
 \title{Centralisation index}
 \usage{
-met.ci(M, df = NULL, binary = F, sym = T)
+met.ci(M, df = NULL, binary = FALSE, sym = TRUE)
 }
 \arguments{
 \item{M}{a square adjacency matrix, or a list of square adjacency matrices, or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.}

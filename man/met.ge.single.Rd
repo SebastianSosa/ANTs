@@ -4,8 +4,8 @@
 \alias{met.ge.single}
 \title{Global efficiency}
 \usage{
-met.ge.single(m, weighted = T, shortest.weight = F, normalization = T,
-  directed = T, out = T)
+met.ge.single(m, weighted = TRUE, shortest.weight = FALSE,
+  normalization = TRUE, directed = TRUE, out = TRUE)
 }
 \arguments{
 \item{m}{a square adjacency matrix.}

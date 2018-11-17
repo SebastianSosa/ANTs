@@ -5,7 +5,7 @@
 \title{Assortativity}
 \usage{
 met.assortativity(M, attr, se = FALSE, weighted = TRUE, df = NULL,
-  perm.nl = T)
+  perm.nl = TRUE)
 }
 \arguments{
 \item{M}{a square adjacency matrix, or a list of square adjacency matrices, or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.}

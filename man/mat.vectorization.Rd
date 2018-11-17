@@ -4,7 +4,7 @@
 \alias{mat.vectorization}
 \title{Matrix vectorization}
 \usage{
-mat.vectorization(M, sym = F, erase.diag = T)
+mat.vectorization(M, sym = FALSE, erase.diag = TRUE)
 }
 \arguments{
 \item{M}{an adjacency matrix or list of adjacency matrices.}

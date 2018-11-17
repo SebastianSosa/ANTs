@@ -28,7 +28,7 @@ Imports all current directory files in the format of a list of data frames.
 }
 \details{
 After selecting the directory, this function returns a single data frame if there is only one file in the folder or a list of data frames in the same order as in the original folder if there are several files in the folder.
-by default it considers that the data frame has header=T and row names=1.
+by default it considers that the data frame has header= TRUE and row names= 1.
 }
 \seealso{
 \code{read.csv}
