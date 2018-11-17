@@ -1,6 +1,5 @@
 \.o$
 \.dll$
-src/*\.o
 ^.*\.Rproj$
 ^\.Rproj\.user$
 desktop.ini
