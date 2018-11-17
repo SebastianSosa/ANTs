@@ -404,11 +404,11 @@ redo.ds.grp <- function(family, new.perm, gbi, oda, odf, target.metrics, formula
     new.odf <- met.all(ASSOC, odf, target.metrics)
     # Glmm test
     if (fam == "gaussian") {
-      model <- tryCatch(lme4::lmer(formula = formula, data = new.odf, ...), error = identity)
+      model <- tryCatch(lmer(formula = formula, data = new.odf, ...), error = identity)
     }
-    # if(family=='nb'){r=tryCatch(lme4::glmer.nb(formula=formula, data = new.odf,family=family,...), error=identity)}
+    # if(family=='nb'){r=tryCatch(glmer.nb(formula=formula, data = new.odf,family=family,...), error=identity)}
     if (fam != "gaussian") {
-      model <- tryCatch(lme4::glmer(formula = formula, data = new.odf, family = family, ...), error = identity)
+      model <- tryCatch(glmer(formula = formula, data = new.odf, family = family, ...), error = identity)
     }
 
     # Checking error or warnings
@@ -459,11 +459,11 @@ redo.ds.grp <- function(family, new.perm, gbi, oda, odf, target.metrics, formula
 
     # Glmm test
     if (fam == "gaussian") {
-      model <- tryCatch(lme4::lmer(formula = formula, data = new.odf, ...), error = identity)
+      model <- tryCatch(lmer(formula = formula, data = new.odf, ...), error = identity)
     }
-    # if(family=='nb'){r=tryCatch(lme4::glmer.nb(formula=formula, data = new.odf,family=family,...), error=identity)}
+    # if(family=='nb'){r=tryCatch(glmer.nb(formula=formula, data = new.odf,family=family,...), error=identity)}
     if (fam != "gaussian") {
-      model <- tryCatch(lme4::glmer(formula = formula, data = new.odf, family = family, ...), error = identity)
+      model <- tryCatch(glmer(formula = formula, data = new.odf, family = family, ...), error = identity)
     }
 
     # Checking error or warnings

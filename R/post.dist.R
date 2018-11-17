@@ -15,6 +15,7 @@
 #' @title Histogram of posterior distribution
 #' @description plot muliples histograms of posterior distribution
 #' @param v_perm a data frame of permuted values (each column represented a different factor). First row represent the observed ones and the next ones the permuted values
+#' @param Obs an integer vector indicating the observed value to compare to permuted values if in argument v_perm the first row doesn't represent the observed ones.
 #' @param ncols Number of graph per rows 
 #' @param nrows Number of graph per column
 #' @param

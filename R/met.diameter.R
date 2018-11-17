@@ -36,7 +36,7 @@
 #' @examples
 #' met.diameter(sim.m)
 
-met.diameter <- function(M, df = NULL, dfid = NULL, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = TRUE) {
+met.diameter <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = TRUE) {
   # Checking if argument M is a square matrix 
   test <- is.matrix(M)
   if (test) {
@@ -195,10 +195,6 @@ met.diameter <- function(M, df = NULL, dfid = NULL, weighted = TRUE, shortest.we
             stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function", "\r")
           }
         } 
-        # Check if argument dfid is NULL
-        if (is.null(dfid)) {
-          warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
-        }
         # Compute network metric and keep attribute permutations 
         # and name column of data frame according to user arguments binary,sym, out declaration
           result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out, df, tmp) {
@@ -345,7 +341,7 @@ met.diameter <- function(M, df = NULL, dfid = NULL, weighted = TRUE, shortest.we
     # If argument M is a list of square matrices----------------------        
     else {
       if (!test & is.list(M)) {
-        # Check if argument dfid is NULL
+        # Check if argument df is NULL
         if (is.null(df)) {
           # Compute network metric
           result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {

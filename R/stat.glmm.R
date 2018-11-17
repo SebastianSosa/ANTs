@@ -69,7 +69,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
           if(max(abs(r2))<0.001){test=TRUE}
           else{
-            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
+            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
           }
         }
       }
@@ -149,7 +149,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
         permuted <- lapply(seq_along(ant), function(i, ant, formula, odf, oda, target.metrics, Scan, ctrlf, method, fam, ...) {
           cat("  Processing permutation : ", attributes(ant[[i]])$permutation, "\r")
           attr(oda, "permutation") <- 0
-          r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = ant[[i]], ...)), error = identity)
+          r <- tryCatch(suppressWarnings(lmer(formula = formula, data = ant[[i]], ...)), error = identity)
 
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
@@ -234,7 +234,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
           if(max(abs(r2))<0.001){test=TRUE}
           else{
-            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
+            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
           }
         }
       }
@@ -402,7 +402,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
       # Test on observed data ------------------------------------------------------------------------
       odf <- ant[[1]]
 
-      tmp <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = odf, ...)), error = identity)
+      tmp <- tryCatch(suppressWarnings(lmer(formula = formula, data = odf, ...)), error = identity)
 
       if (isS4(tmp)) {
         if (is(tmp, "error")) {
@@ -414,7 +414,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
           if(max(abs(r2))<0.001){test=TRUE}
           else{
-            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
+            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
           }
         }
       }
@@ -575,7 +575,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
       # Test on observed data ------------------------------------------------------------------------
       odf <- ant[[1]]
 
-      tmp <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = odf, ...)), error = identity)
+      tmp <- tryCatch(suppressWarnings(lmer(formula = formula, data = odf, ...)), error = identity)
 
       if (isS4(tmp)) {
         if (is(tmp, "error")) {
@@ -756,7 +756,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
       # Test on observed data ------------------------------------------------------------------------
       odf <- ant[[1]]
 
-      tmp <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = odf, ...)), error = identity)
+      tmp <- tryCatch(suppressWarnings(lmer(formula = formula, data = odf, ...)), error = identity)
 
       if (isS4(tmp)) {
         if (is(tmp, "error")) {
@@ -830,13 +830,13 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
         permuted <- lapply(seq_along(ant), function(i, ant, formula, progress, ctrl, odf, labels, ...) {
           cat("  Processing permutation : ", attributes(ant[[i]])$permutation, "\r")
 
-          r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = ant[[i]], ...)), error = identity)
+          r <- tryCatch(suppressWarnings(lmer(formula = formula, data = ant[[i]], ...)), error = identity)
 
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
             else{
-              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
+              test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
             }
           }
           if (is(r, "error")) {
@@ -850,7 +850,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
             tmp.env$error <- c(tmp.env$error, attributes(ant[[i]])$permutation)
             while (all(test) != TRUE) {
               newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
-              r <- tryCatch(suppressWarnings(lme4::lmer(formula = formula, data = newdf, ...)), error = identity)
+              r <- tryCatch(suppressWarnings(lmer(formula = formula, data = newdf, ...)), error = identity)
 
               if (isS4(r)) {
                 r2=with(r@optinfo$derivs,solve(Hessian,gradient))

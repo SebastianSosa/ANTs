@@ -43,7 +43,7 @@
 #' # Simulating data
 #' m=matrix(sample(c(0:5),50*50,TRUE),50,50)
 #' diag(m)=0
-#' mb=ant:::mat.binaryzation(m)
+#' mb=ANTs:::mat.binaryzation(m)
 #'
 #' # Weighted categorical attribute example
 #' attr=sample(c('a','b'),50,TRUE);

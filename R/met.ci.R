@@ -31,7 +31,7 @@
 #' @examples
 #' met.ci(sim.m)
 
-met.ci <- function(M, df = NULL, dfid = NULL, binary = FALSE, sym = TRUE) {
+met.ci <- function(M, df = NULL, binary = FALSE, sym = TRUE) {
   # Checking if argument M is a square matrix 
   test <- is.matrix(M)
   if (test) {
@@ -141,10 +141,6 @@ met.ci <- function(M, df = NULL, dfid = NULL, binary = FALSE, sym = TRUE) {
           if (is.data.frame(df)) {
             stop("Argument df must be a list of data frames of same length as the argument df input in function perm.ds.grp.", "\r")
           }
-          # Check if argument dfid is NULL
-          if (is.null(dfid)) {
-            warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
-          }
           # Check if each matrix size is equal to corresponding data frame size
           # Which means we are working on a case of multiple repermutations
           # Thus with a list of lists of matrices and data frames
@@ -224,7 +220,7 @@ met.ci <- function(M, df = NULL, dfid = NULL, binary = FALSE, sym = TRUE) {
   # If argument M is a list of square matrices----------------------
     else {
       if (!test & is.list(M)) {
-        # Check if argument dfid is NULL
+        # Check if argument df is NULL
         if (is.null(df)) {
           result <- lapply(M, met.ci.single)
           return(result)
