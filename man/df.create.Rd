@@ -4,7 +4,7 @@
 \alias{df.create}
 \title{Creates an empty data frame or a list of empty data frames}
 \usage{
-df.create(M, names = T)
+df.create(M, names = TRUE)
 }
 \arguments{
 \item{M}{a square adjacency matrix or a list of square adjacency matrices.}
@@ -13,8 +13,8 @@ df.create(M, names = T)
 }
 \value{
 \itemize{
-\item if argument M is a matrix, then it creates a single empty data frame with as many rows or columns as in the corresponding matrix.
-\item if the argument M is a list of matrices, it creates a list of empty data frames with as many rows or columns as in the corresponding matrix in the list.
+\item if argument M is a matrix, then it creates a single empty data frame with as many rows as columns of the corresponding matrix.
+\item if the argument M is a list of matrices, it creates a list of empty data frames with as many rows as columns of the corresponding matrix in the list.
 }
 }
 \description{

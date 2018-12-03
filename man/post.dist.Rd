@@ -4,9 +4,18 @@
 \alias{post.dist}
 \title{Histogram of posterior distribution}
 \usage{
-post.dist(v_perm, ncols = NULL, nrows = NULL, Obs = NULL)
+post.dist(v_perm, Obs = NULL, ncols = NULL, nrows = NULL)
+}
+\arguments{
+\item{v_perm}{a data frame of permuted values (each column represents a factor). First row represents the observed values and the next ones represent the permuted values.}
+
+\item{Obs}{an integer vector indicating the observed value to compare to permuted values if in argument v_perm the first row does not represent the observed values.}
+
+\item{ncols}{Number of graph per row}
+
+\item{nrows}{Number of graph per column}
 }
 \description{
-plot muliples histograms of posterior distribution
+plot multiple histograms of posterior distribution
 }
 \keyword{internal}

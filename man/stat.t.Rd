@@ -33,6 +33,11 @@ Performs correlations T-test through observed and permuted data to calculate the
 \details{
 t-test on permuted data allows to extract the posterior distribution of the value of interest. The posterior distribution allows to calculate the p-value. For more details about t-tests, see R documentation.
 }
+\examples{
+t=met.strength(sim.m,sim.df,1) # Computing network metric
+t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
+r.t=stat.t(t,formula = strength ~ sex,progress=FALSE) # Permuted t-test
+}
 \seealso{
 \code{\link{t.test}}
 }

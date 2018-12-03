@@ -2,7 +2,7 @@
 % Please edit documentation in R/df.ctrlFactor.R
 \name{df.ctrlFactor}
 \alias{df.ctrlFactor}
-\title{Creates a column of control factors in a data frame}
+\title{Creates a column that merges multiple columns}
 \usage{
 df.ctrlFactor(df, control)
 }

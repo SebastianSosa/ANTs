@@ -47,6 +47,11 @@ Performs correlations Generalized Linear Models tests and extracts estimates of 
 \details{
 This function is the first step for performing t-tests in permuted data. For more details on t-tests, see R documentation.
 }
+\examples{
+t=met.strength(sim.m,sim.df,1) # Computing network metric
+t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
+r.lm=stat.lm(t,formula = strength ~ sex,progress=FALSE) # Permuted LM
+}
 \references{
 Chambers, J. M. (1992) Linear models. Chapter 4 of Statistical Models in S eds J. M. Chambers and T. J. Hastie, Wadsworth & Brooks/Cole.
 

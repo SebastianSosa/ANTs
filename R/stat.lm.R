@@ -36,6 +36,10 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @references Chambers, J. M. (1992) Linear models. Chapter 4 of Statistical Models in S eds J. M. Chambers and T. J. Hastie, Wadsworth & Brooks/Cole.
 #' @references Wilkinson, G. N. and Rogers, C. E. (1973) Symbolic descriptions of factorial models for analysis of variance. Applied Statistics, 22, 392–9.
+#' @examples
+#' t=met.strength(sim.m,sim.df,1) # Computing network metric
+#' t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
+#' r.lm=stat.lm(t,formula = strength ~ sex,progress=FALSE) # Permuted LM
 #' @seealso \code{\link{lm}}
 
 stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = TRUE,

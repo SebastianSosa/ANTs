@@ -27,6 +27,12 @@ A list of two elements fot stat.cor, stat.t functions:
 ANT method to make a diagnostic of all ANT permutation tests. This method adapts the diagnostic results according to the data input. The
 output is adapted to the type of test run. However, some outputs are common to all tests.
 }
+\examples{
+t=met.strength(sim.m,sim.df,1) # Computing network metric
+t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
+r.c=stat.cor(t,'age','strength',progress=FALSE) # Permuted correlation test
+r=ant(r.c)
+}
 \author{
 Sebastian Sosa, Ivan Puga-Gonzalez.
 }

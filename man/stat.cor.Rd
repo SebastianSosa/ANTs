@@ -31,6 +31,11 @@ This function is the first step in the process to create a correlation test in p
 \details{
 Performs correlations tests in a data frame and extracts the t statistic.
 }
+\examples{
+t=met.strength(sim.m,sim.df,1) # Computing network metric
+t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
+r.c=stat.cor(t,'age','strength',progress=FALSE) # Permuted correlation test
+}
 \references{
 D. J. Best & D. E. Roberts (1975), Algorithm AS 89: The Upper Tail Probabilities of Spearman's rho. Applied Statistics, 24, 377-379.
 

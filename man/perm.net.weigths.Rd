@@ -19,11 +19,6 @@ perm.net.weigths(M, sym = FALSE, nperm = NULL, progress = TRUE)
 Permute weigths while keep link structure
 }
 \examples{
-m=matrix(sample(c(0:5),100,TRUE),10,10)
-diag(m)=0
-colnames(m)=letters[1:10]
-rownames(m)=letters[1:10]
-m
-perm.net.weigths(M = m, sym = FALSE, nperm = 1, progress = TRUE)
+perm.net.weigths(M = sim.m, sym = FALSE, nperm = 10, progress = TRUE)
 }
 \keyword{internal}

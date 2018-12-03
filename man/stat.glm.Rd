@@ -47,6 +47,11 @@ Performs Generalized Linear Models tests and computes permuted p-values
 \details{
 This function is the first step in the process to create a t-test in permuted data. For more details on t-tests, see R documentation.
 }
+\examples{
+t=met.strength(sim.m,sim.df,1) # Computing network metric
+t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
+r.glm=stat.glm(ant = t,formula = degree ~ sex,progress=FALSE) # Permuted GLM
+}
 \references{
 Dobson, A. J. (1990) An Introduction to Generalized Linear Models. London: Chapman and Hall.
 

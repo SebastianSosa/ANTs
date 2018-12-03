@@ -18,8 +18,8 @@
 #' @param names a boolean, if \emph{true} then a column is added in the data frame with the names of the matrix columns.
 #' @return
 #' \itemize{
-#' \item if argument M is a matrix, then it creates a single empty data frame with as many rows as columns of the corresponding matrix. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#' \item if the argument M is a list of matrices, it creates a list of empty data frames with as many rows as columns of the corresponding matrix in the list. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#' \item if argument M is a matrix, then it creates a single empty data frame with as many rows as columns of the corresponding matrix.
+#' \item if the argument M is a list of matrices, it creates a list of empty data frames with as many rows as columns of the corresponding matrix in the list.
 #' }
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @examples

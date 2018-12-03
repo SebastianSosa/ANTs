@@ -12,7 +12,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-#' @title Creates a column which collapse multiple columns !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#' @title Creates a column that merges multiple columns
 #' @description Creates a new column in the input data frame corresponding to the combination of given control factors.
 #' @param df a data frame.
 #' @param control a numeric or character vector representing one or more columns that are combined into one column of control factors.

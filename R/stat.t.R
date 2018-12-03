@@ -27,6 +27,10 @@
 
 #' @details t-test on permuted data allows to extract the posterior distribution of the value of interest. The posterior distribution allows to calculate the p-value. For more details about t-tests, see R documentation.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
+#' @examples
+#' t=met.strength(sim.m,sim.df,1) # Computing network metric
+#' t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
+#' r.t=stat.t(t,formula = strength ~ sex,progress=FALSE) # Permuted t-test
 #' @seealso \code{\link{t.test}}
 
 stat.t <- function(ant, formula, alternative = "two.sided", na.action = na.omit, mu = 0, paired = FALSE, var.equal = FALSE, progress = TRUE) {

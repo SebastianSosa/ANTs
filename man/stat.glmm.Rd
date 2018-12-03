@@ -33,6 +33,27 @@ Performs Generalized Linear Mixed Models tests
 \details{
 GLMM with permutation data.
 }
+\examples{
+# Creating temporal data--------------------------
+m2=matrix(sample(sim.m),20,20)
+diag(m2)=0
+colnames(m2)=colnames(sim.m)
+row.names(m2)=row.names(sim.m)
+df2=sim.df
+df2$age=df2$age+1
+df1=sim.df
+df1$period=rep(1,nrow(df1))
+df2$period=rep(2,nrow(df2))
+# Data structure for multiple matrices analytical protocol------------------
+sim.lm=list(sim.m,m2)
+sim.ldf=list(df1,df2)
+# Computing network metric---------------------------------------------------
+t=met.strength(sim.m,sim.df,1)
+# Node label permutations---------------------------------------------------
+t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) 
+# Permuted GLMM-------------------------------------------------------------
+r.glmm=suppressMessages(stat.glmm(ant = t,formula = degree ~ age + (1|id),family = gaussian(), progress=TRUE))
+}
 \seealso{
 \code{\link{lmer}} or \code{\link{glmer}}
 }
