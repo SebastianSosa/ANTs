@@ -52,7 +52,7 @@ t=met.strength(sim.m,sim.df,1)
 # Node label permutations---------------------------------------------------
 t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) 
 # Permuted GLMM-------------------------------------------------------------
-r.glmm=suppressMessages(stat.glmm(ant = t,formula = degree ~ age + (1|id),family = gaussian(), progress=TRUE))
+r.glmm=stat.glmm(ant = t,formula = degree ~ age + (1|id),family = gaussian(), progress=TRUE)
 }
 \seealso{
 \code{\link{lmer}} or \code{\link{glmer}}
