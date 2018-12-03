@@ -47,7 +47,7 @@
 #' # Node label permutations---------------------------------------------------
 #' t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) 
 #' # Permuted GLMM-------------------------------------------------------------
-#' r.glmm=suppressMessages(stat.glmm(ant = t,formula = degree ~ age + (1|id),family = gaussian(), progress=TRUE))
+#' r.glmm=stat.glmm(ant = t,formula = degree ~ age + (1|id),family = gaussian(), progress=TRUE)
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 
 stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
