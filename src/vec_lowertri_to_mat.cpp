@@ -38,7 +38,6 @@ NumericMatrix vec_lowertri_to_mat(NumericVector& vec, int col, bool diag) {
     NumericMatrix& Mpoint=M;
     int mem=0;
     for(int a=0;a<col-1;a++){
-      int starts= mem;
       int end= mem+(col-a);
       NumericVector tmp_vec(col);
       NumericVector& vec2=tmp_vec;

@@ -28,16 +28,22 @@ Rcpp::DataFrame mat_find0(arma::mat m) {
   int max_elements= move.n_rows;
   Rcpp::NumericVector row_id(max_elements);
   Rcpp::NumericVector col_id(max_elements);
-  for (int a; a<max_elements; a++){
+  for (int a=0; a<max_elements; a++){
     double element=move[a]+1;
     double c=element/nrow;
     int element_col=ceil(c);
     double v=floor(c);
-    int element_row=0;
-    if(c-v==0){int element_row=nrow;}
-    else{int element_row=ceil((c-v)*nrow);}
-    row_id[a]=element_row;
-    col_id[a]=element_col;
+    if(c-v==0){
+      int element_row=nrow;
+      row_id[a]=element_row;
+      col_id[a]=element_col;
+    }
+    else{
+      int element_row=ceil((c-v)*nrow);
+      row_id[a]=element_row;
+      col_id[a]=element_col;
+    }
+
   }
   Rcpp::DataFrame df =
     Rcpp::DataFrame::create(Rcpp::Named("row_id")=row_id,Rcpp::Named("col_id")=col_id);

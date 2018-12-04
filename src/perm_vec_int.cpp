@@ -28,7 +28,7 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 Rcpp::List perm_vec_int(NumericVector x, int nperm, bool progress) {
   Rcpp::List permuted(nperm);
-  for(int a; a<nperm;a++){
+  for(int a=0; a<nperm;a++){
   	    if(progress==TRUE){
       std::cout<<"\r"<<"permutation: "<<a;
       std::cout.flush();

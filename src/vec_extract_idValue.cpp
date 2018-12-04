@@ -22,7 +22,7 @@ double vec_num_extract(NumericVector x, int y) {
   std::iota(n.begin(), n.end(),1);
   if(y>x.size()) stop("argument y is higher than the size of the vector x");
   if(y<1) stop("argument y is lower than the size of the vector x");
-  double ids;
+  double ids=0.000;
   for(int i=0; i<x.size();i++){
     if(n[i]==y+1){
       ids=x[i];
