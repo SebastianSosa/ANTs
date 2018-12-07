@@ -1,6 +1,6 @@
 # Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
 #
-# This file is part of Animal Network Toolkit (ANT).
+# This file is part of Animal Network Toolkit Software (ANTs).
 #
 # ANT is a free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by
@@ -337,7 +337,7 @@ met.diameter <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE,
           }
         }
       }
-    
+    }
     # If argument M is a list of square matrices----------------------        
     else {
       if (!test & is.list(M)) {
@@ -350,7 +350,7 @@ met.diameter <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE,
           attr(result, "name") <- attributes(tmp)$name
           return(result)
         }
-
+        
         # Check if argument df is not NULL, is not a data frame and is a list
         if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
           
@@ -363,6 +363,6 @@ met.diameter <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE,
         }
       }
     }
-  }
+    
   }
 }

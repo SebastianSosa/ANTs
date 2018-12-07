@@ -1,6 +1,6 @@
 // Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
 //
-// This file is part of Animal Network Toolkit (ANT).
+// This file is part of Animal Network Toolkit Software (ANTs).
 //
 // ANT is free software: you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by
