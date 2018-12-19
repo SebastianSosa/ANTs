@@ -15,6 +15,7 @@
 #' @title Degree
 #' @description Calculates the node metric degree for all vertices.
 #' @param M a square adjacency matrix, or a list of square adjacency matrices, or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.
+#' @param sym if \emph{TRUE}, then it symmetrizes the matrix, and computes the sums of the presencence/abscence of an edge between the focal node and it's alters without acounting for direction (i.e. it computes the number of alters). Otherwise, it computes the sum of the presencence/abscence of the indegrees and outdegrees between the focal node and it's alters.
 #' @param df a data frame of same length as the input matrix or a list of data frames if argument \emph{M} is a list of matrices or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.
 #' @param dfid an integer or a string indicating the column with individual ids in argument \emph{df}.
 #' @return
@@ -34,7 +35,7 @@
 #' head(sim.df)
 #' met.degree(sim.m,df=sim.df)
 
-met.degree <- function(M, df = NULL, dfid = NULL) {
+met.degree <- function(M, sym = TRUE, df = NULL, dfid = NULL) {
   # Check if argument M is a square matrix or a list of square matrices----------------------
   test <- check.mat(M)
   # If argument M is a square Matrix----------------------
@@ -42,7 +43,7 @@ met.degree <- function(M, df = NULL, dfid = NULL) {
     # If argument df is NULL return a simple numeric vector
     if (is.null(df)) {
       # Compute network metric
-      result <- met.degree.single(M, df = df, dfid = dfid)
+      result <- met.degree.single(M, sym = sym, df = df, dfid = dfid)
       return(result)
     }
     # If argument df is not NULL return a data frame
@@ -53,7 +54,7 @@ met.degree <- function(M, df = NULL, dfid = NULL) {
         warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
       }
       # Compute network metric
-      result <- met.degree.single(M, df = df, dfid = dfid)
+      result <- met.degree.single(M, sym = sym, df = df, dfid = dfid)
       return(result)
     }
   }
@@ -90,11 +91,11 @@ met.degree <- function(M, df = NULL, dfid = NULL) {
         warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
       }
       # Compute network metric
-      result <- lapply(M, function(x, df = df, dfid = dfid) {
-        r <- met.degree.single(x, df = df, dfid = dfid)
+      result <- lapply(M, function(x, sym, df = df, dfid = dfid) {
+        r <- met.degree.single(x, sym = sym, df = df, dfid = dfid)
         attr(r, "permutation") <- attributes(x)$permutation
         return(r)
-      }, df = df, dfid = dfid)
+      }, sym = sym, df = df, dfid = dfid)
       attr(result, "ANT") <- attributes(M)$ANT
       return(result)
     }
@@ -104,13 +105,13 @@ met.degree <- function(M, df = NULL, dfid = NULL) {
       # If argument df is null
       if (is.null(df)) {
         # Compute network metric
-        result <- lapply(M, function(x) {
-          r1 <- lapply(x, function(y) {
-            r2 <- met.degree.single(y)
+        result <- lapply(M, function(x, sym) {
+          r1 <- lapply(x, function(y, sym) {
+            r2 <- met.degree.single(y, sym = sym)
             attr(r2, "permutation") <- attributes(y)$permutation
             return(r2)
-          })
-        })
+          },sym = sym )
+        },sym = sym)
         attr(result, "ANT") <- attributes(M)$ANT
         return(result)
       }
@@ -131,11 +132,11 @@ met.degree <- function(M, df = NULL, dfid = NULL) {
         if (sum(unlist(lapply(seq_along(M), function(i, a) {
           nrow(a[[i]][[1]])
         }, a = M))) == nrow(df[[1]])) {
-          tmp <- lapply(M, function(x) {
-            r1 <- lapply(x, function(y) {
-              r2 <- met.degree.single(y)
-            })
-          })
+          tmp <- lapply(M, function(x, sym) {
+            r1 <- lapply(x, function(y, sym) {
+              r2 <- met.degree.single(y, sym = sym)
+            }, sym = sym)
+          }, sym = sym)
 
           tmp <- do.call(Map, c(c, tmp))
 
@@ -163,11 +164,11 @@ met.degree <- function(M, df = NULL, dfid = NULL) {
           ldf <- do.call("rbind", df)
 
           # Compute network metric
-          tmp <- lapply(M, function(x) {
-            r1 <- lapply(x, function(y) {
-              r2 <- met.degree.single(y)
-            })
-          })
+          tmp <- lapply(M, function(x, sym) {
+            r1 <- lapply(x, function(y, sym) {
+              r2 <- met.degree.single(y, sym)
+            }, sym = sym)
+          }, sym = sym)
           tmp <- do.call(Map, c(c, tmp))
           result <- lapply(seq_along(tmp), function(tmp, ldf, i) {
             ldf$degree <- tmp[[i]]
@@ -190,7 +191,7 @@ met.degree <- function(M, df = NULL, dfid = NULL) {
     }
     # Check if argument df and dfid are NULL
     if (is.null(df) & is.null(dfid)) {
-      result <- lapply(M, met.degree.single)
+      result <- lapply(M, met.degree.single, sym = sym)
       return(result)
     }
     # Check if argument df is not NULL, is not a data frame and is a list
@@ -198,13 +199,13 @@ met.degree <- function(M, df = NULL, dfid = NULL) {
       # Argument df is a data frame
       if (!is.null(dfid)) {
         # Compute network metric
-        result <- mapply(met.degree.single, M, df = df, dfid = dfid, SIMPLIFY = FALSE)
+        result <- mapply(met.degree.single, sym = sym, M, df = df, dfid = dfid, SIMPLIFY = FALSE)
         return(result)
       }
       else {
         # Compute network metric
         warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
-        result <- mapply(met.degree.single, M, df = df, SIMPLIFY = FALSE)
+        result <- mapply(met.degree.single, sym = sym, M, df = df, SIMPLIFY = FALSE)
         return(result)
       }
     }
