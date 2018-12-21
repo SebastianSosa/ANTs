@@ -9,6 +9,7 @@ Check these declarations against the C/Fortran source code.
 
 /* .Call calls */
 extern SEXP _ANTs_assoc_mat(SEXP, SEXP);
+extern SEXP _ANTs_assoc_mat_full(SEXP, SEXP);
 extern SEXP _ANTs_assoc_mat_one_id(SEXP, SEXP, SEXP);
 extern SEXP _ANTs_ComplexEigen(SEXP);
 extern SEXP _ANTs_df_merge(SEXP, SEXP);
@@ -39,6 +40,7 @@ extern SEXP _ANTs_mat_rows_sumsBinary(SEXP);
 extern SEXP _ANTs_mat_sym_by_lowertri(SEXP);
 extern SEXP _ANTs_mat_symetrization(SEXP);
 extern SEXP _ANTs_mat_to_vec(SEXP, SEXP);
+extern SEXP _ANTs_met_nalters(SEXP);
 extern SEXP _ANTs_met_assor_cat(SEXP, SEXP);
 extern SEXP _ANTs_met_cc(SEXP, SEXP);
 extern SEXP _ANTs_met_degree(SEXP);
@@ -104,6 +106,7 @@ extern SEXP _ANTs_which_equal(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
   {"_ANTs_assoc_mat",                                 (DL_FUNC) &_ANTs_assoc_mat,                                 2},
+  {"_ANTs_assoc_mat_full",                            (DL_FUNC) &_ANTs_assoc_mat_full,                            2},
   {"_ANTs_assoc_mat_one_id",                          (DL_FUNC) &_ANTs_assoc_mat_one_id,                          3},
   {"_ANTs_ComplexEigen",                              (DL_FUNC) &_ANTs_ComplexEigen,                              1},
   {"_ANTs_df_merge",                                  (DL_FUNC) &_ANTs_df_merge,                                  2},
@@ -134,6 +137,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"_ANTs_mat_sym_by_lowertri",                       (DL_FUNC) &_ANTs_mat_sym_by_lowertri,                       1},
   {"_ANTs_mat_symetrization",                         (DL_FUNC) &_ANTs_mat_symetrization,                         1},
   {"_ANTs_mat_to_vec",                                (DL_FUNC) &_ANTs_mat_to_vec,                                2},
+  {"_ANTs_met_nalters",                               (DL_FUNC) &_ANTs_met_nalters,                               1},
   {"_ANTs_met_assor_cat",                             (DL_FUNC) &_ANTs_met_assor_cat,                             2},
   {"_ANTs_met_cc",                                    (DL_FUNC) &_ANTs_met_cc,                                    2},
   {"_ANTs_met_degree",                                (DL_FUNC) &_ANTs_met_degree,                                1},

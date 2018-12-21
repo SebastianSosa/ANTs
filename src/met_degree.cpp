@@ -18,7 +18,7 @@ NumericVector vec_id_sup0( NumericVector x);
 
 // [[Rcpp::export]]
 NumericVector met_degree(NumericMatrix M) {
-  int S=M.ncol();
+  int S = M.ncol();
   NumericVector degree(S);
   for(int a=0; a<S; a++){
     NumericVector r=M(a,_);

@@ -4,10 +4,11 @@
 \alias{assoc.gfi}
 \title{Generalized affiliation index}
 \usage{
-assoc.gfi(M1, M2, fr = TRUE, sym = FALSE, erase.diag = TRUE)
+assoc.gfi(M1, M2, fr = TRUE, sym = FALSE, erase.diag = TRUE,
+  index = "sri")
 }
 \arguments{
-\item{M1}{a square adjacency matrix representing individual interactions or associations.}
+\item{M1}{a square adjacency matrix representing individual interactions or associations. In the latter case associations have to be in the form of a gbi.}
 
 \item{M2}{a square adjacency matrix representing individual values of confounding factors.}
 
@@ -17,6 +18,13 @@ Otherwise, it considers the argument M1 as an adjacency matrix representing asso
 \item{sym}{if \emph{true}, it considers the argument M1 as an adjacency matrix representing symmetric interactions/associations.}
 
 \item{erase.diag}{if \emph{true}, it omits the diagonal of the matrix.}
+
+\item{index}{a string indicating the association index to compute:
+\itemize{
+\item 'sri' for Simple ratio index: \eqn{x/x+yAB+yA+yB}
+\item 'hw' for Half-weight index: \eqn{x/x+yAB+1/2(yA+yB)}
+\item 'sr' for Square root index:\eqn{x/sqr((x+yAB+yA)(x+yAB+yB))}
+}}
 }
 \value{
 a square adjacency matrix representing the generalized affiliation index between individuals.

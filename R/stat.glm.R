@@ -40,7 +40,7 @@
 #' @references McCullagh P. and Nelder, J. A. (1989) Generalized Linear Models. London: Chapman and Hall.
 #' @references Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. New York: Springer.
 #' @examples
-#' t=met.degree(sim.m,sim.df,1) # Computing network metric
+#' t=met.degree(sim.m, sym = TRUE,sim.df,1) # Computing network metric
 #' t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
 #' r.glm=stat.glm(ant = t,formula = degree ~ sex,progress=FALSE) # Permuted GLM
 #' @seealso \code{glm}

@@ -4,10 +4,12 @@
 \alias{met.degree}
 \title{Degree}
 \usage{
-met.degree(M, df = NULL, dfid = NULL)
+met.degree(M, sym = TRUE, df = NULL, dfid = NULL)
 }
 \arguments{
 \item{M}{a square adjacency matrix, or a list of square adjacency matrices, or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.}
+
+\item{sym}{if \emph{TRUE}, then it symmetrizes the matrix, and computes the sums of the presencence/abscence of an edge between the focal node and it's alters without acounting for direction (i.e. it computes the number of alters). Otherwise, it computes the sum of the presencence/abscence of the indegrees and outdegrees between the focal node and it's alters.}
 
 \item{df}{a data frame of same length as the input matrix or a list of data frames if argument \emph{M} is a list of matrices or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.}
 

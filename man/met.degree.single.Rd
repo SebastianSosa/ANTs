@@ -4,10 +4,12 @@
 \alias{met.degree.single}
 \title{Degree on single matrix}
 \usage{
-met.degree.single(M, df = NULL, dfid = NULL)
+met.degree.single(M, sym = TRUE, df = NULL, dfid = NULL)
 }
 \arguments{
 \item{M}{a square adjacency matrix.}
+
+\item{sym}{if \emph{TRUE}, then it symmetrizes the matrix, and computes the sums of the presencence/abscence of an edge between the focal node and it's alters without acounting for direction (i.e. it computes the number of alters). Otherwise, it computes the sum of the presencence/abscence of the indegrees and outdegrees between the focal node and it's alters.}
 
 \item{df}{a data frame of same length of the input matrix.}
 
@@ -17,10 +19,10 @@ met.degree.single(M, df = NULL, dfid = NULL)
 Integer vector of each vertices met.degree.
 }
 \description{
-Calculate for all the vertices the node metric calldegree.
+Calculate for all the vertices the node metric call degree.
 }
 \details{
-met.degree of vertice \emph{i} is the number of edges of \emph{i}, its also represent the number of his of alters.
+met.degree of vertice \emph{i} is the number of edges of \emph{i}.
 }
 \references{
 Barrat, A., Barthelemy, M., Pastor-Satorras, R., & Vespignani, A. (2004). The architecture of complex weighted networks. Proceedings of the National Academy of Sciences of the United States of America, 101(11), 3747-3752.

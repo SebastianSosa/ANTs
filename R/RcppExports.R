@@ -58,6 +58,24 @@ assoc_mat <- function(Mgbi, method) {
     .Call('_ANTs_assoc_mat', PACKAGE = 'ANTs', Mgbi, method)
 }
 
+#' @title Association indexes
+#' @description Individual associations indexes.
+#' @param Mfbi a group by individual matrix.
+#' @param method a string indicating the type of association matrix:
+#' \itemize{
+#' \item 'sri' for Simple ratio index: \eqn{x/x+yAB+yA+yB}
+#' \item 'hw' for Half-weight index: \eqn{x/x+yAB+1/2(yA+yB)}
+#' \item 'sr' for Square root index:\eqn{x/sqr((x+yAB+yA)(x+yAB+yB))}
+#' }
+#' @return A square matrix of association according to association index choose:
+#' @details Association indexes allow to handle  heterogeneity of time of observation. 
+#' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
+#' @author Sebastian Sosa, Ivan Puga-Gonzales.
+#' @keywords internal
+assoc_mat_full <- function(Mgbi, method) {
+    .Call('_ANTs_assoc_mat_full', PACKAGE = 'ANTs', Mgbi, method)
+}
+
 #' @title Association indexes for one individual
 #' @description Individual associations indexes.
 #' @param Mfbi a group by individual matrix.
@@ -329,6 +347,10 @@ met_eigen <- function(M, eps = 0.000001, maxiter = 1000L) {
 
 met_modularityU <- function(M, x) {
     .Call('_ANTs_met_modularityU', PACKAGE = 'ANTs', M, x)
+}
+
+met_nalters <- function(M) {
+    .Call('_ANTs_met_nalters', PACKAGE = 'ANTs', M)
 }
 
 #' @title Eigenvector centrality

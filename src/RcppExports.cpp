@@ -85,6 +85,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// assoc_mat_full
+Rcpp::List assoc_mat_full(arma::mat Mgbi, std::string method);
+RcppExport SEXP _ANTs_assoc_mat_full(SEXP MgbiSEXP, SEXP methodSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Mgbi(MgbiSEXP);
+    Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
+    rcpp_result_gen = Rcpp::wrap(assoc_mat_full(Mgbi, method));
+    return rcpp_result_gen;
+END_RCPP
+}
 // assoc_mat_one_id
 arma::rowvec assoc_mat_one_id(arma::mat Mgbi, int id, std::string method);
 RcppExport SEXP _ANTs_assoc_mat_one_id(SEXP MgbiSEXP, SEXP idSEXP, SEXP methodSEXP) {
@@ -495,6 +507,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type M(MSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(met_modularityU(M, x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// met_nalters
+NumericVector met_nalters(NumericMatrix M);
+RcppExport SEXP _ANTs_met_nalters(SEXP MSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type M(MSEXP);
+    rcpp_result_gen = Rcpp::wrap(met_nalters(M));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1156,6 +1179,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_metric_node_betweeness", (DL_FUNC) &_ANTs_metric_node_betweeness, 1},
     {"_ANTs_metric_global_triangle", (DL_FUNC) &_ANTs_metric_global_triangle, 1},
     {"_ANTs_assoc_mat", (DL_FUNC) &_ANTs_assoc_mat, 2},
+    {"_ANTs_assoc_mat_full", (DL_FUNC) &_ANTs_assoc_mat_full, 2},
     {"_ANTs_assoc_mat_one_id", (DL_FUNC) &_ANTs_assoc_mat_one_id, 3},
     {"_ANTs_df_merge", (DL_FUNC) &_ANTs_df_merge, 2},
     {"_ANTs_df_to_gbi", (DL_FUNC) &_ANTs_df_to_gbi, 5},
@@ -1191,6 +1215,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_met_density", (DL_FUNC) &_ANTs_met_density, 1},
     {"_ANTs_met_eigen", (DL_FUNC) &_ANTs_met_eigen, 3},
     {"_ANTs_met_modularityU", (DL_FUNC) &_ANTs_met_modularityU, 2},
+    {"_ANTs_met_nalters", (DL_FUNC) &_ANTs_met_nalters, 1},
     {"_ANTs_met_ei", (DL_FUNC) &_ANTs_met_ei, 1},
     {"_ANTs_met_strength", (DL_FUNC) &_ANTs_met_strength, 1},
     {"_ANTs_met_sum_egos_strength", (DL_FUNC) &_ANTs_met_sum_egos_strength, 1},
