@@ -29,7 +29,7 @@
 #' assoc.indices(gbi=sim.gbi,index='sri')
 
 assoc.indices <- function(gbi, index = "sri") {
-  result <- ANTs:::assoc_mat(Mgbi = gbi, method = index)
+  result <- assoc_mat(Mgbi = gbi, method = index)
   colnames(result)=colnames(gbi)
   rownames(result)=colnames(gbi)
   return(result)

@@ -79,7 +79,7 @@ assoc.gfi <- function(M1, M2, fr = TRUE, sym = FALSE, erase.diag = TRUE, index =
     y = matrix(0, ncol = 2, nrow = length(y1))
     y[,1] = y1
     y[,2] = y2
-    x <- ANTs:::mat.vectorization(M2, sym, erase.diag)
+    x <- mat.vectorization(M2, sym, erase.diag)
     res <- glm(y ~ x, family = binomial(link = "logit"))$residuals
     
     # Convert residuals into a matrix----------------------

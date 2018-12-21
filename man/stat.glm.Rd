@@ -48,7 +48,7 @@ Performs Generalized Linear Models tests and computes permuted p-values
 This function is the first step in the process to create a t-test in permuted data. For more details on t-tests, see R documentation.
 }
 \examples{
-t=met.degree(sim.m,sim.df,1) # Computing network metric
+t=met.degree(sim.m, sym = TRUE,sim.df,1) # Computing network metric
 t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
 r.glm=stat.glm(ant = t,formula = degree ~ sex,progress=FALSE) # Permuted GLM
 }
