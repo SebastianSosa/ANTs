@@ -42,7 +42,8 @@ met.geodesicDiameter.single <- function(m, weighted = TRUE, shortest.weight = FA
   }
   if (shortest.weight == FALSE) {
     # opshal method
-    avg_strength <- sum(m) / (ncol(m) * (ncol(m) - 1))
+    number.of.links = m[m>0]
+    avg_strength <- sum(m) / (number.of.links * (number.of.links - 1))
     if (normalization) {
       m <- m / avg_strength
     }
