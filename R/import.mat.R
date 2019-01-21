@@ -36,9 +36,9 @@ import.mat <- function(header = TRUE, sep = ",", row.names = 1, ...) {
 
   # If just one file in the folder then use as.matrix----------------------
   if (length(files) > 1) {
-    M <- lapply(files, function(x, header, sep, row.names) {
-      r <- as.matrix(read.csv(file = x, header = header, sep = sep, row.names = row.names))
-    }, header = header, sep = sep, row.names = row.names)
+    M <- lapply(files, function(x, header, sep, row.names, ...) {
+      r <- as.matrix(read.csv(file = x, header = header, sep = sep, row.names = row.names, ...))
+    }, header = header, sep = sep, row.names = row.names, ... = ...)
     files <- gsub(".csv", "", files)
     names(M) <- files
   }
