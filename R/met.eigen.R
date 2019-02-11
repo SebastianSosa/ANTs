@@ -40,7 +40,7 @@
 
 met.eigen <- function(M, df = NULL, dfid = NULL, sym = TRUE, binary = FALSE, out = FALSE) {
   # Check if argument M is a square matrix or a list of square matrices----------------------
-  test <- check.mat(M)
+ test <-  check.mat(M)
 
   # If argument M is a square Matrix----------------------
   if (test=="M ok") {
@@ -358,4 +358,41 @@ met.eigen <- function(M, df = NULL, dfid = NULL, sym = TRUE, binary = FALSE, out
     }
   }
   }
+  
+  # If argument M is a list of square matrices----------------------
+ if (test =="M list ok") {
+   # Check if argument df is NULL and not argument dfid
+   if (is.null(df) & !is.null(dfid)) {
+     stop("Argument 'df' can't be NULL when argument 'dfid' isn't", "\r")
+   }
+   
+   # Check if argument df and dfid are NULL
+   if (is.null(df) & is.null(dfid)) {
+     result <- lapply(M, met.eigen.single, df = df, dfid = dfid, sym = sym, binary = binary, out = out)
+     return(result)
+   }
+   
+   # Check if argument df is not NULL, is not a data frame and is a list
+   if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+     # Check if argument dfid is not NULL
+     if (!is.null(dfid)) {
+       # Compute network metric
+       result <- mapply(function(M,  df, dfid, sym , binary, out) {
+         r <- met.eigen.single(M = M, df = df, dfid = dfid, sym = sym, binary = binary, out = out)
+         return(r)
+       }, M = M, df = df, dfid = dfid, sym = sym, binary = binary, out = out, SIMPLIFY = FALSE)
+       return(result)
+     }
+     else {
+       # Compute network metric
+       warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
+       # Compute network metric
+       result <- mapply(function(M,  df,  sym , binary, out) {
+         r <- met.eigen.single(M = M, df = df,  sym = sym, binary = binary, out = out)
+         return(r)
+       }, M = M, df = df, sym = sym, binary = binary, out = out, SIMPLIFY = FALSE)
+       return(result)
+     }
+   }
+ }
 }
