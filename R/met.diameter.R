@@ -29,7 +29,7 @@
 #' \item A list of arguments \emph{df} with a new column of network diameter if argument\emph{df} is not \emph{NULL} and if argument \emph{M} is a list of matrices. The name of the column is adapted according to arguments values \emph{.weighted}, \emph{shortest.weight}, \emph{normalization}, \emph{directed} and \emph{out}.
 #' \item A list of arguments \emph{df} with a new column of network diameter if argument \emph{df} is not \emph{NULL}, if argument \emph{M} is an output from ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk} for multiple matrices permutations, and if argument \emph{df} is a list of data frames of same length as argument \emph{M}.
 #' }
-#' @details Binary network met.density is the ratio of existing links of a network in relation to all potential links.
+#' @details Diameter is the longer geodesic distance.
 #' @author  Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @references Opsahl, T., Agneessens, F., & Skvoretz, J. (2010). Node centrality in weighted networks: Generalizing degree and shortest paths. Social networks, 32(3), 245-251.
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
