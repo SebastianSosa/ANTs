@@ -24,12 +24,15 @@ met.betweenness.single <- function(m, binary = TRUE, shortest.weight = FALSE, no
     colnames(m) <- name
     rownames(m) <- name
   }
-  if (normalization) {
-    avg_strength <- mean(m)
-    m <- m / avg_strength
-  }
-  if (shortest.weight) {
+
+  if (shortest.weight == FALSE) {
     # opshal method
+    if (normalization) {
+      number.of.links = length(m[m>0])
+      avg_strength <- sum(m) / (number.of.links * (number.of.links - 1))
+      m <- m / avg_strength
+    }
+    
     m <- 1 / m
     m[is.infinite(m)] <- 0
   }

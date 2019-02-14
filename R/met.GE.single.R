@@ -16,7 +16,7 @@
 #' @description Calculates the global efficiency of a network.
 
 #' @param m a square adjacency matrix.
-#' @param weighted if \emph{true}, it binarizes the square adjacency matrix M. Geodesic distances and diameter are based only on the presence or absence of edges.
+#' @param weighted if \emph{false}, it binarizes the square adjacency matrix M. Geodesic distances and diameter are based only on the presence or absence of edges.
 #' @param shortest.weight if \emph{false}, it considers the higher met.strength as the shortest path.
 #' @param normalization normalizes the weigths of the links i.e. divides them by the average strength of the network.
 #' @param directed if \emph{false}, it symmetrizes the matrix. Otherwise, it calculates geodesic distances and diameter according to the directionality of the links.
@@ -38,8 +38,9 @@ met.ge.single <- function(m, weighted = TRUE, shortest.weight = FALSE, normaliza
   }
   if (shortest.weight == FALSE) {
     # opshal method
-    avg_strength <- mean(m)
-    if (normalization == TRUE) {
+    number.of.links = length(m[m>0])
+    avg_strength <- sum(m) / (number.of.links * (number.of.links - 1))
+    if (normalization) {
       m <- m / avg_strength
     }
     m <- 1 / m
@@ -62,7 +63,7 @@ met.ge.single <- function(m, weighted = TRUE, shortest.weight = FALSE, normaliza
       return(GE)
     }
     else {
-      result <- metric_global_shortestPath(t(m))[[1]]
+      result <- ANTs:::metric_global_shortestPath(t(m))[[1]]
       diag(result) <- 0
       s <- sum(result)
       GE <- s / (ncol(result) * (ncol(result) - 1))
