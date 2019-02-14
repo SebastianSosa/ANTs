@@ -10,7 +10,7 @@ met.geodesicDiameter.single(m, weighted = TRUE, shortest.weight = FALSE,
 \arguments{
 \item{m}{a square adjacency matrix.}
 
-\item{weighted}{if \emph{true}, it binarizes the square adjacency matrix M. Geodesic distances and diameter are based only on the presence or absence of edges.}
+\item{weighted}{if \emph{FALSE}, it binarizes the square adjacency matrix M. Geodesic distances and diameter are based only on the presence or absence of edges.}
 
 \item{shortest.weight}{if \emph{false}, it considers the higher met.strength as the shortest path.}
 

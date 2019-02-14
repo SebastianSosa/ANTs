@@ -16,7 +16,7 @@
 #' @description Calculates 1) Geodesic Distances and 2) network diameter .
 
 #' @param m a square adjacency matrix.
-#' @param weighted if \emph{true}, it binarizes the square adjacency matrix M. Geodesic distances and diameter are based only on the presence or absence of edges.
+#' @param weighted if \emph{FALSE}, it binarizes the square adjacency matrix M. Geodesic distances and diameter are based only on the presence or absence of edges.
 #' @param shortest.weight if \emph{false}, it considers the higher met.strength as the shortest path.
 #' @param normalization normalizes the weigths of the links i.e. divides them by the average strength of the network. Argument normalization can't be TRUE when  argument weighted is FALSE.
 #' @param directed if \emph{false}, then it symmetrizes the matrix. Otherwise, it calculates geodesic distances and diameter according to the directionality of the links.
@@ -42,11 +42,13 @@ met.geodesicDiameter.single <- function(m, weighted = TRUE, shortest.weight = FA
   }
   if (shortest.weight == FALSE) {
     # opshal method
-    number.of.links = m[m>0]
-    avg_strength <- sum(m) / (number.of.links * (number.of.links - 1))
+
     if (normalization) {
+      number.of.links = length(m[m>0])
+      avg_strength <- sum(m) / (number.of.links * (number.of.links - 1))
       m <- m / avg_strength
     }
+    
     m <- 1 / m
     m[is.infinite(m)] <- 0
   }

@@ -17,8 +17,8 @@
 
 #' @param M a square adjacency matrix, or a list of square adjacency matrices, or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.
 #' @param df a data frame of same length as the input matrix or a list of data frames if argument \emph{M} is a list of matrices or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.
-#' @param weighted if \emph{true}, it binarizes the square adjacency matrix M. Geodesic distances and diameter are based only on the presence or absence of edges.
-#' @param shortest.weight if \emph{false}, it considers the highest met.strength as the shortest path.
+#' @param weighted if \emph{false}, it binarizes the square adjacency matrix M. Geodesic distances and diameter are based only on the presence or absence of edges.
+#' @param shortest.weight if \emph{false},  and weighted is TRUE, it considers the highest weights as the shortest path. The value returned is the average of inverse of the all shortest distances (1/dij). Thus a higher value means a higher efficiency. Note that in constrast to unweighted graphs where global efficiency assumes values from 0 to 1, in weighted graphs the values depend on the weights associated to the links. It is therefore very useful to compare the global efficiency of a given weighted network with the global efficiency of a randomized version of the network or to a network of same size but different distribution of weights among the links. By itself this value is meaningless.  
 #' @param normalization normalizes the weights of the links i.e. divides them by the average strength of the network.
 #' @param directed if \emph{false}, it symmetrizes the matrix. Otherwise, it calculates geodesic distances and diameter according to the directionality of the links.
 #' @param out if \emph{true}, it considers outgoing ties.
