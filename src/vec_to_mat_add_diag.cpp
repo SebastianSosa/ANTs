@@ -12,6 +12,15 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
+
+//' @title Vector to matrix and adding diag
+//' @description Create a matrix from a vector
+//' @param vec a numeric vector
+//' @param n number of columns of the matrix to create
+//' @return A square matrix
+//' @author Sebastian Sosa.
+//' @keywords internal
+//' 
 #include <Rcpp.h>
 using namespace Rcpp;
 

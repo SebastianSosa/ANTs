@@ -25,6 +25,11 @@ NumericVector stat_t_value(List lm, NumericMatrix x4) {
   
   NumericVector tmp=abs(resid);
   double tmp2=sum(tmp*tmp);
+  std::cout<<"coef: "<<coef<<std::endl;
+  std::cout<<"tmp2: "<<tmp2<<std::endl;
+  std::cout<<"diag_chol2inv: " <<diag_chol2inv<<std::endl;
+  std::cout<<"rank: " <<rank<<std::endl;
+  std::cout<<"n: " <<n<<std::endl;
 
   return (coef/sqrt(diag_chol2inv * (tmp2/(n-rank))));
 }

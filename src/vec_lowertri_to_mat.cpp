@@ -12,20 +12,33 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
+
+//' @title Vector to matrix lower triangle
+//' @description Create a matrix from a vector 
+//' @param vec a numeric vector
+//' @param col number of columns of the matrix to create
+//' @param diag doe diagonal is included
+//' @Warning Argument vec must be of the exact same length of the number of cells present in the lower triangle of the amtrix to create. 
+//' @return A vector
+//' @author Sebastian Sosa.
+//' @keywords internal
+//' 
 #include <Rcpp.h>
 using namespace Rcpp;
 
 // [[Rcpp::export]]
 NumericMatrix vec_lowertri_to_mat(NumericVector& vec, int col, bool diag) {
+  
   if(diag==false){
     NumericMatrix M(col,col);
-    NumericMatrix& Mpoint=M;
-    int mem=0;
-    for(int a=0;a<col-1;a++){
-      int starts= mem;
-      int end= mem+(col-a-1);
+    NumericMatrix& Mpoint = M;
+    
+    int mem = 0;
+    for(int a=0; a<col-1; a++){
+      int starts = mem;
+      int end = mem + (col - a-1);
       NumericVector tmp_vec(col);
-      NumericVector& vec2=tmp_vec;
+      NumericVector& vec2 = tmp_vec;
       std::copy(vec.begin()+starts,vec.begin()+end,vec2.begin()+a+1);
       Mpoint(_,a)=vec2;
       mem=end;
@@ -33,7 +46,7 @@ NumericMatrix vec_lowertri_to_mat(NumericVector& vec, int col, bool diag) {
     return M;
   }
   
-  else{
+  else{// Not working !!!!!!!!!!!!!!!!!!!!!!!!!!!
     NumericMatrix M(col,col);
     NumericMatrix& Mpoint=M;
     int mem=0;

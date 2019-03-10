@@ -18,11 +18,11 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 NumericMatrix perm_mat_row_col(NumericMatrix& M, int col, IntegerVector& rand) {
-  NumericMatrix M2(col,col);
-  for(int a=0;a<col;a++){
-    for(int b=a+1;b<col;b++){
-      M2(b,a)=M(rand[b],rand[a]);
-      M2(a,b)=M(rand[b],rand[b]);
+  NumericMatrix M2(col, col);
+  for(int a = 0; a < col; a++){
+    for(int b = a+1; b < col; b++){
+      M2(b,a) = M(rand[b], rand[a]);
+      M2(a,b) = M(rand[b], rand[b]);
     }
   }
   return M2;   
