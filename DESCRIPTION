@@ -13,7 +13,7 @@ LazyData: true
 Imports: lme4,methods,Kendall,gtools
 LinkingTo: Rcpp,RcppArmadillo,RcppEigen
 SystemRequirements: C++11
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 BugReports: https://github.com/SebastianSosa/Animal-Network-Toolkit
 Suggests:
     testthat,
