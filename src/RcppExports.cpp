@@ -543,17 +543,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// met_triangle_binary
-int met_triangle_binary(NumericMatrix M);
-RcppExport SEXP _ANTs_met_triangle_binary(SEXP MSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type M(MSEXP);
-    rcpp_result_gen = Rcpp::wrap(met_triangle_binary(M));
-    return rcpp_result_gen;
-END_RCPP
-}
 // na_omit
 NumericVector na_omit(NumericVector x);
 RcppExport SEXP _ANTs_na_omit(SEXP xSEXP) {
@@ -1194,7 +1183,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_met_ei", (DL_FUNC) &_ANTs_met_ei, 1},
     {"_ANTs_met_strength", (DL_FUNC) &_ANTs_met_strength, 1},
     {"_ANTs_met_sum_egos_strength", (DL_FUNC) &_ANTs_met_sum_egos_strength, 1},
-    {"_ANTs_met_triangle_binary", (DL_FUNC) &_ANTs_met_triangle_binary, 1},
     {"_ANTs_na_omit", (DL_FUNC) &_ANTs_na_omit, 1},
     {"_ANTs_perm_dataStream1", (DL_FUNC) &_ANTs_perm_dataStream1, 4},
     {"_ANTs_perm_dataStream1_focal", (DL_FUNC) &_ANTs_perm_dataStream1_focal, 5},

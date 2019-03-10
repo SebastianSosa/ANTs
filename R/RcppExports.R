@@ -366,10 +366,6 @@ met_sum_egos_strength <- function(M) {
     .Call('_ANTs_met_sum_egos_strength', PACKAGE = 'ANTs', M)
 }
 
-met_triangle_binary <- function(M) {
-    .Call('_ANTs_met_triangle_binary', PACKAGE = 'ANTs', M)
-}
-
 na_omit <- function(x) {
     .Call('_ANTs_na_omit', PACKAGE = 'ANTs', x)
 }
