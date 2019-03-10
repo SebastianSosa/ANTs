@@ -21,7 +21,7 @@ SEXP vec_merge(SEXP vec1, SEXP vec2);
 //' @keywords internal
 // [[Rcpp::export]]
 DataFrame ldf_merge(List ldf) {
-  DataFrame d=ldf[0];
+  DataFrame d= Rcpp::as<Rcpp::DataFrame>(ldf[0]);
   List ldf2(d.size());
   
   for(int a=0;a<d.size();a++){
@@ -30,7 +30,7 @@ DataFrame ldf_merge(List ldf) {
     
     for(int b=1;b<ldf.size();b++){
       //std::cout<<"data frame is: "<<b<<std::endl;
-      DataFrame d2=ldf[b];
+      DataFrame d2=Rcpp::as<Rcpp::DataFrame>(ldf[b]);
       SEXP vec2=d2[a];
       vec=vec_merge(vec,vec2);
     }

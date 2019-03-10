@@ -5,37 +5,18 @@ ComplexEigen <- function(M) {
     .Call('_ANTs_ComplexEigen', PACKAGE = 'ANTs', M)
 }
 
-#' @title Geodesic distances
-#' @description Compute the geodesic distances of a matrix
-#' @keywords internal
 metric_global_shortestPath <- function(disMap) {
     .Call('_ANTs_metric_global_shortestPath', PACKAGE = 'ANTs', disMap)
 }
 
-#' @title Geodesic distances details
-#' @description Compute the geodesic distances of a matrix and retunr detials of the paths
-#' @keywords internal
 metric_global_shortestDetails <- function(disMap) {
     .Call('_ANTs_metric_global_shortestDetails', PACKAGE = 'ANTs', disMap)
 }
 
-#' @title Geodesic distances details for betweenness calculation
-#' @description Compute the geodesic distances of a matrix and retunr detials of the paths for betweenness calculation
-#' @keywords internal
-metric_global_shortestDetailsBasedBetween <- function(disMap) {
-    .Call('_ANTs_metric_global_shortestDetailsBasedBetween', PACKAGE = 'ANTs', disMap)
-}
-
-#' @title Betweenness
-#' @description Compute the Betweenness
-#' @keywords internal
 metric_node_betweeness <- function(disMap) {
     .Call('_ANTs_metric_node_betweeness', PACKAGE = 'ANTs', disMap)
 }
 
-#' @title Triangles
-#' @description Count number of triangle
-#' @keywords internal
 metric_global_triangle <- function(disMap) {
     .Call('_ANTs_metric_global_triangle', PACKAGE = 'ANTs', disMap)
 }
@@ -385,8 +366,40 @@ met_sum_egos_strength <- function(M) {
     .Call('_ANTs_met_sum_egos_strength', PACKAGE = 'ANTs', M)
 }
 
+met_triangle_binary <- function(M) {
+    .Call('_ANTs_met_triangle_binary', PACKAGE = 'ANTs', M)
+}
+
 na_omit <- function(x) {
     .Call('_ANTs_na_omit', PACKAGE = 'ANTs', x)
+}
+
+#' @title Permutations for MRQAP
+#' @description realize permutation for MRQAP test
+#' @param y a vector representing the independent variable
+#' @param x a matrix in which each columns represent an independent matrix vectorized
+#' @return A list of 
+#' @references Dekker, D., Krackhard, D., Snijders, T.A.B (2007) Sensitivity of MRQAP tests to collinearity and autocorellation conditions. Psychometrika 72(4): 563-581.
+#' @author Sebastian Sosa.
+#' @keywords internal
+NULL
+
+perm_MRQAP <- function(y, x, type, nperm, col, sym, diag, test) {
+    .Call('_ANTs_perm_MRQAP', PACKAGE = 'ANTs', y, x, type, nperm, col, sym, diag, test)
+}
+
+#' @title Permutations for MRQAP
+#' @description realize permutation for MRQAP test
+#' @param y a vector representing the independent variable
+#' @param x a matrix in which each columns represent an independent matrix vectorized
+#' @return A list of 
+#' @references Dekker, D., Krackhard, D., Snijders, T.A.B (2007) Sensitivity of MRQAP tests to collinearity and autocorellation conditions. Psychometrika 72(4): 563-581.
+#' @author Sebastian Sosa.
+#' @keywords internal
+NULL
+
+perm_MRQAP2 <- function(y, x, type, nperm, col, sym, diag, test) {
+    .Call('_ANTs_perm_MRQAP2', PACKAGE = 'ANTs', y, x, type, nperm, col, sym, diag, test)
 }
 
 #' @title Data Stream Group Fellow Permutations without control factor.
@@ -440,8 +453,19 @@ perm_dataStream_ControlFactor <- function(GBIList, M, nperm, CumSizesGbis, progr
     .Call('_ANTs_perm_dataStream_ControlFactor', PACKAGE = 'ANTs', GBIList, M, nperm, CumSizesGbis, progress, method)
 }
 
-perm_matVec <- function(m, n, rand) {
-    .Call('_ANTs_perm_matVec', PACKAGE = 'ANTs', m, n, rand)
+#' @title Vectorize matrix permutation
+#' @description Permute rows and columns of a vectorized matrix
+#' @param vec a vumeric matrix
+#' @param n number of columns of the original matrix
+#' @param rand a numeric vector of randomized column and rows indeces
+#' @details It's the equivalent of R m[rand, rand] function. Columns and rows indexatons are in R format.
+#' @return A vector
+#' @author Sebastian Sosa.
+#' @keywords internal
+NULL
+
+perm_matVec <- function(vec, n, rand) {
+    .Call('_ANTs_perm_matVec', PACKAGE = 'ANTs', vec, n, rand)
 }
 
 perm_mat_col_row <- function(M, ncol, rand) {
@@ -681,6 +705,18 @@ vec_levels <- function(v) {
     .Call('_ANTs_vec_levels', PACKAGE = 'ANTs', v)
 }
 
+#' @title Vector to matrix lower triangle
+#' @description Create a matrix from a vector 
+#' @param vec a numeric vector
+#' @param col number of columns of the matrix to create
+#' @param diag doe diagonal is included
+#' @Warning Argument vec must be of the exact same length of the number of cells present in the lower triangle of the amtrix to create. 
+#' @return A vector
+#' @author Sebastian Sosa.
+#' @keywords internal
+#' 
+NULL
+
 vec_lowertri_to_mat <- function(vec, col, diag) {
     .Call('_ANTs_vec_lowertri_to_mat', PACKAGE = 'ANTs', vec, col, diag)
 }
@@ -723,9 +759,29 @@ vec_sum <- function(x) {
     .Call('_ANTs_vec_sum', PACKAGE = 'ANTs', x)
 }
 
-vec_to_mat <- function(vec, ncol) {
-    .Call('_ANTs_vec_to_mat', PACKAGE = 'ANTs', vec, ncol)
+#' @title Vector to matrix
+#' @description Create a matrix from a vector
+#' @param vec a numeric vector
+#' @param n number of columns of the matrix to create
+#' @param diag a boolean indicating with the argument vec have the diagonal information in it.
+#' @return A square matrix
+#' @author Sebastian Sosa.
+#' @keywords internal
+NULL
+
+vec_to_mat <- function(vec, ncol, diag) {
+    .Call('_ANTs_vec_to_mat', PACKAGE = 'ANTs', vec, ncol, diag)
 }
+
+#' @title Vector to matrix and adding diag
+#' @description Create a matrix from a vector
+#' @param vec a numeric vector
+#' @param n number of columns of the matrix to create
+#' @return A square matrix
+#' @author Sebastian Sosa.
+#' @keywords internal
+#' 
+NULL
 
 vec_to_mat_add_diag <- function(vec, ncol) {
     .Call('_ANTs_vec_to_mat_add_diag', PACKAGE = 'ANTs', vec, ncol)

@@ -33,7 +33,7 @@ SEXP listDf_merge_single_column(Rcpp::DataFrame df, Rcpp::List ldf,int col){
   int index = 0;
   for(int b=0;b<ldf.size();b++){
     //std::cout<<"Merging vectors: "<<index<<std::endl;
-    Rcpp::DataFrame tmpdf=tmpLdf[b]; // selecting  element of the list
+    Rcpp::DataFrame tmpdf=Rcpp::as<Rcpp::DataFrame>(tmpLdf[b]); // selecting  element of the list
     Rcpp::CharacterVector tmpAlters=tmpdf[col-1]; //slecting column
     std::copy(tmpAlters.begin(), tmpAlters.end(), vec.begin() + index);
     index += tmpAlters.size(); //Updating vec according to the size of tmpAlters paste

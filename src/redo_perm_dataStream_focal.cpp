@@ -65,8 +65,8 @@ Rcpp::List  redo_perm_dataStream_focal(Rcpp::DataFrame df,Rcpp::List ldf1, int n
         if (a % 1024  == 0) Rcpp::checkUserInterrupt();
         // Selection of two data frames randomly
         dfSelected=Rcpp::sample(lengthList,2, false);
-        Rcpp::DataFrame dfSelected1=ldf1[dfSelected[0]];
-        Rcpp::DataFrame dfSelected2=ldf1[dfSelected[1]];
+        Rcpp::DataFrame dfSelected1=Rcpp::as<Rcpp::DataFrame>(ldf1[dfSelected[0]]);
+        Rcpp::DataFrame dfSelected2=Rcpp::as<Rcpp::DataFrame>(ldf1[dfSelected[1]]);
         
         // Extracting focals names
         Rcpp::StringVector ff1=dfSelected1[col_focal-1];
@@ -101,8 +101,8 @@ Rcpp::List  redo_perm_dataStream_focal(Rcpp::DataFrame df,Rcpp::List ldf1, int n
         }
       }
 
-      Rcpp::DataFrame id1=ldf1[dfSelected(0)];
-      Rcpp::DataFrame id2=ldf1[dfSelected(1)];
+      Rcpp::DataFrame id1=Rcpp::as<Rcpp::DataFrame>(ldf1[dfSelected(0)]);
+      Rcpp::DataFrame id2=Rcpp::as<Rcpp::DataFrame>(ldf1[dfSelected(1)]);
       
       alters_id1[pick1(0)]=unique_alter_id2;
       alters_id2[pick2(0)]=unique_alter_id1;

@@ -40,7 +40,7 @@ List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress) {
       //For each lables declared
       for(int b=0;b<lables.size();b++){
         //Extracting first element
-        DataFrame d1=ldf[0];
+        DataFrame d1=Rcpp::as<Rcpp::DataFrame>(ldf[0]);
         // C++ count
         n=lables[b]-1;
         // Extract the column
@@ -50,7 +50,7 @@ List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress) {
         // For each elements of the list
         for(int c=1;c<ldf.size();c++){
           // Extract data frame
-          DataFrame d=ldf[c];
+          DataFrame d=Rcpp::as<Rcpp::DataFrame>(ldf[c]);
           // Extract the column
           SEXP vec=d[n];
           // Sample it
@@ -74,7 +74,7 @@ List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress) {
 
       for(int b=0;b<lables.size();b++){
         //Extracting first element
-        DataFrame d1=ldf[0];
+        DataFrame d1= Rcpp::as<Rcpp::DataFrame>(ldf[0]);
         // C++ count
         n=lables[b]-1;
         // Extract the column
@@ -84,7 +84,7 @@ List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress) {
         // For each elements of the list
         for(int c=1;c<ldf.size();c++){
           // Extract data frame
-          DataFrame d=ldf[c];
+          DataFrame d=Rcpp::as<Rcpp::DataFrame>(ldf[c]);
           // Extract the column
           SEXP vec=d[n];
           // Sample it
