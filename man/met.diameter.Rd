@@ -12,7 +12,7 @@ met.diameter(M, df = NULL, weighted = TRUE, shortest.weight = FALSE,
 
 \item{df}{a data frame of same length as the input matrix or a list of data frames if argument \emph{M} is a list of matrices or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.}
 
-\item{weighted}{if \emph{true}, it binarizes the square adjacency matrix M. Geodesic distances and diameter are based only on the presence or absence of edges.}
+\item{weighted}{if \emph{FALSE}, it binarizes the square adjacency matrix M. Geodesic distances and diameter are based only on the presence or absence of edges.}
 
 \item{shortest.weight}{if \emph{false}, it considers the highest met.strength as the shortest path.}
 
@@ -34,7 +34,7 @@ met.diameter(M, df = NULL, weighted = TRUE, shortest.weight = FALSE,
 Calculates the network diameter .
 }
 \details{
-Binary network met.density is the ratio of existing links of a network in relation to all potential links.
+Diameter is the longer geodesic distance.
 }
 \examples{
 met.diameter(sim.m)
