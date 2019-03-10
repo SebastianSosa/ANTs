@@ -49,9 +49,7 @@ extern SEXP _ANTs_met_ei(SEXP);
 extern SEXP _ANTs_met_ei2(SEXP);
 extern SEXP _ANTs_met_eigen(SEXP, SEXP, SEXP);
 extern SEXP _ANTs_met_strength(SEXP);
-extern SEXP _ANTs_met_sum_egos_strength(SEXP);
 extern SEXP _ANTs_metric_global_shortestDetails(SEXP);
-extern SEXP _ANTs_metric_global_shortestDetailsBasedBetween(SEXP);
 extern SEXP _ANTs_metric_global_shortestPath(SEXP);
 extern SEXP _ANTs_metric_global_triangle(SEXP);
 extern SEXP _ANTs_metric_node_betweeness(SEXP);
@@ -60,8 +58,9 @@ extern SEXP _ANTs_perm_dataStream_ControlFactor(SEXP, SEXP, SEXP, SEXP, SEXP, SE
 extern SEXP _ANTs_perm_dataStream1(SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ANTs_perm_dataStream1_focal(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ANTs_perm_mat_col_row(SEXP, SEXP, SEXP);
-extern SEXP _ANTs_perm_mat_row_col(SEXP, SEXP, SEXP);
 extern SEXP _ANTs_perm_matVec(SEXP, SEXP, SEXP);
+extern SEXP _ANTs_perm_MRQAP(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _ANTs_perm_MRQAP2(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ANTs_perm_nl_rf(SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ANTs_perm_nodeLabels(SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ANTs_perm_vec_factor(SEXP);
@@ -73,7 +72,6 @@ extern SEXP _ANTs_redo_perm_dataStream_ControlFactor_scd(SEXP, SEXP, SEXP);
 extern SEXP _ANTs_redo_perm_dataStream_focal(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ANTs_redo_perm_dataStream1_focal(SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ANTs_stat_chol2inv(SEXP);
-extern SEXP _ANTs_stat_t_value(SEXP, SEXP);
 extern SEXP _ANTs_test_arma(SEXP);
 extern SEXP _ANTs_test_const_arma(SEXP);
 extern SEXP _ANTs_test_nm(SEXP);
@@ -94,7 +92,7 @@ extern SEXP _ANTs_vec_num_extract_IdValue(SEXP, SEXP);
 extern SEXP _ANTs_vec_sample(SEXP, SEXP, SEXP);
 extern SEXP _ANTs_vec_sample_all(SEXP);
 extern SEXP _ANTs_vec_sum(SEXP);
-extern SEXP _ANTs_vec_to_mat(SEXP, SEXP);
+extern SEXP _ANTs_vec_to_mat(SEXP, SEXP, SEXP);
 extern SEXP _ANTs_vec_to_mat_add_diag(SEXP, SEXP);
 extern SEXP _ANTs_vec_unique(SEXP);
 extern SEXP _ANTs_vec_unmatch(SEXP, SEXP);
@@ -146,10 +144,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"_ANTs_met_ei2",                                   (DL_FUNC) &_ANTs_met_ei2,                                   1},
   {"_ANTs_met_eigen",                                 (DL_FUNC) &_ANTs_met_eigen,                                 3},
   {"_ANTs_met_strength",                              (DL_FUNC) &_ANTs_met_strength,                              1},
-  {"_ANTs_met_sum_egos_strength",                     (DL_FUNC) &_ANTs_met_sum_egos_strength,                     1},
   {"_ANTs_metric_global_shortestDetails",             (DL_FUNC) &_ANTs_metric_global_shortestDetails,             1},
-  {"_ANTs_metric_global_shortestDetailsBasedBetween", (DL_FUNC) &_ANTs_metric_global_shortestDetailsBasedBetween, 1},
-  {"_ANTs_metric_global_shortestPath",                (DL_FUNC) &_ANTs_metric_global_shortestPath,                1},
   {"_ANTs_metric_global_triangle",                    (DL_FUNC) &_ANTs_metric_global_triangle,                    1},
   {"_ANTs_metric_node_betweeness",                    (DL_FUNC) &_ANTs_metric_node_betweeness,                    1},
   {"_ANTs_na_omit",                                   (DL_FUNC) &_ANTs_na_omit,                                   1},
@@ -157,7 +152,6 @@ static const R_CallMethodDef CallEntries[] = {
   {"_ANTs_perm_dataStream1",                          (DL_FUNC) &_ANTs_perm_dataStream1,                          4},
   {"_ANTs_perm_dataStream1_focal",                    (DL_FUNC) &_ANTs_perm_dataStream1_focal,                    5},
   {"_ANTs_perm_mat_col_row",                          (DL_FUNC) &_ANTs_perm_mat_col_row,                          3},
-  {"_ANTs_perm_mat_row_col",                          (DL_FUNC) &_ANTs_perm_mat_row_col,                          3},
   {"_ANTs_perm_matVec",                               (DL_FUNC) &_ANTs_perm_matVec,                               3},
   {"_ANTs_perm_nl_rf",                                (DL_FUNC) &_ANTs_perm_nl_rf,                                4},
   {"_ANTs_perm_nodeLabels",                           (DL_FUNC) &_ANTs_perm_nodeLabels,                           4},
@@ -170,7 +164,6 @@ static const R_CallMethodDef CallEntries[] = {
   {"_ANTs_redo_perm_dataStream_focal",                (DL_FUNC) &_ANTs_redo_perm_dataStream_focal,                6},
   {"_ANTs_redo_perm_dataStream1_focal",               (DL_FUNC) &_ANTs_redo_perm_dataStream1_focal,               4},
   {"_ANTs_stat_chol2inv",                             (DL_FUNC) &_ANTs_stat_chol2inv,                             1},
-  {"_ANTs_stat_t_value",                              (DL_FUNC) &_ANTs_stat_t_value,                              2},
   {"_ANTs_test_arma",                                 (DL_FUNC) &_ANTs_test_arma,                                 1},
   {"_ANTs_test_const_arma",                           (DL_FUNC) &_ANTs_test_const_arma,                           1},
   {"_ANTs_test_nm",                                   (DL_FUNC) &_ANTs_test_nm,                                   1},
@@ -190,7 +183,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"_ANTs_vec_sample",                                (DL_FUNC) &_ANTs_vec_sample,                                3},
   {"_ANTs_vec_sample_all",                            (DL_FUNC) &_ANTs_vec_sample_all,                            1},
   {"_ANTs_vec_sum",                                   (DL_FUNC) &_ANTs_vec_sum,                                   1},
-  {"_ANTs_vec_to_mat",                                (DL_FUNC) &_ANTs_vec_to_mat,                                2},
+  {"_ANTs_vec_to_mat",                                (DL_FUNC) &_ANTs_vec_to_mat,                                3},
   {"_ANTs_vec_to_mat_add_diag",                       (DL_FUNC) &_ANTs_vec_to_mat_add_diag,                       2},
   {"_ANTs_vec_unique",                                (DL_FUNC) &_ANTs_vec_unique,                                1},
   {"_ANTs_vec_unmatch",                               (DL_FUNC) &_ANTs_vec_unmatch,                               2},

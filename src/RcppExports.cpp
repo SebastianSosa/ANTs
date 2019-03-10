@@ -40,17 +40,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// metric_global_shortestDetailsBasedBetween
-SEXP metric_global_shortestDetailsBasedBetween(NumericMatrix disMap);
-RcppExport SEXP _ANTs_metric_global_shortestDetailsBasedBetween(SEXP disMapSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
-    rcpp_result_gen = Rcpp::wrap(metric_global_shortestDetailsBasedBetween(disMap));
-    return rcpp_result_gen;
-END_RCPP
-}
 // metric_node_betweeness
 SEXP metric_node_betweeness(NumericMatrix disMap);
 RcppExport SEXP _ANTs_metric_node_betweeness(SEXP disMapSEXP) {
@@ -554,6 +543,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// met_triangle_binary
+int met_triangle_binary(NumericMatrix M);
+RcppExport SEXP _ANTs_met_triangle_binary(SEXP MSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type M(MSEXP);
+    rcpp_result_gen = Rcpp::wrap(met_triangle_binary(M));
+    return rcpp_result_gen;
+END_RCPP
+}
 // na_omit
 NumericVector na_omit(NumericVector x);
 RcppExport SEXP _ANTs_na_omit(SEXP xSEXP) {
@@ -611,15 +611,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // perm_matVec
-NumericVector perm_matVec(NumericVector m, int n, IntegerVector rand);
-RcppExport SEXP _ANTs_perm_matVec(SEXP mSEXP, SEXP nSEXP, SEXP randSEXP) {
+NumericVector perm_matVec(NumericVector vec, int n, IntegerVector rand);
+RcppExport SEXP _ANTs_perm_matVec(SEXP vecSEXP, SEXP nSEXP, SEXP randSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type m(mSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type vec(vecSEXP);
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type rand(randSEXP);
-    rcpp_result_gen = Rcpp::wrap(perm_matVec(m, n, rand));
+    rcpp_result_gen = Rcpp::wrap(perm_matVec(vec, n, rand));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -633,19 +633,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type rand(randSEXP);
     rcpp_result_gen = Rcpp::wrap(perm_mat_col_row(M, ncol, rand));
-    return rcpp_result_gen;
-END_RCPP
-}
-// perm_mat_row_col
-NumericMatrix perm_mat_row_col(NumericMatrix& M, int col, IntegerVector& rand);
-RcppExport SEXP _ANTs_perm_mat_row_col(SEXP MSEXP, SEXP colSEXP, SEXP randSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix& >::type M(MSEXP);
-    Rcpp::traits::input_parameter< int >::type col(colSEXP);
-    Rcpp::traits::input_parameter< IntegerVector& >::type rand(randSEXP);
-    rcpp_result_gen = Rcpp::wrap(perm_mat_row_col(M, col, rand));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -794,18 +781,6 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type M(MSEXP);
     rcpp_result_gen = Rcpp::wrap(stat_chol2inv(M));
-    return rcpp_result_gen;
-END_RCPP
-}
-// stat_t_value
-NumericVector stat_t_value(List lm, NumericMatrix x4);
-RcppExport SEXP _ANTs_stat_t_value(SEXP lmSEXP, SEXP x4SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type lm(lmSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type x4(x4SEXP);
-    rcpp_result_gen = Rcpp::wrap(stat_t_value(lm, x4));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1065,14 +1040,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // vec_to_mat
-NumericMatrix vec_to_mat(NumericVector vec, int ncol);
-RcppExport SEXP _ANTs_vec_to_mat(SEXP vecSEXP, SEXP ncolSEXP) {
+NumericMatrix vec_to_mat(NumericVector vec, int ncol, bool diag);
+RcppExport SEXP _ANTs_vec_to_mat(SEXP vecSEXP, SEXP ncolSEXP, SEXP diagSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type vec(vecSEXP);
     Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
-    rcpp_result_gen = Rcpp::wrap(vec_to_mat(vec, ncol));
+    Rcpp::traits::input_parameter< bool >::type diag(diagSEXP);
+    rcpp_result_gen = Rcpp::wrap(vec_to_mat(vec, ncol, diag));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1175,7 +1151,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_ComplexEigen", (DL_FUNC) &_ANTs_ComplexEigen, 1},
     {"_ANTs_metric_global_shortestPath", (DL_FUNC) &_ANTs_metric_global_shortestPath, 1},
     {"_ANTs_metric_global_shortestDetails", (DL_FUNC) &_ANTs_metric_global_shortestDetails, 1},
-    {"_ANTs_metric_global_shortestDetailsBasedBetween", (DL_FUNC) &_ANTs_metric_global_shortestDetailsBasedBetween, 1},
     {"_ANTs_metric_node_betweeness", (DL_FUNC) &_ANTs_metric_node_betweeness, 1},
     {"_ANTs_metric_global_triangle", (DL_FUNC) &_ANTs_metric_global_triangle, 1},
     {"_ANTs_assoc_mat", (DL_FUNC) &_ANTs_assoc_mat, 2},
@@ -1219,13 +1194,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_met_ei", (DL_FUNC) &_ANTs_met_ei, 1},
     {"_ANTs_met_strength", (DL_FUNC) &_ANTs_met_strength, 1},
     {"_ANTs_met_sum_egos_strength", (DL_FUNC) &_ANTs_met_sum_egos_strength, 1},
+    {"_ANTs_met_triangle_binary", (DL_FUNC) &_ANTs_met_triangle_binary, 1},
     {"_ANTs_na_omit", (DL_FUNC) &_ANTs_na_omit, 1},
     {"_ANTs_perm_dataStream1", (DL_FUNC) &_ANTs_perm_dataStream1, 4},
     {"_ANTs_perm_dataStream1_focal", (DL_FUNC) &_ANTs_perm_dataStream1_focal, 5},
     {"_ANTs_perm_dataStream_ControlFactor", (DL_FUNC) &_ANTs_perm_dataStream_ControlFactor, 6},
     {"_ANTs_perm_matVec", (DL_FUNC) &_ANTs_perm_matVec, 3},
     {"_ANTs_perm_mat_col_row", (DL_FUNC) &_ANTs_perm_mat_col_row, 3},
-    {"_ANTs_perm_mat_row_col", (DL_FUNC) &_ANTs_perm_mat_row_col, 3},
     {"_ANTs_perm_net_weigths", (DL_FUNC) &_ANTs_perm_net_weigths, 4},
     {"_ANTs_perm_nl_rf", (DL_FUNC) &_ANTs_perm_nl_rf, 4},
     {"_ANTs_perm_nodeLabels", (DL_FUNC) &_ANTs_perm_nodeLabels, 4},
@@ -1237,7 +1212,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_redo_perm_dataStream_ControlFactor_scd", (DL_FUNC) &_ANTs_redo_perm_dataStream_ControlFactor_scd, 3},
     {"_ANTs_redo_perm_dataStream_focal", (DL_FUNC) &_ANTs_redo_perm_dataStream_focal, 6},
     {"_ANTs_stat_chol2inv", (DL_FUNC) &_ANTs_stat_chol2inv, 1},
-    {"_ANTs_stat_t_value", (DL_FUNC) &_ANTs_stat_t_value, 2},
     {"_ANTs_test_nm", (DL_FUNC) &_ANTs_test_nm, 1},
     {"_ANTs_test_arma", (DL_FUNC) &_ANTs_test_arma, 1},
     {"_ANTs_test_nm_conv", (DL_FUNC) &_ANTs_test_nm_conv, 1},
@@ -1260,7 +1234,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_vec_sample", (DL_FUNC) &_ANTs_vec_sample, 3},
     {"_ANTs_vec_sample_all", (DL_FUNC) &_ANTs_vec_sample_all, 1},
     {"_ANTs_vec_sum", (DL_FUNC) &_ANTs_vec_sum, 1},
-    {"_ANTs_vec_to_mat", (DL_FUNC) &_ANTs_vec_to_mat, 2},
+    {"_ANTs_vec_to_mat", (DL_FUNC) &_ANTs_vec_to_mat, 3},
     {"_ANTs_vec_to_mat_add_diag", (DL_FUNC) &_ANTs_vec_to_mat_add_diag, 2},
     {"_ANTs_vec_unique", (DL_FUNC) &_ANTs_vec_unique, 1},
     {"_ANTs_vec_unmatch", (DL_FUNC) &_ANTs_vec_unmatch, 2},

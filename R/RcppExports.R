@@ -374,34 +374,6 @@ na_omit <- function(x) {
     .Call('_ANTs_na_omit', PACKAGE = 'ANTs', x)
 }
 
-#' @title Permutations for MRQAP
-#' @description realize permutation for MRQAP test
-#' @param y a vector representing the independent variable
-#' @param x a matrix in which each columns represent an independent matrix vectorized
-#' @return A list of 
-#' @references Dekker, D., Krackhard, D., Snijders, T.A.B (2007) Sensitivity of MRQAP tests to collinearity and autocorellation conditions. Psychometrika 72(4): 563-581.
-#' @author Sebastian Sosa.
-#' @keywords internal
-NULL
-
-perm_MRQAP <- function(y, x, type, nperm, col, sym, diag, test) {
-    .Call('_ANTs_perm_MRQAP', PACKAGE = 'ANTs', y, x, type, nperm, col, sym, diag, test)
-}
-
-#' @title Permutations for MRQAP
-#' @description realize permutation for MRQAP test
-#' @param y a vector representing the independent variable
-#' @param x a matrix in which each columns represent an independent matrix vectorized
-#' @return A list of 
-#' @references Dekker, D., Krackhard, D., Snijders, T.A.B (2007) Sensitivity of MRQAP tests to collinearity and autocorellation conditions. Psychometrika 72(4): 563-581.
-#' @author Sebastian Sosa.
-#' @keywords internal
-NULL
-
-perm_MRQAP2 <- function(y, x, type, nperm, col, sym, diag, test) {
-    .Call('_ANTs_perm_MRQAP2', PACKAGE = 'ANTs', y, x, type, nperm, col, sym, diag, test)
-}
-
 #' @title Data Stream Group Fellow Permutations without control factor.
 #' @description Pre-network permutation on association data of Group fellow type without control factor.
 #' @param M a square adjacency matrix.
@@ -470,10 +442,6 @@ perm_matVec <- function(vec, n, rand) {
 
 perm_mat_col_row <- function(M, ncol, rand) {
     .Call('_ANTs_perm_mat_col_row', PACKAGE = 'ANTs', M, ncol, rand)
-}
-
-perm_mat_row_col <- function(M, col, rand) {
-    .Call('_ANTs_perm_mat_row_col', PACKAGE = 'ANTs', M, col, rand)
 }
 
 #' @title Edgelist weigths permutations
@@ -618,10 +586,6 @@ redo_perm_dataStream_focal <- function(df, ldf1, nperm, col_focal, col_alters, l
 
 stat_chol2inv <- function(M) {
     .Call('_ANTs_stat_chol2inv', PACKAGE = 'ANTs', M)
-}
-
-stat_t_value <- function(lm, x4) {
-    .Call('_ANTs_stat_t_value', PACKAGE = 'ANTs', lm, x4)
 }
 
 test_nm <- function(X) {
