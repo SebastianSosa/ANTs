@@ -19,6 +19,11 @@
 met.betweenness.single <- function(m, binary = TRUE, shortest.weight = FALSE, normalization = TRUE, sym = TRUE, out = TRUE, df = NULL, dfid = NULL) {
   # Organizing matrix according to arguments user declaration
   name <- colnames(m)
+  
+  if (sym) {
+    m <- m + t(m)
+  }
+  
   if (binary) {
     m <- mat_filter(m, 1, 1)
     colnames(m) <- name
@@ -36,9 +41,7 @@ met.betweenness.single <- function(m, binary = TRUE, shortest.weight = FALSE, no
     m <- 1 / m
     m[is.infinite(m)] <- 0
   }
-  if (sym) {
-    m <- m + t(m)
-  }
+
   else {
     if (out == FALSE) {
       m <- t(m)

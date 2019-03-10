@@ -187,7 +187,7 @@ met.betweenness <- function(M, binary = FALSE, shortest.weight = FALSE, normaliz
 
   else {
     # Creat an object to store the type of betweenness user selected
-    # According to binary, shortest.weight, normalization, arguments sym, out
+    # According to binary, shortest.weight, normalization, arguments sym, out-------------------
     tmp <- "tmp"
     if (binary) {
       if (normalization) {
