@@ -29,3 +29,4 @@ src/*.dll
 .Rproj.user
 inst/doc
 .dropbox
+.docx
