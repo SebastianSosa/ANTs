@@ -16,8 +16,6 @@
 #' @description Computes network Centralisation index
 #' @param M a square adjacency matrix, or a list of square adjacency matrices, or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.
 #' @param df a data frame of same length as the input matrix or a list of data frames if argument \emph{M} is a list of matrices or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.
-#' @param binary a boolean, if \emph{TRUE}, it calculates the binary version of the affinity.
-#' @param sym if \emph{TRUE}, then it symmetrizes the matrix. Otherwise, it calculates geodesic distances and diameter according to the directionality of the links.
 #' @details Centralisation index of a network is based on eigenvector centrality.
 #' @return
 #' #' \itemize{
@@ -31,7 +29,7 @@
 #' @examples
 #' met.ci(sim.m)
 
-met.ci <- function(M, df = NULL, binary = FALSE, sym = TRUE) {
+met.ci <- function(M, df = NULL) {
   # Checking if argument M is a square matrix 
   test <- is.matrix(M)
   if (test) {

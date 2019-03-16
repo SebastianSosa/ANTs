@@ -31,6 +31,9 @@
 #' @keywords internal
 
 met.dge.single <- function(m, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE) {
+  if (directed == FALSE){
+    m <- m + t(m)
+  }
   if (weighted == FALSE) {
     m <- mat_filter(m, 1, 1)
   }
@@ -44,7 +47,6 @@ met.dge.single <- function(m, weighted = TRUE, shortest.weight = FALSE, normaliz
     m[is.infinite(m)] <- 0
   }
   if (directed == FALSE) {
-    m <- m + t(m)
     result <- metric_global_shortestPath(m)[[1]]
     diag(result) <- 0
     GE <- s / (ncol(result) * (ncol(result) - 1))

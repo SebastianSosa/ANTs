@@ -37,12 +37,14 @@ met.geodesicDiameter.single <- function(m, weighted = TRUE, shortest.weight = FA
   if (weighted == FALSE & normalization == TRUE) {
     stop("Argument normalization can't be TRUE when  argument weighted is FALSE.")
   }
+  if (directed == FALSE){
+    m <- m + t(m)
+  }
   if (weighted == FALSE) {
     m <- mat_filter(m, 1, 1)
   }
   if (shortest.weight == FALSE) {
     # opshal method
-
     if (normalization) {
       number.of.links = length(m[m>0])
       avg_strength <- sum(m) / (number.of.links * (number.of.links - 1))
@@ -53,7 +55,6 @@ met.geodesicDiameter.single <- function(m, weighted = TRUE, shortest.weight = FA
     m[is.infinite(m)] <- 0
   }
   if (directed == FALSE) {
-    m <- m + t(m)
     results <- metric_global_shortestPath(m)
     r1 <- results[[2]]
     r2 <- results[[1]]
