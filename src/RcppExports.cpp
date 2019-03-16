@@ -40,6 +40,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// metric_global_shortestDetailsBasedBetween
+SEXP metric_global_shortestDetailsBasedBetween(NumericMatrix disMap);
+RcppExport SEXP _ANTs_metric_global_shortestDetailsBasedBetween(SEXP disMapSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
+    rcpp_result_gen = Rcpp::wrap(metric_global_shortestDetailsBasedBetween(disMap));
+    return rcpp_result_gen;
+END_RCPP
+}
 // metric_node_betweeness
 SEXP metric_node_betweeness(NumericMatrix disMap);
 RcppExport SEXP _ANTs_metric_node_betweeness(SEXP disMapSEXP) {
@@ -1140,6 +1151,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_ComplexEigen", (DL_FUNC) &_ANTs_ComplexEigen, 1},
     {"_ANTs_metric_global_shortestPath", (DL_FUNC) &_ANTs_metric_global_shortestPath, 1},
     {"_ANTs_metric_global_shortestDetails", (DL_FUNC) &_ANTs_metric_global_shortestDetails, 1},
+    {"_ANTs_metric_global_shortestDetailsBasedBetween", (DL_FUNC) &_ANTs_metric_global_shortestDetailsBasedBetween, 1},
     {"_ANTs_metric_node_betweeness", (DL_FUNC) &_ANTs_metric_node_betweeness, 1},
     {"_ANTs_metric_global_triangle", (DL_FUNC) &_ANTs_metric_global_triangle, 1},
     {"_ANTs_assoc_mat", (DL_FUNC) &_ANTs_assoc_mat, 2},

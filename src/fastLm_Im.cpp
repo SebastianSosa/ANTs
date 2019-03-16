@@ -213,6 +213,8 @@ List fastLm(Rcpp::NumericMatrix Xs, Rcpp::NumericVector ys, int type) {
   // Select and apply the least squares method
   lm                 ans(do_lm(X, y, type));
   
+  //std::cout<<ans.rank()<<std::endl;
+  
   // Copy coefficients and install names, if any
   NumericVector     coef(wrap(ans.coef()));
   
