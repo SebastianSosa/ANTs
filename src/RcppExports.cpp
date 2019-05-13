@@ -40,17 +40,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// metric_global_shortestDetailsBasedBetween
-SEXP metric_global_shortestDetailsBasedBetween(NumericMatrix disMap);
-RcppExport SEXP _ANTs_metric_global_shortestDetailsBasedBetween(SEXP disMapSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
-    rcpp_result_gen = Rcpp::wrap(metric_global_shortestDetailsBasedBetween(disMap));
-    return rcpp_result_gen;
-END_RCPP
-}
 // metric_node_betweeness
 SEXP metric_node_betweeness(NumericMatrix disMap);
 RcppExport SEXP _ANTs_metric_node_betweeness(SEXP disMapSEXP) {
@@ -485,6 +474,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// met_diversity
+NumericVector met_diversity(NumericMatrix M);
+RcppExport SEXP _ANTs_met_diversity(SEXP MSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type M(MSEXP);
+    rcpp_result_gen = Rcpp::wrap(met_diversity(M));
+    return rcpp_result_gen;
+END_RCPP
+}
 // met_eigen
 NumericVector met_eigen(NumericMatrix M, double eps, int maxiter);
 RcppExport SEXP _ANTs_met_eigen(SEXP MSEXP, SEXP epsSEXP, SEXP maxiterSEXP) {
@@ -595,18 +595,19 @@ BEGIN_RCPP
 END_RCPP
 }
 // perm_dataStream_ControlFactor
-Rcpp::List perm_dataStream_ControlFactor(Rcpp::List GBIList, arma::mat M, int nperm, Rcpp::IntegerVector CumSizesGbis, bool progress, std::string method);
-RcppExport SEXP _ANTs_perm_dataStream_ControlFactor(SEXP GBIListSEXP, SEXP MSEXP, SEXP npermSEXP, SEXP CumSizesGbisSEXP, SEXP progressSEXP, SEXP methodSEXP) {
+Rcpp::List perm_dataStream_ControlFactor(Rcpp::List GBIList, arma::mat M, int nperm, Rcpp::IntegerVector GBIIndexes, Rcpp::IntegerVector CumSizesGbis, bool progress, std::string method);
+RcppExport SEXP _ANTs_perm_dataStream_ControlFactor(SEXP GBIListSEXP, SEXP MSEXP, SEXP npermSEXP, SEXP GBIIndexesSEXP, SEXP CumSizesGbisSEXP, SEXP progressSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::List >::type GBIList(GBIListSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type M(MSEXP);
     Rcpp::traits::input_parameter< int >::type nperm(npermSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type GBIIndexes(GBIIndexesSEXP);
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type CumSizesGbis(CumSizesGbisSEXP);
     Rcpp::traits::input_parameter< bool >::type progress(progressSEXP);
     Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(perm_dataStream_ControlFactor(GBIList, M, nperm, CumSizesGbis, progress, method));
+    rcpp_result_gen = Rcpp::wrap(perm_dataStream_ControlFactor(GBIList, M, nperm, GBIIndexes, CumSizesGbis, progress, method));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1151,7 +1152,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_ComplexEigen", (DL_FUNC) &_ANTs_ComplexEigen, 1},
     {"_ANTs_metric_global_shortestPath", (DL_FUNC) &_ANTs_metric_global_shortestPath, 1},
     {"_ANTs_metric_global_shortestDetails", (DL_FUNC) &_ANTs_metric_global_shortestDetails, 1},
-    {"_ANTs_metric_global_shortestDetailsBasedBetween", (DL_FUNC) &_ANTs_metric_global_shortestDetailsBasedBetween, 1},
     {"_ANTs_metric_node_betweeness", (DL_FUNC) &_ANTs_metric_node_betweeness, 1},
     {"_ANTs_metric_global_triangle", (DL_FUNC) &_ANTs_metric_global_triangle, 1},
     {"_ANTs_assoc_mat", (DL_FUNC) &_ANTs_assoc_mat, 2},
@@ -1189,6 +1189,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_met_cc", (DL_FUNC) &_ANTs_met_cc, 2},
     {"_ANTs_met_degree", (DL_FUNC) &_ANTs_met_degree, 1},
     {"_ANTs_met_density", (DL_FUNC) &_ANTs_met_density, 1},
+    {"_ANTs_met_diversity", (DL_FUNC) &_ANTs_met_diversity, 1},
     {"_ANTs_met_eigen", (DL_FUNC) &_ANTs_met_eigen, 3},
     {"_ANTs_met_modularityU", (DL_FUNC) &_ANTs_met_modularityU, 2},
     {"_ANTs_met_nalters", (DL_FUNC) &_ANTs_met_nalters, 1},
@@ -1198,7 +1199,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_na_omit", (DL_FUNC) &_ANTs_na_omit, 1},
     {"_ANTs_perm_dataStream1", (DL_FUNC) &_ANTs_perm_dataStream1, 4},
     {"_ANTs_perm_dataStream1_focal", (DL_FUNC) &_ANTs_perm_dataStream1_focal, 5},
-    {"_ANTs_perm_dataStream_ControlFactor", (DL_FUNC) &_ANTs_perm_dataStream_ControlFactor, 6},
+    {"_ANTs_perm_dataStream_ControlFactor", (DL_FUNC) &_ANTs_perm_dataStream_ControlFactor, 7},
     {"_ANTs_perm_matVec", (DL_FUNC) &_ANTs_perm_matVec, 3},
     {"_ANTs_perm_mat_col_row", (DL_FUNC) &_ANTs_perm_mat_col_row, 3},
     {"_ANTs_perm_net_weigths", (DL_FUNC) &_ANTs_perm_net_weigths, 4},

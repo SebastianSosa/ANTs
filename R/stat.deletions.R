@@ -15,9 +15,9 @@
 #' @title Network target & random deletion simulations
 #' @description Perfoms a knockout analysis according to specific vertex attributes and a specific percentage of nodes to delete
 #' @param M a square adjacency M.
-#' @param attr  a factor vec for categorical attributes or a numeric vec for continuous attributes. The vector must have the same length and same order as the one in argument M.
-#' @param target a character or stirng if argument attr is categorical (for categorical attributes) indicating the category of individuals to delete.
-#' A string of two types : 1) 'decreasing', or 2) decreasing if argument attr is continuous (for continuous  attributes) to delete the individuals with greatest or lowest attributes values respectively.
+#' @param attr  a vector of categorical (factor or character) or numeric (continuous) attributes of the nodes. The vector must have the same length and order as the nodes in the square adjacency matrix 'M'.
+#' @param target Indicates the nodes that will be the target of deletion. If the argument 'attr' is categorical, then 'target' indicates the attribute of the node target of deletion. If the argument 'attr' is numeric,
+#' then 'target' can take one of two character elements 1) 'decreasing' or 2) 'increasing' indicating whether the target of deletions are nodes with the greatest or lowest attribute's values respectively.
 #' @param ndel an integer indicating the number of deletions to perform in each simulation.
 #' @param nsim an integer indicating the number of simulations, \emph{i.e.} how many times to perform \emph{ndel} deletions.
 #' @param weighted if \emph{true}, it binarizes the square adjacency matrix M. Geodesic distances and diameter are based only on the presence or absence of edges.

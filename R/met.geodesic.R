@@ -44,7 +44,18 @@ met.geodesic <- function(M, weighted = TRUE, shortest.weight = FALSE, normalizat
 
   else {
     if (!is.null(attributes(M)$ANT)) {
-      stop("Geodesic distances is a matrix and cannot be analyse on ANTs analyticial protocols ")
+      # Check if argument M originates from ANTs multiples matrices importations
+      test1 <- attributes(M)$ANT == "list of matrices obtained through data frames of interactions"
+      
+      if(test1){
+        result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
+          r <- met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[2]]
+        }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+        return(result)
+      }
+      else{
+        stop("Geodesic distances is a matrix and cannot be analyse on ANTs analyticial protocols ")
+      }
     }
     else {
       if (!test & is.list(M)) {

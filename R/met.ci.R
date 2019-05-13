@@ -57,6 +57,10 @@ met.ci <- function(M, df = NULL) {
       test4 <- attributes(M)$ANT == "ANT data stream focal sampling multiple matrices"
       test5 <- attributes(M)$ANT == "ANT data stream group sampling multiple matrices"
       test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
+      
+      # Check if argument M originates from ANTs multiples matrices importations
+      test7 <- attributes(M)$ANT == "list of matrices obtained through data frames of interactions"
+      
 
        # If argument M originates from a single network protocol, we work on a list of matrices
       if (any(test1, test2, test3)) {
@@ -213,6 +217,26 @@ met.ci <- function(M, df = NULL) {
           return(result)
         }
       }
+      
+      # If argument M originates from ANTs multiples matrices importations
+      if(test7){
+        # Check if argument df is NULL
+        if (is.null(df)) {
+          result <- lapply(M, met.ci.single)
+          return(result)
+        }
+        
+        # Check if argument df is not NULL, is not a data frame and is a list
+        if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+          # Compute network metric
+          result <- mapply(function(x, y) {
+            y$ci <- met.ci.single(x)
+            return(y)
+          }, x = M, y = df, SIMPLIFY = FALSE)
+          return(result)
+        }
+      }
+      
     }
 
   # If argument M is a list of square matrices----------------------

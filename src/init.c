@@ -8,6 +8,7 @@ Check these declarations against the C/Fortran source code.
 */
 
 /* .Call calls */
+extern SEXP _ANTs_met_diversity(SEXP);
 extern SEXP _ANTs_assoc_mat(SEXP, SEXP);
 extern SEXP _ANTs_assoc_mat_full(SEXP, SEXP);
 extern SEXP _ANTs_assoc_mat_one_id(SEXP, SEXP, SEXP);
@@ -103,6 +104,7 @@ extern SEXP _ANTs_vector_abs(SEXP);
 extern SEXP _ANTs_which_equal(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
+  {"_ANTs_met_diversity",                             (DL_FUNC) &_ANTs_assoc_mat,                                 1},
   {"_ANTs_assoc_mat",                                 (DL_FUNC) &_ANTs_assoc_mat,                                 2},
   {"_ANTs_assoc_mat_full",                            (DL_FUNC) &_ANTs_assoc_mat_full,                            2},
   {"_ANTs_assoc_mat_one_id",                          (DL_FUNC) &_ANTs_assoc_mat_one_id,                          3},

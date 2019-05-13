@@ -185,6 +185,9 @@ met.diameter <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE,
       test4 <- attributes(M)$ANT == "ANT data stream focal sampling multiple matrices"
       test5 <- attributes(M)$ANT == "ANT data stream group sampling multiple matrices"
       test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
+      
+      # Check if argument M originates from ANTs multiples matrices importations
+      test7 <- attributes(M)$ANT == "list of matrices obtained through data frames of interactions"
 
       # If argument M originates from a single network protocol, we work on a list of matrices
       if (any(test1, test2, test3)) {
@@ -194,15 +197,24 @@ met.diameter <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE,
           if (!is.data.frame(df)) {
             stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function", "\r")
           }
-        } 
-        # Compute network metric and keep attribute permutations 
-        # and name column of data frame according to user arguments binary,sym, out declaration
           result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out, df, tmp) {
-            df$ge <- met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+            df$ge <- ANTs:::met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
             names(df)[ncol(df)] = attributes(tmp)$name
             attr(df, "permutation") <- attributes(x)$permutation
             return(df)
           }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out, df = df,  tmp = tmp)
+        } 
+        else{
+          # Compute network metric and keep attribute permutations 
+          # and name column of data frame according to user arguments binary,sym, out declaration
+          result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out, df, tmp) {
+            r<- ANTs:::met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+            names(r) = attributes(tmp)$name
+            attr(r, "permutation") <- attributes(x)$permutation
+            return(r)
+          }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out, df = df,  tmp = tmp)
+        }
+
         
 
         # If argument M is an object returned by perm.ds.grp, 
@@ -335,6 +347,30 @@ met.diameter <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE,
           return(result)
         }
           }
+        }
+      }
+      
+      # If argument M originates from ANTs multiples matrices importations
+      if(test7){
+        # Check if argument df is NULL
+        if (is.null(df)) {
+          # Compute network metric
+          result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
+            r <- met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+          }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+          attr(result, "name") <- attributes(tmp)$name
+          return(result)
+        }
+        
+        # Check if argument df is not NULL, is not a data frame and is a list
+        if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+          
+          result <- mapply(function(x, y, t) {
+            y$diameter <- met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+            colnames(y)[ncol(y)] <- t
+            return(y)
+          }, x = M, y = df, t = attributes(tmp)$name, SIMPLIFY = FALSE)
+          return(result)
         }
       }
     }

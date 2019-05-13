@@ -49,8 +49,30 @@ met.density <- function(M, df = NULL) {
     if (all(c(!is.null(attributes(M)$ANT), 
         attributes(M)$ANT != "Ego-network list", 
         attributes(M)$ANT != "Ego-network list whitout ego")==TRUE)) {
+      
+      # Check if argument M originates from ANTs multiples matrices importations
+      test1 <- attributes(M)$ANT == "list of matrices obtained through data frames of interactions"
+      
+      if(test1){
+        # Check if argument dfid is NULL
+        if (is.null(df)) {
+          result <- lapply(M, met_density)
+          return(result)
+        }
+        # Check if argument df is not NULL, is not a data frame and is a list
+        if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+          result <- mapply(function(x, y) {
+            y$density <- met_density(x)
+            return(y)
+          }, x = M, y = df, SIMPLIFY = FALSE)
+          return(result)
+        }
+      }
+      else{
         # None of the permutation approches generate network density variation, thus density can be tested for permuted approaches
         stop("None of the permutation approaches available in ANT allow to make density variation.")
+      }
+
     }
     # If argument M is a list of square matrices----------------------
     else {

@@ -35,15 +35,61 @@ check.mat <- function(M) {
   
   # Check if argument M is a list of square matrices----------------------
   if (is.list(M) == TRUE) {
+    if (!is.null(attributes(M)$ANT)) {
+      # Check if argument M originates from a single network protocol
+      test1 <- attributes(M)$ANT == "ANT data stream group sampling single matrix"
+      test2 <- attributes(M)$ANT == "ANT data stream focal sampling single matrix"
+      test3 <- attributes(M)$ANT == "ANT link permutations single matrix"
+      
+      # Check if argument M is issue from a multiples network protocol
+      test4 <- attributes(M)$ANT == "ANT data stream group sampling multiple matrices"
+      test5 <- attributes(M)$ANT == "ANT data stream focal sampling multiple matrices"
+      test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
+      
+      test7 <- attributes(M)$ANT == "list of matrices obtained through data frames of interactions"
+      # If argumpent M originates from a single network protocol, we work on a list of matrices
+      if (test1 | test2 | test3) {
+        if (sum(unlist(lapply(M, function(x) {
+          is.matrix(x) & dim(x)[1] == dim(x)[2]
+        }))) != length(M)) {
+          stop("Incorrect data input, one of the elements in the list is not a matrix or a square matrix.")
+        }
+        else{return("M list ok")}
+      }
+      
+      # If argumpent M is originates from multiples network protocol with node links permutations, we work on a list of list of Matrices
+      if (test3 | test4 | test5){
+        if(all(unlist(lapply(M, function(x){
+          sum(unlist(lapply(x, function(y){
+            is.matrix(y) & dim(y)[1] == dim(y)[2]
+          }))) != length(x)})
+        )) == FALSE){
+          return("M list ok")
+        }
+        else{
+          stop("Incorrect data input, one of the elements in the list is not a matrix or a square matrix.")
+        }
+      }
+      
+      # if argument M is originates from  ANTs  importation function
+      if(test7){
+        if (sum(unlist(lapply(M, function(x) {
+          is.matrix(x) & dim(x)[1] == dim(x)[2]
+        }))) != length(M)) {
+          stop("Incorrect data input, one of the elements in the list is not a matrix or a square matrix.")
+        }
+        else{return("M list ok")}
+      }
+    }
+    else{
       if (sum(unlist(lapply(M, function(x) {
         is.matrix(x) & dim(x)[1] == dim(x)[2]
-        }))) != length(M)) {
+      }))) != length(M)) {
         stop("Incorrect data input, one of the elements in the list is not a matrix or a square matrix.")
       }
       else{return("M list ok")}
+    }
   }
-
   # If none of the test work then argument M is not a square matrix neither a list of square matrices----------------------
   else{stop("Argument M is not a matrix or a list of matrices")}
-  
 }

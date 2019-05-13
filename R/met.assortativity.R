@@ -63,7 +63,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
     # If argument perm.nl is equal to TRUE, argument attr is permuted
     if (perm.nl) {
       # Check if argument M is an object returned by perm.ds.grp, perm.ds.focal or perm.net.nl----------------------
-      # This part was created to handle repermutation in functions stat.lm, stat.glm and stat.glmm
+      # This part was created to handle ANTs permutations protocols
       if (!is.null(attributes(M)$ANT)) {
         if (all(!is.factor(attr[[1]]), !is.character(attr[[1]]), !is.numeric(attr[[1]])) == TRUE) {
           stop("Argument attr must be a factor or numeric vector.")

@@ -177,6 +177,9 @@ met.ge <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE, norma
       test4 <- attributes(M)$ANT == "ANT data stream focal sampling multiple matrices"
       test5 <- attributes(M)$ANT == "ANT data stream group sampling multiple matrices"
       test6 <- attributes(M)$ANT == "ANT link permutations multiple matrices"
+      
+      # Check if argument M originates from ANTs multiples matrices importations
+      test7 <- attributes(M)$ANT == "list of matrices obtained through data frames of interactions"
 
       if (any(test1, test2, test3)) {
         if (is.null(df)) {
@@ -304,6 +307,26 @@ met.ge <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE, norma
         if (test6) {
           attr(result, "name") <- attributes(tmp)$name
           attr(result, "ANT") <- attributes(M)$ANT
+          return(result)
+        }
+      }
+      
+      # If argument M originates from ANTs multiples matrices importations
+      if(test7){
+        if (is.null(df)) {
+          result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out) {
+            r <- met.ge.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+          }, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+          attr(result, "name") <- attributes(tmp)$name
+          return(result)
+        }
+        
+        if (!is.null(df) & !is.data.frame(df) & is.list(df)) {
+          result <- mapply(function(x, y, t) {
+            y$ge <- met.ge.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)
+            colnames(y)[ncol(y)] <- t
+            return(y)
+          }, x = M, y = df, t = attributes(tmp)$name, SIMPLIFY = FALSE)
           return(result)
         }
       }

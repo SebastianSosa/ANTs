@@ -33,41 +33,81 @@
 #'
 
 met.ge.single <- function(m, weighted = TRUE, shortest.weight = FALSE, normalization = TRUE, directed = TRUE, out = TRUE) {
-  if (weighted == FALSE) {
-    m <- mat_filter(m, 1, 1)
-  }
-  if (shortest.weight == FALSE) {
-    # opshal method
-    number.of.links = length(m[m>0])
-    avg_strength <- sum(m) / (number.of.links * (number.of.links - 1))
-    if (normalization) {
-      m <- m / avg_strength
-    }
-    m <- 1 / m
-    m[is.infinite(m)] <- 0
-  }
-  if (directed == FALSE) {
-    m <- m + t(m)
-    result <- metric_global_shortestPath(m)[[1]]
-    diag(result) <- 0
-    s <- sum(result)
-    GE <- s / (ncol(result) * (ncol(result) - 1))
-    return(GE)
-  }
-  else {
-    if (out == TRUE) {
-      result <- metric_global_shortestPath(m)[[1]]
+######## non-weighted matrix
+  if (weighted == FALSE) 
+  {
+    if (directed == FALSE) 
+    {
+      m <- m + t(m)
+      m <- ANTs:::mat_filter(m, 1, 1) ## binarization has to be done strictly after symmetrization
+      result <- 1/ANTs:::metric_global_shortestPath(m)[[1]]
       diag(result) <- 0
+      result[is.infinite(result)] <- 0
       s <- sum(result)
       GE <- s / (ncol(result) * (ncol(result) - 1))
       return(GE)
-    }
-    else {
-      result <- ANTs:::metric_global_shortestPath(t(m))[[1]]
+    }## end directed == T
+    if (directed == TRUE) 
+    {
+      m <- ANTs:::mat_filter(m, 1, 1) ## binarization 
+      result<-NULL
+      if (out == TRUE) { result <- 1/ANTs:::metric_global_shortestPath(m)[[1]] }
+      if (out == FALSE) { result <- 1/ANTs:::metric_global_shortestPath(t(m))[[1]] }
       diag(result) <- 0
+      result[is.infinite(result)] <- 0
       s <- sum(result)
       GE <- s / (ncol(result) * (ncol(result) - 1))
       return(GE)
-    }
+    }## end directed == FALSE
+  }## end weighted == FALSE
+######### Weighted matrix
+  if (weighted == TRUE)
+  {
+    if (directed == FALSE) 
+    {
+      m <- m + t(m) ## symmetrization of matrix
+      if (shortest.weight == FALSE) 
+      {
+        # opshal method
+        if (normalization) 
+        {
+          number.of.links = sum(m>0)
+          avg_strength <- sum(m) / number.of.links
+          m <- m / avg_strength
+        }
+        m <- 1 / m
+        m[is.infinite(m)] <- 0
+      }
+      result <- 1/ANTs:::metric_global_shortestPath(m)[[1]]
+      diag(result) <- 0
+      result[is.infinite(result)] <- 0
+      s <- sum(result)
+      GE <- s / (ncol(result) * (ncol(result) - 1))
+      return(GE)
+    } ## end directed == FALSE
+    if (directed == TRUE) 
+    {
+      if (shortest.weight == FALSE) 
+      {
+        # opshal method
+        if (normalization) 
+        {
+          number.of.links = sum(m>0)
+          avg_strength <- sum(m) / number.of.links
+          m <- m / avg_strength
+        }
+        m <- 1 / m
+        m[is.infinite(m)] <- 0
+      }
+      result<-NULL
+      if (out == TRUE) { result <- 1/ANTs:::metric_global_shortestPath(m)[[1]] }
+      if (out == FALSE) { result <- 1/ANTs:::metric_global_shortestPath(t(m))[[1]] }
+      diag(result) <- 0
+      result[is.infinite(result)] <- 0
+      s <- sum(result)
+      GE <- s / (ncol(result) * (ncol(result) - 1))
+      return(GE)
+    }### end directed == TRUE
   }
 }
+

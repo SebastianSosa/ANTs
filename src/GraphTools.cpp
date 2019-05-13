@@ -1,17 +1,3 @@
-// Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
-//
-// This file is part of Animal Network Toolkit Software (ANTs).
-//
-// ANT is free software: you can redistribute it and/or modify it
-// under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// (at your option) any later version.
-//
-// ANT is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-
 //
 // GraphTools.cpp
 // Some tools for graph calculation. Graphtools is a class which contains two individual class
@@ -49,17 +35,17 @@
 //
 //
 
+//[Rcpp::depends(RcppArmadillo)]
 #include <iostream>
 #include <vector>
 #include <queue>
+//#include "Rcpp.h"
+#include <RcppArmadillo.h>
 #include <map>
-#include "Rcpp.h"
-//#include <RcppArmadillo.h>
-//[Rcpp::depends(RcppArmadillo)]
 using namespace std;
 using namespace Rcpp;
 
-const double metric_global_DISTMAX = 1e+100;
+const double metric_global_DISTMAX = R_PosInf;
 
 class metric_global_GraphTools{
 private:
@@ -325,7 +311,7 @@ private:
                 for (int j = 0; j < size; j++) {
                     if (j != i) {
                         if (distMap[i*size+j] < metric_global_DISTMAX) {
-                            listofNode[j]->addNeighbor(listofNode[i], distMap[i*size+j]);
+                            listofNode[i]->addNeighbor(listofNode[j], distMap[i*size+j]);
                         }
                     }
                 }
@@ -405,10 +391,11 @@ private:
                 Node* top = dealMap.top();
                 dealMap.pop();
                 
-                
+                //cout << top->getName() << " top " << top->getDistance() << " ";
                 std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
                 for (; q != top->neighbor.end(); q++) {
                     if ((*q).first->setDistance((*q).second + top->getDistance(), top)){
+//cout << (*q).first->getName() << " " << (*q).first->getDistance() << " " << endl;
                         if ((*q).first->askState(0)) {
                             (*q).first->changeState();
                             dealMap.push((*q).first);
@@ -422,7 +409,16 @@ private:
                 }
                 top->changeState();
                 reachedNode.push_back(top);
+		
+		std::priority_queue<Node*, vector<Node*>, compareNode> tempDealMap;
+		while (!dealMap.empty()) {
+		    tempDealMap.push(dealMap.top());
+		    dealMap.pop();
+		}	
+		dealMap.swap(tempDealMap);
+		while (!tempDealMap.empty()) tempDealMap.pop();
             }
+//cout << endl;
             
             //return GetPathVector(start, reachedNode);
             //about this part see the paper of betweenness for more details
@@ -474,6 +470,14 @@ private:
                 }
                 top->changeState();
                 reachedNode.push_back(top);
+
+		std::priority_queue<Node*, vector<Node*>, compareNode> tempDealMap;
+		while (!dealMap.empty()) {
+		    tempDealMap.push(dealMap.top());
+		    dealMap.pop();
+		}	
+		dealMap.swap(tempDealMap);
+		while (!tempDealMap.empty()) tempDealMap.pop();
             }
             
             for (long int i = reachedNode.size() - 1; i >= 0; i--) {
@@ -494,7 +498,8 @@ private:
                 long int w = reachedNode[i]->getName();
                 for (long int j = 0; j < reachedNode[i]->shortestFatherList.size(); j++) {
                     long int v = reachedNode[i]->shortestFatherList[j]->getName();
-                    lamda[v] = lamda[v] + (omega[v]/omega[w]*(1 + lamda[w]));
+			if (omega[w] == 0) lamda[v] = lamda[v] + (omega[v]*(1 + lamda[w]));
+                    else lamda[v] = lamda[v] + (omega[v]/omega[w]*(1 + lamda[w]));
                 }
                 if (w != start) {
                     betweenness[w] = betweenness[w] + lamda[w];// /((size-1)*(size-2))
@@ -590,7 +595,10 @@ public:
         //            else distMap[i] = metric_global_DISTMAX;
         //        }
         
-        sparseGraph = sparseJudgement(degree, size);
+        if (sparseJudgement(degree, size)) {
+            sparseGraph = true;
+        }
+        else sparseGraph = false;
         
         for (int i = 0; i < size*size; i++){
             shortestMap[i] = metric_global_DISTMAX;
@@ -600,15 +608,15 @@ public:
     }//init and calculate the shortest path, load data from double* and alloc memory for furhter calculation
     
     bool sparseJudgement(long int* degree, long int size){
-        long int averageDegree = 0;
+        long int maxDegree = 0;
         for (int i = 0; i < size; i++) {
-            averageDegree += degree[i];
+            if (maxDegree < degree[i])
+                maxDegree = degree[i];
         }
-        averageDegree /= size;
-        if (averageDegree * averageDegree * averageDegree <= size) {
+        if (maxDegree*maxDegree*maxDegree <= size) {
             return true;//sparse
         }
-        else return false;//not sparse
+        else return true;//not sparse
     }
     
     long int shortestPathDetails(){
@@ -618,23 +626,26 @@ public:
     void triangleArmadillo(){
         triangles = 0;
         
-//        arma::mat I(distMap,size,size,true);
-//
-//        arma::umat comparePath = (I != metric_global_DISTMAX);
-//
-//        for (int i = 0; i < size; i++) {
-//            arma::umat atNode = comparePath.row(i);
-//            arma::umat toNode = comparePath.col(i);
-//            arma::umat needPath = atNode.t()*toNode.t();
-//
-//            arma::umat result = (comparePath % needPath);
-//            triangles+=(long int)arma::accu(result);
-//            //cout << triangles << endl;
-//        }
+        arma::mat I(distMap,size,size,true);
+        
+        arma::umat comparePath = (I != metric_global_DISTMAX);
+
+        for (int i = 0; i < size; i++) {
+            arma::umat atNode = comparePath.row(i);
+            arma::umat toNode = comparePath.col(i);
+            arma::umat needPath = atNode.t()*toNode.t();
+            
+            arma::umat result = (comparePath % needPath);
+            triangles+=(long int)arma::accu(result);
+            //cout << triangles << endl;
+        }
         triangles/=3;//calculation triangle in matrix form.
     }
     
     void shortestPathCalculation(){
+        /*if (taskType == 1) {
+            return;
+        }*/
         switch (taskType) {
             case 0:
                 if (sparseGraph) {
@@ -663,20 +674,8 @@ public:
                 break;
                 
             case 3://shortestpath details
-                if (taskType != 1) {
-                    Dijiastra(betweenness, size, distMap, shortestMap, directMap);
-                }
-                FloydBasedBetweenness(betweenness, size, distMap, shortestMap, directMap);
-                break;
-                
-            case 4://shortestpathBase on Betweenness
-                Dijiastra(betweenness, size, distMap, shortestMap, directMap);
-                if (isGraphSym) {
-                    for (int i = 0; i < size; i++) {
-                        betweenness[i] = betweenness[i]/2.0;
-                    }
-                }//calculate the betweenness and if the matrix is symmetric, betweeenness should be devided by 2
-                FloydBasedBetweenness(betweenness, size, distMap, shortestMap, directMap);
+                Dijiastra(size, distMap, shortestMap, directMap);
+                //FloydBasedBetweenness(betweenness, size, distMap, shortestMap, directMap);
                 break;
                 
             case 9://test case
@@ -688,13 +687,13 @@ public:
                 if (isGraphSym) {
                     triangles*=2;
                 }
-                cout << triangles << endl;
+                //cout << triangles << endl;
                 if (taskType != 1) {
                     Dijiastra(betweenness, size, distMap, shortestMap, directMap);
                 }
                 FloydBasedBetweenness(betweenness, size, distMap, shortestMap, directMap);
                 triangleArmadillo();
-                cout << triangles << endl;
+                //cout << triangles << endl;
                 
             default:
                 break;
@@ -712,11 +711,6 @@ public:
     
     double* getShortestMap(){
         if (shortestMap != NULL) {
-//            for (int i = 0; i < size*size; i++) {
-//                if (shortestMap[i] >= metric_global_DISTMAX) {
-//                    shortestMap[i] = 0;
-//                }
-//            }
             return shortestMap;
         }
         else return NULL;
@@ -768,9 +762,7 @@ public:
 //        distRes[i] = resultDist[i];
 //    }
 //}
-//' @title Geodesic distances
-//' @description Compute the geodesic distances of a matrix
-//' @keywords internal
+
 // [[Rcpp::export]]
 SEXP metric_global_shortestPath(NumericMatrix disMap){
     long int size = disMap.nrow();
@@ -803,9 +795,7 @@ SEXP metric_global_shortestPath(NumericMatrix disMap){
     
     return List::create(Named("Geodesic distances") = disRes, Named("Diameter") = Diameter);
 }
-//' @title Geodesic distances details
-//' @description Compute the geodesic distances of a matrix and retunr detials of the paths
-//' @keywords internal
+
 // [[Rcpp::export]]
 SEXP metric_global_shortestDetails(NumericMatrix disMap){
     long int size = disMap.nrow();
@@ -827,7 +817,7 @@ SEXP metric_global_shortestDetails(NumericMatrix disMap){
         else inputMatrix[i] = disMap[i];
     }
     
-    metric_global_GraphTools tempx(inputMatrix, size, 0);
+    metric_global_GraphTools tempx(inputMatrix, size, 3);
     long int length = tempx.shortestPathDetails();
     
     vector<vector<vector<long int> > > result = tempx.getPath();
@@ -846,58 +836,7 @@ SEXP metric_global_shortestDetails(NumericMatrix disMap){
     
     return out;
 }
-//' @title Geodesic distances details for betweenness calculation
-//' @description Compute the geodesic distances of a matrix and retunr detials of the paths for betweenness calculation
-//' @keywords internal
-// [[Rcpp::export]]
-SEXP metric_global_shortestDetailsBasedBetween(NumericMatrix disMap){
-    long int size = disMap.nrow();
-    
-    //    if (disMap.nrow() != disMap.ncol())
-    //        throw Rcpp::stop("Equal Size");
-    //    if (disMap.nrow() != disMap.ncol())
-    //        throw Rcpp::warning("Equal Size");
-    if (disMap.nrow() != disMap.ncol()){
-        throw Rcpp::exception("Size Not Equal");
-        return NumericVector::create(0);
-    }
-    
-    double* inputMatrix = new double [size*size];
-    for (int i = 0; i < size*size; i++) {
-        if (disMap[i] <= 0) {
-            inputMatrix[i] = metric_global_DISTMAX;
-        }
-        else inputMatrix[i] = disMap[i];
-    }
-    
-    metric_global_GraphTools tempx(inputMatrix, size, 4);
-    long int length = tempx.shortestPathDetails();
-    double* betweenness = tempx.getBetweenness();
-    
-    NumericVector between(size);
-    for (int i = 0; i <size; i++) {
-        between[i] = betweenness[i];
-    }
-    
-    vector<vector<vector<long int> > > result = tempx.getPath();
-    
-    NumericVector out=NumericVector(Dimension(length,size,size));
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            for (int k = 0; k < length; k++) {
-                if (k < result[i][j].size()) {
-                    out[i*size*length + j *length + k] = result[i][j][k];
-                }
-                else out[i*size*length + j *length + k] = -1;
-            }
-        }
-    }
-    
-    return List::create(Named("Betweenness") = between, Named("Details") = out);
-}
-//' @title Betweenness
-//' @description Compute the Betweenness
-//' @keywords internal
+
 // [[Rcpp::export]]
 SEXP metric_node_betweeness(NumericMatrix disMap){
     long int size = disMap.nrow();
@@ -928,9 +867,7 @@ SEXP metric_node_betweeness(NumericMatrix disMap){
     
     return between;
 }
-//' @title Triangles
-//' @description Count number of triangle
-//' @keywords internal
+
 // [[Rcpp::export]]
 SEXP metric_global_triangle(NumericMatrix disMap){
     long int size = disMap.nrow();

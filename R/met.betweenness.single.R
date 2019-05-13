@@ -16,7 +16,7 @@
 #' @description Compute node betweenness
 #' @keywords internal
 
-met.betweenness.single <- function(m, binary = TRUE, shortest.weight = FALSE, normalization = TRUE, sym = TRUE, out = TRUE, df = NULL, dfid = NULL) {
+met.betweenness.single <- function(m, binary = FALSE, shortest.weight = FALSE, normalization = TRUE, sym = TRUE, out = TRUE, df = NULL, dfid = NULL) {
   # Organizing matrix according to arguments user declaration
   name <- colnames(m)
   
@@ -33,8 +33,8 @@ met.betweenness.single <- function(m, binary = TRUE, shortest.weight = FALSE, no
   if (shortest.weight == FALSE) {
     # opshal method
     if (normalization) {
-      number.of.links = length(m[m>0])
-      avg_strength <- sum(m) / (number.of.links * (number.of.links - 1))
+      number.of.links = sum(m > 0)
+      avg_strength <- sum(m) / number.of.links
       m <- m / avg_strength
     }
     
@@ -42,18 +42,18 @@ met.betweenness.single <- function(m, binary = TRUE, shortest.weight = FALSE, no
     m[is.infinite(m)] <- 0
   }
 
-  else {
-    if (out == FALSE) {
+  if (out == FALSE) {
       m <- t(m)
-    }
   }
-  # Compute network metric
-  result <- metric_node_betweeness(m)
   
+  # Compute network metric
+  result <- ANTs:::metric_node_betweeness(m)
+  result
   # If argument df is null
   if (is.null(df)) {
     # Colnames or argument M as names of the vector
     attr(result, "names") <- colnames(m)
+    result
     return(result)
   }
   else {

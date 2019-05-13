@@ -33,8 +33,12 @@ arma::rowvec assoc_mat_one_id (arma::mat Mgbi,int id, std::string method);
 //' @references Sosa, S. (\emph{in press}). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 //' @keywords internal
 // [[Rcpp::export]]
-Rcpp::List perm_dataStream_ControlFactor(Rcpp::List GBIList,arma::mat M,int nperm,
-                                         Rcpp::IntegerVector CumSizesGbis, bool progress,
+Rcpp::List perm_dataStream_ControlFactor(Rcpp::List GBIList,
+                                         arma::mat M,
+                                         int nperm,
+                                         Rcpp::IntegerVector GBIIndexes, 
+                                         Rcpp::IntegerVector CumSizesGbis, 
+                                         bool progress,
                                          std::string method ){
   //int Size = GBIList.size();
   Rcpp::List list_assoc_mat(nperm+1);// NEW LINE
@@ -44,14 +48,15 @@ Rcpp::List perm_dataStream_ControlFactor(Rcpp::List GBIList,arma::mat M,int nper
   list_assoc_mat[0]=tmp;// NEW LINE
   //list_gbi[0]=M;// fill in with the first gbi (the observe gbi) //OLD LINE 
   int Current_perm = 1;
-  Rcpp::IntegerVector GBIS=Rcpp::seq(0,(GBIList.size()-1));// vector to sample through gbis
+  // CHANGE BUG FIX 20190320
+  //Rcpp::IntegerVector GBIS=Rcpp::seq(0,(GBIList.size()-1));// vector to sample through gbis
 
   while(Current_perm < (nperm+1)){
     if(progress==TRUE){
       std::cout<<"\r"<<"Permutation: "<<Current_perm;
       std::cout.flush();
     }
-    Rcpp::IntegerVector GbiIndex = Rcpp::sample(GBIS,1); // pick a gbi randomly
+    Rcpp::IntegerVector GbiIndex = Rcpp::sample(GBIIndexes,1); // pick a gbi randomly // CHANGE BUG FIX 20190320 // argument in sample change from GBIS to GBIIndexes
     //std::cout<< "GbiIndex" <<std::endl;
     //std::cout<< GbiIndex <<std::endl;
     arma::mat GBI_M= GBIList[GbiIndex(0)]; //extract gbi form the list
