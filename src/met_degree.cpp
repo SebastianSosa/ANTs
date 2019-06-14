@@ -14,7 +14,7 @@
 
 #include <Rcpp.h>
 using namespace Rcpp;
-NumericVector vec_id_sup0( NumericVector x);
+NumericVector vec_id_sup0(NumericVector x);
 
 // [[Rcpp::export]]
 NumericVector met_degree(NumericMatrix M) {
