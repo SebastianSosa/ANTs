@@ -5,37 +5,18 @@ ComplexEigen <- function(M) {
     .Call('_ANTs_ComplexEigen', PACKAGE = 'ANTs', M)
 }
 
-#' @title Geodesic distances
-#' @description Compute the geodesic distances of a matrix
-#' @keywords internal
 metric_global_shortestPath <- function(disMap) {
     .Call('_ANTs_metric_global_shortestPath', PACKAGE = 'ANTs', disMap)
 }
 
-#' @title Geodesic distances details
-#' @description Compute the geodesic distances of a matrix and retunr detials of the paths
-#' @keywords internal
 metric_global_shortestDetails <- function(disMap) {
     .Call('_ANTs_metric_global_shortestDetails', PACKAGE = 'ANTs', disMap)
 }
 
-#' @title Geodesic distances details for betweenness calculation
-#' @description Compute the geodesic distances of a matrix and retunr detials of the paths for betweenness calculation
-#' @keywords internal
-metric_global_shortestDetailsBasedBetween <- function(disMap) {
-    .Call('_ANTs_metric_global_shortestDetailsBasedBetween', PACKAGE = 'ANTs', disMap)
-}
-
-#' @title Betweenness
-#' @description Compute the Betweenness
-#' @keywords internal
 metric_node_betweeness <- function(disMap) {
     .Call('_ANTs_metric_node_betweeness', PACKAGE = 'ANTs', disMap)
 }
 
-#' @title Triangles
-#' @description Count number of triangle
-#' @keywords internal
 metric_global_triangle <- function(disMap) {
     .Call('_ANTs_metric_global_triangle', PACKAGE = 'ANTs', disMap)
 }
@@ -436,8 +417,8 @@ perm_dataStream1_focal <- function(M, M2, nperm, progress, method) {
 #' @references Farine, D. R. (2017). A guide to null models for animal social network analysis. Methods in Ecology and Evolution.
 #' @references Sosa, S. (\emph{in press}). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal
-perm_dataStream_ControlFactor <- function(GBIList, M, nperm, CumSizesGbis, progress, method) {
-    .Call('_ANTs_perm_dataStream_ControlFactor', PACKAGE = 'ANTs', GBIList, M, nperm, CumSizesGbis, progress, method)
+perm_dataStream_ControlFactor <- function(GBIList, M, nperm, GBIIndexes, CumSizesGbis, progress, method) {
+    .Call('_ANTs_perm_dataStream_ControlFactor', PACKAGE = 'ANTs', GBIList, M, nperm, GBIIndexes, CumSizesGbis, progress, method)
 }
 
 #' @title Vectorize matrix permutation

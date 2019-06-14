@@ -474,17 +474,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// met_diversity
-NumericVector met_diversity(NumericMatrix M);
-RcppExport SEXP _ANTs_met_diversity(SEXP MSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type M(MSEXP);
-    rcpp_result_gen = Rcpp::wrap(met_diversity(M));
-    return rcpp_result_gen;
-END_RCPP
-}
 // met_eigen
 NumericVector met_eigen(NumericMatrix M, double eps, int maxiter);
 RcppExport SEXP _ANTs_met_eigen(SEXP MSEXP, SEXP epsSEXP, SEXP maxiterSEXP) {
@@ -1189,7 +1178,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_met_cc", (DL_FUNC) &_ANTs_met_cc, 2},
     {"_ANTs_met_degree", (DL_FUNC) &_ANTs_met_degree, 1},
     {"_ANTs_met_density", (DL_FUNC) &_ANTs_met_density, 1},
-    {"_ANTs_met_diversity", (DL_FUNC) &_ANTs_met_diversity, 1},
     {"_ANTs_met_eigen", (DL_FUNC) &_ANTs_met_eigen, 3},
     {"_ANTs_met_modularityU", (DL_FUNC) &_ANTs_met_modularityU, 2},
     {"_ANTs_met_nalters", (DL_FUNC) &_ANTs_met_nalters, 1},
