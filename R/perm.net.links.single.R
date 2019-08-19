@@ -36,7 +36,6 @@ perm.net.links.single <- function(M, sym = FALSE, erase.diag = TRUE, nperm, prog
           y[upper.tri(y)] <- y[lower.tri(y)]
           return(y)
         }, y = M)
-        cat("\n")
         return(result)
       }
       # If argument erase.diag is TRUE, same as previously but with the matrix diagonal
@@ -47,7 +46,6 @@ perm.net.links.single <- function(M, sym = FALSE, erase.diag = TRUE, nperm, prog
           y[upper.tri(y)] <- y[lower.tri(y)]
           return(y)
         }, y = M)
-        cat("\n")
         return(result)
       }
     }
@@ -68,7 +66,6 @@ perm.net.links.single <- function(M, sym = FALSE, erase.diag = TRUE, nperm, prog
           y[upper.tri(y)] <- perm[((z / 2) + 1):z]
           return(y)
         }, y = M, z = ncell)
-        cat("\n")
         return(result)
       }
       # If argument erase.diag is TRUE, same as previously but with the matrix diagonal
@@ -84,7 +81,6 @@ perm.net.links.single <- function(M, sym = FALSE, erase.diag = TRUE, nperm, prog
           row.names(r) <- rownames(y)
           return(r)
         }, y = M, z = col)
-        cat("\n")
         return(result)
       }
     }
@@ -101,7 +97,6 @@ perm.net.links.single <- function(M, sym = FALSE, erase.diag = TRUE, nperm, prog
           y[upper.tri(y)] <- y[lower.tri(y)]
           return(y)
         }, y = M)
-        cat("\n")
         return(result)
       }
       else {
@@ -113,7 +108,6 @@ perm.net.links.single <- function(M, sym = FALSE, erase.diag = TRUE, nperm, prog
           y[upper.tri(y)] <- y[lower.tri(y)]
           return(y)
         }, y = M)
-        cat("\n")
         return(result)
       }
     }
@@ -130,7 +124,6 @@ perm.net.links.single <- function(M, sym = FALSE, erase.diag = TRUE, nperm, prog
           y[upper.tri(y)] <- perm[((z / 2) + 1):z]
           return(y)
         }, y = M, z = ncell)
-        cat("\n")
         return(result)
       }
       else {
@@ -144,7 +137,6 @@ perm.net.links.single <- function(M, sym = FALSE, erase.diag = TRUE, nperm, prog
           row.names(r) <- rownames(y)
           return(r)
         }, y = M, z = col)
-        cat("\n")
         return(result)
       }
     }
