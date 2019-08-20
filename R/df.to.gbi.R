@@ -30,7 +30,7 @@ df.to.gbi <- function(df, scan, id) {
   col.id <- df.col.findId(df, id)
 
   # Check if argument scan correspond to multiples columns or to a single one----------------------
-  if (length(scan > 1)) {
+  if (length(scan) > 1) {
     # Find id columns correspondign to argment scan----------------------
     df <- df.ctrlFactor(df, scan)
     # Creat new column with a fusion of thos scan columns----------------------
