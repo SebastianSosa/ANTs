@@ -89,7 +89,7 @@ assoc.gfi <- function(M1, M2, fr = TRUE, sym = FALSE, erase.diag = TRUE, index =
     new_df[, 3] <- res
     # Convert the edgelist into a matrix
     g_associations_matrix <- edgl_to_matrix(new_df, sym = sym)
-    g_associations_matrix <- g_associations_matrix/M1.3
+    g_associations_matrix <- g_associations_matrix
   }
     return(g_associations_matrix)
 }
