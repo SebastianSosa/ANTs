@@ -295,7 +295,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
       else {
         obs <- summary(tmp)
         obs$fit <- fitted(tmp)
-        obs$family <- paste(family)
+        obs$family <- paste(fam)
         obs$coefficients <- obs$coefficients[, -4]
       }
 
@@ -332,8 +332,8 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
       tmp.env$gbi <- NULL
       tmp.env$error <- NULL
       if (progress) {
-        permuted <- lapply(seq_along(ant), function(i, ant, formula, family, odf, oda, target.metrics, Scan, ctrlf, method, fam, ...) {
-          cat("  Processing permutation : ", attributes(ant[[i]])$permutation, "\r")
+        permuted <- lapply(seq_along(ant), function(i, ant, formula, family, odf, oda, target.metrics, Scan, ctrlf, method, fam) {
+          cat("  Processing permutation : ", i, "\r")
           r <- tryCatch(suppressWarnings(suppressMessages(lme4::glmer(formula = formula, data = ant[[i]], family = family, ...))), error = identity)
 
           if (isS4(r)) {
