@@ -11,10 +11,10 @@ stat.deletions(M, attr, target, ndel, nsim, weighted = TRUE,
 \arguments{
 \item{M}{a square adjacency M.}
 
-\item{attr}{a factor vec for categorical attributes or a numeric vec for continuous attributes. The vector must have the same length and same order as the one in argument M.}
+\item{attr}{a vector of categorical (factor or character) or numeric (continuous) attributes of the nodes. The vector must have the same length and order as the nodes in the square adjacency matrix 'M'.}
 
-\item{target}{a character or stirng if argument attr is categorical (for categorical attributes) indicating the category of individuals to delete.
-A string of two types : 1) 'decreasing', or 2) decreasing if argument attr is continuous (for continuous  attributes) to delete the individuals with greatest or lowest attributes values respectively.}
+\item{target}{Indicates the nodes that will be the target of deletion. If the argument 'attr' is categorical, then 'target' indicates the attribute of the node target of deletion. If the argument 'attr' is numeric,
+then 'target' can take one of two character elements 1) 'decreasing' or 2) 'increasing' indicating whether the target of deletions are nodes with the greatest or lowest attribute's values respectively.}
 
 \item{ndel}{an integer indicating the number of deletions to perform in each simulation.}
 

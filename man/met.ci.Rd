@@ -4,16 +4,12 @@
 \alias{met.ci}
 \title{Centralisation index}
 \usage{
-met.ci(M, df = NULL, binary = FALSE, sym = TRUE)
+met.ci(M, df = NULL)
 }
 \arguments{
 \item{M}{a square adjacency matrix, or a list of square adjacency matrices, or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.}
 
 \item{df}{a data frame of same length as the input matrix or a list of data frames if argument \emph{M} is a list of matrices or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.}
-
-\item{binary}{a boolean, if \emph{TRUE}, it calculates the binary version of the affinity.}
-
-\item{sym}{if \emph{TRUE}, then it symmetrizes the matrix. Otherwise, it calculates geodesic distances and diameter according to the directionality of the links.}
 }
 \value{
 #' \itemize{

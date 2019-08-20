@@ -4,7 +4,8 @@
 \alias{perm_dataStream_ControlFactor}
 \title{Data Stream Group Fellow Permutations with control factor.}
 \usage{
-perm_dataStream_ControlFactor(GBIList, M, nperm, CumSizesGbis, progress, method)
+perm_dataStream_ControlFactor(GBIList, M, nperm, GBIIndexes, CumSizesGbis,
+  progress, method)
 }
 \arguments{
 \item{M}{a square adjacency matrix.}

@@ -11,7 +11,7 @@ perm.net.nl(ldf, labels, rf = NULL, nperm, progress = TRUE)
 
 \item{labels}{a numeric or character vector representing the labels to permute.}
 
-\item{rf}{an integer or a string indicating the column holding the factor stating multiple networks.}
+\item{rf}{an integer (column id) or a string (column name) indicating the column holding the factor grouping multiple networks.}
 
 \item{nperm}{an integer indicating the number of permutations wanted.}
 

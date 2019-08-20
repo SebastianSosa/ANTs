@@ -2,7 +2,6 @@
 % Please edit documentation in R/perm.p.R, R/stat.p.R
 \name{stat.p}
 \alias{stat.p}
-\alias{stat.p}
 \title{P-value}
 \usage{
 stat.p(metrics, stat.hist = FALSE)
