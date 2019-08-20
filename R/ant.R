@@ -48,7 +48,7 @@ setGeneric(name = "ant", ant <- function(x) {
       diag <- list()
 
       # Compute permuted p-values----------------------
-      p <- stat.p(v_perm)
+      p <- stat.p(c(obs,v_perm))
       
       # Compute confidence interval--------------------
       stat.ci <- stat.ci(v_perm)
@@ -58,7 +58,7 @@ setGeneric(name = "ant", ant <- function(x) {
 
       # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------
       df <- as.data.frame(cbind(obs, p[1], p[2], p[3], stat.ci[1], stat.ci[2], m))
-      colnames(df) <- (c("Observed correlation", "p.left", "p.right", "p.one.side", "95ci lower", "95ci upper", "mean"))
+      colnames(df) <- (c("Observed correlation", "p.left", "p.right",  "p.one.side", "95ci lower", "95ci upper", "mean"))
       rownames(df) <- c("statistics")
       diag$statistics <- df
 
@@ -110,7 +110,7 @@ setGeneric(name = "ant", ant <- function(x) {
       diag <- list()
 
       # Compute permuted p-values----------------------
-      p <- stat.p(v_perm)
+      p <- stat.p(c(obs,v_perm))
       
       # Compute confidence interval--------------------
       stat.ci <- stat.ci(v_perm)
@@ -120,7 +120,7 @@ setGeneric(name = "ant", ant <- function(x) {
       
       # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------     
       df <- as.data.frame(cbind(obs, p[1], p[2], p[3], stat.ci[1], stat.ci[2], m))
-      colnames(df) <- (c("t observed", "p.left", "p.right", "p.one.side", "95ci lower", "95ci upper", "mean"))
+      colnames(df) <- (c("t observed", "p.left","p.right",  "p.one.side", "95ci lower", "95ci upper", "mean"))
       rownames(df) <- c("statistics")
       diag$statistics <- df
 
@@ -177,8 +177,8 @@ setGeneric(name = "ant", ant <- function(x) {
       # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------     
       stat <- NULL
       for (a in 1:ncol(v_perms)) {
-        r <- stat.ci(v_perms[, a])
-        p <- stat.p(v_perms[, a])
+        r <- ANTs:::stat.ci(v_perms[, a])
+        p <- ANTs:::stat.p(c(obs[a],v_perms[, a]))
         stat[[a]] <- data.frame(
           p[1], p[2], p[3],
           r[1], r[2],
@@ -186,7 +186,7 @@ setGeneric(name = "ant", ant <- function(x) {
         )
       }
       stat <- do.call("rbind", stat)
-      colnames(stat) <- c("p.left", "p.rigth", "p.one.side", "lower.ci", "uper.ci", "mean")
+      colnames(stat) <- c("p.left", "p.rigth",   "p.one.side", "lower.ci", "uper.ci", "mean")
       rownames(stat) <- colnames(v_perms)
 
       # Add permuted p-values, 95% confidence interval and mean posterior distribution to original model----------------------
@@ -220,7 +220,7 @@ setGeneric(name = "ant", ant <- function(x) {
       diag <- list()
 
       # Compute permuted p-values----------------------
-      p <- stat.p(v_perm)
+      p <- stat.p(c(obs,v_perm))
       
       # Compute confidence interval--------------------
       stat.ci <- stat.ci(v_perm)
@@ -230,7 +230,7 @@ setGeneric(name = "ant", ant <- function(x) {
 
       # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------     
       df <- as.data.frame(cbind(obs, p[1], p[2], p[3], stat.ci[1], stat.ci[2], m))
-      colnames(df) <- (c("Observed correlation", "p.left", "p.right", "p.one.side", "95ci lower", "95ci upper", "mean"))
+      colnames(df) <- (c("Observed correlation", "p.left", "p.right",  "p.one.side", "95ci lower", "95ci upper", "mean"))
       rownames(df) <- c("statistics")
       diag$statistics <- df
 
@@ -281,7 +281,7 @@ setGeneric(name = "ant", ant <- function(x) {
       stat <- NULL
       for (a in 1:ncol(v_perms)) {
         r <- ANTs:::stat.ci(v_perms[, a])
-        p <- ANTs:::stat.p(v_perms[, a])
+        p <- ANTs:::stat.p(c(obs[a],v_perms[, a]))
         stat[[a]] <- data.frame(
           p[1], p[2], p[3],
           r[1], r[2],
@@ -289,7 +289,7 @@ setGeneric(name = "ant", ant <- function(x) {
         )
       }
       stat <- do.call("rbind", stat)
-      colnames(stat) <- c("p.left", "p.rigth", "p.one.side","lower.ci", "uper.ci", "mean")
+      colnames(stat) <- c("p.left","p.rigth",  "p.one.side","lower.ci", "uper.ci", "mean")
       rownames(stat) <- colnames(v_perms)
 
      # Create posterior distribution plots----------------------
@@ -315,7 +315,7 @@ setGeneric(name = "ant", ant <- function(x) {
       diag <- list()
 
       # Compute permuted p-values----------------------
-      p <- stat.p(v_perm)
+      p <- stat.p(c(obs,v_perm))
       
       # Compute confidence interval--------------------
       stat.ci <- stat.ci(v_perm)
