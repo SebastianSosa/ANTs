@@ -16,7 +16,7 @@
 #' @description Performs node label permutations.
 #' @param ldf a list of data frames, with each data frame representing a subset of the random factors (e.g. groups and/or periods)
 #' @param labels a numeric or character vector representing the labels to permute.
-#' @param rf an integer or a string indicating the column holding the factor stating multiple networks.
+#' @param rf an integer (column id) or a string (column name) indicating the column holding the factor grouping multiple networks.
 #' @param nperm an integer indicating the number of permutations wanted.
 #' @param progress a boolean indicating the visualization of the permutation process.
 #' @return A list of data frames. Each data frame is the merger of the input lists of data frames. The first element of the list is the original input data, the other elements are the different permutations.
