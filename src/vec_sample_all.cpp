@@ -32,13 +32,9 @@ SEXP vec_sample_all(SEXP vec) {
       if(test1==FALSE){
         std::string r1=v1.attr("class");
         if(r1=="factor"){
-          CharacterVector vec1=vec;
-          vec=Rcpp::sample(vec1,vec1.size(),false);
-          CharacterVector levs = sort_unique(vec1);
-          IntegerVector result = match(vec1, levs);
-          result.attr("levels") = levs;
-          result.attr("class") = "factor";
-          return result;
+          SEXP res =impl::sample(as<CharacterVector>(vec));
+          res=impl::as_factor(as<CharacterVector>(res));
+          return res;
         }
         else{
           SEXP res =impl::sample(as<IntegerVector>(vec));
