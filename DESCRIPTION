@@ -11,7 +11,7 @@ URL: www.s-sosa.com/softwares or  https://github.com/SebastianSosa/Animal-Networ
 Encoding: UTF-8
 LazyData: true
 Imports: lme4,methods,Kendall,gtools
-LinkingTo: Rcpp,RcppArmadillo,RcppEigen
+LinkingTo: Rcpp,RcppArmadillo,RcppEigen,visNetwork
 SystemRequirements: C++11
 RoxygenNote: 6.1.1
 BugReports: https://github.com/SebastianSosa/Animal-Network-Toolkit
