@@ -39,6 +39,21 @@ Perform a matrix boostrapping approach to estimate the confidence intervals surr
 \details{
 This process evaluate networks metrics robustness by performing a boostrapp process to remove a certain percent of the data collected and recomputing the network metric of intereste. This have been usde in Balasubramaniam et al. 2018 to asses sensitivty of sampling effor of global network metrics in primates networks.
 }
+\examples{
+df = sim.focal.directed
+test = met.robustness(df, actor = 'actor', receiver = 'receiver', metric = 'met.strength')
+# objects return by the function
+test$metrics
+test$summary
+test$plot
+# Examples with metric extra arguments
+met.robustness(df, actor = 'actor', receiver = 'receiver', metric = 'met.affinity')
+met.robustness(df, actor = 'actor', receiver = 'receiver', metric = 'met.affinity', sym = FALSE)
+# Examples with association data
+test2 = met.robustness(df = sim.grp, assoc.indices = TRUE, scan = c('time', 'location'), id = 'ID', metric  = 'met.strength')
+# Example of how to test global network metric robustness by removing 10\% of the observations simulated 100 times
+test = met.robustness(df, subsampling = rep(10,100), actor = 'actor', receiver = 'receiver', metric = 'met.diameter')
+}
 \references{
 Balasubramaniam, K. N., Beisner, B. A., Berman, C. M., De Marco, A., Duboscq, J., Koirala, S., ... & Ogawa, H. (2018). The influence of phylogeny, social style, and sociodemographic factors on macaque social network structure. American journal of primatology, 80(1), e22727.
 }

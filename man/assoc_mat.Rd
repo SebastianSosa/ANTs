@@ -4,7 +4,7 @@
 \alias{assoc_mat}
 \title{Association indexes}
 \usage{
-assoc_mat(Mgbi, method)
+assoc_mat(Mgbi, method, return_denom = FALSE)
 }
 \arguments{
 \item{method}{a string indicating the type of association matrix:

@@ -4,8 +4,8 @@
 \alias{met.eigen.single}
 \title{Eigenvector Centrality}
 \usage{
-met.eigen.single(M, df = NULL, dfid = NULL, sym = TRUE, binary = FALSE,
-  out = FALSE)
+met.eigen.single(M, df = NULL, dfid = NULL, sym = TRUE,
+  binary = FALSE, out = FALSE)
 }
 \arguments{
 \item{M}{a square adjacency matrix.}
