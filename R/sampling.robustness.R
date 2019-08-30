@@ -20,7 +20,7 @@
 #' \item A summary of bootstrap distribution for each nodes.
 #' \item A plot of metric variations through deletions
 #' }
-#' @details This process evaluates network metrics robustness by performing a boostrap process to remove a certain percent of the data collected and recomputing the network metric of interest. This has been used in Balasubramaniam et al. 2018 to assess sensitivty of sampling effort of global network metrics in primate networks.
+#' @details This process evaluates network metrics robustness by performing a bootstrap process to remove a certain percent of the data collected and recomputing the network metric of interest. This has been used in Balasubramaniam et al. 2018 to assess sensitivty of sampling effort of global network metrics in primate networks.
 #' @author Sebastian Sosa
 #' @references Balasubramaniam, K. N., Beisner, B. A., Berman, C. M., De Marco, A., Duboscq, J., Koirala, S., ... & Ogawa, H. (2018). The influence of phylogeny, social style, and sociodemographic factors on macaque social network structure. American journal of primatology, 80(1), e22727.
 #' @examples
@@ -58,7 +58,7 @@ sampling.robustness <- function(df, subsampling = c(5, 10, 20, 30, 40, 50), metr
 
     # Bootstrapping for each value declared by the user
     for (a in 1:length(subsampling)) {
-      cat("Processing bootstrap : ", a, "\r")
+      cat("  Processing bootstrap : ", a, "\r")
       tmp <- df[-sample(1:nrow(df), percent[a], replace = FALSE), ]
       M <- df.to.mat(tmp, actor = col.actor, receiver = col.receiver)
       result[[a + 1]] <- do.call(metric, list(M = M))
@@ -77,7 +77,7 @@ sampling.robustness <- function(df, subsampling = c(5, 10, 20, 30, 40, 50), metr
 
     # Bootstrapping for each value declared by the user
     for (a in 1:length(subsampling)) {
-      cat("Processing bootstrap : ", a, "\r")
+      cat("  Processing bootstrap : ", a, "\r")
       tmp <- df[-sample(1:nrow(df), percent[a], replace = FALSE), ]
       gbi <- df.to.gbi(tmp, scan = col.scan, id = col.id)
       M <- assoc.indices(gbi, index)
@@ -116,7 +116,7 @@ sampling.robustness <- function(df, subsampling = c(5, 10, 20, 30, 40, 50), metr
     )
     p <- recordPlot()
     # Give ANTs attribute for future developement of analytical protocol
-    attr(result, "ANT") <- "Bootsraping deletions"
+    attr(result, "ANT") <- "Bootsrapping deletions"
     # Return a list with 1) the different values of node metrics, 2) the summary of posterior distribution for each individual node metric, 3) a boxplot with posterior distribution for each individual node metric
     return <- list("metrics" = result, "summary" = summary(result[-1]), "plot" = p)
   }
