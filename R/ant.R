@@ -281,7 +281,7 @@ setGeneric(name = "ant", ant <- function(x) {
       stat <- NULL
       for (a in 1:ncol(v_perms)) {
         r <- ANTs:::stat.ci(v_perms[, a])
-        p <- ANTs:::stat.p(c(obs[a],v_perms[, a]))
+        p <- ANTs:::stat.p(c(obs[,a],v_perms[, a]))
         stat[[a]] <- data.frame(
           p[1], p[2], p[3],
           r[1], r[2],
