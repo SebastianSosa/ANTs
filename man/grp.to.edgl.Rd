@@ -2,7 +2,7 @@
 % Please edit documentation in R/grp.to.edgl.R
 \name{grp.to.edgl}
 \alias{grp.to.edgl}
-\title{Linear group by individuals data frame to dyadic data frame (edge list)}
+\title{Linear group by individual data frame to dyadic data frame (edge list)}
 \usage{
 grp.to.edgl(df, scan, id)
 }
@@ -14,9 +14,9 @@ grp.to.edgl(df, scan, id)
 \item{id}{a numeric or character vector indicating the column holding ids of individuals.}
 }
 \value{
-a data frame with individuals associations according to declared user scans variable(s).
+a data frame with individual associations (symmetric data) according to the scan variable(s) declared by the user.
 }
 \description{
-Convert Linear group by individuals data frame to a dyadic data frame (edge list)
+Converts linear group by individual data frame to a dyadic data frame (edge list)
 }
 \keyword{internal}

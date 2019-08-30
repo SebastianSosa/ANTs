@@ -1,12 +1,12 @@
 importFrom("lme4", "lmer", "lmerControl", "glmer", "glmerControl")
-importFrom("grDevices", "dev.new", "dev.off", "recordPlot")
+importFrom("grDevices", "dev.new", "dev.off", "recordPlot", 'heat.colors')
 importFrom("graphics", "abline", "axis", "hist", "legend", "lines",
-              "mtext", "par", "plot","segments","points","title")
+              "mtext", "par", "plot","segments","points","title", 'stripchart')
 importFrom("stats", ".getXlevels", "binomial", "cor", "fitted",
              "gaussian", "glm", "is.empty.model", "lm.fit", "lm.wfit",
              "model.matrix", "model.offset", "model.response",
              "model.weights", "poisson", "qqline", "qqnorm", "qt",
-             "resid", "sd","lm","na.omit","t.test","residuals.glm")
+             "resid", "sd","lm","na.omit","t.test","residuals.glm",'interaction.plot')
 importFrom("methods","setGeneric","is")
 importFrom("utils", "read.csv","write.csv","browseURL")
 importFrom("Kendall","Kendall")
@@ -14,7 +14,7 @@ importFrom("tcltk","tktoplevel","tkwm.state","tkimage.create","tcl","tklabel",
            "tkcheckbutton","tclVar","tkconfigure","tclvalue","tkdestroy","tkbutton",
            "tkgrid","tkwait.window","tclServiceMode","tktitle")
 importFrom("gtools","even")
-importFrom("visNetwork", 'visNetwork',"visPhysics", "visOptions", "visSave")
+importFrom("visNetwork", 'visNetwork',"visPhysics", "visOptions", "visSave", "visNodes")
 
 export(ant)
 export(assoc.gfi)
@@ -57,6 +57,9 @@ export(perm.net.lk.w)
 export(perm.net.nl)
 export(perm.net.nl.str)
 export(perm.net.weigths)
+export(sampling.effort)
+export(sampling.robustness)
+export(sampling.uncertainty)
 export(stat.cor)
 export(stat.deletions)
 export(stat.deletionsPlot)
