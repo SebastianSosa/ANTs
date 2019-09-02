@@ -34,27 +34,26 @@
 
 #' # Example for node measures non cumulative version
 #' sampling.effort(df, col.time = "period", cumulative = FALSE, metric = "met.strength", actor = "actor", receiver = "receiver")
-
+#' 
 #' # Example for node measures cumulative version
 #' sampling.effort(df, col.time = "period", cumulative = TRUE, metric = "met.strength", actor = "actor", receiver = "receiver")
-
-
+#' 
 #' # Examples with metric extra arguments
 #' sampling.effort(df, col.time = "period", actor = "actor", receiver = "receiver", metric = "met.affinity")
 #' sampling.effort(df, col.time = "period", actor = "actor", receiver = "receiver", metric = "met.affinity", binary = TRUE)
-
+#' 
 #' # Example of how to test global network metric with non cumulative version
 #' sampling.effort(df, col.time = "period", cumulative = FALSE, metric = "met.density", actor = "actor", receiver = "receiver")
-
+#' 
 #' # Example of how to test global network metric with cumulative version
 #' sampling.effort(df, col.time = "period", cumulative = TRUE, metric = "met.density", actor = "actor", receiver = "receiver")
-
-
+#' 
 #' # Same example with group follow data collection protocol
 #' sampling.effort(sim.grp,
 #'                 col.time = "day", cumulative = TRUE, metric = "met.strength",
 #'                 assoc.indices = TRUE, scan = c("time", "location"), id = "ID", index = "sri"
 #' )
+#' 
 #' # Example for node measures cumulative version
 #' sampling.effort(sim.grp,
 #'                 col.time = "day", cumulative = FALSE, metric = "met.strength",
@@ -209,7 +208,7 @@ sampling.effort <- function(df, col.time, cumulative = TRUE, metric = "met.stren
       
       # Ploting global metrics
       plot(result$met, type = "l", xaxt='n',
-           xlab = colnames(df)[col.time], ylab = metric, main = paste(metric, "evolution throught period of time")
+           xlab = colnames(df)[col.time], ylab = metric, main = paste(metric, "evolution through period of time")
       )
       axis(1, at = result$period, labels = result$period)
       # Record plot
@@ -322,7 +321,7 @@ sampling.effort <- function(df, col.time, cumulative = TRUE, metric = "met.stren
       
       # Ploting individuals metrics for each time window
       plot(result$met,type = "l", xaxt='n',
-           xlab = colnames(df)[col.time], ylab = metric, main = paste(metric, "evolution throught period of time")
+           xlab = colnames(df)[col.time], ylab = metric, main = paste(metric, "evolution through period of time")
       )
       axis(1, at = result$period, labels = result$period)
       
