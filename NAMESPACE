@@ -1,7 +1,7 @@
 importFrom("lme4", "lmer", "lmerControl", "glmer", "glmerControl")
-importFrom("grDevices", "dev.new", "dev.off", "recordPlot", 'heat.colors')
+importFrom("grDevices", "dev.new", "dev.off", "recordPlot", 'colorRampPalette')
 importFrom("graphics", "abline", "axis", "hist", "legend", "lines",
-              "mtext", "par", "plot","segments","points","title", 'stripchart')
+              "mtext", "par", "plot","segments","points","title", 'stripchart', 'boxplot')
 importFrom("stats", ".getXlevels", "binomial", "cor", "fitted",
              "gaussian", "glm", "is.empty.model", "lm.fit", "lm.wfit",
              "model.matrix", "model.offset", "model.response",
@@ -55,7 +55,6 @@ export(perm.net.degree)
 export(perm.net.lk)
 export(perm.net.lk.w)
 export(perm.net.nl)
-export(perm.net.nl.str)
 export(perm.net.weigths)
 export(sampling.effort)
 export(sampling.robustness)
