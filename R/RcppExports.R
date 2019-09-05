@@ -35,8 +35,8 @@ metric_global_triangle <- function(disMap) {
 #' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
 #' @author Sebastian Sosa, Ivan Puga-Gonzales.
 #' @keywords internal
-assoc_mat <- function(Mgbi, method) {
-    .Call('_ANTs_assoc_mat', PACKAGE = 'ANTs', Mgbi, method)
+assoc_mat <- function(Mgbi, method, return_denom = FALSE) {
+    .Call('_ANTs_assoc_mat', PACKAGE = 'ANTs', Mgbi, method, return_denom)
 }
 
 #' @title Association indexes

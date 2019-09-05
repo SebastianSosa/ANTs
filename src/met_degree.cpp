@@ -14,18 +14,19 @@
 
 #include <Rcpp.h>
 using namespace Rcpp;
-NumericVector vec_id_sup0(NumericVector x);
 
 // [[Rcpp::export]]
 NumericVector met_degree(NumericMatrix M) {
   int S = M.ncol();
   NumericVector degree(S);
-  for(int a=0; a<S; a++){
-    NumericVector r=M(a,_);
-    NumericVector c=M(_,a);
-    NumericVector row=vec_id_sup0(r);
-    NumericVector col=vec_id_sup0(c);
-    degree[a]=row.size()+col.size();
+  int d;
+  for(int a = 0; a<S; a++){
+    d = 0;
+    for(int b = 0; b<S; b++){
+      if(M(a,b) > 0){d++;}
+      if(M(b,a) > 0){d++;}
+    }
+    degree[a] = d;
   }
   return degree;
 }
