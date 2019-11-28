@@ -417,18 +417,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// met_cc
-NumericVector met_cc(NumericMatrix& M, std::string method);
-RcppExport SEXP _ANTs_met_cc(SEXP MSEXP, SEXP methodSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix& >::type M(MSEXP);
-    Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(met_cc(M, method));
-    return rcpp_result_gen;
-END_RCPP
-}
 // met_degree
 NumericVector met_degree(NumericMatrix M);
 RcppExport SEXP _ANTs_met_degree(SEXP MSEXP) {
@@ -464,18 +452,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// met_modularityU
-double met_modularityU(NumericMatrix M, NumericVector x);
-RcppExport SEXP _ANTs_met_modularityU(SEXP MSEXP, SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type M(MSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(met_modularityU(M, x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // met_nalters
 NumericVector met_nalters(NumericMatrix M);
 RcppExport SEXP _ANTs_met_nalters(SEXP MSEXP) {
@@ -484,17 +460,6 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type M(MSEXP);
     rcpp_result_gen = Rcpp::wrap(met_nalters(M));
-    return rcpp_result_gen;
-END_RCPP
-}
-// met_ei
-arma::cx_mat met_ei(arma::mat m);
-RcppExport SEXP _ANTs_met_ei(SEXP mSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type m(mSEXP);
-    rcpp_result_gen = Rcpp::wrap(met_ei(m));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1139,13 +1104,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_mat_symetrization", (DL_FUNC) &_ANTs_mat_symetrization, 1},
     {"_ANTs_mat_to_vec", (DL_FUNC) &_ANTs_mat_to_vec, 2},
     {"_ANTs_met_assor_cat", (DL_FUNC) &_ANTs_met_assor_cat, 2},
-    {"_ANTs_met_cc", (DL_FUNC) &_ANTs_met_cc, 2},
     {"_ANTs_met_degree", (DL_FUNC) &_ANTs_met_degree, 1},
     {"_ANTs_met_density", (DL_FUNC) &_ANTs_met_density, 1},
     {"_ANTs_met_eigen", (DL_FUNC) &_ANTs_met_eigen, 3},
-    {"_ANTs_met_modularityU", (DL_FUNC) &_ANTs_met_modularityU, 2},
     {"_ANTs_met_nalters", (DL_FUNC) &_ANTs_met_nalters, 1},
-    {"_ANTs_met_ei", (DL_FUNC) &_ANTs_met_ei, 1},
     {"_ANTs_met_strength", (DL_FUNC) &_ANTs_met_strength, 1},
     {"_ANTs_met_sum_egos_strength", (DL_FUNC) &_ANTs_met_sum_egos_strength, 1},
     {"_ANTs_na_omit", (DL_FUNC) &_ANTs_na_omit, 1},

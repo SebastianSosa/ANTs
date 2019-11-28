@@ -302,10 +302,6 @@ met_assor_cat <- function(M, att) {
     .Call('_ANTs_met_assor_cat', PACKAGE = 'ANTs', M, att)
 }
 
-met_cc <- function(M, method) {
-    .Call('_ANTs_met_cc', PACKAGE = 'ANTs', M, method)
-}
-
 met_degree <- function(M) {
     .Call('_ANTs_met_degree', PACKAGE = 'ANTs', M)
 }
@@ -318,24 +314,8 @@ met_eigen <- function(M, eps = 0.000001, maxiter = 1000L) {
     .Call('_ANTs_met_eigen', PACKAGE = 'ANTs', M, eps, maxiter)
 }
 
-met_modularityU <- function(M, x) {
-    .Call('_ANTs_met_modularityU', PACKAGE = 'ANTs', M, x)
-}
-
 met_nalters <- function(M) {
     .Call('_ANTs_met_nalters', PACKAGE = 'ANTs', M)
-}
-
-#' @title Eigenvector centrality
-#' @description compute the eigenvecto centrality for each vertices through Armadillo c++ library.
-#' @param m a matrix.
-#' @return A numeric vector corresponding to the Eigenvector centrality of each nodes.
-#' @details EigenvectorCpp centrality is the first non-negative met.eigenvector value obtained through the linear transformation of an adjacency matrix. This centrality measure quantifies not only a node connectedness, but also the connections of the nodes to whom it is connected. Thus, a node can have a high met.evcent value by having a high met.degree or met.strength, or by being connected to nodes that have high degrees or strengths.
-#' @author Sebastian Sosa, Ivan Puga-Gonzales.
-#' @references Sosa, S. (\emph{in press}). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
-#' @keywords internal
-met_ei <- function(m) {
-    .Call('_ANTs_met_ei', PACKAGE = 'ANTs', m)
 }
 
 #' @title strength
