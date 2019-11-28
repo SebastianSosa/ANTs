@@ -12,12 +12,10 @@ extern SEXP _ANTs_met_diversity(SEXP);
 extern SEXP _ANTs_assoc_mat(SEXP, SEXP);
 extern SEXP _ANTs_assoc_mat_full(SEXP, SEXP);
 extern SEXP _ANTs_assoc_mat_one_id(SEXP, SEXP, SEXP);
-extern SEXP _ANTs_ComplexEigen(SEXP);
 extern SEXP _ANTs_df_merge(SEXP, SEXP);
 extern SEXP _ANTs_df_to_gbi(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ANTs_edgl_to_matrix(SEXP, SEXP);
 extern SEXP _ANTs_euclidean(SEXP);
-extern SEXP _ANTs_fastLm_Impl(SEXP, SEXP, SEXP);
 extern SEXP _ANTs_gbi_createEmpty(SEXP, SEXP, SEXP);
 extern SEXP _ANTs_ldf_merge(SEXP);
 extern SEXP _ANTs_list_lapply(SEXP, SEXP);
@@ -43,10 +41,8 @@ extern SEXP _ANTs_mat_symetrization(SEXP);
 extern SEXP _ANTs_mat_to_vec(SEXP, SEXP);
 extern SEXP _ANTs_met_nalters(SEXP);
 extern SEXP _ANTs_met_assor_cat(SEXP, SEXP);
-extern SEXP _ANTs_met_cc(SEXP, SEXP);
 extern SEXP _ANTs_met_degree(SEXP);
 extern SEXP _ANTs_met_density(SEXP);
-extern SEXP _ANTs_met_ei(SEXP);
 extern SEXP _ANTs_met_ei2(SEXP);
 extern SEXP _ANTs_met_eigen(SEXP, SEXP, SEXP);
 extern SEXP _ANTs_met_strength(SEXP);
@@ -72,7 +68,6 @@ extern SEXP _ANTs_redo_perm_dataStream_ControlFactor(SEXP, SEXP, SEXP, SEXP, SEX
 extern SEXP _ANTs_redo_perm_dataStream_ControlFactor_scd(SEXP, SEXP, SEXP);
 extern SEXP _ANTs_redo_perm_dataStream_focal(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ANTs_redo_perm_dataStream1_focal(SEXP, SEXP, SEXP, SEXP);
-extern SEXP _ANTs_stat_chol2inv(SEXP);
 extern SEXP _ANTs_test_arma(SEXP);
 extern SEXP _ANTs_test_const_arma(SEXP);
 extern SEXP _ANTs_test_nm(SEXP);
@@ -108,12 +103,10 @@ static const R_CallMethodDef CallEntries[] = {
   {"_ANTs_assoc_mat",                                 (DL_FUNC) &_ANTs_assoc_mat,                                 2},
   {"_ANTs_assoc_mat_full",                            (DL_FUNC) &_ANTs_assoc_mat_full,                            2},
   {"_ANTs_assoc_mat_one_id",                          (DL_FUNC) &_ANTs_assoc_mat_one_id,                          3},
-  {"_ANTs_ComplexEigen",                              (DL_FUNC) &_ANTs_ComplexEigen,                              1},
   {"_ANTs_df_merge",                                  (DL_FUNC) &_ANTs_df_merge,                                  2},
   {"_ANTs_df_to_gbi",                                 (DL_FUNC) &_ANTs_df_to_gbi,                                 5},
   {"_ANTs_edgl_to_matrix",                            (DL_FUNC) &_ANTs_edgl_to_matrix,                            2},
   {"_ANTs_euclidean",                                 (DL_FUNC) &_ANTs_euclidean,                                 1},
-  {"_ANTs_fastLm_Impl",                               (DL_FUNC) &_ANTs_fastLm_Impl,                               3},
   {"_ANTs_gbi_createEmpty",                           (DL_FUNC) &_ANTs_gbi_createEmpty,                           3},
   {"_ANTs_ldf_merge",                                 (DL_FUNC) &_ANTs_ldf_merge,                                 1},
   {"_ANTs_list_lapply",                               (DL_FUNC) &_ANTs_list_lapply,                               2},
@@ -139,10 +132,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"_ANTs_mat_to_vec",                                (DL_FUNC) &_ANTs_mat_to_vec,                                2},
   {"_ANTs_met_nalters",                               (DL_FUNC) &_ANTs_met_nalters,                               1},
   {"_ANTs_met_assor_cat",                             (DL_FUNC) &_ANTs_met_assor_cat,                             2},
-  {"_ANTs_met_cc",                                    (DL_FUNC) &_ANTs_met_cc,                                    2},
   {"_ANTs_met_degree",                                (DL_FUNC) &_ANTs_met_degree,                                1},
   {"_ANTs_met_density",                               (DL_FUNC) &_ANTs_met_density,                               1},
-  {"_ANTs_met_ei",                                    (DL_FUNC) &_ANTs_met_ei,                                    1},
   {"_ANTs_met_ei2",                                   (DL_FUNC) &_ANTs_met_ei2,                                   1},
   {"_ANTs_met_eigen",                                 (DL_FUNC) &_ANTs_met_eigen,                                 3},
   {"_ANTs_met_strength",                              (DL_FUNC) &_ANTs_met_strength,                              1},
@@ -165,7 +156,6 @@ static const R_CallMethodDef CallEntries[] = {
   {"_ANTs_redo_perm_dataStream_ControlFactor_scd",    (DL_FUNC) &_ANTs_redo_perm_dataStream_ControlFactor_scd,    3},
   {"_ANTs_redo_perm_dataStream_focal",                (DL_FUNC) &_ANTs_redo_perm_dataStream_focal,                6},
   {"_ANTs_redo_perm_dataStream1_focal",               (DL_FUNC) &_ANTs_redo_perm_dataStream1_focal,               4},
-  {"_ANTs_stat_chol2inv",                             (DL_FUNC) &_ANTs_stat_chol2inv,                             1},
   {"_ANTs_test_arma",                                 (DL_FUNC) &_ANTs_test_arma,                                 1},
   {"_ANTs_test_const_arma",                           (DL_FUNC) &_ANTs_test_const_arma,                           1},
   {"_ANTs_test_nm",                                   (DL_FUNC) &_ANTs_test_nm,                                   1},
