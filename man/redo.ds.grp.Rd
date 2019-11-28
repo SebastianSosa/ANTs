@@ -4,8 +4,20 @@
 \alias{redo.ds.grp}
 \title{Group fellow data stream function for error found in permutations}
 \usage{
-redo.ds.grp(family, new.perm, gbi, oda, odf, target.metrics, formula, Scan,
-  method, ctrlf, fam, ...)
+redo.ds.grp(
+  family,
+  new.perm,
+  gbi,
+  oda,
+  odf,
+  target.metrics,
+  formula,
+  Scan,
+  method,
+  ctrlf,
+  fam,
+  ...
+)
 }
 \description{
 Performs cumulative data stream permutations for group fellow until the glmm found no error or warnings

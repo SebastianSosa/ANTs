@@ -14,8 +14,6 @@ stat.p(metrics, stat.hist = FALSE)
 \item{stat.hist}{if \emph{true}, a stat.hist of the posterior distribution is ploted. The observed metric is also ploted.}
 
 \item{histogram}{if \emph{true}, an histogram of the posterior distribution is ploted. The observed metric is also ploted.}
-
-\item{metrics}{an integer vector of permuted statistical values of interest}
 }
 \value{
 \itemize{

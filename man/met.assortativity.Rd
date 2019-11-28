@@ -4,8 +4,15 @@
 \alias{met.assortativity}
 \title{Assortativity}
 \usage{
-met.assortativity(M, attr, se = FALSE, weighted = TRUE, df = NULL,
-  perm.nl = TRUE, nperm = NULL)
+met.assortativity(
+  M,
+  attr,
+  se = FALSE,
+  weighted = TRUE,
+  df = NULL,
+  perm.nl = TRUE,
+  nperm = NULL
+)
 }
 \arguments{
 \item{M}{a square adjacency matrix, or a list of square adjacency matrices, or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.}
@@ -20,6 +27,8 @@ a numeric vector of attributes for continuous assortativity.}
 \item{df}{a data frame of same length as the input matrix or a list of data frames if argument \emph{M} is a list of matrices or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.}
 
 \item{perm.nl}{a boolean, if \emph{TRUE} it permutes argument \emph{attr}.}
+
+\item{nperm}{an integer indicating the number of permutations wanted.}
 }
 \value{
 \itemize{

@@ -4,8 +4,13 @@
 \alias{met.assortatvityContinuous}
 \title{Continuous assortativity}
 \usage{
-met.assortatvityContinuous(Matrix, se = FALSE, values, weighted = TRUE,
-  df = NULL)
+met.assortatvityContinuous(
+  Matrix,
+  se = FALSE,
+  values,
+  weighted = TRUE,
+  df = NULL
+)
 }
 \arguments{
 \item{Matrix}{a square adjacency matrix.}

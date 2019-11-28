@@ -12,8 +12,6 @@ perm_dataStream1_focal(M, M2, nperm, progress, method)
 \item{nperm}{an integer indicating the number of permutations to perform.}
 
 \item{progress}{a boolean indicating if you wich to see the progression of the permutations.}
-
-\item{M}{a square adjacency matrix.}
 }
 \value{
 A list of Group By Individual matrices according to each scans perform.

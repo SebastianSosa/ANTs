@@ -8,8 +8,6 @@ met_strength(M)
 }
 \arguments{
 \item{M}{a square adjacency matrix.}
-
-\item{M}{a square adjacency matrix.}
 }
 \value{
 Integer vector of each vertices outstrentgh.

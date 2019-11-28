@@ -4,8 +4,15 @@
 \alias{perm.ds.focal}
 \title{Data stream permutation for focal sampling data .}
 \usage{
-perm.ds.focal(df, focal, ctrl = NULL, alters, nperm, progress = T,
-  method = "sri")
+perm.ds.focal(
+  df,
+  focal,
+  ctrl = NULL,
+  alters,
+  nperm,
+  progress = T,
+  method = "sri"
+)
 }
 \arguments{
 \item{df}{a data frame.}

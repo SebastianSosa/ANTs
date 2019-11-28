@@ -4,8 +4,13 @@
 \alias{met.dge.single}
 \title{Average Dyadic Efficiency}
 \usage{
-met.dge.single(m, weighted = TRUE, shortest.weight = FALSE,
-  normalization = TRUE, directed = TRUE)
+met.dge.single(
+  m,
+  weighted = TRUE,
+  shortest.weight = FALSE,
+  normalization = TRUE,
+  directed = TRUE
+)
 }
 \arguments{
 \item{m}{a square adjacency matrix.}

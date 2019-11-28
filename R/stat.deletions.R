@@ -1,4 +1,4 @@
-# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 #
 # This file is part of Animal Network Toolkit Software (ANTs).
 #
@@ -41,25 +41,19 @@
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @examples
 #' # Simulating data
-#' m=matrix(sample(c(0:5),50*50,TRUE),50,50)
-#' diag(m)=0
-#' mb=ANTs:::mat.binaryzation(m)
+#' m <- matrix(sample(c(0:5), 50 * 50, TRUE), 50, 50)
+#' diag(m) <- 0
+#' mb <- mat.binaryzation(m)
 #'
 #' # Weighted categorical attribute example
-#' attr=sample(c('a','b'),50,TRUE);
-#'
-#' t=stat.deletions(m,attr = attr,target = 'a',nsim = 2,ndel=10);
-#'
-#' t=stat.deletions(mb,attr = attr,target = 'a',nsim = 2,ndel=10);
-#'
+#' attr <- sample(c("a", "b"), 50, TRUE)
+#' t <- stat.deletions(m, attr = attr, target = "a", nsim = 2, ndel = 10)
+#' t <- stat.deletions(mb, attr = attr, target = "a", nsim = 2, ndel = 10)
 #' #  continous attribute example
-#' attr=c(sample(c(1:10),50,TRUE))
+#' attr <- c(sample(c(1:10), 50, TRUE))
 #'
-#' t=stat.deletions(m,attr = attr,target = 'decreasing',nsim = 2,ndel=4);
-#'
-#' t=stat.deletions(mb,attr = attr,target = 'decreasing',nsim = 2,ndel=4);
-
-
+#' t <- stat.deletions(m, attr = attr, target = "decreasing", nsim = 2, ndel = 4)
+#' t <- stat.deletions(mb, attr = attr, target = "decreasing", nsim = 2, ndel = 4)
 stat.deletions <- function(M, attr, target, ndel, nsim, weighted = TRUE, shortest.weight = FALSE, normalization = FALSE, directed = TRUE, out = TRUE, progress = TRUE, return.mat = FALSE) {
   if (!is.factor(attr) & !is.character(attr) & !is.numeric(attr)) {
     stop("Argument attr must be a numeric or a vector of factors.")

@@ -4,8 +4,22 @@
 \alias{redo.ds.focal.glmm}
 \title{Focal Data stream Recursive function for error found in permutations}
 \usage{
-redo.ds.focal.glmm(family, formula, new.perm, gbi, gbi2, oda, odf,
-  target.metrics, focal, ctrl, alters, index, fam, ...)
+redo.ds.focal.glmm(
+  family,
+  formula,
+  new.perm,
+  gbi,
+  gbi2,
+  oda,
+  odf,
+  target.metrics,
+  focal,
+  ctrl,
+  alters,
+  index,
+  fam,
+  ...
+)
 }
 \description{
 Performs cumulative data stream permutations for group fellow until the glmm found no error or warnings

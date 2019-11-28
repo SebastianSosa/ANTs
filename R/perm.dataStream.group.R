@@ -1,4 +1,4 @@
-# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 #
 # This file is part of Animal Network Toolkit Software (ANTs).
 #
@@ -43,7 +43,7 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
   ## !!!! FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
   # perm WITHIN SCANS NO CONTROL FACTORS  -----------------------------------------------
   if (is.null(control_factor)) {
-     ### Get index of column with the scan
+    ### Get index of column with the scan
     col_scan <- df.col.findId(df, scan)
     if (length(col_scan) > 1) {
       df$scan <- apply(df[, col_scan ], 1, paste, collapse = "_")
@@ -70,25 +70,30 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
       return(x[[i]])
     }, x = list_gbi, ids = ids)
   }
-
+  
   # perm WITHIN CONTROL FACTORS ---------------------------------------------------------
   else {
     ## !!!!FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
-     ### Get index of column with the scan
+    ### Get index of column with the scan
     col_scan <- df.col.findId(df, scan)
+    # Combine multiples factors to build unique scans
     if (length(col_scan) > 1) {
       df$scan <- apply(df[, col_scan ], 1, paste, collapse = "_")
     } else {
       df$scan <- df[, col_scan]
     }
+    
     ### convert the scan columns to factors, necessary for GBI
     df$scan <- as.factor(df$scan)
+    
     #### set ids to levels; necessary for cpp function
     ids <- levels(df$ID)
     ### Get index of column with the scan
     col_scan <- df.col.findId(df, "scan")
+    
     ### Get the index column belonging to ID
     col_ID <- grep("^ID$", colnames(df))
+    
     ### CREATE A LIST OF DIFFERENT DFs DEPENDING ON FACTORS TO CONTROL
     col_id <- df.col.findId(df, control_factor)
     if (length(col_id) > 1) {
@@ -98,16 +103,33 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
     }
     df$control <- as.factor(df$control)
     dfControls <- split(df, df$control)
+    
     ############################
     GBIcontrols <- list() ## list to hold the list of gbis
     GroupOrder <- c() ### holds the names of the groups in the order put in the different gbi
+    
     ### CREATE A GBI PER DF to CONTROL
-    GBIcontrols <- lapply(dfControls, df.to.gbi, col_scan, col_ID)
+    
+    GBIcontrols <- lapply(dfControls, function(x){
+      df_to_gbi(x,col_scan, col_ID,ids,unique(x$scan))
+    })
+    
     ##################################
     GBI <- do.call(rbind, GBIcontrols)
     CumGbiSizes <- c(0, cumsum(sapply(GBIcontrols, nrow))) ### starts on 0 cause of C++ indexes
+    
+    ## Identify GBIs with more than one individual
+    GBIIndexes<-NULL
+    for(a in 1:length(GBIcontrols))
+    {
+      if(dim(GBIcontrols[[a]])[1] > 2)
+      {
+        GBIIndexes<-c(GBIIndexes,(a-1)) ## BUGFIX 09/09/2019: 'a - 1' is necessary because indexes in cpp start on 0
+      }
+    }
     ## Perform permutations
-    list_gbi <- perm_dataStream_ControlFactor(GBIcontrols, GBI, perm, CumGbiSizes, progress = progress, method = method)
+    list_gbi <- perm_dataStream_ControlFactor(GBIcontrols, GBI, perm, GBIIndexes, CumGbiSizes, progress = progress, method = method)
+    
     ## rename columns and rows of the association matrices
     list_gbi <- lapply(seq_along(list_gbi), function(x, ids, i) {
       colnames(x[[i]]) <- ids

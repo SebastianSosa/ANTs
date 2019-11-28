@@ -4,7 +4,7 @@
 #' @param scan a numeric or character vector representing one or more columns used as scan factors.
 #' @param id a numeric or character vector indicating the column holding ids of individuals.
 #' @return a data frame with individual associations (symmetric data) according to the scan variable(s) declared by the user.
-#' @example grp.to.edgl(sim.grp, scan = c('day', 'location'), id = 'ID')
+#' @examples grp.to.edgl(sim.grp, scan = c('day', 'location'), id = 'ID')
 #' @keywords internal
 grp.to.edgl <- function(df, scan, id){
   # Find columns ids corresponding to individuals----------------------

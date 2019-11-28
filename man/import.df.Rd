@@ -4,8 +4,15 @@
 \alias{import.df}
 \title{Imports data frames}
 \usage{
-import.df(header = TRUE, sep = ",", quote = "\\"", dec = ".",
-  fill = TRUE, comment.char = "", ...)
+import.df(
+  header = TRUE,
+  sep = ",",
+  quote = "\\"",
+  dec = ".",
+  fill = TRUE,
+  comment.char = "",
+  ...
+)
 }
 \arguments{
 \item{header}{a logical value indicating whether the file contains the names of the variables as its first line. If missing, the value is determined from the file format: header is set to TRUE if and only if the first row contains one fewer field than the number of columns.}

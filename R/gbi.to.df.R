@@ -2,8 +2,9 @@
 #' @description Convert Linear gbi to a inear data frame of association 
 #' @param gbi a a group (N) by individual (I) matrix
 #' @return a linear data frame of association.
-#' @example gbi.to.df(sim.gbi)
-#' @keywords internal
+#' @examples gbi.to.df(sim.gbi)
+#' @author Sebastian Sosa
+#' @export
 gbi.to.df <- function(gbi){
   ID = NULL
   scan = NULL

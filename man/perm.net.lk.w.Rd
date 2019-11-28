@@ -4,14 +4,14 @@
 \alias{perm.net.lk.w}
 \title{Links weigths permutations}
 \usage{
-perm.net.lk.w(m, nperm, progress = TRUE)
+perm.net.lk.w(M, nperm, progress = TRUE)
 }
 \arguments{
+\item{M}{a square adjacency matrix, or a list of square adjacency matrices.}
+
 \item{nperm}{an integer indicating the number of permutations wanted.}
 
 \item{progress}{a boolean indicating the visualization of the permutation process.}
-
-\item{M}{a sqara numeric matrix}
 }
 \value{
 a list of matrices of length nperm + 1 with the first matrix beeing the original one and the other elements, the permuted ones.

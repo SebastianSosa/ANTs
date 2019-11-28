@@ -4,12 +4,23 @@
 \alias{sampling.uncertainty}
 \title{Metric uncertainty}
 \usage{
-sampling.uncertainty(df, nboot, metric = "met.strength",
-  assoc.indices = FALSE, actor = NULL, receiver = NULL,
-  scan = NULL, id = NULL, index = "sri", ...)
+sampling.uncertainty(
+  df,
+  nboot,
+  metric = "met.strength",
+  assoc.indices = FALSE,
+  actor = NULL,
+  receiver = NULL,
+  scan = NULL,
+  id = NULL,
+  index = "sri",
+  ...
+)
 }
 \arguments{
 \item{df}{a data frame of individual interactions or associations}
+
+\item{nboot}{an integer indicating the number of bootstrap wanted.}
 
 \item{metric}{the network metric to compute}
 
@@ -23,14 +34,14 @@ sampling.uncertainty(df, nboot, metric = "met.strength",
 
 \item{id}{If argument assoc.indices is TRUE, fill this argument, a numeric or character vector indicating the column holding ids of individuals.}
 
-\item{index}{a string indicating the association index to compute:
+\item{index}{a string indicating the association index to compute:}
+
+\item{...}{additional argument related to the computation of the metric declared.
 \itemize{
 \item 'sri' for Simple ratio index: \eqn{x/x+yAB+yA+yB}
 \item 'hw' for Half-weight index: \eqn{x/x+yAB+1/2(yA+yB)}
 \item 'sr' for Square root index:\eqn{x/sqr((x+yAB+yA)(x+yAB+yB))}
 }}
-
-\item{subsampling}{a vector of integers indicating the percentage of data to remove}
 }
 \value{
 3 elements:
@@ -47,7 +58,9 @@ Perform a matrix boostrapping approach to estimate the confidence intervals surr
 This process evaluates network metrics uncertainty by performing a boostrap with replacement on the data frame of associations and recomputing the network metric of interest.
 }
 \examples{
-test <- sampling.uncertainty(df = sim.focal.directed, nboot = 100, actor = "actor", receiver = "receiver", metric = "met.strength")
+test <- sampling.uncertainty(df = sim.focal.directed, nboot = 100,
+                             actor = "actor", receiver = "receiver", 
+                             metric = "met.strength")
 
 # objects returned by the function
 test$metrics
@@ -55,11 +68,16 @@ test$summary
 test$plot
 
 # Example with metric extra arguments
-sampling.uncertainty(df = sim.focal.directed, nboot = 100, actor = "actor", receiver = "receiver", metric = "met.affinity", binary = FALSE)
-sampling.uncertainty(df = sim.focal.directed, nboot = 100, actor = "actor", receiver = "receiver", metric = "met.affinity", binary = TRUE)
+sampling.uncertainty(df = sim.focal.directed, nboot = 100,
+                     actor = "actor", receiver = "receiver", 
+                     metric = "met.affinity", binary = FALSE)
+sampling.uncertainty(df = sim.focal.directed, nboot = 100, 
+                     actor = "actor", receiver = "receiver", 
+                     metric = "met.affinity", binary = TRUE)
 
 # Example with individual associations
-sampling.uncertainty(df = sim.grp, nboot = 100, assoc.indices = TRUE, scan = c("day", "location", "time"), id = "ID")
+sampling.uncertainty(df = sim.grp, nboot = 100, assoc.indices = TRUE, 
+                     scan = c("day", "location", "time"), id = "ID")
 }
 \references{
 Lusseau, D., Whitehead, H., & Gero, S. (2009). Incorporating uncertainty into the study of animal social networks. arXiv preprint arXiv:0903.1519.

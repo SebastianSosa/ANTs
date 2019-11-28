@@ -4,8 +4,7 @@
 \alias{redo_perm_dataStream_focal}
 \title{Data Stream Focal Sampling cumulative permutations without control factor.}
 \usage{
-redo_perm_dataStream_focal(df, ldf1, nperm, col_focal, col_alters,
-  lengthList)
+redo_perm_dataStream_focal(df, ldf1, nperm, col_focal, col_alters, lengthList)
 }
 \arguments{
 \item{df}{a data frame.}

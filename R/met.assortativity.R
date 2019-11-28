@@ -1,4 +1,4 @@
-# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 #
 # This file is part of Animal Network Toolkit Software (ANTs).
 #
@@ -21,6 +21,7 @@
 #' @param weighted a boolean, if \emph{TRUE} it computes the weighted assortativity version of the network.
 #' @param df a data frame of same length as the input matrix or a list of data frames if argument \emph{M} is a list of matrices or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.
 #' @param perm.nl a boolean, if \emph{TRUE} it permutes argument \emph{attr}.
+#' @param nperm an integer indicating the number of permutations wanted.
 #' @return
 #' \itemize{
 #' \item a double representing the assortativity index of the network if argument \emph{M} is a square matrix.
@@ -34,7 +35,7 @@
 #' @references Farine, D. R. (2014). Measuring phenotypic assortment in animal social networks: weighted associations are more robust than binary edges. Animal Behaviour, 89, 141-153.
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 
-met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, perm.nl = TRUE) {
+met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, perm.nl = TRUE, nperm = NULL) {
   # Checking if argument M is a square matrix 
   test <- is.matrix(M)
   if (test) {
@@ -48,10 +49,34 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
       if (se == TRUE) {
         warning(cat("se method is currently not available for categorical attributes.", "\r"))
       }
-      return(met.assortativityCat(M, attr, df = df))
+      if(!is.null(nperm)){
+        if(!perm.nl ){stop(cat("Testing assortativity signficance if argument M as a matrix can only be done by permuting vector of attributes.","\n",
+                               "Set argument perm.nl to TRUE or use function perm.net.lk to create an object matrices with permuted links."))}
+        result = met_assor_cat(M, attr)[[1]]
+        for (a in 2:(nperm+1)) {
+          result[a] = met_assor_cat(M, sample(attr))[[1]]
+        }
+        return(result)
+      }
+      else{
+        return(met.assortativityCat(M, attr, df = df))
+      }
+      
     }
     # Else, it computes continous assorativity.
     else {
+      if(!is.null(nperm)){
+        if(!perm.nl ){stop(cat("Testing assortativity signficance if argument M as a matrix can only be done by permuting vector of attributes.","\n",
+                               "Set argument perm.nl to TRUE or use function perm.net.lk to create an object matrices with permuted links."))}
+        result = met_assor_cat(M, attr)[[1]]
+        for (a in 2:(nperm+1)) {
+          result[a] = met_assor_cat(M, sample(attr))[[1]]
+        }
+        return(result)
+      }
+      else{
+        return(met.assortativityCat(M, attr, df = df))
+      }
       return(met.assortatvityContinuous(M, se = se, values = attr, weighted = weighted, df = df))
     }
   }
@@ -473,7 +498,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
               }
             }
             # If argument attr is a vector, the function computes the assortativity on all elements of the list M with this specific vector.
-            if (is.vector) {
+            if (is.vector(attr)) {
               # If argument attr is a factor or character vector, compute categorical assortativity
               if (is.factor(attr) | is.character(attr)) {
                 result <- lapply(M, met.assortativityCat, sample(attr), df = df)[[1]]

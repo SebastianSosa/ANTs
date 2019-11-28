@@ -4,9 +4,21 @@
 \alias{stat.glm}
 \title{Permuted Generalized Linear Model}
 \usage{
-stat.glm(ant, oda, formula, family = "gaussian", progress = TRUE,
-  start = NULL, control = list(...), model = TRUE,
-  method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, ...)
+stat.glm(
+  ant,
+  oda,
+  formula,
+  family = "gaussian",
+  progress = TRUE,
+  start = NULL,
+  control = list(...),
+  model = TRUE,
+  method = "glm.fit",
+  x = FALSE,
+  y = TRUE,
+  contrasts = NULL,
+  ...
+)
 }
 \arguments{
 \item{ant}{an output of ANT function \code{perm.net.nl} without any random factor declared, or output of ANT 'met' category functions in which output of ANT functions \code{perm.ds.focal}, \code{perm.ds.grp} or \code{perm.net.lk} where single matrices were used.}

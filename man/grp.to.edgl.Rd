@@ -19,4 +19,7 @@ a data frame with individual associations (symmetric data) according to the scan
 \description{
 Converts linear group by individual data frame to a dyadic data frame (edge list)
 }
+\examples{
+grp.to.edgl(sim.grp, scan = c('day', 'location'), id = 'ID')
+}
 \keyword{internal}

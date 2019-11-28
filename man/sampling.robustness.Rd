@@ -4,9 +4,18 @@
 \alias{sampling.robustness}
 \title{Metric robustness}
 \usage{
-sampling.robustness(df, subsampling = c(5, 10, 20, 30, 40, 50),
-  metric = "met.strength", assoc.indices = FALSE, actor, receiver,
-  scan, id, index = "sri", ...)
+sampling.robustness(
+  df,
+  subsampling = c(5, 10, 20, 30, 40, 50),
+  metric = "met.strength",
+  assoc.indices = FALSE,
+  actor,
+  receiver,
+  scan,
+  id,
+  index = "sri",
+  ...
+)
 }
 \arguments{
 \item{df}{a data frame of individual associations}
@@ -23,8 +32,11 @@ sampling.robustness(df, subsampling = c(5, 10, 20, 30, 40, 50),
 
 \item{scan}{If argument assoc.indices is TRUE, fill this argument, a numeric or character vector representing one or more columns used as scan factors.}
 
-\item{id}{If argument assoc.indices is TRUE, fill this argument, a numeric or character vector indicating the column holding ids of individuals.
-#' @param index a string indicating the association index to compute:
+\item{id}{If argument assoc.indices is TRUE, fill this argument, a numeric or character vector indicating the column holding ids of individuals.}
+
+\item{index}{a string indicating the association index to compute:}
+
+\item{...}{additional argument related to the computation of the metric declared.
 \itemize{
 \item 'sri' for Simple ratio index: \eqn{x/x+yAB+yA+yB}
 \item 'hw' for Half-weight index: \eqn{x/x+yAB+1/2(yA+yB)}
@@ -43,11 +55,12 @@ sampling.robustness(df, subsampling = c(5, 10, 20, 30, 40, 50),
 Performs a matrix boostrapping approach to estimate the confidence intervals surrounding each pairwise association.
 }
 \details{
-This process evaluates network metrics robustness by performing a boostrap process to remove a certain percent of the data collected and recomputing the network metric of interest. This has been used in Balasubramaniam et al. 2018 to assess sensitivty of sampling effort of global network metrics in primate networks.
+This process evaluates network metrics robustness by performing a bootstrap process to remove a certain percent of the data collected and recomputing the network metric of interest. This has been used in Balasubramaniam et al. 2018 to assess sensitivty of sampling effort of global network metrics in primate networks.
 }
 \examples{
-Example for node measures
-test <- sampling.robustness(sim.focal.directed, actor = "actor", receiver = "receiver", metric = "met.strength")
+#Example for node measures
+test <- sampling.robustness(sim.focal.directed, actor = "actor", 
+receiver = "receiver", metric = "met.strength")
 
 # objects returned by the function
 test$metrics
@@ -55,14 +68,19 @@ test$summary
 test$plot
 
 # Examples with metric extra arguments
-sampling.robustness(sim.focal.directed, actor = "actor", receiver = "receiver", metric = "met.affinity")
-sampling.robustness(sim.focal.directed, actor = "actor", receiver = "receiver", metric = "met.affinity", binary = FALSE)
+sampling.robustness(sim.focal.directed, actor = "actor", 
+                   receiver = "receiver", metric = "met.affinity")
+sampling.robustness(sim.focal.directed, actor = "actor", 
+                   receiver = "receiver", metric = "met.affinity", binary = FALSE)
 
 # Examples with association data
-test2 <- sampling.robustness(df = sim.grp, assoc.indices = TRUE, scan = c("time", "location"), id = "ID", metric = "met.strength")
+test2 <- sampling.robustness(df = sim.grp, assoc.indices = TRUE,
+                             scan = c("time", "location"), id = "ID", metric = "met.strength")
 
-# Example of how to test global network metric robustness by removing 10\% of the observations simulated 100 times
-test <- sampling.robustness(sim.focal.directed, subsampling = rep(10, 100), actor = "actor", receiver = "receiver", metric = "met.diameter")
+# Example of how to test global network metric robustness 
+#by removing 10\% of the observations simulated 100 times
+test <- sampling.robustness(sim.focal.directed, subsampling = rep(10, 100),
+                            actor = "actor", receiver = "receiver", metric = "met.diameter")
 }
 \references{
 Balasubramaniam, K. N., Beisner, B. A., Berman, C. M., De Marco, A., Duboscq, J., Koirala, S., ... & Ogawa, H. (2018). The influence of phylogeny, social style, and sociodemographic factors on macaque social network structure. American journal of primatology, 80(1), e22727.

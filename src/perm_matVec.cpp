@@ -1,4 +1,4 @@
-// Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+// Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 //
 // This file is part of Animal Network Toolkit Software (ANTs).
 //
@@ -13,6 +13,9 @@
 // GNU General Public License for more details.
 
 
+
+#include <Rcpp.h>
+using namespace Rcpp;
 //' @title Vectorize matrix permutation
 //' @description Permute rows and columns of a vectorized matrix
 //' @param vec a vumeric matrix
@@ -22,11 +25,8 @@
 //' @return A vector
 //' @author Sebastian Sosa.
 //' @keywords internal
-
-#include <Rcpp.h>
-using namespace Rcpp;
-
 // [[Rcpp::export]]
+
 NumericVector perm_matVec(NumericVector vec, int n, IntegerVector rand){
   NumericVector result(n*n);
   int idx=0;
@@ -45,8 +45,3 @@ NumericVector perm_matVec(NumericVector vec, int n, IntegerVector rand){
   return result;
 } 
 
-/*** R
-matrix(ANTs:::perm_matVec(vec = 1:50, n = 5, rand = c(5,4,2,1,3)),5,5)
-
-matrix(1:50,5,5)[c(5,4,2,1,3), c(5,4,2,1,3)]
-*/

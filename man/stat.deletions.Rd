@@ -4,9 +4,20 @@
 \alias{stat.deletions}
 \title{Network target & random deletion simulations}
 \usage{
-stat.deletions(M, attr, target, ndel, nsim, weighted = TRUE,
-  shortest.weight = FALSE, normalization = FALSE, directed = TRUE,
-  out = TRUE, progress = TRUE, return.mat = FALSE)
+stat.deletions(
+  M,
+  attr,
+  target,
+  ndel,
+  nsim,
+  weighted = TRUE,
+  shortest.weight = FALSE,
+  normalization = FALSE,
+  directed = TRUE,
+  out = TRUE,
+  progress = TRUE,
+  return.mat = FALSE
+)
 }
 \arguments{
 \item{M}{a square adjacency M.}
@@ -49,23 +60,19 @@ Knockout analysis allows the study of resilience properties of networks when spe
 }
 \examples{
 # Simulating data
-m=matrix(sample(c(0:5),50*50,TRUE),50,50)
-diag(m)=0
-mb=ANTs:::mat.binaryzation(m)
+m <- matrix(sample(c(0:5), 50 * 50, TRUE), 50, 50)
+diag(m) <- 0
+mb <- mat.binaryzation(m)
 
 # Weighted categorical attribute example
-attr=sample(c('a','b'),50,TRUE);
-
-t=stat.deletions(m,attr = attr,target = 'a',nsim = 2,ndel=10);
-
-t=stat.deletions(mb,attr = attr,target = 'a',nsim = 2,ndel=10);
-
+attr <- sample(c("a", "b"), 50, TRUE)
+t <- stat.deletions(m, attr = attr, target = "a", nsim = 2, ndel = 10)
+t <- stat.deletions(mb, attr = attr, target = "a", nsim = 2, ndel = 10)
 #  continous attribute example
-attr=c(sample(c(1:10),50,TRUE))
+attr <- c(sample(c(1:10), 50, TRUE))
 
-t=stat.deletions(m,attr = attr,target = 'decreasing',nsim = 2,ndel=4);
-
-t=stat.deletions(mb,attr = attr,target = 'decreasing',nsim = 2,ndel=4);
+t <- stat.deletions(m, attr = attr, target = "decreasing", nsim = 2, ndel = 4)
+t <- stat.deletions(mb, attr = attr, target = "decreasing", nsim = 2, ndel = 4)
 }
 \references{
 Lusseau D. 2003. The emergent properties of a dolphin social network. Proceedings of the Royal Society of London Series B: Biological Sciences 270(Suppl 2):S186-S188.

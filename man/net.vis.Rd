@@ -4,10 +4,23 @@
 \alias{net.vis}
 \title{Network vizualisation}
 \usage{
-net.vis(m, df, id, shape = NULL, size = NULL, color = NULL,
-  label = NULL, n.col1 = "blue", n.col2 = "red", n.size = 1,
-  e.width = 1, background = NULL, solver = NULL, n.shape = NULL,
-  viewer = FALSE)
+net.vis(
+  m,
+  df,
+  id,
+  shape = NULL,
+  size = NULL,
+  color = NULL,
+  label = NULL,
+  n.col1 = "blue",
+  n.col2 = "red",
+  n.size = 1,
+  e.width = 1,
+  background = NULL,
+  solver = NULL,
+  n.shape = NULL,
+  viewer = FALSE
+)
 }
 \arguments{
 \item{m}{A square adjacency matrix.}

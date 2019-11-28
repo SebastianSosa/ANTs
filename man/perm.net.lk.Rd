@@ -4,8 +4,7 @@
 \alias{perm.net.lk}
 \title{Matrix links permutations}
 \usage{
-perm.net.lk(M, sym = FALSE, erase.diag = TRUE, nperm,
-  progress = TRUE)
+perm.net.lk(M, sym = FALSE, erase.diag = TRUE, nperm, progress = TRUE)
 }
 \arguments{
 \item{M}{a square adjacency matrix or a list of square adjacency matrices.}

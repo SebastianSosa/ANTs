@@ -4,8 +4,15 @@
 \alias{df.to.mat}
 \title{Data frame to a matrix}
 \usage{
-df.to.mat(df, actor, receiver, weighted = NULL, tobs = NULL,
-  sym = FALSE, num.ids = FALSE)
+df.to.mat(
+  df,
+  actor,
+  receiver,
+  weighted = NULL,
+  tobs = NULL,
+  sym = FALSE,
+  num.ids = FALSE
+)
 }
 \arguments{
 \item{df}{a data frame of interactions or associations.}

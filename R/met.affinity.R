@@ -1,4 +1,4 @@
-# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 #
 # This file is part of Animal Network Toolkit Software (ANTs).
 #
@@ -49,7 +49,6 @@ met.affinity <- function(M, df = NULL, dfid = NULL, binary = FALSE) {
     if (is.null(df)) {
       # Compute network metric
       result <- met.affinity.single(M, df = df, dfid = dfid, binary = binary)
-      cat("\n")
       return(result)
     }
     # If argument df is not NULL return a data frame
@@ -61,7 +60,6 @@ met.affinity <- function(M, df = NULL, dfid = NULL, binary = FALSE) {
       }
       # Compute network metric
       result <- met.affinity.single(M, df = df, dfid = dfid, binary = binary)
-      cat("\n")
       return(result)
     }
   }  
@@ -274,7 +272,6 @@ met.affinity <- function(M, df = NULL, dfid = NULL, binary = FALSE) {
     # Check if argument df and dfid are NULL
     if (is.null(df) & is.null(dfid)) {
       result <- lapply(M, met.affinity.single, df = df, dfid = dfid, binary = binary)
-      cat("\n")
       return(result)
     }
 
@@ -289,7 +286,6 @@ met.affinity <- function(M, df = NULL, dfid = NULL, binary = FALSE) {
         if (!is.null(dfid)){
           # Compute network metric
           result <- mapply(met.affinity.single, M, df = df, dfid = dfid, binary = binary, SIMPLIFY = FALSE)
-          cat("\n")
           return(result)
         }
         # Check if argument dfid is NULL and print warning
@@ -297,7 +293,6 @@ met.affinity <- function(M, df = NULL, dfid = NULL, binary = FALSE) {
           # Compute network metric
           warning("Argument dfid hasn't been declared. M and df are considered to be ordered exactly in the same way.")
           result <- mapply(met.affinity.single, M, df = df, binary = binary, SIMPLIFY = FALSE)
-          cat("\n")
           return(result)
         }       
       }

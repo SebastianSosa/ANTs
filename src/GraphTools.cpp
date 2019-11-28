@@ -38,8 +38,8 @@
 //[Rcpp::depends(RcppArmadillo)]
 #include <iostream>
 #include <vector>
+#include <set>
 #include <queue>
-//#include "Rcpp.h"
 #include <RcppArmadillo.h>
 #include <map>
 using namespace std;
@@ -370,7 +370,8 @@ private:
         }
         
         void DijastraCalculation(long int start, double* shortestMap, long int size, long int* directMap){
-            std::priority_queue<Node*, vector<Node*>, compareNode> dealMap;
+            // std::priority_queue<Node*, vector<Node*>, compareNode> dealMap;
+            set<pair<double, Node*> > nodeQueue;
             
             resetNet();// make sure the net is clean
             
@@ -383,22 +384,27 @@ private:
             startNode->changeState();
             startNode->changeState();
             //dealMap.push(listofNode[start]);
-            dealMap.push(startNode);
+            // dealMap.push(startNode);
+            nodeQueue.insert(make_pair(startNode->getDistance(), startNode));
             
             vector<Node*> reachedNode;
             
-            while (!dealMap.empty()) {
-                Node* top = dealMap.top();
-                dealMap.pop();
+            while (!nodeQueue.empty()) {
+                // Node* top = dealMap.top();
+                // dealMap.pop();
+                Node* top = nodeQueue.begin()->second;
+                nodeQueue.erase(nodeQueue.begin());
                 
-                //cout << top->getName() << " top " << top->getDistance() << " ";
+                // cout << top->getName() << " top " << top->getDistance() << " ";
                 std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
                 for (; q != top->neighbor.end(); q++) {
+                    double tempDist = (*q).first->getDistance();
                     if ((*q).first->setDistance((*q).second + top->getDistance(), top)){
-//cout << (*q).first->getName() << " " << (*q).first->getDistance() << " " << endl;
+// cout << (*q).first->getName() << " " << (*q).first->getDistance() << " " << endl;
                         if ((*q).first->askState(0)) {
                             (*q).first->changeState();
-                            dealMap.push((*q).first);
+                            nodeQueue.erase(make_pair(tempDist, (*q).first));
+                            nodeQueue.insert(make_pair((*q).first->getDistance(), (*q).first));
                         }
                     }
                 }
@@ -409,23 +415,15 @@ private:
                 }
                 top->changeState();
                 reachedNode.push_back(top);
-		
-		std::priority_queue<Node*, vector<Node*>, compareNode> tempDealMap;
-		while (!dealMap.empty()) {
-		    tempDealMap.push(dealMap.top());
-		    dealMap.pop();
-		}	
-		dealMap.swap(tempDealMap);
-		while (!tempDealMap.empty()) tempDealMap.pop();
-            }
-//cout << endl;
+    }
             
             //return GetPathVector(start, reachedNode);
             //about this part see the paper of betweenness for more details
-        }
+    }
         
-        void DijastraCalculation(long int start, double* shortestMap, double* betweenness, long int size, long int* directMap){
-            std::priority_queue<Node*, vector<Node*>, compareNode> dealMap;
+    void DijastraCalculation(long int start, double* shortestMap, double* betweenness, long int size, long int* directMap){
+            //std::priority_queue<Node*, vector<Node*>, compareNode> dealMap;
+            set<pair<double, Node*> > nodeQueue;
             
             resetNet();// make sure the net is clean
             
@@ -446,20 +444,25 @@ private:
             startNode->changeState();
             startNode->changeState();
             //dealMap.push(listofNode[start]);
-            dealMap.push(startNode);
+            nodeQueue.insert(make_pair(0, startNode));
+            //dealMap.push(startNode);
             
             vector<Node*> reachedNode;
             
-            while (!dealMap.empty()) {
-                Node* top = dealMap.top();
-                dealMap.pop();
+            while (!nodeQueue.empty()) {
+                //Node* top = dealMap.top();
+                //dealMap.pop();
+                Node* top = nodeQueue.begin()->second;
+                nodeQueue.erase(nodeQueue.begin());
                 
                 std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
                 for (; q != top->neighbor.end(); q++) {
+                    double tempDist = (*q).first->getDistance();
                     if ((*q).first->setDistance((*q).second + top->getDistance(), top)){
                         if ((*q).first->askState(0)) {
                             (*q).first->changeState();
-                            dealMap.push((*q).first);
+                            nodeQueue.erase(make_pair(tempDist, (*q).first));
+                            nodeQueue.insert(make_pair((*q).first->getDistance(), (*q).first));
                         }
                     }
                 }
@@ -470,15 +473,7 @@ private:
                 }
                 top->changeState();
                 reachedNode.push_back(top);
-
-		std::priority_queue<Node*, vector<Node*>, compareNode> tempDealMap;
-		while (!dealMap.empty()) {
-		    tempDealMap.push(dealMap.top());
-		    dealMap.pop();
-		}	
-		dealMap.swap(tempDealMap);
-		while (!tempDealMap.empty()) tempDealMap.pop();
-            }
+          }
             
             for (long int i = reachedNode.size() - 1; i >= 0; i--) {
                 for (long int j = 0; j < reachedNode[i]->shortestFatherList.size(); j++) {
@@ -616,7 +611,7 @@ public:
         if (maxDegree*maxDegree*maxDegree <= size) {
             return true;//sparse
         }
-        else return true;//not sparse
+        else return false;//not sparse
     }
     
     long int shortestPathDetails(){
@@ -687,13 +682,13 @@ public:
                 if (isGraphSym) {
                     triangles*=2;
                 }
-                //cout << triangles << endl;
+                // cout << triangles << endl;
                 if (taskType != 1) {
                     Dijiastra(betweenness, size, distMap, shortestMap, directMap);
                 }
                 FloydBasedBetweenness(betweenness, size, distMap, shortestMap, directMap);
                 triangleArmadillo();
-                //cout << triangles << endl;
+                // cout << triangles << endl;
                 
             default:
                 break;
@@ -778,7 +773,7 @@ SEXP metric_global_shortestPath(NumericMatrix disMap){
             inputMatrix[i] = metric_global_DISTMAX;
         }
         else inputMatrix[i] = disMap[i];
-        //cout << inputMatrix[i];
+        // cout << inputMatrix[i];
     }
     
     metric_global_GraphTools tempx(inputMatrix, size, 0);

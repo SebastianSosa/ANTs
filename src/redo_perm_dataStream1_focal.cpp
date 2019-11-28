@@ -1,4 +1,4 @@
-// Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+// Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 //
 // This file is part of Animal Network Toolkit Software (ANTs).
 //
@@ -13,7 +13,7 @@
 // GNU General Public License for more details.
 
 #include <RcppArmadillo.h>
-arma::mat assoc_mat (arma::mat Mgbi, std::string method);
+arma::mat assoc_mat (arma::mat Mgbi, std::string method, bool return_denom = false);
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::plugins("cpp11")]]
 //' @title Data Stream Group Fellow Permutations without control factor.

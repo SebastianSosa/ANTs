@@ -1,4 +1,4 @@
-# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 #
 # This file is part of Animal Network Toolkit Software (ANTs).
 #
@@ -33,7 +33,7 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @examples
 #' head(sim.grp)
-#' t=perm.ds.grp(df=sim.grp,scan='location',ctrlf='time',perm=10,,method='sri')
+#' t=perm.ds.grp(df = sim.grp, scan ='location', ctrlf ='time', perm = 10, method = 'sri')
 
 perm.ds.grp <- function(df, scan, ctrlf = NULL, method = "sri", perm, progress = TRUE) {
   ## check whether argument df is a single or a list of dataframes 

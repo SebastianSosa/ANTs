@@ -1,4 +1,4 @@
-# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 #
 # This file is part of Animal Network Toolkit Software (ANTs).
 #
@@ -60,7 +60,7 @@ net.vis = function(m, df, id, shape = NULL, size = NULL, color = NULL,
   }
 
   # Edge creation
-  e = ANTs:::mat.to.edgl(m)
+  e = mat.to.edgl(m)
   
   # Removing null weights
   edges = e[e$weight!=0,]
@@ -73,10 +73,10 @@ net.vis = function(m, df, id, shape = NULL, size = NULL, color = NULL,
     edges$width = edges$width*e.width
   }
 
-  colnames(df)[ANTs:::df.col.findId(df,id)] = 'id'
+  colnames(df)[df.col.findId(df,id)] = 'id'
   # Nodes' shapes
   if (!is.null(shape)) {
-    shape = ANTs:::df.col.findId(df,shape)
+    shape = df.col.findId(df,shape)
 
     #Nodes' shapes
     if (is.null(n.shape)) {
@@ -105,20 +105,20 @@ net.vis = function(m, df, id, shape = NULL, size = NULL, color = NULL,
 
   # Nodes' sizes
   if (!is.null(size)) {
-    size = ANTs:::df.col.findId(df,size)
+    size = df.col.findId(df,size)
     df$value = df[,size]*n.size
   }
 
   # Nodes' colors
   if (!is.null(color)) {
-    color = ANTs:::df.col.findId(df,color)
+    color = df.col.findId(df,color)
     colfunc <- colorRampPalette(c(paste(n.col1), paste(n.col2)))
     df$color = colfunc(nrow(df))
   }
 
   # Nodes' labels
   if (!is.null(label)) {
-    df$label = df[,ANTs:::df.col.findId(df,label)]
+    df$label = df[,df.col.findId(df,label)]
   }
 
   if (viewer) {

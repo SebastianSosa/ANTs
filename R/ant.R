@@ -1,4 +1,4 @@
-# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 #
 # This file is part of Animal Network Toolkit Software (ANTs).
 #
@@ -177,8 +177,8 @@ setGeneric(name = "ant", ant <- function(x) {
       # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------     
       stat <- NULL
       for (a in 1:ncol(v_perms)) {
-        r <- ANTs:::stat.ci(v_perms[, a])
-        p <- ANTs:::stat.p(c(obs[a],v_perms[, a]))
+        r <- stat.ci(v_perms[, a])
+        p <- stat.p(c(obs[a],v_perms[, a]))
         stat[[a]] <- data.frame(
           p[1], p[2], p[3],
           r[1], r[2],
@@ -280,8 +280,8 @@ setGeneric(name = "ant", ant <- function(x) {
       # Create dataframe with permuted p-values, 95% confidence interval and mean posterior distribution----------------------  
       stat <- NULL
       for (a in 1:ncol(v_perms)) {
-        r <- ANTs:::stat.ci(v_perms[, a])
-        p <- ANTs:::stat.p(c(obs[,a],v_perms[, a]))
+        r <- stat.ci(v_perms[, a])
+        p <- stat.p(c(obs[,a],v_perms[, a]))
         stat[[a]] <- data.frame(
           p[1], p[2], p[3],
           r[1], r[2],

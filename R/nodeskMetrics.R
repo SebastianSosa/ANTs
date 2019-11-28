@@ -1,4 +1,4 @@
-# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 #
 # This file is part of Animal Network Toolkit Software (ANTs).
 #
@@ -22,7 +22,7 @@ nodeskMetrics <- function() {
   tkconfigure(win1, background = "#3f3f3f")
   tkwm.state(win1, "withdrawn")
   tcltk::tktitle(win1) <- "Animal Network Toolkit"
-  img <- tkimage.create("photo", file = paste(system.file(package = "ant"), "/ressources/ANT.png", sep = ""))
+  img <- tkimage.create("photo", file = paste(system.file(package = "ANTs"), "/ressources/ANT.png", sep = ""))
   tcl("wm", "iconphoto", win1, img)
   tclServiceMode(TRUE)
   # Window label
@@ -316,6 +316,5 @@ nodeskMetrics <- function() {
   tkgrid(win1$butOK, padx = 50, pady = 20)
   tkwm.state(win1, "normal")
   tkwait.window(win1)
-  # tcltk:::tkfocus(win1)
   return(c)
 }

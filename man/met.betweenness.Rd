@@ -4,9 +4,16 @@
 \alias{met.betweenness}
 \title{Betweenness centrality}
 \usage{
-met.betweenness(M, binary = FALSE, shortest.weight = FALSE,
-  normalization = TRUE, sym = FALSE, out = TRUE, df = NULL,
-  dfid = NULL)
+met.betweenness(
+  M,
+  binary = FALSE,
+  shortest.weight = FALSE,
+  normalization = TRUE,
+  sym = FALSE,
+  out = TRUE,
+  df = NULL,
+  dfid = NULL
+)
 }
 \arguments{
 \item{M}{a square adjacency matrix, or a list of square adjacency matrices, or an output of ANT functions \emph{stat.ds.grp}, \emph{stat.df.focal}, \emph{stat.net.lk}.}

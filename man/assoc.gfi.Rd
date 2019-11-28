@@ -4,11 +4,10 @@
 \alias{assoc.gfi}
 \title{Generalized affiliation index}
 \usage{
-assoc.gfi(M1, M2, fr = TRUE, sym = FALSE, erase.diag = TRUE,
-  index = "sri")
+assoc.gfi(M1, M2, fr = TRUE, sym = FALSE, erase.diag = TRUE, index = "sri")
 }
 \arguments{
-\item{M1}{a square adjacency matrix representing individual interactions or associations. In the latter case associations have to be in the form of a gbi.}
+\item{M1}{a square adjacency matrix representing individual interactions or associations. In the latter case, associations must be in the form of a gbi.}
 
 \item{M2}{a square adjacency matrix representing individual values of confounding factors.}
 
@@ -34,9 +33,12 @@ Computes generalized affiliation indices based on a matrix of interactions or as
 }
 \details{
 Generalized affiliation indices allow to control for individual associations by a given confounding factor (such as temporal or spatial overlaps, gregariousness, social unit membership, kinship...).
-The principle is to perform a Generalized Linear Regression (GLR) on both matrices (one representing the individual interactions/associations and the other one representing the confounding factor)
+The principle is to perform a Generalized Linear Regression (GLR) on both matrices (one representing individual interactions/associations and the other one representing the confounding factor)
 and to use GLR residuals as association indices. For an adjacency matrix representing individual interactions, the GLR belongs to the Poisson family. For an adjacency matrix representing individual associations, the GLR belongs to the Binomial family.
 High positive values suggest strong associations between two individuals and negative values suggest avoidance between two individuals.
+}
+\examples{
+assoc.gfi(sim.gbi,sim.gbi.att, fr = FALSE)
 }
 \references{
 Whitehead, H., & James, R. (2015). Generalized affiliation indices extract affiliations from social network data. Methods in Ecology and Evolution, 6(7), 836-844.

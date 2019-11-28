@@ -1,4 +1,4 @@
-// Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+// Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 //
 // This file is part of Animal Network Toolkit Software (ANTs).
 //
@@ -29,7 +29,7 @@
 //' @author Sebastian Sosa, Ivan Puga-Gonzales.
 //' @keywords internal
 // [[Rcpp::export]]
-arma::mat assoc_mat (arma::mat Mgbi, std::string method){
+arma::mat assoc_mat (arma::mat Mgbi, std::string method, bool return_denom = false){
   int groups = Mgbi.n_rows;
   int Ind = Mgbi.n_cols;
   arma::mat mx(Ind,Ind); mx.zeros();
@@ -59,15 +59,24 @@ arma::mat assoc_mat (arma::mat Mgbi, std::string method){
   if(method== "sri"){
     association=mx/(mx+mxa+mxb);
     association.diag().zeros();
+    if(return_denom){
+      return (mx+mxa+mxb);
+    }
   }
   if(method== "hwi"){
     association=mx/(mx+((mxa+mxb)/2));
     association.diag().zeros();
+    if(return_denom){
+      return (mx+((mxa+mxb)/2));
+    }
   }
   if(method== "sqri"){
     arma::mat denom=sqrt(mx+mxa+mxb);
     association=mx/(denom*denom);
     association.diag().zeros();
+    if(return_denom){
+      return (sqrt(mx+mxa+mxb));
+    }
   }
 //Social affinity index???
     //Rcpp::NumericMatrix result = Rcpp::wrap(association);

@@ -4,9 +4,20 @@
 \alias{stat.lm}
 \title{Extracts statistical measures of interest in Linear Model}
 \usage{
-stat.lm(ant, formula, oda, progress = TRUE, method = "qr",
-  model = TRUE, x = FALSE, y = FALSE, qr = TRUE,
-  singular.ok = TRUE, contrasts = NULL, ...)
+stat.lm(
+  ant,
+  formula,
+  oda,
+  progress = TRUE,
+  method = "qr",
+  model = TRUE,
+  x = FALSE,
+  y = FALSE,
+  qr = TRUE,
+  singular.ok = TRUE,
+  contrasts = NULL,
+  ...
+)
 }
 \arguments{
 \item{ant}{an output of ANT function \code{perm.net.nl} without any random factor declared, or output of ANT 'met' categories functions in which output of ANT functions \code{perm.ds.focal}, \code{perm.ds.grp} or \code{perm.net.lk} where single matrices were used.}

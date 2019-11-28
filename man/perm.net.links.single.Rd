@@ -4,8 +4,13 @@
 \alias{perm.net.links.single}
 \title{Matrix edge permutations}
 \usage{
-perm.net.links.single(M, sym = FALSE, erase.diag = TRUE, nperm,
-  progress = TRUE)
+perm.net.links.single(
+  M,
+  sym = FALSE,
+  erase.diag = TRUE,
+  nperm,
+  progress = TRUE
+)
 }
 \arguments{
 \item{M}{a square adjacency matrix .}

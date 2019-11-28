@@ -1,4 +1,4 @@
-// Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+// Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 //
 // This file is part of Animal Network Toolkit Software (ANTs).
 //
@@ -12,6 +12,8 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
+#include <Rcpp.h>
+using namespace Rcpp;
 //' @title Vector to matrix
 //' @description Create a matrix from a vector
 //' @param vec a numeric vector
@@ -20,10 +22,6 @@
 //' @return A square matrix
 //' @author Sebastian Sosa.
 //' @keywords internal
-
-#include <Rcpp.h>
-using namespace Rcpp;
-
 // [[Rcpp::export]]
 NumericMatrix vec_to_mat(NumericVector vec, int ncol, bool diag) {
   NumericMatrix M(ncol,ncol);
@@ -54,7 +52,3 @@ NumericMatrix vec_to_mat(NumericVector vec, int ncol, bool diag) {
   }
   return M;
 }
-
-/*** R
-ANTs:::vec_to_mat(c(1:25),5,T)
-*/

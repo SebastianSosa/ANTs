@@ -1,4 +1,4 @@
-# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 #
 # This file is part of Animal Network Toolkit Software (ANTs).
 #
@@ -198,7 +198,7 @@ met.diameter <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE,
             stop("Argument df must be a data frame when argument M is an outcome of perm.ds.grp ant function", "\r")
           }
           result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out, df, tmp) {
-            df$ge <- ANTs:::met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+            df$ge <- met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
             names(df)[ncol(df)] = attributes(tmp)$name
             attr(df, "permutation") <- attributes(x)$permutation
             return(df)
@@ -208,7 +208,7 @@ met.diameter <- function(M, df = NULL, weighted = TRUE, shortest.weight = FALSE,
           # Compute network metric and keep attribute permutations 
           # and name column of data frame according to user arguments binary,sym, out declaration
           result <- lapply(M, function(x, weighted, shortest.weight, normalization, directed, out, df, tmp) {
-            r<- ANTs:::met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
+            r<- met.geodesicDiameter.single(x, weighted = weighted, shortest.weight = shortest.weight, normalization = normalization, directed = directed, out = out)[[1]]
             names(r) = attributes(tmp)$name
             attr(r, "permutation") <- attributes(x)$permutation
             return(r)

@@ -15,4 +15,9 @@ a linear data frame of association.
 \description{
 Convert Linear gbi to a inear data frame of association
 }
-\keyword{internal}
+\examples{
+gbi.to.df(sim.gbi)
+}
+\author{
+Sebastian Sosa
+}

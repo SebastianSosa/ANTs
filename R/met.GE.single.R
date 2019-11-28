@@ -1,4 +1,4 @@
-# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He,Peng Zhang, Xiaohua Xie, Cédric Sueur
+# Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 #
 # This file is part of Animal Network Toolkit Software (ANTs).
 #
@@ -39,8 +39,8 @@ met.ge.single <- function(m, weighted = TRUE, shortest.weight = FALSE, normaliza
     if (directed == FALSE) 
     {
       m <- m + t(m)
-      m <- ANTs:::mat_filter(m, 1, 1) ## binarization has to be done strictly after symmetrization
-      result <- 1/ANTs:::metric_global_shortestPath(m)[[1]]
+      m <- mat_filter(m, 1, 1) ## binarization has to be done strictly after symmetrization
+      result <- 1/metric_global_shortestPath(m)[[1]]
       diag(result) <- 0
       result[is.infinite(result)] <- 0
       s <- sum(result)
@@ -49,10 +49,10 @@ met.ge.single <- function(m, weighted = TRUE, shortest.weight = FALSE, normaliza
     }## end directed == T
     if (directed == TRUE) 
     {
-      m <- ANTs:::mat_filter(m, 1, 1) ## binarization 
+      m <- mat_filter(m, 1, 1) ## binarization 
       result<-NULL
-      if (out == TRUE) { result <- 1/ANTs:::metric_global_shortestPath(m)[[1]] }
-      if (out == FALSE) { result <- 1/ANTs:::metric_global_shortestPath(t(m))[[1]] }
+      if (out == TRUE) { result <- 1/metric_global_shortestPath(m)[[1]] }
+      if (out == FALSE) { result <- 1/metric_global_shortestPath(t(m))[[1]] }
       diag(result) <- 0
       result[is.infinite(result)] <- 0
       s <- sum(result)
@@ -78,7 +78,7 @@ met.ge.single <- function(m, weighted = TRUE, shortest.weight = FALSE, normaliza
         m <- 1 / m
         m[is.infinite(m)] <- 0
       }
-      result <- 1/ANTs:::metric_global_shortestPath(m)[[1]]
+      result <- 1/metric_global_shortestPath(m)[[1]]
       diag(result) <- 0
       result[is.infinite(result)] <- 0
       s <- sum(result)
@@ -100,8 +100,8 @@ met.ge.single <- function(m, weighted = TRUE, shortest.weight = FALSE, normaliza
         m[is.infinite(m)] <- 0
       }
       result<-NULL
-      if (out == TRUE) { result <- 1/ANTs:::metric_global_shortestPath(m)[[1]] }
-      if (out == FALSE) { result <- 1/ANTs:::metric_global_shortestPath(t(m))[[1]] }
+      if (out == TRUE) { result <- 1/metric_global_shortestPath(m)[[1]] }
+      if (out == FALSE) { result <- 1/metric_global_shortestPath(t(m))[[1]] }
       diag(result) <- 0
       result[is.infinite(result)] <- 0
       s <- sum(result)

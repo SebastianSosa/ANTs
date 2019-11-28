@@ -4,9 +4,16 @@
 \alias{met.betweenness.single}
 \title{Betweenness centrality}
 \usage{
-met.betweenness.single(m, binary = FALSE, shortest.weight = FALSE,
-  normalization = TRUE, sym = TRUE, out = TRUE, df = NULL,
-  dfid = NULL)
+met.betweenness.single(
+  m,
+  binary = FALSE,
+  shortest.weight = FALSE,
+  normalization = TRUE,
+  sym = TRUE,
+  out = TRUE,
+  df = NULL,
+  dfid = NULL
+)
 }
 \description{
 Compute node betweenness

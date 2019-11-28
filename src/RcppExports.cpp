@@ -7,17 +7,6 @@
 
 using namespace Rcpp;
 
-// ComplexEigen
-Eigen::MatrixXd ComplexEigen(Eigen::MatrixXd M);
-RcppExport SEXP _ANTs_ComplexEigen(SEXP MSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type M(MSEXP);
-    rcpp_result_gen = Rcpp::wrap(ComplexEigen(M));
-    return rcpp_result_gen;
-END_RCPP
-}
 // metric_global_shortestPath
 SEXP metric_global_shortestPath(NumericMatrix disMap);
 RcppExport SEXP _ANTs_metric_global_shortestPath(SEXP disMapSEXP) {
@@ -63,14 +52,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // assoc_mat
-arma::mat assoc_mat(arma::mat Mgbi, std::string method);
-RcppExport SEXP _ANTs_assoc_mat(SEXP MgbiSEXP, SEXP methodSEXP) {
+arma::mat assoc_mat(arma::mat Mgbi, std::string method, bool return_denom);
+RcppExport SEXP _ANTs_assoc_mat(SEXP MgbiSEXP, SEXP methodSEXP, SEXP return_denomSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Mgbi(MgbiSEXP);
     Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(assoc_mat(Mgbi, method));
+    Rcpp::traits::input_parameter< bool >::type return_denom(return_denomSEXP);
+    rcpp_result_gen = Rcpp::wrap(assoc_mat(Mgbi, method, return_denom));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -146,19 +136,6 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type vec(vecSEXP);
     rcpp_result_gen = Rcpp::wrap(euclidean(vec));
-    return rcpp_result_gen;
-END_RCPP
-}
-// fastLm_Impl
-Rcpp::List fastLm_Impl(Rcpp::NumericMatrix X, Rcpp::NumericVector y, int type);
-RcppExport SEXP _ANTs_fastLm_Impl(SEXP XSEXP, SEXP ySEXP, SEXP typeSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type X(XSEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type y(ySEXP);
-    Rcpp::traits::input_parameter< int >::type type(typeSEXP);
-    rcpp_result_gen = Rcpp::wrap(fastLm_Impl(X, y, type));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -763,17 +740,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// stat_chol2inv
-Rcpp::NumericVector stat_chol2inv(Rcpp::NumericMatrix M);
-RcppExport SEXP _ANTs_stat_chol2inv(SEXP MSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type M(MSEXP);
-    rcpp_result_gen = Rcpp::wrap(stat_chol2inv(M));
-    return rcpp_result_gen;
-END_RCPP
-}
 // test_nm
 double test_nm(Rcpp::NumericMatrix X);
 RcppExport SEXP _ANTs_test_nm(SEXP XSEXP) {
@@ -1138,19 +1104,17 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_ANTs_ComplexEigen", (DL_FUNC) &_ANTs_ComplexEigen, 1},
     {"_ANTs_metric_global_shortestPath", (DL_FUNC) &_ANTs_metric_global_shortestPath, 1},
     {"_ANTs_metric_global_shortestDetails", (DL_FUNC) &_ANTs_metric_global_shortestDetails, 1},
     {"_ANTs_metric_node_betweeness", (DL_FUNC) &_ANTs_metric_node_betweeness, 1},
     {"_ANTs_metric_global_triangle", (DL_FUNC) &_ANTs_metric_global_triangle, 1},
-    {"_ANTs_assoc_mat", (DL_FUNC) &_ANTs_assoc_mat, 2},
+    {"_ANTs_assoc_mat", (DL_FUNC) &_ANTs_assoc_mat, 3},
     {"_ANTs_assoc_mat_full", (DL_FUNC) &_ANTs_assoc_mat_full, 2},
     {"_ANTs_assoc_mat_one_id", (DL_FUNC) &_ANTs_assoc_mat_one_id, 3},
     {"_ANTs_df_merge", (DL_FUNC) &_ANTs_df_merge, 2},
     {"_ANTs_df_to_gbi", (DL_FUNC) &_ANTs_df_to_gbi, 5},
     {"_ANTs_edgl_to_matrix", (DL_FUNC) &_ANTs_edgl_to_matrix, 2},
     {"_ANTs_euclidean", (DL_FUNC) &_ANTs_euclidean, 1},
-    {"_ANTs_fastLm_Impl", (DL_FUNC) &_ANTs_fastLm_Impl, 3},
     {"_ANTs_gbi_createEmpty", (DL_FUNC) &_ANTs_gbi_createEmpty, 3},
     {"_ANTs_ldf_merge", (DL_FUNC) &_ANTs_ldf_merge, 1},
     {"_ANTs_listDf_merge_single_column", (DL_FUNC) &_ANTs_listDf_merge_single_column, 3},
@@ -1200,7 +1164,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_redo_perm_dataStream_ControlFactor", (DL_FUNC) &_ANTs_redo_perm_dataStream_ControlFactor, 5},
     {"_ANTs_redo_perm_dataStream_ControlFactor_scd", (DL_FUNC) &_ANTs_redo_perm_dataStream_ControlFactor_scd, 3},
     {"_ANTs_redo_perm_dataStream_focal", (DL_FUNC) &_ANTs_redo_perm_dataStream_focal, 6},
-    {"_ANTs_stat_chol2inv", (DL_FUNC) &_ANTs_stat_chol2inv, 1},
     {"_ANTs_test_nm", (DL_FUNC) &_ANTs_test_nm, 1},
     {"_ANTs_test_arma", (DL_FUNC) &_ANTs_test_arma, 1},
     {"_ANTs_test_nm_conv", (DL_FUNC) &_ANTs_test_nm_conv, 1},

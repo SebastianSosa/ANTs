@@ -4,12 +4,24 @@
 \alias{sampling.effort}
 \title{Sampling effort}
 \usage{
-sampling.effort(df, col.time, cumulative = TRUE,
-  metric = "met.strength", assoc.indices = FALSE, actor = NULL,
-  receiver = NULL, sym = FALSE, scan = NULL, id = NULL,
-  index = "sri", ...)
+sampling.effort(
+  df,
+  col.time,
+  cumulative = TRUE,
+  metric = "met.strength",
+  assoc.indices = FALSE,
+  actor = NULL,
+  receiver = NULL,
+  sym = FALSE,
+  scan = NULL,
+  id = NULL,
+  index = "sri",
+  ...
+)
 }
 \arguments{
+\item{df}{a data frame of interactions or associations.}
+
 \item{col.time}{an integer or string indicating the column with the time/period information}
 
 \item{cumulative}{a bolean, if TRUE, it computes the argument metric declared for each step of periods keeping previous periods}
@@ -29,14 +41,14 @@ Otherwise, it creates  a matrix of interactions and argument 'df' must be a data
 
 \item{id}{a numeric or character vector indicating the column holding ids of individuals.}
 
-\item{index}{a string indicating the association index to compute:
+\item{index}{a string indicating the association index to compute:}
+
+\item{...}{additional argument related to the computation of the metric declared.
 \itemize{
 \item 'sri' for Simple ratio index: \eqn{x/x+yAB+yA+yB}
 \item 'hw' for Half-weight index: \eqn{x/x+yAB+1/2(yA+yB)}
 \item 'sr' for Square root index:\eqn{x/sqr((x+yAB+yA)(x+yAB+yB))}
 }}
-
-\item{df@param}{a data frame of interactions or associations.}
 }
 \value{
 A list of two elemnts:
@@ -56,49 +68,59 @@ For this approach, argument cumulative must be set to TRUE.
 \examples{
 df <- sim.focal.directed
 df$period <- rep(c("a", "b", "c", "d", "e"))
-# Example for node measures non cumulative version
-sampling.effort(df, col.time = "period", cumulative = FALSE, metric = "met.strength", actor = "actor", receiver = "receiver")
-# Example for node measures cumulative version
-sampling.effort(df, col.time = "period", cumulative = TRUE, metric = "met.strength", actor = "actor", receiver = "receiver")
-# Examples with metric extra arguments
-sampling.effort(df, col.time = "period", actor = "actor", receiver = "receiver", metric = "met.affinity")
-sampling.effort(df, col.time = "period", actor = "actor", receiver = "receiver", metric = "met.affinity", binary = TRUE)
-# Example of how to test global network metric with non cumulative version
-sampling.effort(df, col.time = "period", cumulative = FALSE, metric = "met.density", actor = "actor", receiver = "receiver")
-# Example of how to test global network metric with cumulative version
-sampling.effort(df, col.time = "period", cumulative = TRUE, metric = "met.density", actor = "actor", receiver = "receiver")
-# Same example with group follow data collection protocol
-sampling.effort(sim.grp,
-                col.time = "day", cumulative = TRUE, metric = "met.strength",
-                assoc.indices = TRUE, scan = c("time", "location"), id = "ID", index = "sri"
-)
-# Example for node measures cumulative version
-sampling.effort(sim.grp,
-                col.time = "day", cumulative = FALSE, metric = "met.strength",
-                assoc.indices = TRUE, scan = c("time", "location"), id = "ID", index = "sri"
-)
+# Node measures non cumulative example 
+sampling.effort(df, col.time = "period", cumulative = FALSE,
+                metric = "met.strength", actor = "actor", receiver = "receiver")
 
-# Examples with metric extra arguments
-sampling.effort(sim.grp,
-                col.time = "day", cumulative = FALSE, metric = "met.affinity",
-                assoc.indices = TRUE, scan = c("time", "location"), id = "ID", index = "sri"
-)
-sampling.effort(sim.grp,
-                col.time = "day", cumulative = FALSE, metric = "met.affinity",
-                assoc.indices = TRUE, scan = c("time", "location"), id = "ID", index = "sri", binary = TRUE
-)
+# Node measures cumulative example
+sampling.effort(df, col.time = "period", cumulative = TRUE,
+                metric = "met.strength", actor = "actor", receiver = "receiver")
+
+# Node measures with extra arguments example
+sampling.effort(df, col.time = "period", actor = "actor",
+               receiver = "receiver", metric = "met.affinity")
+ 
+sampling.effort(df, col.time = "period", actor = "actor",
+                receiver = "receiver", metric = "met.affinity", binary = TRUE)
 
 # Example of how to test global network metric with non cumulative version
-sampling.effort(df = sim.grp,
-                col.time = "day", cumulative = FALSE, metric = "met.density",
-                assoc.indices = TRUE, scan = c("time", "location"), id = "ID", index = "sri"
-)
+sampling.effort(df, col.time = "period", cumulative = FALSE,
+                metric = "met.density", actor = "actor", receiver = "receiver")
 
 # Example of how to test global network metric with cumulative version
-sampling.effort(df = sim.grp,
-                col.time = "day", cumulative = TRUE, metric = "met.density",
-                assoc.indices = TRUE, scan = c("time", "location"), id = "ID", index = "sri"
-)
+sampling.effort(df, col.time = "period", cumulative = TRUE,
+                metric = "met.density", actor = "actor", receiver = "receiver")
+
+# Same example with group follow data collection protocol--------
+# Node measures non cumulative example
+sampling.effort(sim.grp, col.time = "day", cumulative = TRUE,
+                 metric = "met.strength", assoc.indices = TRUE,
+                 scan = c("time", "location"), id = "ID", index = "sri")
+
+# Node measures non cumulative example
+sampling.effort(sim.grp, col.time = "day", cumulative = FALSE,
+                metric = "met.strength", assoc.indices = TRUE, 
+                scan = c("time", "location"), id = "ID", index = "sri" )
+
+# Node measures with extra arguments example
+sampling.effort(sim.grp, col.time = "day", cumulative = FALSE, 
+                metric = "met.affinity", assoc.indices = TRUE, 
+                scan = c("time", "location"), id = "ID", index = "sri")
+                
+sampling.effort(sim.grp, col.time = "day", cumulative = FALSE, 
+                metric = "met.affinity", assoc.indices = TRUE, 
+                scan = c("time", "location"), id = "ID", 
+                index = "sri", binary = TRUE)
+
+# Example of how to test global network metric with non cumulative version
+sampling.effort(df = sim.grp, col.time = "day", cumulative = FALSE,
+                metric = "met.density",assoc.indices = TRUE, 
+                scan = c("time", "location"), id = "ID", index = "sri")
+
+# Example of how to test global network metric with cumulative version
+sampling.effort(df = sim.grp, col.time = "day", cumulative = TRUE, 
+                metric = "met.density", assoc.indices = TRUE,
+                scan = c("time", "location"), id = "ID", index = "sri")
 
 }
 \references{

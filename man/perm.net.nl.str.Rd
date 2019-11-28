@@ -7,6 +7,8 @@
 perm.net.nl.str(df, labels, rf = NULL, nperm, progress = TRUE)
 }
 \arguments{
+\item{df}{a data frame whith nodes informations}
+
 \item{labels}{a numeric or string vector indicating the columns (labels) to permute.}
 
 \item{rf}{an integer (column id) or a string (column name) indicating the column holding the factor grouping multiple networks.}
@@ -14,8 +16,6 @@ perm.net.nl.str(df, labels, rf = NULL, nperm, progress = TRUE)
 \item{nperm}{an integer indicating the number of permutations wanted.}
 
 \item{progress}{a boolean indicating the visualization of the permutation process.}
-
-\item{d}{a data frame whith nodes informations}
 }
 \value{
 a list of data frames of length nperm + 1 with the first element of the list beeing the original data frame and the other elements, the permuted ones.

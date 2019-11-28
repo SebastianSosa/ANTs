@@ -7,9 +7,9 @@
 perm.net.nl.str.single(df, labels)
 }
 \arguments{
-\item{labels}{a numeric or string vector indicating the columns (labels) to permute.}
+\item{df}{a data frame whith nodes informations}
 
-\item{d}{a data frame whith nodes informations}
+\item{labels}{a numeric or string vector indicating the columns (labels) to permute.}
 }
 \value{
 a list of data frames of length nperm + 1 with the first element of the list beeing the original data frame and the other elements, the permuted ones.
@@ -19,13 +19,6 @@ Permute node metrics while keeping their dependency
 }
 \details{
 Permute network links weigths while keep same network structure (density, modularity, binary global clustering coefficient).
-}
-\examples{
-df = met.strength(sim.m, df = sim.df, dfid = 1)
-df = met.eigen(sim.m, df = df, dfid = 1)
-head(df)
-perm.net.nl.str.single(df, c('strength', 'eigen'))
-df
 }
 \author{
 Sebastian Sosa
