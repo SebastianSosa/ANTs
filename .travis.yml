@@ -3,7 +3,4 @@
 language: R
 cache: packages
 sudo: required
-r_binary_packages:
-  r-cran-RcppEigen
-  r-cran-Rcpp
-  r-cran-RcppArmadillo
+
