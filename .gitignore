@@ -30,3 +30,5 @@ src/*.dll
 inst/doc
 .dropbox
 .docx
+doc
+Meta

@@ -39,3 +39,6 @@ Or download and install the package following the standard R installation proces
 To find information on how to use ANTs, follow this link: 
 https://www.s-sosa.com/videos
 
+  <!-- badges: start -->
+  [![Travis build status](https://travis-ci.org/SebastianSosa/ANTs.svg?branch=master)](https://travis-ci.org/SebastianSosa/ANTs)
+  <!-- badges: end -->

@@ -1,7 +1,9 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: r
+language: R
 cache: packages
-r:
-  - release
-  - devel
+sudo: required
+r_binary_packages:
+  r-cran-RcppEigen
+  r-cran-Rcpp
+  r-cran-RcppArmadillo
