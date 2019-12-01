@@ -5,3 +5,4 @@ desktop.ini
 ^\.travis\.yml$
 ^doc$
 ^Meta$
+^yml$
