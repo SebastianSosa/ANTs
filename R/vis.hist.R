@@ -56,7 +56,7 @@ vis.hist <- function(x,
                     paste("Lower ci: ", round(ci[1], digits = 3)),
                     paste("Upper ci: ", round(ci[2], digits = 3)),
                     paste("Left side p-value: ",  round(p[1], digits = 3)), 
-                    paste("Rigth side p-value: ",  round(p[2], digits = 3)), 
+                    paste("Right side p-value: ",  round(p[2], digits = 3)), 
                     paste("One side p-value: ",  round(p[3], digits = 3))), 
            col=c(observe.value.color, ci.lower.color, ci.upper.color), 
            lty=c( 1, 2, 2, 0, 0, 0), cex=0.8)
