@@ -39,11 +39,11 @@ vis.hist(
 \item{record}{A bolean indicating to return or not the histogram in a R object.}
 }
 \description{
-Create histogramme of posterior distribution and compute posterior distribution statistics (p-values and confidence interval).
+Create histogram of posterior distribution and compute posterior distribution statistics (p-values and confidence interval).
 }
 \examples{
 t=met.strength(sim.m,sim.df,1) # Computing network metric
 t=perm.net.nl(t,labels='age',rf=NULL,nperm=1000,progress=FALSE) # Node label permutations
 r.c=stat.cor(t,'age','strength',progress=FALSE) # Permuted correlation test
-vis.hist(r.c[,1])# Histogramme of posterior distribution
+vis.hist(r.c[,1])# Histogram of posterior distribution
 }
