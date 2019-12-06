@@ -26,10 +26,10 @@ DataFrame ldf_merge(List ldf) {
   
   for(int a=0;a<d.size();a++){
     SEXP vec=d[a];
-    //std::cout<<"col id: "<<a<<std::endl;
+    //Rcpp::Rcout<<"col id: "<<a<<std::endl;
     
     for(int b=1;b<ldf.size();b++){
-      //std::cout<<"data frame is: "<<b<<std::endl;
+      //Rcpp::Rcout<<"data frame is: "<<b<<std::endl;
       DataFrame d2=Rcpp::as<Rcpp::DataFrame>(ldf[b]);
       SEXP vec2=d2[a];
       vec=vec_merge(vec,vec2);

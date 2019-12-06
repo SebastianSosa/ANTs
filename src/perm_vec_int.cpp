@@ -30,12 +30,12 @@ Rcpp::List perm_vec_int(NumericVector x, int nperm, bool progress) {
   Rcpp::List permuted(nperm);
   for(int a=0; a<nperm;a++){
   	    if(progress==TRUE){
-      std::cout<<"\r"<<"permutation: "<<a;
-      std::cout.flush();
+      Rcpp::Rcout<<"\r"<<"permutation: "<<a;
+      Rcpp::Rcout.flush();
     }
 
-    std::cout<<"\r"<<"permutation: "<<a;
-    std::cout.flush();
+    Rcpp::Rcout<<"\r"<<"permutation: "<<a;
+    Rcpp::Rcout.flush();
     permuted[a]=Rcpp::sample(x,x.size(), false);
   }
   return permuted;

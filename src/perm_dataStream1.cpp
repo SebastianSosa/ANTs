@@ -40,8 +40,8 @@ Rcpp::List perm_dataStream1(arma::mat M, int nperm, bool progress,std::string me
   list_gbi[0]=tmp;
   for (int a=1;a<nperm+1;a++){
     if(progress==TRUE){
-      std::cout<<"\r"<<"permutation: "<<a;
-      std::cout.flush();
+      Rcpp::Rcout<<"\r"<<"permutation: "<<a;
+      Rcpp::Rcout.flush();
     }
     // Finding non empty cells in the matrix
     arma::uvec move = find(M==1); // Find elements=0
@@ -95,6 +95,6 @@ Rcpp::List perm_dataStream1(arma::mat M, int nperm, bool progress,std::string me
   
     list_gbi[a]=tmp;
   }
-  std::cout<<"\n"<<std::endl;
+  Rcpp::Rcout<<"\n"<<std::endl;
   return list_gbi;
 }

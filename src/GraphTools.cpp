@@ -717,7 +717,7 @@ public:
     
     double* getBetweenness(){
         if (betweenness == NULL) {
-            cout << "Alloc Error" << endl;
+            Rcpp::Rcout << "Alloc Error" << endl;
         }
         return betweenness;
     }//return the betweenness

@@ -18,8 +18,8 @@ List perm_net_weigths(DataFrame df, bool sym, int nperm, bool progress ) {
   if(progress){
     for(int a=1; a < nperm+1; a++){
       // Print permutations progress
-      std::cout<<"\r"<<"Permutation: "<<a;
-      std::cout.flush();
+      Rcpp::Rcout<<"\r"<<"Permutation: "<<a;
+      Rcpp::Rcout.flush();
 
       // Extract link weigths
       NumericVector w = d["weight"];

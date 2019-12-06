@@ -53,12 +53,12 @@ Rcpp::List perm_dataStream_ControlFactor(Rcpp::List GBIList,
 
   while(Current_perm < (nperm+1)){
     if(progress==TRUE){
-      std::cout<<"\r"<<"Permutation: "<<Current_perm;
-      std::cout.flush();
+      Rcpp::Rcout<<"\r"<<"Permutation: "<<Current_perm;
+      Rcpp::Rcout.flush();
     }
     Rcpp::IntegerVector GbiIndex = Rcpp::sample(GBIIndexes,1); // pick a gbi randomly // CHANGE BUG FIX 20190320 // argument in sample change from GBIS to GBIIndexes
-    //std::cout<< "GbiIndex" <<std::endl;
-    //std::cout<< GbiIndex <<std::endl;
+    //Rcpp::Rcout<< "GbiIndex" <<std::endl;
+    //Rcpp::Rcout<< GbiIndex <<std::endl;
     arma::mat GBI_M= GBIList[GbiIndex(0)]; //extract gbi form the list
 
     // Finding non empty cells in the matrix
@@ -97,12 +97,12 @@ Rcpp::List perm_dataStream_ControlFactor(Rcpp::List GBIList,
       id1=id1_info(1);// ID of id1 (col in matrix idx)
       id2=id2_info(1);// ID of id2 (col in matrix idx)
       WhileIndex += 1;
-      //std::cout<< "GbiIndex "<<GbiIndex <<std::endl;
-      //std::cout<< "id1 "<< id1 <<std::endl;
-      //std::cout<< "scan_id1 "<< scan_id1 <<std::endl;
-      //std::cout<< "id2 " << id2<<std::endl;
-      //std::cout<< "scan_id2 "<< scan_id2 <<std::endl;
-      //std::cout<< "WhileIndex" << WhileIndex<<std::endl;
+      //Rcpp::Rcout<< "GbiIndex "<<GbiIndex <<std::endl;
+      //Rcpp::Rcout<< "id1 "<< id1 <<std::endl;
+      //Rcpp::Rcout<< "scan_id1 "<< scan_id1 <<std::endl;
+      //Rcpp::Rcout<< "id2 " << id2<<std::endl;
+      //Rcpp::Rcout<< "scan_id2 "<< scan_id2 <<std::endl;
+      //Rcpp::Rcout<< "WhileIndex" << WhileIndex<<std::endl;
       // Maximum number of while loops = 100
       if (WhileIndex == 100){
         SwapFound = false;
@@ -114,11 +114,11 @@ Rcpp::List perm_dataStream_ControlFactor(Rcpp::List GBIList,
       GBI_M(scan_id1,id2)=1;
       GBI_M(scan_id1,id1)=0;
       GBI_M(scan_id2,id2)=0;
-      //std::cout<< "GbiIndex "<<GbiIndex <<std::endl;
-      //std::cout<< "id1 "<< id1 <<std::endl;
-      //std::cout<< "scan_id1 "<< scan_id1 <<std::endl;
-      //std::cout<< "id2 " << id2<<std::endl;
-      //std::cout<< "scan_id2 "<< scan_id2 <<std::endl;
+      //Rcpp::Rcout<< "GbiIndex "<<GbiIndex <<std::endl;
+      //Rcpp::Rcout<< "id1 "<< id1 <<std::endl;
+      //Rcpp::Rcout<< "scan_id1 "<< scan_id1 <<std::endl;
+      //Rcpp::Rcout<< "id2 " << id2<<std::endl;
+      //Rcpp::Rcout<< "scan_id2 "<< scan_id2 <<std::endl;
       // PASTE MODIFIED PARTIAL GBI INTO ALL GBI
       int start = CumSizesGbis(GbiIndex(0));
       int GBI_Mrows = GBI_M.n_rows;
@@ -143,7 +143,7 @@ Rcpp::List perm_dataStream_ControlFactor(Rcpp::List GBIList,
       Current_perm += 1;
     }// end if condition
   }// end permutation
-  std::cout<<"\n"<<std::endl;
+  Rcpp::Rcout<<"\n"<<std::endl;
   return list_assoc_mat;// NEW LINE
   //return list_gbi; //OLD LINE 
 }

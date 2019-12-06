@@ -36,8 +36,8 @@ Rcpp::List perm_nodeLabels(Rcpp::DataFrame df,Rcpp::NumericVector label,int nper
   if(progress==TRUE){
     for(int a=1;a<nperm+1;a++){
       // Print permutations progress
-      std::cout<<"\r"<<"Permutation: "<<a;
-      std::cout.flush();
+       Rcpp::Rcout <<"\r"<<"Permutation: "<<a;
+       Rcpp::Rcout.flush();
       
       Rcpp::DataFrame df2=clone(df);
       for(int b=0;b<label.size();b++){
@@ -50,7 +50,7 @@ Rcpp::List perm_nodeLabels(Rcpp::DataFrame df,Rcpp::NumericVector label,int nper
       df2.attr("permutation") = a;
       list_Df[a]=clone(df2);
     }
-    std::cout<<"\n"<<std::endl;
+     Rcpp::Rcout<<"\n"<<std::endl;
   }
   else{
     for(int a=1;a<nperm+1;a++){

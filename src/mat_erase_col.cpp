@@ -20,7 +20,7 @@ NumericMatrix mat_erase_col(NumericMatrix M,int a){
   int mem=0;
   for (int i = 0; i < M.ncol(); i++) {
     bool test=i != a;
-    std::cout<<test<<std::endl;
+    Rcpp::Rcout<<test<<std::endl;
     if (i != a) {
       x2(_,mem) = M(_,i);
       mem++;

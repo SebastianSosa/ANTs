@@ -36,7 +36,7 @@ List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress) {
   if(progress==TRUE){
     // For each permutations declared
     for(int a=1; a<nperm+1;a++){
-      std::cout<<"\r"<<"permutation: "<<a;
+      Rcpp::Rcout<<"\r"<<"permutation: "<<a;
       //For each lables declared
       for(int b=0;b<lables.size();b++){
         //Extracting first element
@@ -66,7 +66,7 @@ List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress) {
       df.attr("permutation") = a;
       pldf[a]=clone(df);
     }
-    std::cout<<"\n"<<std::endl;
+    Rcpp::Rcout<<"\n"<<std::endl;
   }
   else{
     // For each permutations declared

@@ -39,8 +39,8 @@ Rcpp::List perm_dataStream1_focal(arma::mat M, arma::mat M2, int nperm, bool pro
   list_gbi[0]=tmp;
   for (int a=1;a<nperm+1;a++){
     if(progress==TRUE){
-      std::cout<<"\r"<<"permutation: "<<a;
-      std::cout.flush();
+      Rcpp::Rcout<<"\r"<<"permutation: "<<a;
+      Rcpp::Rcout.flush();
     }
     // Finding non empty cells in the matrix
     arma::uvec move = find(M==1); // Find elements=0

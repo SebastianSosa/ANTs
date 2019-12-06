@@ -6,11 +6,11 @@ namespace impl {
   Vector<RTYPE> merge(const Vector<RTYPE>& vec1, const Vector<RTYPE>& vec2)
   {
     if(TYPEOF(vec1) != TYPEOF(vec2)){
-      std::cout<<"\n";
-      std::cout<<"vector 1 type: "<<TYPEOF(vec1);
-      std::cout<<"\n";
-      std::cout<<"vector 2 type: "<<TYPEOF(vec2);
-      std::cout<<"\n"<<std::endl;
+      Rcpp::Rcout<<"\n";
+      Rcpp::Rcout<<"vector 1 type: "<<TYPEOF(vec1);
+      Rcpp::Rcout<<"\n";
+      Rcpp::Rcout<<"vector 2 type: "<<TYPEOF(vec2);
+      Rcpp::Rcout<<"\n"<<std::endl;
     
       Rcpp::stop("Vectors are not of the same type"); 
     }
