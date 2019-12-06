@@ -1,5 +1,5 @@
 #' @title Histogram of posterior distribution
-#' @description Create histogramme of posterior distribution and compute posterior distribution statistics (p-values and confidence interval).
+#' @description Create histogram of posterior distribution and compute posterior distribution statistics (p-values and confidence interval).
 #' @param x A numeric vector with the first value corresponding to the observed value.
 #' @param backgroud.color A specification for the default histogram background color. 
 #' @param observe.value.color A specification for the default abline line color of the observed value. 
@@ -14,7 +14,7 @@
 #' t=met.strength(sim.m,sim.df,1) # Computing network metric
 #' t=perm.net.nl(t,labels='age',rf=NULL,nperm=1000,progress=FALSE) # Node label permutations
 #' r.c=stat.cor(t,'age','strength',progress=FALSE) # Permuted correlation test
-#' vis.hist(r.c[,1])# Histogramme of posterior distribution
+#' vis.hist(r.c[,1])# Histogram of posterior distribution
 
 
 vis.hist <- function(x, 
