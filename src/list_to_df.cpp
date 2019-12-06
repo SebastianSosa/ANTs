@@ -36,9 +36,9 @@ List list_to_df(List a) {
 
   StringVector col_names(returned_frame.length());
   for (int j = 0; j < returned_frame.length(); ++j) {
-    char name[25];
-    sprintf(&(name[0]), "X.%d", j);
-    col_names(j) = name;
+    //char name[11];
+    //sprintf(&(name[0]), "X.%d", j);
+    col_names(j) = j;
   }
   returned_frame.attr("names") = col_names;
   returned_frame.attr("class") = "data.frame";

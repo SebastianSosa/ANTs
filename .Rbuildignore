@@ -6,3 +6,8 @@ desktop.ini
 ^doc$
 ^Meta$
 ^yml$
+^Rhistory$
+README.md
+^.*\.git$
+^.gitignore$
+^.RData$
