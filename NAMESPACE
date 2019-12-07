@@ -6,7 +6,7 @@ importFrom("stats", ".getXlevels", "binomial", "cor", "fitted",
              "gaussian", "glm", "is.empty.model", "lm.fit", "lm.wfit",
              "model.matrix", "model.offset", "model.response",
              "model.weights", "poisson", "qqline", "qqnorm", "qt",
-             "resid", "sd","lm","na.omit","t.test","residuals.glm",'interaction.plot')
+             "resid", "sd","lm","na.omit","t.test","residuals.glm",'interaction.plot', "quantile")
 importFrom("methods","setGeneric","is")
 importFrom("utils", "read.csv","write.csv","browseURL")
 importFrom("Kendall","Kendall")

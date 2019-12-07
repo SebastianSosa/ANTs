@@ -51,7 +51,7 @@ setGeneric(name = "ant", ant <- function(x) {
       p <- stat.p(c(obs,v_perm))
       
       # Compute confidence interval--------------------
-      stat.ci <- stat.ci(v_perm)
+      stat.ci <- quantile(v_perm)
       
       # Compute mean posterior distribution-------------
       m <- mean(v_perm)
@@ -113,7 +113,7 @@ setGeneric(name = "ant", ant <- function(x) {
       p <- stat.p(c(obs,v_perm))
       
       # Compute confidence interval--------------------
-      stat.ci <- stat.ci(v_perm)
+      stat.ci <- quantile(v_perm)
       
       # Compute mean posterior distribution-------------
       m <- mean(v_perm)
@@ -223,7 +223,7 @@ setGeneric(name = "ant", ant <- function(x) {
       p <- stat.p(c(obs,v_perm))
       
       # Compute confidence interval--------------------
-      stat.ci <- stat.ci(v_perm)
+      stat.ci <- quantile(v_perm)
       
       # Compute mean posterior distribution-------------
       m <- mean(v_perm)
@@ -318,7 +318,7 @@ setGeneric(name = "ant", ant <- function(x) {
       p <- stat.p(c(obs,v_perm))
       
       # Compute confidence interval--------------------
-      stat.ci <- stat.ci(v_perm)
+      stat.ci <- quantile(v_perm)
       
       # Compute mean posterior distribution-------------
       m <- mean(v_perm)
