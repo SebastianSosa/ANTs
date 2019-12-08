@@ -34,7 +34,7 @@ vis.hist <- function(x,
   vec = x[-1]
   
   # Confidence interval
-  ci = quantile(vec, c(.85, .98)) 
+  ci = quantile(vec, c(.25, .98)) 
   
   # Hist---------------------------------------
   par(bg = backgroud.color)
