@@ -6,6 +6,7 @@
 \usage{
 vis.hist(
   x,
+  quantile = c(0.05, 0.95),
   backgroud.color = "gray63",
   observe.value.color = "white",
   ci.lower.color = "white",
@@ -19,6 +20,8 @@ vis.hist(
 }
 \arguments{
 \item{x}{A numeric vector with the first value corresponding to the observed value.}
+
+\item{quantile}{a numeric vector of length 2 to indicate the lower and upper confidence interval.}
 
 \item{backgroud.color}{A specification for the default histogram background color.}
 
