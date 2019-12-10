@@ -1,6 +1,7 @@
 #' @title Histogram of posterior distribution
 #' @description Create histogram of posterior distribution and compute posterior distribution statistics (p-values and confidence interval).
 #' @param x A numeric vector with the first value corresponding to the observed value.
+#' @param quantile a numeric vector of length 2 to indicate the lower and upper confidence interval.
 #' @param backgroud.color A specification for the default histogram background color. 
 #' @param observe.value.color A specification for the default abline line color of the observed value. 
 #' @param ci.lower.color A specification for the default abline line color of the lower confidence interval. 
@@ -17,7 +18,7 @@
 #' vis.hist(r.c[,1])# Histogram of posterior distribution
 
 
-vis.hist <- function(x, 
+vis.hist <- function(x, quantile = c(0.05, 0.95),
                  backgroud.color = "gray63", 
                  observe.value.color = "white", 
                  ci.lower.color =  "white",
@@ -27,6 +28,7 @@ vis.hist <- function(x,
                  legend = TRUE,
                  legend.position = "topright",
                  record = TRUE){
+  if(length(quantile) > 2){stop("Only two bornes are allowed for quantiles")}
   # Stats--------------------------------------
   # Permuted p-values
   p = stat.p(x)
@@ -34,7 +36,7 @@ vis.hist <- function(x,
   vec = x[-1]
   
   # Confidence interval
-  ci = quantile(vec, c(.25, .98)) 
+  ci = quantile(vec, quantile) 
   
   # Hist---------------------------------------
   par(bg = backgroud.color)
