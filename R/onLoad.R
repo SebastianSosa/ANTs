@@ -21,5 +21,5 @@
   		packageStartupMessage("For more information, visit our websites:")
   		packageStartupMessage("    - www.s-sosa.com/ant")
   		packageStartupMessage("    - https://github.com/SebastianSosa/ant")
-  		packageStartupMessage("Authors: Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, C",paste("\u00e9"),"dric Sueur")
+  		packageStartupMessage("Authors: Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cedric Sueur")
   }
