@@ -14,7 +14,7 @@
 
 
 .onAttach <- function(...) {
-  		packageStartupMessage("Animal Network Toolkit (ANT) is a free open R package for analysing animal networks.", appendLF = FALSE)
+  		packageStartupMessage("Animal Network Toolkit software (ANTs) is a free open R package for analysing animal networks.", appendLF = FALSE)
   		packageStartupMessage("ANT is a multi-collaborative project and is meant to continuously evolve. If you wish to contribute by providing suggestions or additional codes please contact us at: ant@s-sosa.com")
   		packageStartupMessage("If you need help or if you want to report bugs, please contact us at: ant.help@s-sosa.com")
   		packageStartupMessage("For citation information, type: citation('ant')")
