@@ -40,6 +40,7 @@
 #include <vector>
 #include <set>
 #include <queue>
+#include "Rcpp.h"
 #include <RcppArmadillo.h>
 #include <map>
 using namespace std;
@@ -210,6 +211,8 @@ private:
                     setFather(targetFather);
                 }
                 shortestFatherList.push_back(targetFather);
+                if (targetFather->getName() < this->whoisYourFather()->getName())
+                    setFather(targetFather);
                 return true;
             }//check if the new node is shorter than the current node, if it is
             //update the current father node to new node
@@ -259,7 +262,7 @@ private:
             compareNode(const bool& reverse = true){
                 this->reverse = reverse;
             }// prepare for reverse, which means make the map rank from large to small
-            bool operator()(const Node *a, const Node *b) const{
+            bool operator()(const Node* const &a, const Node* const &b) const{
                 if (reverse) {
                     if (a->getDistance() == b->getDistance()) {
                         return a->getName() > b->getName();
@@ -371,7 +374,7 @@ private:
         
         void DijastraCalculation(long int start, double* shortestMap, long int size, long int* directMap){
             // std::priority_queue<Node*, vector<Node*>, compareNode> dealMap;
-            set<pair<double, Node*> > nodeQueue;
+            set<Node*, compareNode > nodeQueue;
             
             resetNet();// make sure the net is clean
             
@@ -385,26 +388,27 @@ private:
             startNode->changeState();
             //dealMap.push(listofNode[start]);
             // dealMap.push(startNode);
-            nodeQueue.insert(make_pair(startNode->getDistance(), startNode));
+            nodeQueue.insert(startNode);
             
             vector<Node*> reachedNode;
             
             while (!nodeQueue.empty()) {
                 // Node* top = dealMap.top();
                 // dealMap.pop();
-                Node* top = nodeQueue.begin()->second;
+                Node* top = *nodeQueue.begin();
                 nodeQueue.erase(nodeQueue.begin());
                 
                 // cout << top->getName() << " top " << top->getDistance() << " ";
                 std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
                 for (; q != top->neighbor.end(); q++) {
+                    if ((*q).first->askState(2)) continue;
                     double tempDist = (*q).first->getDistance();
                     if ((*q).first->setDistance((*q).second + top->getDistance(), top)){
 // cout << (*q).first->getName() << " " << (*q).first->getDistance() << " " << endl;
                         if ((*q).first->askState(0)) {
                             (*q).first->changeState();
-                            nodeQueue.erase(make_pair(tempDist, (*q).first));
-                            nodeQueue.insert(make_pair((*q).first->getDistance(), (*q).first));
+                            nodeQueue.erase((*q).first);
+                            nodeQueue.insert((*q).first);
                         }
                     }
                 }
@@ -415,7 +419,7 @@ private:
                 }
                 top->changeState();
                 reachedNode.push_back(top);
-    }
+            }
             
             //return GetPathVector(start, reachedNode);
             //about this part see the paper of betweenness for more details
@@ -423,7 +427,7 @@ private:
         
     void DijastraCalculation(long int start, double* shortestMap, double* betweenness, long int size, long int* directMap){
             //std::priority_queue<Node*, vector<Node*>, compareNode> dealMap;
-            set<pair<double, Node*> > nodeQueue;
+            set<Node*, compareNode > nodeQueue;
             
             resetNet();// make sure the net is clean
             
@@ -444,7 +448,7 @@ private:
             startNode->changeState();
             startNode->changeState();
             //dealMap.push(listofNode[start]);
-            nodeQueue.insert(make_pair(0, startNode));
+            nodeQueue.insert(startNode);
             //dealMap.push(startNode);
             
             vector<Node*> reachedNode;
@@ -452,17 +456,18 @@ private:
             while (!nodeQueue.empty()) {
                 //Node* top = dealMap.top();
                 //dealMap.pop();
-                Node* top = nodeQueue.begin()->second;
+                Node* top = *nodeQueue.begin();
                 nodeQueue.erase(nodeQueue.begin());
                 
                 std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
                 for (; q != top->neighbor.end(); q++) {
+                    if ((*q).first->askState(2)) continue;
                     double tempDist = (*q).first->getDistance();
                     if ((*q).first->setDistance((*q).second + top->getDistance(), top)){
                         if ((*q).first->askState(0)) {
                             (*q).first->changeState();
-                            nodeQueue.erase(make_pair(tempDist, (*q).first));
-                            nodeQueue.insert(make_pair((*q).first->getDistance(), (*q).first));
+                            nodeQueue.erase((*q).first);
+                            nodeQueue.insert((*q).first);
                         }
                     }
                 }
@@ -717,7 +722,7 @@ public:
     
     double* getBetweenness(){
         if (betweenness == NULL) {
-            Rcpp::Rcout << "Alloc Error" << endl;
+            cout << "Alloc Error" << endl;
         }
         return betweenness;
     }//return the betweenness
