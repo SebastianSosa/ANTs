@@ -12,7 +12,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-#' @title Simulated data collected through group fellow sampling
-#' @description This is a simulated data set  collected through group fellow sampling.
+#' @title Simulated data collected through gambit of the group sampling
+#' @description This is a simulated data set  collected through gambit of the group sampling.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 "sim.grp"

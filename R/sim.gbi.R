@@ -13,6 +13,6 @@
 # GNU General Public License for more details.
 
 #' @title Group by individual (GBI) matrix
-#' @description This is a simulated Group by individual (GBI) matrix collected through group fellow sampling.
+#' @description This is a simulated Group by individual (GBI) matrix collected through gambit of the group sampling.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 "sim.gbi"

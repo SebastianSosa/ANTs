@@ -199,7 +199,7 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
           if (is(r, "error") | is(r, "warning")) {
             # Extract permutation number
             attr(odf, "permutation") <- attributes(d)$permutation
-            # redo data stream permutations with group follow protocol and recompute network metrics
+            # redo data stream permutations with gambit of the group protocol and recompute network metrics
             r <- redo.ds.grp.lm(new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, formula = formula, Scan = Scan, ctrlf = ctrlf, index = index, method = method, model = model, x = x, y = y, qr = qr, singular.ok = singular.ok, contrasts = contrasts, ...)
             # Store information for future repermutations
             tmp.env$new.perm <- r[[1]]

@@ -12,7 +12,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-# This file contains the functions (except c++ functions) for repeating permutations in a data stream permutation for group fellow protocol with multiple permutations
+# This file contains the functions (except c++ functions) for repeating permutations in a data stream permutation for gambit of the group protocol with multiple permutations
 # 6 functions can be found, ordered according to their use in the process:
 #
 #   1. A c++ function redo_perm_dataStream_1. This function is similar to the original perm_dataStream_1.cpp function.
@@ -36,7 +36,7 @@
 #
 #   6. redo.ds.grp R function allows to launch all the processes previously explained.
 #' @title Function for cumulative permutations on a data frame of associations
-#' @description Performs cumulative data stream permutations for group fellow.
+#' @description Performs cumulative data stream permutations for gambit of the group.
 #' @param df a data frame of individuals associations
 #' @return A list of two elements with all the permutations : 1) gbi or control gbi if control_factor in null or not respectivelly; 2) Association matrix
 #' @keywords internal
@@ -110,7 +110,7 @@ redo.perm.ds.grp.cum <- function(df, Scan, method, control_factor, nperm) {
 }
 
 #' @title cumulative permutations on GBI or GBI with control factors
-#' @description Performs cumulative data stream permutations for group fellow.
+#' @description Performs cumulative data stream permutations for gambit of the group.
 #' @param GBI gbi or control gbi if control_factor in null or not respectivelly
 #' @return A list of two elements with all the permutations : 1) gbi or control gbi if control_factor in null or not respectivelly; 2) Association matrix
 #' @details not need of data frame of individuals associations, permutation are directly done inside the gbi, and it return a new gbi or control gbi if control_factor in null or not respectivelly with the permutations
@@ -384,8 +384,8 @@ met.all <- function(M, df, vec) {
   return(df)
 }
 
-#' @title Group fellow data stream function for error found in permutations
-#' @description Performs cumulative data stream permutations for group fellow until the glmm found no error or warnings
+#' @title gambit of the group data stream function for error found in permutations
+#' @description Performs cumulative data stream permutations for gambit of the group until the glmm found no error or warnings
 #' @keywords internal
 redo.ds.grp <- function(family, new.perm, gbi, oda, odf, target.metrics, formula, Scan, method, ctrlf, fam, ...) {
   if (new.perm == 0) {

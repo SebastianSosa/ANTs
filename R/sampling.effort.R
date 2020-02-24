@@ -57,7 +57,7 @@
 #' sampling.effort(df, col.time = "period", cumulative = TRUE,
 #'                 metric = "met.density", actor = "actor", receiver = "receiver")
 #' 
-#' # Same example with group follow data collection protocol--------
+#' # Same example with gambit of the group data collection protocol--------
 #' # Node measures non cumulative example
 #' sampling.effort(sim.grp, col.time = "day", cumulative = TRUE,
 #'                  metric = "met.strength", assoc.indices = TRUE,

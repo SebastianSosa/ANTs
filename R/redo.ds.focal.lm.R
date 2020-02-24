@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 
 #' @title Focal Data stream Recursive function for error found in permutations
-#' @description Performs cumulative data stream permutations for group fellow until the glmm found no error or warnings
+#' @description Performs cumulative data stream permutations for gambit of the group until the glmm found no error or warnings
 #' @keywords internal
 redo.ds.focal.lm <- function(formula, new.perm, gbi, gbi2, oda, odf, target.metrics, focal, ctrl, alters, index, model, method, x, y, qr, singular.ok, contrasts, ...) {
   if (new.perm == 0) {

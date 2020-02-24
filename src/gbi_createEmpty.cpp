@@ -24,7 +24,7 @@ Rcpp::CharacterVector vec_char_extract_IdValue(CharacterVector y, NumericVector 
 //' @param col_scan an integer indicating the number of the column holding the different scans.
 //' @param col_id an integer indicating the number of the column holding the different scans.
 //' @return An empty group by individual matrix.
-//' @details A group by individual matrix is a way to represent several data collection protocols such as group fellows or scans data collections. They also allow to compute easely several associations indexes.
+//' @details A group by individual matrix is a way to represent several data collection protocols such as gambit of the groups or scans data collections. They also allow to compute easely several associations indexes.
 //' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
 //' @author Sebastian Sosa, Ivan Puga-Gonzales.
 //' @keywords internal

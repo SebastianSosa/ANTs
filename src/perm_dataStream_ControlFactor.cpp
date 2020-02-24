@@ -19,14 +19,14 @@ arma::mat assoc_mat (arma::mat Mgbi, std::string method, bool return_denom = fal
 arma::rowvec assoc_mat_one_id (arma::mat Mgbi,int id, std::string method);
 //#include <RcppArmadilloExtensions/sample.h>
 #include <iostream>
-//' @title Data Stream Group Fellow Permutations with control factor.
-//' @description Pre-network permutation on association data of Group fellow type with control factor. 
+//' @title Data Stream gambit of the group Permutations with control factor.
+//' @description Pre-network permutation on association data of gambit of the group type with control factor. 
 //' @param M a square adjacency matrix.
 //' @param nperm an integer indicating the number of permutations to perform.
 //' @param CumSizesGbis ???
 //' @param progress a boolean indicating if you wich to see the progression of the permutations.
 //' @return A list of Group By Individual matrices according to each scans perform.
-//' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'group fellow' and without control factors
+//' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'gambit of the group' and without control factors
 //' @author Ivan Puga-Gonzales, Sebastian Sosa.
 //' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
 //' @references Farine, D. R. (2017). A guide to null models for animal social network analysis. Methods in Ecology and Evolution.

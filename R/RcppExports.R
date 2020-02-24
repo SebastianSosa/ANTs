@@ -115,7 +115,7 @@ euclidean <- function(vec) {
 #' @param col_scan an integer indicating the number of the column holding the different scans.
 #' @param col_id an integer indicating the number of the column holding the different scans.
 #' @return An empty group by individual matrix.
-#' @details A group by individual matrix is a way to represent several data collection protocols such as group fellows or scans data collections. They also allow to compute easely several associations indexes.
+#' @details A group by individual matrix is a way to represent several data collection protocols such as gambit of the groups or scans data collections. They also allow to compute easely several associations indexes.
 #' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
 #' @author Sebastian Sosa, Ivan Puga-Gonzales.
 #' @keywords internal
@@ -342,10 +342,10 @@ na_omit <- function(x) {
     .Call('_ANTs_na_omit', PACKAGE = 'ANTs', x)
 }
 
-#' @title Data Stream Group Fellow Permutations without control factor.
-#' @description Pre-network permutation on association data of Group fellow type without control factor.
+#' @title Data Stream gambit of the group Permutations without control factor.
+#' @description Pre-network permutation on association data of gambit of the group type without control factor.
 #' @param M a square adjacency matrix.
-#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'group fellow' and without control factors
+#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'gambit of the group' and without control factors
 #' @param M a square adjacency matrix.
 #' @param nperm an integer indicating the number of permutations to perform.
 #' @param progress a boolean indicating if you wich to see the progression of the permutations.
@@ -359,10 +359,10 @@ perm_dataStream1 <- function(M, nperm, progress, method) {
     .Call('_ANTs_perm_dataStream1', PACKAGE = 'ANTs', M, nperm, progress, method)
 }
 
-#' @title Data Stream Group Fellow Permutations without control factor.
-#' @description Pre-network permutation on association data of Group fellow type without control factor.
+#' @title Data Stream gambit of the group Permutations without control factor.
+#' @description Pre-network permutation on association data of gambit of the group type without control factor.
 #' @param M a square adjacency matrix.
-#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'group fellow' and without control factors
+#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'gambit of the group' and without control factors
 #' @param M a square adjacency matrix.
 #' @param nperm an integer indicating the number of permutations to perform.
 #' @param progress a boolean indicating if you wich to see the progression of the permutations.
@@ -376,14 +376,14 @@ perm_dataStream1_focal <- function(M, M2, nperm, progress, method) {
     .Call('_ANTs_perm_dataStream1_focal', PACKAGE = 'ANTs', M, M2, nperm, progress, method)
 }
 
-#' @title Data Stream Group Fellow Permutations with control factor.
-#' @description Pre-network permutation on association data of Group fellow type with control factor. 
+#' @title Data Stream gambit of the group Permutations with control factor.
+#' @description Pre-network permutation on association data of gambit of the group type with control factor. 
 #' @param M a square adjacency matrix.
 #' @param nperm an integer indicating the number of permutations to perform.
 #' @param CumSizesGbis ???
 #' @param progress a boolean indicating if you wich to see the progression of the permutations.
 #' @return A list of Group By Individual matrices according to each scans perform.
-#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'group fellow' and without control factors
+#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'gambit of the group' and without control factors
 #' @author Ivan Puga-Gonzales, Sebastian Sosa.
 #' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
 #' @references Farine, D. R. (2017). A guide to null models for animal social network analysis. Methods in Ecology and Evolution.
@@ -469,10 +469,10 @@ perm_vec_int <- function(x, nperm, progress) {
     .Call('_ANTs_perm_vec_int', PACKAGE = 'ANTs', x, nperm, progress)
 }
 
-#' @title Data Stream Group Fellow Permutations without control factor.
-#' @description Pre-network permutation on association data of Group fellow type without control factor.
+#' @title Data Stream gambit of the group Permutations without control factor.
+#' @description Pre-network permutation on association data of gambit of the group type without control factor.
 #' @param M a square adjacency matrix.
-#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'group fellow' and without control factors
+#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'gambit of the group' and without control factors
 #' @param M a square adjacency matrix.
 #' @param nperm an integer indicating the number of permutations to perform.
 #' @param progress a boolean indicating if you wich to see the progression of the permutations.
@@ -486,11 +486,11 @@ redo_perm_dataStream1_focal <- function(M, M2, nperm, method) {
     .Call('_ANTs_redo_perm_dataStream1_focal', PACKAGE = 'ANTs', M, M2, nperm, method)
 }
 
-#' @title Data Stream Group Fellow cumulative permutations without control factor.
-#' @description Cumulative pre-network permutation on association data of Group fellow type without control factor.
+#' @title Data Stream gambit of the group cumulative permutations without control factor.
+#' @description Cumulative pre-network permutation on association data of gambit of the group type without control factor.
 #' @param M a square adjacency matrix.
 #' @param nperm an integer indicating the number of permutations to perform.
-#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'group fellow' and without control factors
+#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'gambit of the group' and without control factors
 #' @return A list of Group By Individual matrices according to each scans perform.
 #' @author Ivan Puga-Gonzales, Sebastian Sosa.
 #' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
@@ -501,12 +501,12 @@ redo_perm_dataStream_1 <- function(M, nperm, method) {
     .Call('_ANTs_redo_perm_dataStream_1', PACKAGE = 'ANTs', M, nperm, method)
 }
 
-#' @title Data Stream Group Fellow cumulative permutations with control factor.
-#' @description Cumulative pre-network permutation on association data of Group fellow type with control factor. 
+#' @title Data Stream gambit of the group cumulative permutations with control factor.
+#' @description Cumulative pre-network permutation on association data of gambit of the group type with control factor. 
 #' @param GBIList a list of gbis split according to the control(s) factors.
 #' @param nperm an integer indicating the number of permutations to perform.
 #' @param CumSizesGbis ???
-#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'group fellow' and without control factors
+#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'gambit of the group' and without control factors
 #' @author Ivan Puga-Gonzales, Sebastian Sosa.
 #' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
 #' @references Farine, D. R. (2017). A guide to null models for animal social network analysis. Methods in Ecology and Evolution.
@@ -516,12 +516,12 @@ redo_perm_dataStream_ControlFactor <- function(GBIList, M, nperm, CumSizesGbis, 
     .Call('_ANTs_redo_perm_dataStream_ControlFactor', PACKAGE = 'ANTs', GBIList, M, nperm, CumSizesGbis, method)
 }
 
-#' @title Data Stream Group Fellow cumulative permutations with control factor.
-#' @description Cumulative pre-network permutation on association data of Group fellow type with control factor. 
+#' @title Data Stream gambit of the group cumulative permutations with control factor.
+#' @description Cumulative pre-network permutation on association data of gambit of the group type with control factor. 
 #' @param GBIList a list of gbis split according to the control(s) factors.
 #' @param nperm an integer indicating the number of permutations to perform.
 #' @param CumSizesGbis ???
-#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'group fellow' and without control factors
+#' @details  Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'gambit of the group' and without control factors
 #' @author Ivan Puga-Gonzales, Sebastian Sosa.
 #' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
 #' @references Farine, D. R. (2017). A guide to null models for animal social network analysis. Methods in Ecology and Evolution.

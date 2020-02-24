@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 
 #' @title Data stream permutation for association data
-#' @description Pre-network permutation on association data for group fellow data collection protocol. The data frame must have a column named 'ID'.
+#' @description Pre-network permutation on association data for gambit of the group data collection protocol. The data frame must have a column named 'ID'.
 #' @param df A data frame.The data frame must have a column named 'ID'.
 #' @param scan  an integer indicating the column of scans of individual associations.
 #' @param ctrlf A confounding factor by which to control group associations.

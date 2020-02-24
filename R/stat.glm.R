@@ -229,7 +229,7 @@ stat.glm <- function(ant, oda, formula, family = "gaussian", progress = TRUE, st
           # If error
           if (is(r, "error") | is(r, "warning")) {
             attr(odf, "permutation") <- attributes(d)$permutation
-            # redo data stream permutations with group follow protocol and recompute network metrics
+            # redo data stream permutations with gambit of the group protocol and recompute network metrics
             r <- redo.ds.grp.glm(
               new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, Scan = Scan, ctrlf = ctrlf, index = index, formula = formula, data = d, family = family, start = start, control = control,
               model = model, method = method, x = x, y = y, contrasts = contrasts, ...
@@ -263,7 +263,7 @@ stat.glm <- function(ant, oda, formula, family = "gaussian", progress = TRUE, st
           # If error
           if (is(r, "error") | is(r, "warning")) {
             attr(odf, "permutation") <- attributes(d)$permutation
-            # redo data stream permutations with group follow protocol
+            # redo data stream permutations with gambit of the group protocol
             r <- redo.ds.grp.glm(
               new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, Scan = Scan, ctrlf = ctrlf, index = index, formula = formula, data = d, family = family, start = start, control = control,
               model = model, method = method, x = x, y = y, contrasts = contrasts, ...
