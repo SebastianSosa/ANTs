@@ -22,7 +22,7 @@ nodeskMetrics <- function() {
   tkconfigure(win1, background = "#3f3f3f")
   tkwm.state(win1, "withdrawn")
   tcltk::tktitle(win1) <- "Animal Network Toolkit"
-  img <- tkimage.create("photo", file ="inst/ressources/ANT.png")
+  img <- tkimage.create("photo", file = paste(system.file(package = "ANTs"), "/ressources/ANT.png", sep = ""))
   tcl("wm", "iconphoto", win1, "-default", img)
   tclServiceMode(TRUE)
   # Window label
