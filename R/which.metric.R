@@ -4,7 +4,6 @@
 #' @references https://doi.org/10.1111/2041-210X.13366
 #' 
 which.metric <- function(){
-  paste(system.file(package = "ANTs"), "/ressources/ANT.png", sep = "")
-  browseURL(system.file(package = "ANTs"), "/ressources/www/which.metric.html")
+  browseURL(normalizePath("www/which.metric.html"))
   # .Tcl("update") for tcltk window function
 }
