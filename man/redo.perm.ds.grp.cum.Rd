@@ -13,6 +13,6 @@ redo.perm.ds.grp.cum(df, Scan, method, control_factor, nperm)
 A list of two elements with all the permutations : 1) gbi or control gbi if control_factor in null or not respectivelly; 2) Association matrix
 }
 \description{
-Performs cumulative data stream permutations for group fellow.
+Performs cumulative data stream permutations for gambit of the group.
 }
 \keyword{internal}

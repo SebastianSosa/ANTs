@@ -28,7 +28,7 @@ perm.ds.grp(df, scan, ctrlf = NULL, method = "sri", perm, progress = TRUE)
 list of square association index matrices. The first element of the list is the non-permuted association index matrix.
 }
 \description{
-Pre-network permutation on association data for group fellow data collection protocol. The data frame must have a column named 'ID'.
+Pre-network permutation on association data for gambit of the group data collection protocol. The data frame must have a column named 'ID'.
 }
 \details{
 Data stream permutation is a pre-network permutation approach. It is used on association data based on the gambit of the group.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{perm_dataStream1}
 \alias{perm_dataStream1}
-\title{Data Stream Group Fellow Permutations without control factor.}
+\title{Data Stream gambit of the group Permutations without control factor.}
 \usage{
 perm_dataStream1(M, nperm, progress, method)
 }
@@ -17,10 +17,10 @@ perm_dataStream1(M, nperm, progress, method)
 A list of Group By Individual matrices according to each scans perform.
 }
 \description{
-Pre-network permutation on association data of Group fellow type without control factor.
+Pre-network permutation on association data of gambit of the group type without control factor.
 }
 \details{
-Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'group fellow' and without control factors
+Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'gambit of the group' and without control factors
 }
 \references{
 Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.

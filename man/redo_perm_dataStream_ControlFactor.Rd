@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{redo_perm_dataStream_ControlFactor}
 \alias{redo_perm_dataStream_ControlFactor}
-\title{Data Stream Group Fellow cumulative permutations with control factor.}
+\title{Data Stream gambit of the group cumulative permutations with control factor.}
 \usage{
 redo_perm_dataStream_ControlFactor(GBIList, M, nperm, CumSizesGbis, method)
 }
@@ -14,10 +14,10 @@ redo_perm_dataStream_ControlFactor(GBIList, M, nperm, CumSizesGbis, method)
 \item{CumSizesGbis}{???}
 }
 \description{
-Cumulative pre-network permutation on association data of Group fellow type with control factor.
+Cumulative pre-network permutation on association data of gambit of the group type with control factor.
 }
 \details{
-Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'group fellow' and without control factors
+Data stream permutations is a pre-network permutations approach. It is use on association data based on the gambit of the group. This permutations functunction is made for  data collected of the type of 'gambit of the group' and without control factors
 }
 \references{
 Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.

@@ -22,6 +22,6 @@ redo.ds.focal.glmm(
 )
 }
 \description{
-Performs cumulative data stream permutations for group fellow until the glmm found no error or warnings
+Performs cumulative data stream permutations for gambit of the group until the glmm found no error or warnings
 }
 \keyword{internal}

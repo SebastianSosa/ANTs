@@ -20,7 +20,7 @@ An empty group by individual matrix.
 Create an embty group by individual matrix according to the number of scans and individuals.
 }
 \details{
-A group by individual matrix is a way to represent several data collection protocols such as group fellows or scans data collections. They also allow to compute easely several associations indexes.
+A group by individual matrix is a way to represent several data collection protocols such as gambit of the groups or scans data collections. They also allow to compute easely several associations indexes.
 }
 \references{
 Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.

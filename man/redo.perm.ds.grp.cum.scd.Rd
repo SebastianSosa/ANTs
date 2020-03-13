@@ -13,7 +13,7 @@ redo.perm.ds.grp.cum.scd(GBI, method, nperm, control_factor)
 A list of two elements with all the permutations : 1) gbi or control gbi if control_factor in null or not respectivelly; 2) Association matrix
 }
 \description{
-Performs cumulative data stream permutations for group fellow.
+Performs cumulative data stream permutations for gambit of the group.
 }
 \details{
 not need of data frame of individuals associations, permutation are directly done inside the gbi, and it return a new gbi or control gbi if control_factor in null or not respectivelly with the permutations

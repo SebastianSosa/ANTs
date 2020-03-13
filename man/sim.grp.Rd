@@ -3,13 +3,13 @@
 \docType{data}
 \name{sim.grp}
 \alias{sim.grp}
-\title{Simulated data collected through group fellow sampling}
+\title{Simulated data collected through gambit of the group sampling}
 \format{An object of class \code{data.frame} with 100 rows and 5 columns.}
 \usage{
 sim.grp
 }
 \description{
-This is a simulated data set  collected through group fellow sampling.
+This is a simulated data set  collected through gambit of the group sampling.
 }
 \author{
 Sebastian Sosa, Ivan Puga-Gonzalez
