@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<style>
+    .node rect {
+        stroke-width: 80px;
+    }
+    
+    .node text {
+        font: 22px sans-serif;
+        fill: #fff;
+    }
+    
+    .link {
+        fill: none;
+        stroke: #ccc;
+        stroke-width: 2px;
+    }
+</style>
+
+<body>
+
+    <!-- load the d3.js library -->
+    <script src="d3.min.js"></script>
+    <script>
+
+var treeData =
+  {
+    "name": "Click on me","subname": " (zoom, drag and fellow the path)", "fill":"orange", "rectWidth" : 400,"children": [
+      { 
+        "name": "I examine the",
+        "subname": "properties of a group",    
+        "fill":"blue",
+        "rectWidth" : 250, "children":[{
+          "name": "I examine social diffusion",
+          "subname" : "(disease, information, new behavior, energy)",
+          "fill" : "green",
+          "rectWidth": 500, "children": [
+          {"name": "Is the probability of diffusion dependent",
+            "subname": "on the frequency of interactions/associations?",
+            "fill" : "green",
+            "rectWidth": 500,
+            "children" : [
+              {"name": "Yes",
+                "fill" : "blue",
+                "rectWidth": 50, "children":[
+                  {"name": "only one direction?",
+                   "subname": "",  
+                    "fill" : "orange",
+                    "rectWidth": 260,
+                    "children" : [
+                      {"name" : "Yes",
+                        "fill": "blue",
+                        "rectWidth": 50, "children":[
+                          {"name": "Directed, through strongest or weakest links global efficiency",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 610},
+                          {"name": "Directed, through strongest or weakest links diameter",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 610}
+                        ]},
+
+                      {"name" : "No",
+                        "fill": "blue",
+                        "rectWidth": 50, "children":[
+                          {"name": "Undirected, through strongest or weakest links global efficiency",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 650},
+                          {"name": "Undirected, through strongest or weakest links diameter",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 610}
+                        ]},
+                    ]},
+                ]},
+              {"name": "No",
+                "fill" : "blue",
+                "rectWidth": 50, "children":[
+                {"name": "Does the diffusion show ",
+                	"subname": "directional patterns?", 
+                	"fill": "orange",
+                	"rectWidth": 260,
+                	                    "children" : [
+                      {"name" : "Yes",
+                        "fill": "blue",
+                        "rectWidth": 50, "children":[
+                          {"name": "Directed, unweighted global efficiency",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 420},
+                          {"name": "Directed, unweighted diameter",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 420}
+                        ]},
+                      {"name" : "No",
+                        "fill": "blue",
+                        "rectWidth": 50, "children":[
+                          {"name": "Undirected, unweighted global efficiency",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 420},
+                          {"name": "Undirected, unweighted diameter",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 420},
+                          {"name": "Density",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 100}
+                        ]},
+                    ]}
+                ]}
+            ]
+          }]
+        },
+        {
+          "name": "I examine network connectivity",
+          "subname" : "(cohesion, resilience)",
+          "fill" : "green",
+          "rectWidth": 500, "children": [
+          {"name": "Are link weights important?",
+            "subname": "",
+            "fill" : "green",
+            "rectWidth": 400,
+            "children" : [
+              {"name": "Yes",
+                "fill" : "blue",
+                "rectWidth": 50, "children":[
+                  {"name": "Is directionality important?",
+                   "subname": "",  
+                    "fill" : "orange",
+                    "rectWidth": 300,
+                    "children" : [
+                      {"name" : "Yes",
+                        "fill": "blue",
+                        "rectWidth": 50, "children":[
+                          {"name": "Directed, through strongest or weakest links diameter",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 610}
+                        ]},
+                      {"name" : "No",
+                        "fill": "blue",
+                        "rectWidth": 50, "children":[
+                          {"name": "Undirected, through strongest or weakest links diameter",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 610}
+                        ]},
+                    ]},
+                ]},
+              {"name": "No",
+                "fill" : "blue",
+                "rectWidth": 50, "children":[
+                {"name": "Is directionality important?",
+                	"subname": "", 
+                	"fill": "orange",
+                	"rectWidth": 300,"children" : [
+                      {"name" : "Yes",
+                        "fill": "blue",
+                        "rectWidth": 50, "children":[
+                          {"name": "Directed, unweighted diameter",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 420},
+                        ]},
+                      {"name" : "No",
+                        "fill": "blue",
+                        "rectWidth": 50, "children":[
+                          {"name": "Undirected, unweighted diameter",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 420},
+                           {"name": "Density",
+                          "subname" : "",
+                          "fill" : "red",
+                          "rectWidth" : 100}
+                        ]},
+                    ]}
+                ]}
+            ]
+          }]
+        },
+        ]
+      },
+      { "name": "I examine",
+      "subname": "interaction patterns" ,"fill":"blue", "rectWidth" : 250, "children":[
+      	{"name" : "I examine with whom", "subname": "individuals interact","fill":"blue", "rectWidth" : 250 , "children":[
+      		{"name": "Are the weights of", "subname": "interactions/associations important?", "fill":"blue", "rectWidth" : 400, "children":[
+      			{"name": "Yes", "fill" : "blue", "rectWidth": 50, "children":[
+      				{"name": "Are individual", "subname": "characteristics categorical?", "fill":"blue","rectWidth" : 300, "children":[
+      					{"name": "Yes", "fill" : "blue", "rectWidth": 50, "children":[
+      						{"name": "Weighted categorical", "subname": "assortativity","fill":"blue", "rectWidth" : 250 }
+      					]},
+      					{"name": "No", "fill" : "blue", "rectWidth": 50, "children":[
+							{"name": "Weighted continuous", "subname": "assortativity","fill":"blue", "rectWidth" : 250 }
+      					]},
+      				]}
+      			]},
+      			{"name": "No", "fill" : "blue", "rectWidth": 50, "children":[
+      				{"name": "Are individual", "subname": "characteristics categorical?", "fill":"blue","rectWidth" : 300, "children":[
+      					{"name": "Yes", "fill" : "blue", "rectWidth": 50, "children":[
+      						{"name": "Unweighted categorical", "subname": "assortativity","fill":"blue", "rectWidth" : 250 }
+      					]},
+      					{"name": "No", "fill" : "blue", "rectWidth": 50, "children":[
+      						{"name": "Unweighted continuous", "subname": "assortativity","fill":"blue", "rectWidth" : 250 }
+      					]},
+      				]}
+      			]},
+      		]}
+      	]}
+	  ]},
+      { "name": "I examine how individual characteristics","subname": "affect the heterogeneity of social interactions","fill":"blue", "rectWidth" : 450, "children": [
+          { "name": "I examine sociality aspects", "subname": "","fill":"blue", "rectWidth" : 300, "children":[
+          	{"name": "Are link weights ", "subname": "important?","fill":"blue", "rectWidth" : 260, "children":[
+          		{"name":"Yes","subname": "","fill":"blue", "rectWidth" : 50, "children":[
+               		{"name": "Is directionality", "subname": "important?","fill":"blue", "rectWidth" : 260, "children":[
+               			{"name": "Yes", "subname": "","fill":"blue", "rectWidth" : 50, "children":[
+               				{"name": "instrength", "subname": "","fill":"red", "rectWidth" : 200},
+               				{"name": "outstrength", "subname": "","fill":"red", "rectWidth" : 200},
+               				{"name": "Directed eigenvector", "subname": "(through incoming or outgoing link symmetrization prior to computation)","fill":"red", "rectWidth" : 800}
+               			]},
+               			{"name": "No", "subname": "","fill":"blue", "rectWidth" : 50, "children":[
+               				{"name": "strength", "subname": "","fill":"red", "rectWidth" : 200},
+               				{"name": "Undirected eigenvector", "subname": "","fill":"red", "rectWidth" : 300}
+               			]}
+               		]}
+               ]},
+               {"name":"No","subname": "","fill":"blue", "rectWidth" : 50, "children":[
+               		{"name": "Is directionality", "subname": "important?","fill":"blue", "rectWidth" : 260, "children":[
+               			{"name": "Yes", "subname": "","fill":"blue", "rectWidth" : 50, "children":[
+               				{"name": "indegree", "subname": "","fill":"red", "rectWidth" : 200},
+               				{"name": "outdegree", "subname": "","fill":"red", "rectWidth" : 200},
+               				{"name": "Directed binary eigenvector", "subname": "(through incoming or outgoing link symmetrization prior to computation)","fill":"red", "rectWidth" : 800}
+               			]},
+               			{"name": "No", "subname": "","fill":"blue", "rectWidth" : 50, "children":[
+               				{"name": "degree", "subname": "","fill":"red", "rectWidth" : 200},
+               				{"name": "Undirected binary eigenvector", "subname": "","fill":"red", "rectWidth" : 400}
+               			]}
+               		]}
+               ]}
+          	]}               
+          ]},
+          { "name": "I examine social diffusion", "subname": "(disease, information, new behavior, energy)","fill":"blue", "rectWidth" : 450, "children": [
+          	{"name": "Is the probability of diffusion  dependent on", "subname": "the frequency of interactions/associations?","fill":"blue", "rectWidth" : 450, "children":[
+          		{"name":"Yes","subname": "","fill":"blue", "rectWidth" : 50, "children":[
+               		{"name": "Does the diffusion show", "subname": "directional patterns?","fill":"blue", "rectWidth" : 260, "children":[
+               			{"name": "Yes", "subname": "","fill":"blue", "rectWidth" : 50, "children":[
+               				{"name": "Outgoing weighted", "subname": "betweenness","fill":"red", "rectWidth" : 300}
+               			]},
+               			{"name": "No", "subname": "","fill":"blue", "rectWidth" : 50, "children":[
+               				{"name": "Undirected weighted", "subname": "betweenness","fill":"red", "rectWidth" : 300}
+               			]}
+               		]}
+               ]},
+               {"name":"No","subname": "","fill":"blue", "rectWidth" : 50, "children":[
+               		{"name": "Is diffusion unidirectional?", "subname": "","fill":"blue", "rectWidth" : 260, "children":[
+               			{"name": "Yes", "subname": "","fill":"blue", "rectWidth" : 50, "children":[
+               				{"name": "Outgoing unweighted", "subname": "betweenness","fill":"red", "rectWidth" : 300},
+               				{"name": "Directed binary eigenvector", "subname": "(through incoming or outgoing link symmetrization prior to computation)","fill":"red", "rectWidth" : 800}
+               			]},
+               			{"name": "No", "subname": "","fill":"blue", "rectWidth" : 50, "children":[
+               				{"name": "Undirected unweighted", "subname": "betweenness","fill":"red", "rectWidth" : 300},
+               				{"name": "degree", "subname": "","fill":"red", "rectWidth" : 200},
+               			]}
+               		]}
+               ]}
+          	]}
+          ]}
+        ]
+        }
+    ]
+  };
+
+// Set the dimensions and margins of the diagram
+var margin = {top: 20, right: 90, bottom: 30, left: 90},
+    width = 2000 - margin.left - margin.right,
+    height = 1000 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.right + margin.left)
+    .attr("height", height + margin.top + margin.bottom)
+    .call(d3.zoom()
+    .scaleExtent([1 / 32, 8])
+    .on("zoom", zoomed))
+  .append("g")
+    .attr("transform", "translate("
+          + margin.left + "," + margin.top + ")");
+
+function zoomed() {
+  svg.attr("transform", d3.event.transform);
+}
+
+var i = 0,
+    duration = 750,
+    root;
+
+// declares a tree layout and assigns the size
+var treemap = d3.tree()
+	.separation(function(a, b) { return ((a.parent == root) && (b.parent == root)) ? 1 : 1; })
+	.size([height, width]);
+
+// Assigns parent, children, height, depth
+root = d3.hierarchy(treeData, function(d) { return d.children; });
+root.x0 = height / 2;
+root.y0 = 0;
+
+// Collapse after the second level
+
+ collapse(root);
+update(root);
+
+// Collapse the node and all it's children
+function collapse(d) {
+  if(d.children) {
+    d._children = d.children;
+    d.children.forEach(collapse)
+    d.children = null
+  }
+}
+
+function update(source) {
+
+  // Assigns the x and y position for the nodes
+  var treeData = treemap(root);
+
+  // Compute the new tree layout.
+  var nodes = treeData.descendants(),
+      links = treeData.descendants().slice(1);
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d){ d.y = d.depth * 600});
+
+  // ****************** Nodes section ***************************
+
+  // Update the nodes...
+  var node = svg.selectAll('g.node')
+      .data(nodes, function(d) {return d.id || (d.id = ++i); });
+
+  // Enter any new modes at the parent's previous position.
+  var nodeEnter = node.enter().append('g')
+      .attr('class', 'node')
+      .attr("transform", function(d) {
+        return "translate(" + source.y0 + "," + source.x0 + ")";
+    })
+    .on('click', click);
+
+    var rectHeight = 80;
+    
+    nodeEnter.append('rect')
+      .attr('class', 'node')
+      .attr("width", function(d){return d.data.rectWidth})
+      .attr("height", rectHeight)
+      .attr("x", 0)
+      .attr("y", (rectHeight/2)*-1)
+      .attr("rx","5")
+      .style("fill", function(d) {
+          return d.data.fill;
+      });
+
+  // Add labels for the nodes
+  nodeEnter.append('text')
+      .attr("dy", "-.35em")
+      .attr("x", function(d) {
+        return 13;
+      })
+      .attr("text-anchor", function(d) {
+        return "start";
+      })
+      .text(function(d) { return d.data.name; })
+      .append("tspan")
+      .attr("dy", "1.75em")
+      .attr("x", function(d) {
+        return 13;
+      })
+      .text(function(d) { return d.data.subname; });
+
+  // UPDATE
+  var nodeUpdate = nodeEnter.merge(node);
+
+  // Transition to the proper position for the node
+  nodeUpdate.transition()
+    .duration(duration)
+    .attr("transform", function(d) { 
+        return "translate(" + d.y + "," + d.x + ")";
+     });
+
+  // Update the node attributes and style
+  nodeUpdate.select('circle.node')
+    .attr('r', 10)
+    .style("fill", function(d) {
+        return d._children ? "lightsteelblue" : "#fff";
+    })
+    .attr('cursor', 'pointer');
+
+
+  // Remove any exiting nodes
+  var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) {
+          return "translate(" + source.y + "," + source.x + ")";
+      })
+      .remove();
+
+  // On exit reduce the node circles size to 0
+  nodeExit.select('circle')
+    .attr('r', 1e-6);
+
+  // On exit reduce the opacity of text labels
+  nodeExit.select('text')
+    .style('fill-opacity', 1e-6);
+
+  // ****************** links section ***************************
+
+  // Update the links...
+  var link = svg.selectAll('path.link')
+      .data(links, function(d) { return d.id; });
+
+  // Enter any new links at the parent's previous position.
+  var linkEnter = link.enter().insert('path', "g")
+      .attr("class", "link")
+      .attr('d', function(d){
+        var o = {x: source.x0, y: source.y0}
+        return diagonal(o, o)
+      });
+
+  // UPDATE
+  var linkUpdate = linkEnter.merge(link);
+
+  // Transition back to the parent element position
+  linkUpdate.transition()
+      .duration(duration)
+      .attr('d', function(d){ return diagonal(d, d.parent) });
+
+  // Remove any exiting links
+  var linkExit = link.exit().transition()
+      .duration(duration)
+      .attr('d', function(d) {
+        var o = {x: source.x, y: source.y}
+        return diagonal(o, o)
+      })
+      .remove();
+
+  // Store the old positions for transition.
+  nodes.forEach(function(d){
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+
+  // Creates a curved (diagonal) path from parent to the child nodes
+  function diagonal(s, d) {
+
+    path = `M ${s.y} ${s.x}
+            C ${(s.y + d.y) / 2} ${s.x},
+              ${(s.y + d.y) / 2} ${d.x},
+              ${d.y} ${d.x}`
+
+    return path
+  }
+
+  // Toggle children on click.
+function click(d) {
+        if (d.children) {
+          d._children = d.children;
+          d.children = null;
+        } 
+        else {
+          d.children = d._children;
+          d._children = null;
+        }
+        if (d.parent && d.children) { //add here, 
+          d.parent.children.forEach(function(element) {
+        if (d !== element) {
+        collapse(element);
+        }});
+      }
+        update(d);
+      }
+}
+</script>
+</body>
