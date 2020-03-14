@@ -10,11 +10,11 @@ License: GPL (>= 3)
 URL: www.s-sosa.com/softwares or  https://github.com/SebastianSosa/ANTs 
 Encoding: UTF-8
 LazyData: true
-Depends:	R (>= 3.5.0)
+Depends: R (>= 3.5.0)
 Imports: lme4,methods,Kendall,gtools, visNetwork
 LinkingTo: Rcpp,RcppArmadillo,RcppEigen
 SystemRequirements: C++11
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.2
 BugReports: https://github.com/SebastianSosa/ANTs
 Suggests:
     testthat,
