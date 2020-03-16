@@ -1,0 +1,318 @@
+<!DOCTYPE html style="width: 100%, height: 100%">
+<meta charset="UTF-8">
+<style>
+	svg {
+      width: 100%;
+      height: 100%;
+    }
+    .node rect {
+        stroke-width: 80px;
+    }
+    
+    .node text {
+        font: 22px sans-serif;
+        fill: #fff;
+    }
+    
+    .link {
+        fill: none;
+        stroke: #ccc;
+        stroke-width: 2px;
+    }
+</style>
+
+<body style="width: 100%, height: 100%">
+
+    <!-- load the d3.js library -->
+    <script src="d3.min.js"></script>
+    <script>
+
+var treeData =
+  {"name": "Click on me","subname": " (zoom, drag and follow the path)", "fill":"#ff0000", "rectHeight": 80, "rectWidth" : 400,"children": [
+  		{"name": "Individual associations collected through: ","subname": "", "fill" : "#ff9f00", "rectHeight": 80,"rectWidth" : 450,"children":[
+  			{"name": "Gambit of the Group", "subname": "'perm.ds.grp'", "fill": "#ffc100", "rectHeight": 80,"rectWidth" : 250,"children":[
+  				{"name": "Compute nodal, polyadic or global network measures", "subname": "With ANTs familly function 'met.'", "subname2": "See ANTs function 'which.met'.", "fill": "#9ad60b", "rectHeight": 150,"rectWidth" : 550,"children":[
+  						{"name": "For agregated network", "subname": "", "fill": "#0077ff", "rectHeight": 80,"rectWidth" : 300, "children": [
+  							{"name": "Correlation", "subname": "'stat.cor'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  							{"name": "T-test", "subname": "'stat.t'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  							{"name": "Generalized Linear Model", "subname": "'stat.lm/stat.glm'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  							{"name": "Deletions simulations", "subname": "'stat.sim.deletion'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400}
+  						]},
+  						{"name": "For time agregated networks", "subname": "", "fill": "#0077ff", "rectHeight": 80,"rectWidth" : 300, "children": [
+  							{"name": "Generalized Linear Mixed Model", "subname": "'stat.glmm/stat.glm'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400}
+  						]}
+  				]}
+  			]},
+  			{"name": "Focal sampling", "subname": "'perm.ds.focal'", "fill": "#ffc100", "rectHeight": 80,"rectWidth" : 200,"children":[
+  				{"name": "Compute nodal, polyadic or global network measures", "subname": "With ANTs familly function 'met.'", "subname2": "See ANTs function 'which.met'.", "fill": "#9ad60b", "rectHeight": 150,"rectWidth" : 550,"children":[
+  						{"name": "For agregated network", "subname": "", "fill": "#0077ff", "rectHeight": 80,"rectWidth" : 300, "children": [
+  							{"name": "Correlation", "subname": "'stat.cor'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  							{"name": "T-test", "subname": "'stat.t'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  							{"name": "Generalized Linear Model", "subname": "'stat.lm/stat.glm'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  							{"name": "Deletions simulations", "subname": "'stat.sim.deletion'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400}
+  						]},
+  						{"name": "For time agregated networks", "subname": "", "fill": "#0077ff", "rectHeight": 80,"rectWidth" : 300, "children": [
+  							{"name": "Generalized Linear Mixed Model", "subname": "'stat.glmm'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400}
+  						]}
+  				] }
+  			]}
+  		]},
+  		{"name": "Individual interactions to study: ", "subname": "", "fill" : "#ff9f00", "rectHeight": 80,"rectWidth" : 350,"children":[
+  			{"name": "Individual social role and position", "subname": "", "fill" : "#ffc100", "rectHeight": 80,"rectWidth" : 350,"children":[
+  				{"name": "Compute nodal network measures", "subname": "With ANTs familly function 'met.'", "subname2": "See ANTs function 'which.met'.", "fill": "#9ad60b", "rectHeight": 150,"rectWidth" : 550,"children":[
+  					{"name": "Node label permutations", "subname": "With ANTs function 'perm.met.nl'", "fill": "#4ce614", "rectHeight": 80,"rectWidth" : 350,"children":[
+  						{"name": "For agregated network", "subname": "", "fill": "#0077ff", "rectHeight": 80,"rectWidth" : 300, "children":[
+  							{"name": "Correlation", "subname": "'stat.cor'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  							{"name": "T-test", "subname": "'stat.t'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  							{"name": "Generalized Linear Model", "subname": "'stat.lm/stat.glm'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  							{"name": "Deletions simulations", "subname": "'stat.sim.deletion'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400}
+  						]},
+  						{"name": "For time agregated networks", "subname": "", "fill": "#0077ff", "rectHeight": 80,"rectWidth" : 300, "children":[
+							{"name": "Generalized Linear Mixed Model", "subname": "'stat.glmm'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400}
+  						]}
+  					]}
+  				]}
+  			]},
+  			{"name": "Individual interactions pattern", "subname": "", "fill" : "#ffc100", "rectHeight": 80,"rectWidth" : 350,"children":[
+  				{"name": "Compute and permute assortativity", "subname": "With ANTs function 'met.assortativity'", "fill": "#9ad60b", "rectHeight": 80,"rectWidth" : 400,"children":[
+  					{"name": "For agregated network", "subname": "", "fill": "#0077ff", "rectHeight": 80,"rectWidth" : 300, "children":[
+  						{"name": "Correlation", "subname": "'stat.cor'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  						{"name": "T-test", "subname": "'stat.t'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  						{"name": "Generalized Linear Model", "subname": "'stat.lm/stat.glm'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400}	
+  					]},
+  					{"name": "For time agregated networks", "subname": "", "fill": "#0077ff", "rectHeight": 80,"rectWidth" : 300, "children":[
+  						{"name": "Generalized Linear Mixed Model", "subname": "'stat.glmm'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400}
+  					]}
+  				]}
+  			]},
+  			{"name": "Group social structur properties ", "subname": "", "fill" : "#ffc100", "rectHeight": 80,"rectWidth" : 350,"children":[
+  				{"name": "Links permutations ", "subname": "With ANTs function 'perm.net.lk' ", "fill": "#9ad60b", "rectHeight": 80,"rectWidth" : 350,"children":[
+  					{"name": "Compute global network measures", "subname": "See ANTs function 'which.met'.'", "fill": "#4ce614", "rectHeight": 80,"rectWidth" : 400,"children":[
+  						{"name": "For agregated network", "subname": "", "fill": "#0077ff", "rectHeight": 80,"rectWidth" : 300, "children":[
+  							{"name": "Correlation", "subname": "'stat.cor'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  							{"name": "T-test", "subname": "'stat.t'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400},
+  							{"name": "Generalized Linear Model", "subname": "'stat.lm/stat.glm'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400}
+  						]},
+  						{"name": "For time agregated networks", "subname": "", "fill": "#0077ff", "rectHeight": 80,"rectWidth" : 300, "children":[
+  							{"name": "Generalized Linear Mixed Model", "subname": "'stat.glmm'", "fill": "#191fcd", "rectHeight": 80,"rectWidth" : 400}
+  						]}
+  					]},
+  					{"name": "Matrix TauKr correlations", "subname": "'stat.tauKr'", "fill": "#4ce614", "rectHeight": 80,"rectWidth" : 400},
+  					{"name": "Deletions simulations", "subname": "'stat.sim.deletion'", "fill": "#4ce614", "rectHeight": 80,"rectWidth" : 400}
+  				]}
+  			]}
+  			]}
+  		]};
+
+
+// Set the dimensions and margins of the diagram
+var margin = {top: 20, right: 90, bottom: 30, left: 90},
+    width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+    height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+
+// append the svg object to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("body").append("svg")
+    .call(d3.zoom()
+    .scaleExtent([1 / 32, 8])
+    .on("zoom", zoomed))
+  .append("g")
+    .attr("transform", "translate("
+          + margin.left + "," + margin.top + ")");
+
+function zoomed() {
+  svg.attr("transform", d3.event.transform);
+}
+
+var i = 0,
+    duration = 750,
+    root;
+
+// declares a tree layout and assigns the size
+var treemap = d3.tree()
+	.separation(function(a, b) { return ((a.parent == root) && (b.parent == root)) ? 2 : 1; })
+	.size([height, width]);
+
+// Assigns parent, children, height, depth
+root = d3.hierarchy(treeData, function(d) { return d.children; });
+root.x0 = height / 2;
+root.y0 = 0;
+
+// Collapse after the second level
+
+ collapse(root);
+update(root);
+
+// Collapse the node and all it's children
+function collapse(d) {
+  if(d.children) {
+    d._children = d.children;
+    d.children.forEach(collapse)
+    d.children = null
+  }
+}
+
+
+function update(source) {
+
+  // Assigns the x and y position for the nodes
+  var treeData = treemap(root);
+
+  // Compute the new tree layout.
+  var nodes = treeData.descendants(),
+      links = treeData.descendants().slice(1);
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d){ d.y = d.depth * 700});
+
+  // ****************** Nodes section ***************************
+
+  // Update the nodes...
+  var node = svg.selectAll('g.node')
+      .data(nodes, function(d) {return d.id || (d.id = ++i); });
+
+  // Enter any new modes at the parent's previous position.
+  var nodeEnter = node.enter().append('g')
+      .attr('class', 'node')
+      .attr("transform", function(d) {
+        return "translate(" + source.y0 + "," + source.x0 + ")";
+    })
+    .on('click', click)
+    .on('mouseover',function(d) {d3.select(this).style("cursor", "pointer")});
+
+    
+    nodeEnter.append('rect')
+      .attr('class', 'node')
+      .attr("width", function(d){return d.data.rectWidth})
+      .attr("height", function(d){return d.data.rectHeight}) 
+      .attr("x", 0)
+      .attr("y", function(d){return (d.data.rectHeight/2)*-1})  
+      .attr("rx","5")
+      .style("fill", function(d) {
+          return d.data.fill;
+      });
+
+  // Add labels for the nodes
+  nodeEnter.append('text')
+      .attr("dy", "-.50em")
+      .attr("x", function(d) {return 13;})
+      .attr("text-anchor", function(d) {return "start";})
+      .text(function(d) { return d.data.name; })
+
+      .append("tspan")
+      .attr("dy", "1em")
+      .attr("x", function(d) {return 13;})
+      .text(function(d) { return d.data.subname; })
+
+      .append("tspan")
+      .attr("dy", "1.50em")
+      .attr("x", function(d) {
+        return 13;
+      })
+      .text(function(d) { return d.data.subname2; });
+
+  // UPDATE
+  var nodeUpdate = nodeEnter.merge(node);
+
+  // Transition to the proper position for the node
+  nodeUpdate.transition()
+    .duration(duration)
+    .attr("transform", function(d) { 
+        return "translate(" + d.y + "," + d.x + ")";
+     });
+
+  // Update the node attributes and style
+  nodeUpdate.select('circle.node')
+    .attr('r', 10)
+    .style("fill", function(d) {
+        return d._children ? "lightsteel#4ce614" : "#fff";
+    })
+    .attr('cursor', 'pointer');
+
+
+  // Remove any exiting nodes
+  var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) {
+          return "translate(" + source.y + "," + source.x + ")";
+      })
+      .remove();
+
+  // On exit reduce the node circles size to 0
+  nodeExit.select('circle')
+    .attr('r', 1e-6);
+
+  // On exit reduce the opacity of text labels
+  nodeExit.select('text')
+    .style('fill-opacity', 1e-6);
+
+  // ****************** links section ***************************
+
+  // Update the links...
+  var link = svg.selectAll('path.link')
+      .data(links, function(d) { return d.id; });
+
+  // Enter any new links at the parent's previous position.
+  var linkEnter = link.enter().insert('path', "g")
+      .attr("class", "link")
+      .attr('d', function(d){
+        var o = {x: source.x0, y: source.y0}
+        return diagonal(o, o)
+      });
+
+  // UPDATE
+  var linkUpdate = linkEnter.merge(link);
+
+  // Transition back to the parent element position
+  linkUpdate.transition()
+      .duration(duration)
+      .attr('d', function(d){ return diagonal(d, d.parent) });
+
+  // Remove any exiting links
+  var linkExit = link.exit().transition()
+      .duration(duration)
+      .attr('d', function(d) {
+        var o = {x: source.x, y: source.y}
+        return diagonal(o, o)
+      })
+      .remove();
+
+  // Store the old positions for transition.
+  nodes.forEach(function(d){
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+
+  // Creates a curved (diagonal) path from parent to the child nodes
+  function diagonal(s, d) {
+
+    path = `M ${s.y} ${s.x}
+            C ${(s.y + d.y) / 2} ${s.x},
+              ${(s.y + d.y) / 2} ${d.x},
+              ${d.y} ${d.x}`
+
+    return path
+  }
+
+  // Toggle children on click.
+function click(d) {
+        if (d.children) {
+          d._children = d.children;
+          d.children = null;
+        } 
+        else {
+          d.children = d._children;
+          d._children = null;
+        }
+        if (d.parent && d.children) { //add here, 
+          d.parent.children.forEach(function(element) {
+        if (d !== element) {
+        collapse(element);
+        }});
+      }
+        update(d);
+      }
+}
+</script>
+</body>

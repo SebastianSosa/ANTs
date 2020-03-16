@@ -2,17 +2,20 @@
 % Please edit documentation in R/which.metric.R
 \name{which.metric}
 \alias{which.metric}
-\title{Which Metric to choose}
+\title{Which metric to choose}
 \usage{
 which.metric()
 }
 \description{
-An interactive decission tree to choose the most appropriate network measure according to the research question and network analysis level.
+An interactive decision tree to choose the most appropriate network measure according to the research question and network analysis level.
 }
 \details{
-For more details on each of those metrics see Sosa et al. 2020.
+For more details on each of these metrics, see Sosa et al. 2020.
 }
 \references{
 Sosa, S., Sueur, C., & Puga‐Gonzalez, I. (2020). Network measures in animal social network analysis: their strengths, limits, interpretations and uses. Methods in Ecology and Evolution. https://doi.org/10.1111/2041-210x.13366
+}
+\author{
+Sebastian Sosa
 }
 \keyword{export}
