@@ -63,12 +63,18 @@ stat.cor <- function(ant, var1, var2, method = "pearson", progress = TRUE) {
   attr(result, "class") <- "ant cor"
   if (method == "pearson") {
     attr(result, "comment") <- paste("Pearson coefficient")
+    attr(result, "var1") <- paste(var1)
+    attr(result, "var2") <- paste(var2)
   }
   if (method == "kendall") {
     attr(result, "comment") <- paste("Kendall coefficient")
+    attr(result, "var1") <- paste(var1)
+    attr(result, "var2") <- paste(var2)
   }
   if (method == "spearman") {
     attr(result, "comment") <- paste("Spearman coefficient")
+    attr(result, "var1") <- paste(var1)
+    attr(result, "var2") <- paste(var2)
   }
   cat("\n")
   return(result)

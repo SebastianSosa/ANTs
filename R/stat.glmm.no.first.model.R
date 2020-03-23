@@ -43,18 +43,19 @@
 #' sim.lm=list(sim.m,m2)
 #' sim.ldf=list(df1,df2)
 #' # Computing network metric---------------------------------------------------
-#' t=met.strength(sim.lm,sim.ldf,1)
+#' t=met.strength(sim.m,sim.df,1)
 #' # Node label permutations---------------------------------------------------
-#' t=perm.net.nl(t,labels='age',rf="period",nperm=10,progress=FALSE) 
+#' t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) 
 #' # Permuted GLMM-------------------------------------------------------------
-#' r.glmm=stat.glmm(ant = t,formula = strength ~ age + (1|id),family = gaussian(), progress=TRUE)
+#' r.glmm=stat.glmm(ant = t,formula = degree ~ age + (1|id),family = gaussian(), progress=TRUE)
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
+#' @keywords Internal
 
-stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
+stat.glmm.no.first.model <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
   if (is.null(attributes(ant)$ANT)) {
     stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions")
   }
-
+  
   if (is.character(family)) {
     fam <- family
   }
@@ -67,79 +68,13 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
       stop("Argument family is not a character or a family function.")
     }
   }
-
+  
   if (attributes(ant)$ANT == "ANT data stream group sampling multiple matrices") {
     if (is.null(oda)) {
       stop("Argument oda cannot be NULL when argument ant is obtained with perm.ds.grp or perm.ds.focal ANT functions")
     }
-
+    
     if (fam == "gaussian") {
-      # Test on observed data ------------------------------------------------------------------------
-      odf <- ant[[1]]
-
-      tmp <- tryCatch(suppressWarnings(suppressMessages(lme4::lmer(formula = formula, data = odf))), error = identity)
-
-      if (isS4(tmp)) {
-        if (is(tmp, "error")) {
-          print("The model on your original data contains the following errors.")
-          print(tmp)
-          stop()
-        }
-        else {
-          r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
-          if(max(abs(r2))<0.001){test=TRUE}
-          else{
-            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
-          }
-        }
-      }
-      if (is(tmp, "error")) {
-        print("The model on your original data contains the following errors.")
-        print(tmp)
-        stop()
-      }
-      if (is(tmp, "warning")) {
-        test <- FALSE
-      }
-
-      if (all(test) != TRUE) {
-        # play.sound(FALSE)
-        warning("The model on your original data contains the following warnings.")
-        if (isS4(tmp)) {
-          print(tmp@optinfo$conv$lme4$messages)
-        }
-        else {
-          cat(tmp$message)
-        }
-        answer <- readline(prompt = "Do you want to continue (y/n)? ")
-
-        while (answer != "y" & answer != "n") {
-          # play.sound(FALSE)
-          readline("Model on your orignal data contain warnings.")
-          answer <- readline(prompt = "Do you want to continue (y/n)? ")
-        }
-        if (answer == "n") {
-          suppressMessages(stop(print(tmp)))
-        }
-        else {
-          obs <- summary(tmp)
-          obs$fit <- fitted(tmp)
-          obs$family <- paste(family)
-        }
-      }
-      else {
-        obs <- summary(tmp)
-        obs$fit <- fitted(tmp)
-        obs$family <- paste(family)
-        obs$coefficients <- obs$coefficients[, -4]
-      }
-
-      cat("Original model : ", "\n", "\n")
-
-      print(obs)
-      at <- attributes(ant)
-      ant <- ant[-1]
-      attributes(ant) <- at
       # Parametrisation in case of error or warning -------------------------------------------------
       # finding node metrics to permute in case of warning or error along GLMM on permuted data
       arguments <- all.vars(formula)
@@ -148,29 +83,29 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
         "disparity", "indisparity", "outdisparity", "eigenB", "eigenU", "outeigen", "ineigen", "eigenW", "eigen", "lpB", 
         "lpW", "reach", "riB", "riW", "ri"
       )
-
+      
       target.metrics <- metrics[metrics %in% arguments]
-
+      
       # Removing node metrics from original data frame
       odf <- odf[, -c(df.col.findId(odf, target.metrics))]
-
+      
       # Finding scan and control factor to redo data stream permutation
       Scan <- attributes(ant)$scan
       ctrlf <- attributes(ant)$ctrlf
       method <- attributes(ant)$method
-
+      
       # GLMM along permutations ------------------------------------------
       tmp.env <- new.env()
       tmp.env$new.perm <- 0
       tmp.env$gbi <- NULL
       tmp.env$error <- NULL
-
+      
       if (progress) {
         permuted <- lapply(seq_along(ant), function(i, ant, formula, odf, oda, target.metrics, Scan, ctrlf, method, fam, ...) {
           cat("  Processing permutation : ", attributes(ant[[i]])$permutation, "\r")
           attr(oda, "permutation") <- 0
           r <- tryCatch(suppressWarnings(suppressMessages(lmer(formula = formula, data = ant[[i]], ...))), error = identity)
-
+          
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
@@ -184,7 +119,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           if (is(r, "warning")) {
             test <- FALSE
           }
-
+          
           if (all(test) != TRUE) {
             # redo a permutation on raw data
             # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
@@ -206,7 +141,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
         permuted <- lapply(seq_along(ant), function(i, ant, formula, odf, oda, target.metrics, Scan, ctrlf, method, fam, ...) {
           attr(oda, "permutation") <- 0
           r <- tryCatch(suppressWarnings(suppressMessages(lme4::lmer(formula = formula, data = ant[[i]], ...))), error = identity)
-
+          
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
@@ -220,7 +155,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           if (is(r, "warning")) {
             test <- FALSE
           }
-
+          
           if (all(test) != TRUE) {
             # redo a permutation on raw data
             # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
@@ -239,73 +174,6 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
       }
     }
     if (fam != "gaussian") {
-      # Test on observed data ------------------------------------------------------------------------
-      odf <- ant[[1]]
-
-      tmp <- tryCatch(suppressWarnings(suppressMessages(lme4::glmer(formula = formula, data = odf, family = family, ...))), error = identity)
-
-      if (isS4(tmp)) {
-        if (is(tmp, "error")) {
-          print("The model on your original data contains the following errors.")
-          print(tmp)
-          stop()
-        }
-        else {
-          r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
-          if(max(abs(r2))<0.001){test=TRUE}
-          else{
-            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
-          }
-        }
-      }
-      if (is(tmp, "error")) {
-        print("The model on your original data contains the following errors.")
-        print(tmp)
-        stop()
-      }
-      if (is(tmp, "warning")) {
-        test <- FALSE
-      }
-
-      if (all(test) != TRUE) {
-        # play.sound(FALSE)
-        warning("The model on your original data contains the following warnings.")
-        if (isS4(tmp)) {
-          print(tmp@optinfo$conv$lme4$messages)
-        }
-        else {
-          cat(tmp$message)
-        }
-        answer <- readline(prompt = "Do you want to continue (y/n)? ")
-
-        while (answer != "y" & answer != "n") {
-          # play.sound(FALSE)
-          readline("Model on your orignal data contain warnings.")
-          answer <- readline(prompt = "Do you want to continue (y/n)? ")
-        }
-        if (answer == "n") {
-          suppressMessages(stop(print(tmp)))
-        }
-        else {
-          obs <- summary(tmp)
-          obs$fit <- fitted(tmp)
-          obs$family <- paste(family)
-        }
-      }
-      else {
-        obs <- summary(tmp)
-        obs$fit <- fitted(tmp)
-        obs$family <- paste(fam)
-        obs$coefficients <- obs$coefficients[, -4]
-      }
-
-      cat("Original model : ", "\n", "\n")
-      print(obs)
-
-      at <- attributes(ant)
-      ant <- ant[-1]
-      attributes(ant) <- at
-
       # Parametrisation in case of error or warning -------------------------------------------------
       # finding node metrics to permute in case of warning or error along GLMM on permuted data
       arguments <- all.vars(formula)
@@ -314,18 +182,18 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
         "disparity", "indisparity", "outdisparity", "eigenB", "eigenU", "outeigen", "ineigen", "eigenW", "eigen", "lpB", 
         "lpW", "reach", "riB", "riW", "ri"
       )
-
+      
       target.metrics <- metrics[metrics %in% arguments]
-
+      
       # Removing node metrics from original data frame
       odf <- odf[, -c(df.col.findId(odf, target.metrics))]
-
+      
       # Finding scan and control factor to redo data stream permutation
       Scan <- attributes(ant)$scan
       ctrlf <- attributes(ant)$ctrlf
       method <- attributes(ant)$method
-
-
+      
+      
       # GLMM along permutations ------------------------------------------
       tmp.env <- new.env()
       tmp.env$new.perm <- 0
@@ -335,7 +203,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
         permuted <- lapply(seq_along(ant), function(i, ant, formula, family, odf, oda, target.metrics, Scan, ctrlf, method, fam) {
           cat("  Processing permutation : ", i, "\r")
           r <- tryCatch(suppressWarnings(suppressMessages(lme4::glmer(formula = formula, data = ant[[i]], family = family, ...))), error = identity)
-
+          
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
@@ -349,12 +217,12 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           if (is(r, "warning")) {
             test <- FALSE
           }
-
+          
           if (all(test) != TRUE) {
             # redo a permutation on raw data
             # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(ant[[i]])$permutation
-
+            
             # redo.ds.grp.first return 3 elements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
             r <- redo.ds.grp(family = family, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, formula = formula, Scan = Scan, method = method, ctrlf = ctrlf, fam = fam, ...)
             tmp.env$new.perm <- r[[1]]
@@ -371,7 +239,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
       else {
         permuted <- lapply(seq_along(ant), function(i, ant, formula, family, odf, oda, target.metrics, Scan, ctrlf, method, fam, ...) {
           r <- tryCatch(suppressWarnings(suppressMessages(lme4::glmer(formula = formula, data = ant[[i]], family = family, ...))), error = identity)
-
+          
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
@@ -385,12 +253,12 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           if (is(r, "warning")) {
             test <- FALSE
           }
-
+          
           if (all(test) != TRUE) {
             # redo a permutation on raw data
             # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(ant[[i]])$permutation
-
+            
             # redo.ds.grp.first return 3 elements: 1) permutation index, 2) gbi or controlGBI 3) glmm estimates
             r <- redo.ds.grp(family = family, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, oda = oda, odf = odf, target.metrics = target.metrics, formula = formula, Scan = Scan, method = method, ctrlf = ctrlf, fam = fam, ...)
             tmp.env$new.perm <- r[[1]]
@@ -405,87 +273,20 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
       }
     }
     permuted <- do.call("rbind", permuted)
-    result <- list("Original.model" = obs, "permutations" = permuted, "errors" = tmp.env$error)
+    result <- list("permutations" = permuted, "errors" = tmp.env$error)
     attr(result, "class") <- "ant glmm"
     attr(result, "family") <- paste(family)
     attr(result, "formula") <- format(formula)
     cat("\n")
     return(result)
   }
-
+  
   if (attributes(ant)$ANT == "ANT data stream focal sampling multiple matrices") {
     if (is.null(oda)) {
       stop("Argument oda cannot be NULL when argument ant is obtained with perm.ds.grp or perm.ds.focal ANT functions")
     }
-
+    
     if (fam == "gaussian") {
-      # Test on observed data ------------------------------------------------------------------------
-      odf <- ant[[1]]
-
-      tmp <- tryCatch(suppressWarnings(suppressMessages(lmer(formula = formula, data = odf, ...))), error = identity)
-
-      if (isS4(tmp)) {
-        if (is(tmp, "error")) {
-          print("The model on your original data contains the following errors.")
-          print(tmp)
-          stop()
-        }
-        else {
-          r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
-          if(max(abs(r2))<0.001){test=TRUE}
-          else{
-            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
-          }
-        }
-      }
-      if (is(tmp, "error")) {
-        print("The model on your original data contains the following errors.")
-        print(tmp)
-        stop()
-      }
-      if (is(tmp, "warning")) {
-        test <- FALSE
-      }
-
-      if (all(test) != TRUE) {
-        # play.sound(FALSE)
-        warning("The model on your original data contains the following warnings.")
-        if (isS4(tmp)) {
-          print(tmp@optinfo$conv$lme4$messages)
-        }
-        else {
-          cat(tmp$message)
-        }
-        answer <- readline(prompt = "Do you want to continue (y/n)? ")
-
-        while (answer != "y" & answer != "n") {
-          # play.sound(FALSE)
-          readline("Model on your orignal data contain warnings.")
-          answer <- readline(prompt = "Do you want to continue (y/n)? ")
-        }
-        if (answer == "n") {
-          suppressMessages(stop(print(tmp)))
-        }
-        else {
-          obs <- summary(tmp)
-          obs$fit <- fitted(tmp)
-          obs$family <- paste(family)
-        }
-      }
-      else {
-        obs <- summary(tmp)
-        obs$fit <- fitted(tmp)
-        obs$family <- paste(family)
-        obs$coefficients <- obs$coefficients[, -4]
-      }
-
-      cat("Original model : ", "\n", "\n")
-      print(obs)
-
-      at <- attributes(ant)
-      ant <- ant[-1]
-      attributes(ant) <- at
-
       # Parametrisation in case of error or warning -------------------------------------------------
       # finding node metrics to permute in case of warning or error along GLMM on permuted data
       arguments <- all.vars(formula)
@@ -494,31 +295,31 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
         "disparity", "indisparity", "outdisparity", "eigenB", "eigenU", "outeigen", "ineigen", "eigenW", "eigen", "lpB", 
         "lpW", "reach", "riB", "riW", "ri"
       )
-
+      
       target.metrics <- metrics[metrics %in% arguments]
-
+      
       # Removing node metrics from original data frame
       odf <- odf[, -c(df.col.findId(odf, target.metrics))]
-
+      
       # Finding scan and control factor to redo data stream permutation
       focal <- attributes(ant)$focal
       ctrl <- attributes(ant)$ctrl
       alters <- attributes(ant)$alters
       index <- attributes(ant)$method
-
+      
       # GLMM along permutations ------------------------------------------
       tmp.env <- new.env()
       tmp.env$new.perm <- 0
       tmp.env$gbi <- NULL
       tmp.env$gbi2 <- NULL
       tmp.env$error <- NULL
-
+      
       if (progress == TRUE) {
         permuted <- lapply(ant, function(d, formula, odf, oda, target.metrics, focal, ctrl, alters, index, fam, ...) {
           cat("  Processing permutation : ", attributes(d)$permutation, "\r")
           attr(odf, "permutation") <- 0
           r <- tryCatch(suppressWarnings(suppressMessages(lme4::lmer(formula = formula, data = d, ...))), error = identity)
-
+          
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
@@ -532,7 +333,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           if (is(r, "warning")) {
             test <- FALSE
           }
-
+          
           if (all(test) != TRUE) {
             # redo a permutation on raw data
             # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
@@ -546,7 +347,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
             result <- r[[4]]
             return(result)
           }
-
+          
           r <- summary(r)$coefficients[, 1]
           return(r)
         }, formula = formula, odf = odf, oda = oda, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
@@ -556,7 +357,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
         permuted <- lapply(ant, function(d, formula, odf, oda, target.metrics, focal, ctrl, alters, index, fam, ...) {
           attr(odf, "permutation") <- 0
           r <- tryCatch(suppressWarnings(suppressMessages(lme4::lmer(formula = formula, data = d, ...))), error = identity)
-
+          
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
@@ -570,7 +371,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           if (is(r, "warning")) {
             test <- FALSE
           }
-
+          
           if (all(test) != TRUE) {
             # redo a permutation on raw data
             # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
@@ -584,80 +385,14 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
             result <- r[[4]]
             return(result)
           }
-
+          
           r <- summary(r)$coefficients[, 1]
           return(r)
         }, formula = formula, odf = odf, oda = oda, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
       }
     }
-
+    
     if (fam != "gaussian") {
-      # Test on observed data ------------------------------------------------------------------------
-      odf <- ant[[1]]
-
-      tmp <- tryCatch(suppressWarnings(suppressMessages(lmer(formula = formula, data = odf, ...))), error = identity)
-
-      if (isS4(tmp)) {
-        if (is(tmp, "error")) {
-          print("The model on your original data contains the following errors.")
-          print(tmp)
-          stop()
-        }
-        else {
-          r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
-          if(max(abs(r2))<0.001){test=TRUE}
-          else{
-            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
-          }
-        }
-      }
-      if (is(tmp, "error")) {
-        print("The model on your original data contains the following errors.")
-        print(tmp)
-        stop()
-      }
-      if (is(tmp, "warning")) {
-        test <- FALSE
-      }
-
-      if (all(test) != TRUE) {
-        # play.sound(FALSE)
-        warning("The model on your original data contains the following warnings.")
-        if (isS4(tmp)) {
-          print(tmp@optinfo$conv$lme4$messages)
-        }
-        else {
-          cat(tmp$message)
-        }
-        answer <- readline(prompt = "Do you want to continue (y/n)? ")
-
-        while (answer != "y" & answer != "n") {
-          # play.sound(FALSE)
-          readline("Model on your orignal data contain warnings.")
-          answer <- readline(prompt = "Do you want to continue (y/n)? ")
-        }
-        if (answer == "n") {
-          suppressMessages(stop(print(tmp)))
-        }
-        else {
-          obs <- summary(tmp)
-          obs$fit <- fitted(tmp)
-          obs$family <- paste(family)
-        }
-      }
-      else {
-        obs <- summary(tmp)
-        obs$fit <- fitted(tmp)
-        obs$family <- paste(family)
-      }
-
-      cat("Original model : ", "\n", "\n")
-      print(obs)
-
-      at <- attributes(ant)
-      ant <- ant[-1]
-      attributes(ant) <- at
-
       # Parametrisation in case of error or warning -------------------------------------------------
       # finding node metrics to permute in case of warning or error along GLMM on permuted data
       arguments <- all.vars(formula)
@@ -666,18 +401,18 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
         "disparity", "indisparity", "outdisparity", "eigenB", "eigenU", "outeigen", "ineigen", "eigenW", "eigen", "lpB", 
         "lpW", "reach", "riB", "riW", "ri"
       )
-
+      
       target.metrics <- metrics[metrics %in% arguments]
-
+      
       # Removing node metrics from original data frame
       odf <- odf[, -c(df.col.findId(odf, target.metrics))]
-
+      
       # Finding scan and control factor to redo data stream permutation
       focal <- attributes(ant)$focal
       ctrl <- attributes(ant)$ctrl
       alters <- attributes(ant)$alters
-
-
+      
+      
       # GLMM along permutations ------------------------------------------
       new.perm <- 0
       new.oda <- NULL
@@ -687,7 +422,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           cat("  Processing permutation : ", attributes(d)$permutation, "\r")
           attr(odf, "permutation") <- 0
           r <- tryCatch(suppressWarnings(suppressMessages(lme4::lmer(formula = formula, data = d, ...))), error = identity)
-
+          
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
@@ -701,17 +436,17 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           if (is(r, "warning")) {
             test <- FALSE
           }
-
+          
           if (all(test) != TRUE) {
             # redo a permutation on raw data
             er <- c(er, attributes(d)$permutation)
             cat("  Processing permutation ", attributes(d)$permutation, " resampling", "\r")
             # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(d)$permutation
-
+            
             # redo.ds.grp.first return 3 elements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
             r <- redo.ds.focal.glmm(family = family, formula = formula, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, gbi2 = tmp.env$gbi2, oda = oda, odf = odf, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
-
+            
             new.perm <- r[[1]]
             new.oda <- r[[2]]
             result <- r[[3]]
@@ -726,7 +461,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
         permuted <- lapply(ant, function(d, formula, family, progress = TRUE, odf, oda, target.metrics, focal, ctrl, alters, new.perm, new.oda, fam, ...) {
           attr(odf, "permutation") <- 0
           r <- tryCatch(suppressWarnings(suppressMessages(lme4::lmer(formula = formula, data = d, ...))), error = identity)
-
+          
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
@@ -740,17 +475,17 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           if (is(r, "warning")) {
             test <- FALSE
           }
-
+          
           if (all(test) != TRUE) {
             # redo a permutation on raw data
             er <- c(er, attributes(d)$permutation)
             cat("  Processing permutation ", attributes(d)$permutation, " resampling", "\r")
             # Giving to the original data frame of individual characteristics (odf) the permutation number where error or warning were found
             attr(odf, "permutation") <- attributes(d)$permutation
-
+            
             # redo.ds.grp.first return 3 elements: 1) permutation index, 2) permuted data frame of associations 3) glmm estimates
             r <- redo.ds.focal.glmm(family = family, formula = formula, new.perm = tmp.env$new.perm, gbi = tmp.env$gbi, gbi2 = tmp.env$gbi2, oda = oda, odf = odf, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, index = index, fam = fam, ...)
-
+            
             new.perm <- r[[1]]
             new.oda <- r[[2]]
             result <- r[[3]]
@@ -761,97 +496,30 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
         }, formula, family, progress = TRUE, odf = odf, oda = oda, target.metrics = target.metrics, focal = focal, ctrl = ctrl, alters = alters, new.perm = new.perm, new.oda = new.oda, fam = fam, ...)
       }
     }
-
+    
     permuted <- do.call("rbind", permuted)
-    result <- list("Original.model" = obs, "permutations" = permuted, "errors" = tmp.env$error)
+    result <- list( "permutations" = permuted, "errors" = tmp.env$error)
     attr(result, "class") <- "ant glmm"
     attr(result, "family") <- paste(family)
     attr(result, "formula") <- format(formula)
     cat("\n")
     return(result)
   }
-
+  
   if (attributes(ant)$ANT == "ANT node label permutation with random factors") {
     if (fam == "gaussian") {
-      # Test on observed data ------------------------------------------------------------------------
-      odf <- ant[[1]]
-
-      tmp <- tryCatch(suppressWarnings(suppressMessages(lmer(formula = formula, data = odf, ...))), error = identity)
-
-      if (isS4(tmp)) {
-        if (is(tmp, "error")) {
-          print("The model on your original data contains the following errors.")
-          print(tmp)
-          stop()
-        }
-        else {
-          r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
-          if(max(abs(r2))<0.001){test=TRUE}
-          else{
-            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
-          }
-        }
-      }
-      if (is(tmp, "error")) {
-        print("The model on your original data contains the following errors.")
-        print(tmp)
-        stop()
-      }
-      if (is(tmp, "warning")) {
-        test <- FALSE
-      }
-
-      if (all(test) != TRUE) {
-        # play.sound(FALSE)
-        warning("The model on your original data contains the following warnings.")
-        if (isS4(tmp)) {
-          print(tmp@optinfo$conv$lme4$messages)
-        }
-        else {
-          cat(tmp$message)
-        }
-        answer <- readline(prompt = "Do you want to continue (y/n)? ")
-
-        while (answer != "y" & answer != "n") {
-          # play.sound(FALSE)
-          readline("Model on your orignal data contain warnings.")
-          answer <- readline(prompt = "Do you want to continue (y/n)? ")
-        }
-        if (answer == "n") {
-          suppressMessages(stop(print(tmp)))
-        }
-        else {
-          obs <- summary(tmp)
-          obs$fit <- fitted(tmp)
-          obs$family <- paste(family)
-        }
-      }
-      else {
-        obs <- summary(tmp)
-        obs$fit <- fitted(tmp)
-        obs$family <- paste(family)
-        obs$coefficients <- obs$coefficients[, -4]
-      }
-
-      cat("Original model : ", "\n", "\n")
-      print(obs)
-
-      at <- attributes(ant)
-      ant <- ant[-1]
-      attributes(ant) <- at
-
       # Test along the list of permutation data ------------------------------------------------------------------------
       if (progress) {
         tmp.env <- new.env()
         tmp.env$error <- NULL
         ctrl <- attributes(ant)$rf
         labels <- attributes(ant)$labels
-
+        
         permuted <- lapply(seq_along(ant), function(i, ant, formula, progress, ctrl, odf, labels, ...) {
           cat("  Processing permutation : ", attributes(ant[[i]])$permutation, "\r")
-
+          
           r <- tryCatch(suppressWarnings(suppressMessages(lmer(formula = formula, data = ant[[i]], ...))), error = identity)
-
+          
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
@@ -865,13 +533,13 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           if (is(r, "warning")) {
             test <- FALSE
           }
-
+          
           if (all(test) != TRUE) {
             tmp.env$error <- c(tmp.env$error, attributes(ant[[i]])$permutation)
             while (all(test) != TRUE) {
               newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
               r <- tryCatch(suppressWarnings(suppressMessages(lmer(formula = formula, data = newdf, ...))), error = identity)
-
+              
               if (isS4(r)) {
                 r2=with(r@optinfo$derivs,solve(Hessian,gradient))
                 if(max(abs(r2))<0.001){test=TRUE}
@@ -887,9 +555,9 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
               }
             }
           }
-
+          
           r <- summary(r)$coefficients[, 1]
-
+          
           return(r)
         }, ant = ant, formula, progress = TRUE, ctrl = ctrl, odf = odf, labels = labels, ...)
         cat("\n")
@@ -899,10 +567,10 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
         tmp.env$error <- NULL
         ctrl <- attributes(ant)$rf
         labels <- attributes(ant)$labels
-
+        
         permuted <- lapply(seq_along(ant), function(i, ant, formula, progress, ctrl, odf, labels, ...) {
           r <- tryCatch(suppressWarnings(suppressMessages(lme4::lmer(formula = formula, data = ant[[i]], ...))), error = identity)
-
+          
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
@@ -916,13 +584,13 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           if (is(r, "warning")) {
             test <- FALSE
           }
-
+          
           if (all(test) != TRUE) {
             tmp.env$error <- c(tmp.env$error, attributes(ant[[i]])$permutation)
             while (all(test) != TRUE) {
               newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
               r <- tryCatch(suppressWarnings(suppressMessages(lme4::lmer(formula = formula, data = newdf, ...))), error = identity)
-
+              
               if (isS4(r)) {
                 r2=with(r@optinfo$derivs,solve(Hessian,gradient))
                 if(max(abs(r2))<0.001){test=TRUE}
@@ -938,91 +606,24 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
               }
             }
           }
-
+          
           r <- summary(r)$coefficients[, 1]
-
+          
           return(r)
         }, ant = ant, formula, progress = TRUE, ctrl = ctrl, odf = odf, labels = labels, ...)
       }
     }
-
+    
     if (fam != "gaussian") {
-      # Test on observed data ------------------------------------------------------------------------
-      odf <- ant[[1]]
-
-      tmp <- suppressWarnings(tryCatch(suppressMessages(lme4::glmer(formula = formula, data = odf, family = family, ...)), error = identity))
-      if (isS4(tmp)) {
-        if (is(tmp, "error")) {
-          print("The model on your original data contains the following errors.")
-          print(tmp)
-          stop()
-        }
-        else {
-          r2=with(tmp@optinfo$derivs,solve(Hessian,gradient))
-          if(max(abs(r2))<0.001){test=TRUE}
-          else{
-            test <- c(!is(tmp, "error"), !is(tmp, "warning"),tmp@optinfo$conv$opt == 0, length(tmp@optinfo$conv$lme4$messages) == 0, length(tmp@optinfo$warnings) == 0)
-          }
-        }
-      }
-      if (is(tmp, "error")) {
-        print("The model on your original data contains the following errors.")
-        print(tmp)
-        stop()
-      }
-      if (is(tmp, "warning")) {
-        test <- FALSE
-      }
-
-      if (all(test) != TRUE) {
-        # play.sound(FALSE)
-        warning("The model on your original data contains the following warnings.")
-        if (isS4(tmp)) {
-          print(tmp@optinfo$conv$lme4$messages)
-        }
-        else {
-          cat(tmp$message)
-        }
-        answer <- readline(prompt = "Do you want to continue (y/n)? ")
-
-        while (answer != "y" & answer != "n") {
-          # play.sound(FALSE)
-          readline("Model on your orignal data contain warnings.")
-          answer <- readline(prompt = "Do you want to continue (y/n)? ")
-        }
-        if (answer == "n") {
-          suppressMessages(stop(print(tmp)))
-        }
-        else {
-          obs <- summary(tmp)
-          obs$fit <- fitted(tmp)
-          obs$family <- paste(family)
-        }
-      }
-      else {
-        obs <- summary(tmp)
-        obs$fit <- fitted(tmp)
-        obs$family <- paste(family)
-      }
-
-      cat("Original model : ", "\n", "\n")
-      print(summary(obs))
-
-      at <- attributes(ant)
-      ant <- ant[-1]
-      attributes(ant) <- at
-
-      ctrl <- attributes(ant)$rf
-      labels <- attributes(ant)$labels
       # Test along the list of permutation data ------------------------------------------------------------------------
       if (progress == TRUE) {
         tmp.env <- new.env()
         tmp.env$error <- NULL
-
+        
         permuted <- lapply(ant, function(d, formula, family, ctrl, labels, odf, ...) {
           cat("  Processing permutation : ", attributes(d)$permutation, "\r")
           r <- tryCatch(suppressWarnings(suppressMessages(lme4::glmer(formula = formula, data = d, family = family, ...))), error = identity)
-
+          
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
@@ -1036,11 +637,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           if (is(r, "warning")) {
             test <- FALSE
           }
-
+          
           if (all(test) != TRUE) {
             tmp.env$error <- c(tmp.env$error, attributes(d)$permutation)
           }
-
+          
           while (all(test) != TRUE) {
             newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
             r <- tryCatch(suppressWarnings(suppressMessages(lme4::glmer(formula = formula, data = newdf, family = family, ...))), error = identity)
@@ -1059,7 +660,7 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
               test <- FALSE
             }
           }
-
+          
           r <- summary(r)$coefficients[, 1]
           return(r)
         }, formula = formula, family = family, ctrl = ctrl, labels, odf, ...)
@@ -1068,10 +669,10 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
       else {
         tmp.env <- new.env()
         tmp.env$error <- NULL
-
+        
         permuted <- lapply(ant, function(d, formula, family, ctrl, labels, odf, w, ...) {
           r <- tryCatch(suppressWarnings(suppressMessages(lme4::glmer(formula = formula, data = d, family = family, ...))), error = identity)
-
+          
           if (isS4(r)) {
             r2=with(r@optinfo$derivs,solve(Hessian,gradient))
             if(max(abs(r2))<0.001){test=TRUE}
@@ -1085,11 +686,11 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
           if (is(r, "warning")) {
             test <- FALSE
           }
-
+          
           if (all(test) != TRUE) {
             tmp.env$error <- c(tmp.env$error, attributes(d)$permutation)
           }
-
+          
           while (all(test) != TRUE) {
             newdf <- perm.redo(df = odf, labels = labels, ctrl = ctrl)
             r <- tryCatch(suppressWarnings(suppressMessages(lme4::glmer(formula = formula, data = newdf, family = family, ...))), error = identity)
@@ -1107,15 +708,15 @@ stat.glmm <- function(ant, formula, family, oda = NULL, progress = TRUE, ...) {
               test <- FALSE
             }
           }
-
+          
           r <- summary(r)$coefficients[, 1]
           return(r)
         }, formula = formula, family = family, ctrl = ctrl, labels, odf, ...)
       }
     }
-
+    
     permuted <- do.call("rbind", permuted)
-    result <- list("Original.model" = obs, "permutations" = permuted, "errors" = tmp.env$error)
+    result <- list("permutations" = permuted, "errors" = tmp.env$error)
     attr(result, "class") <- "ant glmm"
     attr(result, "family") <- paste(family)
     attr(result, "formula") <- format(formula)
