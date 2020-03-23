@@ -8,8 +8,6 @@
 #' @keywords internal
 
 perm.net.nl.str.single <- function(df, labels){
-  # Find labels colums id(s)
-  labels = df.col.findId(df, labels)
   # Sample rows keeping the link between each column
   df[,labels] = df[sample(1:nrow(df)),labels]
   return(df)
