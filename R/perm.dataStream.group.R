@@ -15,7 +15,7 @@
 #' @title Data stream permutation for association data
 #' @description Pre-network permutation on association data
 
-#' @param df A data frame.The data frame must have a column named 'ID'.
+#' @param df A data frame.The data frame must have a column named 'ID'. ID have to be set as factors!
 #' @param scan  an integer indicating the column of scans of individuals association.
 #' @param control_factor A confounding factor by which to control group associations.
 #' @param perm number of permutations to perform.
@@ -62,6 +62,8 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
     col_ID <- grep("^ID$", colnames(df))
     ### Create gbi matrix (GBI) groups = Scan
     GBI <- df.to.gbi(df, col_scan, col_ID)
+    ### Check that GBI is at least more than one row, if so STOP, permutations cannot be done
+    if(nrow(GBI) < 2){stop ("Number of observations (GBI number of rows) is less than 2, check your data")}
     ### Permute data and obtain list of recalculated associations index according to each permutation
     list_gbi <- perm_dataStream1(GBI, perm, progress = progress, method = method)
     ### Add individuals' names to association matrices
@@ -104,6 +106,8 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
       df$control <- df[, col_id]
     }
     df$control <- as.factor(df$control)
+    ### CHECK THAT CONTROL FACTORS IS MORE THAN ONE
+    if(length(levels(df$control)) <= 1) {stop ("control factor: '",control_factor,"' must be more than one level")}
     dfControls <- split(df, df$control)
     
     ############################
@@ -120,11 +124,11 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
     GBI <- do.call(rbind, GBIcontrols)
     CumGbiSizes <- c(0, cumsum(sapply(GBIcontrols, nrow))) ### starts on 0 cause of C++ indexes
     
-    ## Identify GBIs with more than one individual
+    ## Identify GBIs with more than one individual and more than one observation
     GBIIndexes<-NULL
     for(a in 1:length(GBIcontrols))
     {
-      if(dim(GBIcontrols[[a]])[1] > 2)
+      if(dim(GBIcontrols[[a]])[1] > 2 || dim(GBIcontrols[[a]][2] > 2))
       {
         GBIIndexes<-c(GBIIndexes,(a-1)) ## BUGFIX 09/09/2019: 'a - 1' is necessary because indexes in cpp start on 0
       }
