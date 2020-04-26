@@ -31,9 +31,12 @@ Furthermore, ANTs also provides a guideline on the SNA techniques used: 1) from 
 # Installation
 To install the package in R:
 
-    1. Install Rtools at https://cran.r-project.org/bin/windows/Rtools/
+    1. For : 
+         a. Windows users, install Rtools at https://cran.r-project.org/bin/windows/Rtools/
+         b. Mac users, install Xcode from the Mac App Store.
+         c. Linux users, install a compiler and various development libraries (details vary across different flavors of Linux).
     
-    2. Install R package with the following command: install.package("devtools")
+    2. Install R package <i>devtool</i> with the following command: install.package("devtools")
     
     3. Install ANTs with the following command: devtools::install_github("SebastianSosa/ANTs")
 
