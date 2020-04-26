@@ -44,7 +44,7 @@
 #include <map>
 using namespace std;
 using namespace Rcpp;
-
+// [[Rcpp::export]]
 const double metric_global_DISTMAX = R_PosInf;
 
 class metric_global_GraphTools{
@@ -762,7 +762,7 @@ public:
 //    }
 //}
 
-// [[Rcpp::export]]
+
 SEXP metric_global_shortestPath(NumericMatrix disMap){
     long int size = disMap.nrow();
     

@@ -25,6 +25,9 @@ IntegerVector as_factor(const Vector<RTYPE>& x ) {
 // [[Rcpp::export]]
 SEXP vec_sample_all(SEXP vec) {
   switch (TYPEOF(vec)) {
+  case NILSXP: {Rcpp::stop("Argument vec is NULL vector, cannot sample vector");}
+  case BUILTINSXP: {Rcpp::stop("Argument vec is builtin non-special forms vector, cannot sample vector");}
+  case RAWSXP: {Rcpp::stop("Argument vec is raw bytes vector, cannot sample vector");}
   case INTSXP: {
     if(Rf_isFactor(vec)){
       IntegerVector v1=vec;
@@ -75,9 +78,13 @@ SEXP vec_sample_all(SEXP vec) {
     return impl::sample(as<ComplexVector>(vec));
   }
   default: {
+    //Rcpp::stop(
+      //"Invalid SEXPTYPE %d (%s).\n",
+      //TYPEOF(vec), type2name(vec)
+    //);
     warning(
       "Invalid SEXPTYPE %d (%s).\n",
-      TYPEOF(vec), type2name(vec)
+      TYPEOF(vec)
     );
     return R_NilValue;
   }

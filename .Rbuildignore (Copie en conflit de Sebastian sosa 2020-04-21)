@@ -11,4 +11,3 @@ README.md
 ^.*\.git$
 ^.gitignore$
 ^.RData$
-LICENSE

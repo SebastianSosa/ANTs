@@ -32,21 +32,25 @@ List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress) {
   int n_df=ldf.size();
   List lable_to_permut(n_df);
   int n=0;
+  
+  //Extracting first element
+  DataFrame d1=Rcpp::as<Rcpp::DataFrame>(ldf[0]);
 
   if(progress==TRUE){
     // For each permutations declared
     for(int a=1; a<nperm+1;a++){
       Rcpp::Rcout<<"\r"<<"permutation: "<<a;
+
       //For each lables declared
       for(int b=0;b<lables.size();b++){
-        //Extracting first element
-        DataFrame d1=Rcpp::as<Rcpp::DataFrame>(ldf[0]);
         // C++ count
         n=lables[b]-1;
+        
         // Extract the column
         SEXP vec_all=d1[n];
         vec_all=vec_sample_all(vec_all);
-
+       
+        
         // For each elements of the list
         for(int c=1;c<ldf.size();c++){
           // Extract data frame
@@ -58,11 +62,9 @@ List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress) {
           // Merge it with previous labels vector in previous data frames
           vec_all=vec_merge(vec_all, newvec);
         }
-        
         df[n]=vec_all;
 
       }
-
       df.attr("permutation") = a;
       pldf[a]=clone(df);
     }
@@ -73,13 +75,13 @@ List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress) {
     for(int a=1; a<nperm+1;a++){
 
       for(int b=0;b<lables.size();b++){
-        //Extracting first element
-        DataFrame d1= Rcpp::as<Rcpp::DataFrame>(ldf[0]);
+
         // C++ count
         n=lables[b]-1;
         // Extract the column
         SEXP vec_all=d1[n];
         vec_all=vec_sample_all(vec_all);
+
         
         // For each elements of the list
         for(int c=1;c<ldf.size();c++){
@@ -87,10 +89,13 @@ List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress) {
           DataFrame d=Rcpp::as<Rcpp::DataFrame>(ldf[c]);
           // Extract the column
           SEXP vec=d[n];
+          
           // Sample it
           SEXP newvec=vec_sample_all(vec);
+          
           // Merge it with previous labels vector in previous data frames
           vec_all=vec_merge(vec_all, newvec);
+
         }
         
         df[n]=vec_all;
