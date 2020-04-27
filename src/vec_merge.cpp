@@ -38,6 +38,9 @@ namespace impl {
 // [[Rcpp::export]]
 SEXP vec_merge(SEXP vec1, SEXP vec2) {
   switch (TYPEOF(vec1)) {
+  case NILSXP: {Rcpp::stop("Argument vec is NULL vector, cannot merge vector");}
+  case BUILTINSXP: {Rcpp::stop("Argument vec is builtin non-special forms vector, cannot merge vector");}
+  case RAWSXP: {Rcpp::stop("Argument vec is raw bytes vector, cannot merge vector");}
   case INTSXP: {
     if(Rf_isFactor(vec1)){
       IntegerVector v1=vec1;
