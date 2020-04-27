@@ -4,7 +4,9 @@
 \name{sim.focal.undirected}
 \alias{sim.focal.undirected}
 \title{Focal sampling undirected data}
-\format{An object of class \code{data.frame} with 100 rows and 4 columns.}
+\format{
+An object of class \code{data.frame} with 100 rows and 4 columns.
+}
 \usage{
 sim.focal.undirected
 }

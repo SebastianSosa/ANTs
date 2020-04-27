@@ -4,7 +4,9 @@
 \name{sim.gbi}
 \alias{sim.gbi}
 \title{Group by individual (GBI) matrix}
-\format{An object of class \code{matrix} with 6 rows and 10 columns.}
+\format{
+An object of class \code{matrix} (inherits from \code{array}) with 6 rows and 10 columns.
+}
 \usage{
 sim.gbi
 }

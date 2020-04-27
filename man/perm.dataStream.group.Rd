@@ -14,7 +14,7 @@ perm.dataStream.group(
 )
 }
 \arguments{
-\item{df}{A data frame.The data frame must have a column named 'ID'.}
+\item{df}{A data frame.The data frame must have a column named 'ID'. ID have to be set as factors!}
 
 \item{scan}{an integer indicating the column of scans of individuals association.}
 

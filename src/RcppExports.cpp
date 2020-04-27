@@ -7,6 +7,17 @@
 
 using namespace Rcpp;
 
+// metric_global_shortestPath
+SEXP metric_global_shortestPath(NumericMatrix disMap);
+RcppExport SEXP _ANTs_metric_global_shortestPath(SEXP disMapSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type disMap(disMapSEXP);
+    rcpp_result_gen = Rcpp::wrap(metric_global_shortestPath(disMap));
+    return rcpp_result_gen;
+END_RCPP
+}
 // metric_global_shortestDetails
 SEXP metric_global_shortestDetails(NumericMatrix disMap);
 RcppExport SEXP _ANTs_metric_global_shortestDetails(SEXP disMapSEXP) {
@@ -1058,6 +1069,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_ANTs_metric_global_shortestPath", (DL_FUNC) &_ANTs_metric_global_shortestPath, 1},
     {"_ANTs_metric_global_shortestDetails", (DL_FUNC) &_ANTs_metric_global_shortestDetails, 1},
     {"_ANTs_metric_node_betweeness", (DL_FUNC) &_ANTs_metric_node_betweeness, 1},
     {"_ANTs_metric_global_triangle", (DL_FUNC) &_ANTs_metric_global_triangle, 1},

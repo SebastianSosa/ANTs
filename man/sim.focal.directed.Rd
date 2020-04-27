@@ -4,7 +4,9 @@
 \name{sim.focal.directed}
 \alias{sim.focal.directed}
 \title{Focal sampling directed data}
-\format{An object of class \code{data.frame} with 100 rows and 4 columns.}
+\format{
+An object of class \code{data.frame} with 100 rows and 4 columns.
+}
 \usage{
 sim.focal.directed
 }

@@ -4,7 +4,9 @@
 \name{sim.df}
 \alias{sim.df}
 \title{Simulated data frame}
-\format{An object of class \code{data.frame} with 20 rows and 3 columns.}
+\format{
+An object of class \code{data.frame} with 20 rows and 3 columns.
+}
 \usage{
 sim.df
 }
