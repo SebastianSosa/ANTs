@@ -39,7 +39,7 @@ perm.ds.grp <- function(df, scan, ctrlf = NULL, method = "sri", perm, progress =
   ## check whether argument df is a single or a list of dataframes 
   test <- check.df(df)
   ## check if IDs in data frame are set as factors, otherwise set them to factors 
-  df <- check.df(df)
+  df <- check.id(df)
   ## argument df is a single dataframe, perform permutations
   if (test == "df ok") {
     result <- perm.dataStream.group(df, scan = scan, control_factor = ctrlf, method = method, perm = perm, progress = progress)

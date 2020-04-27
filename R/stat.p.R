@@ -41,8 +41,8 @@ stat.p <- function(metrics, stat.hist = FALSE) {
   }
 
   # Computing two-side p-values
-  p_valuevalue_left_side <- sum(v_perm < v) / length(v_perm)
-  p_valuevalue_right_side <- sum(v_perm > v) / length(v_perm)
+  p_valuevalue_left_side <- sum(v_perm <= v) / length(v_perm)
+  p_valuevalue_right_side <- sum(v_perm >= v) / length(v_perm)
   p_one_side <- c(p_valuevalue_left_side,p_valuevalue_right_side)[which.min(c(p_valuevalue_left_side,p_valuevalue_right_side))]*2
 
   # Posterior distribution
