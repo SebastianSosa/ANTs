@@ -12,8 +12,8 @@ assoc.indices(gbi, index = "sri")
 \item{index}{a string indicating the association index to compute:
 \itemize{
 \item 'sri' for Simple ratio index: \eqn{x/x+yAB+yA+yB}
-\item 'hw' for Half-weight index: \eqn{x/x+yAB+1/2(yA+yB)}
-\item 'sr' for Square root index:\eqn{x/sqr((x+yAB+yA)(x+yAB+yB))}
+\item 'hwi' for Half-weight index: \eqn{x/x+yAB+1/2(yA+yB)}
+\item 'sqri' for Square root index:\eqn{x/sqr((x+yAB+yA)(x+yAB+yB))}
 }}
 }
 \value{
