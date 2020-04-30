@@ -4,7 +4,7 @@
 \alias{perm.ds.grp}
 \title{Data stream permutation for association data}
 \usage{
-perm.ds.grp(df, scan, ctrlf = NULL, method = "sri", perm, progress = TRUE)
+perm.ds.grp(df, scan, ctrlf = NULL, index = "sri", nperm, progress = TRUE)
 }
 \arguments{
 \item{df}{A data frame.The data frame must have a column named 'ID'.}
@@ -13,14 +13,14 @@ perm.ds.grp(df, scan, ctrlf = NULL, method = "sri", perm, progress = TRUE)
 
 \item{ctrlf}{A confounding factor by which to control group associations.}
 
-\item{method}{Which type of index of associations to calculate:
+\item{index}{Which type of index of associations to calculate:
 \itemize{
 \item 'sri' for Simple ratio index: \eqn{x \div x+yAB+yA+yB}
 \item 'hwi' for Half-weight index: \eqn{x/x+yAB+1/2(yA+yB)}
 \item 'sqri' for Square root index:\eqn{x/sqr((x+yAB+yA)(x+yAB+yB))}
 }}
 
-\item{perm}{number of permutations to perform.}
+\item{nperm}{number of permutations to perform.}
 
 \item{progress}{a boolean indicating if the permutation process must be visible.}
 }

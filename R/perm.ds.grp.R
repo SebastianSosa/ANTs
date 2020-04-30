@@ -17,13 +17,13 @@
 #' @param df A data frame.The data frame must have a column named 'ID'.
 #' @param scan  an integer indicating the column of scans of individual associations.
 #' @param ctrlf A confounding factor by which to control group associations.
-#' @param method Which type of index of associations to calculate:
+#' @param index Which type of index of associations to calculate:
 #' \itemize{
 #' \item 'sri' for Simple ratio index: \eqn{x \div x+yAB+yA+yB}
 #' \item 'hwi' for Half-weight index: \eqn{x/x+yAB+1/2(yA+yB)}
 #' \item 'sqri' for Square root index:\eqn{x/sqr((x+yAB+yA)(x+yAB+yB))}
 #' }
-#' @param perm number of permutations to perform.
+#' @param nperm number of permutations to perform.
 #' @param progress a boolean indicating if the permutation process must be visible.
 #' @return list of square association index matrices. The first element of the list is the non-permuted association index matrix.
 #' @details Data stream permutation is a pre-network permutation approach. It is used on association data based on the gambit of the group.
@@ -35,27 +35,27 @@
 #' head(sim.grp)
 #' t=perm.ds.grp(df = sim.grp, scan ='location', ctrlf ='time', perm = 10, method = 'sri')
 
-perm.ds.grp <- function(df, scan, ctrlf = NULL, method = "sri", perm, progress = TRUE) {
+perm.ds.grp <- function(df, scan, ctrlf = NULL, index = "sri", nperm, progress = TRUE) {
   ## check whether argument df is a single or a list of dataframes 
   test <- check.df(df)
   ## check if IDs in data frame are set as factors, otherwise set them to factors 
   df <- check.id(df)
   ## argument df is a single dataframe, perform permutations
   if (test == "df ok") {
-    result <- perm.dataStream.group(df, scan = scan, control_factor = ctrlf, method = method, perm = perm, progress = progress)
+    result <- perm.dataStream.group(df, scan = scan, control_factor = ctrlf, method = index, perm = nperm, progress = progress)
     attr(result, "ANT") <- "ANT data stream group sampling single matrix"
     attr(result, "scan") <- scan
     attr(result, "ctrlf") <- ctrlf
-    attr(result, "method") <- method
+    attr(result, "method") <- index
     return(result)
   }
   ## argument df is a list of dataframes, perform permutations in each element of the list
   if (test == "df list ok") {
-    result <- lapply(df, perm.dataStream.group, scan = scan, control_factor = ctrlf, method = method, perm = perm, progress = progress)
+    result <- lapply(df, perm.dataStream.group, scan = scan, control_factor = ctrlf, method = index, perm = nperm, progress = progress)
     attr(result, "ANT") <- "ANT data stream group sampling multiple matrices"
     attr(result, "scan") <- scan
     attr(result, "ctrlf") <- ctrlf
-    attr(result, "method") <- method
+    attr(result, "method") <- index
     return(result)
   }
 }
