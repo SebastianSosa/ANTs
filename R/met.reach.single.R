@@ -50,6 +50,14 @@ met.reach.single <- function(M, df = NULL, dfid = NULL, return.strength = FALSE)
     }
   }
   else {
+    if (is.data.frame(df) == FALSE) {
+      stop("Argument df must be a data frame")
+    }
+    
+    # Compute network metric
+    m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = TRUE)
+    result <- rowSums(m.strength * M)
+    
     # If argument dfid is not null
     if (!is.null(dfid)) {
       if (is.null(colnames(M))) {
@@ -57,15 +65,11 @@ met.reach.single <- function(M, df = NULL, dfid = NULL, return.strength = FALSE)
       }
       # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
-      df <- df[match(colnames(M), df[, col.id]), ]
+      df <- merge.met(vec = result, names = colnames(M), df = df, dfid = col.id, met = "reach")
+      return(df)
+    }else{
+      df$reach <- result
+      return(df)
     }
-    if (is.data.frame(df) == FALSE) {
-      stop("Argument df must be a data frame")
-    }
-    # Compute network metric
-    m.strength <- matrix(rep(s), ncol = ncol(M), nrow = nrow(M), byrow = TRUE)
-    result <- rowSums(m.strength * M)
-    df$reach <- result
-    return(df)
   }
 }

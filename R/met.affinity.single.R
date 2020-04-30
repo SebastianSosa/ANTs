@@ -55,15 +55,21 @@ met.affinity.single <- function(M, df = NULL, dfid = NULL, binary = FALSE) {
       }
       # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
-      df <- df[match(colnames(M), df[, col.id]), ]
+      if (binary) {
+        df <- merge.met(vec = affinity, names = colnames(M), df = df, dfid = col.id, met = "affinityB")
+      }else {
+        df <- merge.met(vec = affinity, names = colnames(M), df = df, dfid = col.id, met = "affinity")      
+      }
+      return(df)
+    }else{
+      # Add vector of network metrics in a new column
+      if (binary) {
+        df$affinityB <- affinity
+      }
+      else {
+        df$affinity <- affinity
+      }
+      return(df)
     }
-    # Add vector of network metrics in a new column
-    if (binary) {
-      df$affinityB <- affinity
-    }
-    else {
-      df$affinity <- affinity
-    }
-    return(df)
   }
 }

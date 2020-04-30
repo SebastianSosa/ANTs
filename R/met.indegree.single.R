@@ -37,6 +37,10 @@ met.indegree.single <- function(M, df = NULL, dfid = NULL) {
     return(BID)
   }
   else {
+    if (is.data.frame(df) == FALSE) {
+      stop("Argument df must be a data frame")
+    }
+    
     # If argument dfid is not null
     if (!is.null(dfid)) {
       if (is.null(colnames(M))) {
@@ -44,14 +48,13 @@ met.indegree.single <- function(M, df = NULL, dfid = NULL) {
       }
       # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
-      df <- df[match(colnames(M), df[, col.id]), ]
+      df <- merge.met(vec = BID, names = colnames(M), df = df, dfid = col.id, met = "indegree")
+      return(df)
+    }else{
+      # Add vector of network metrics in a new column
+      BID <- mat_col_sumsBinary(M)
+      df$indegree <- BID
+      return(df)
     }
-    if (is.data.frame(df) == FALSE) {
-      stop("Argument df must be a data frame")
-    }
-    # Add vector of network metrics in a new column
-    BID <- mat_col_sumsBinary(M)
-    df$indegree <- BID
-    return(df)
   }
 }

@@ -44,6 +44,10 @@ met.lp.single <- function(M, df = NULL, dfid = NULL, binary = FALSE) {
     return(result)
   }
   else {
+    if (is.data.frame(df) == FALSE) {
+      stop("Argument df must be a data frame")
+    }
+    
     # If argument dfid is not null
     if (!is.null(dfid)) {
       if (is.null(colnames(M))) {
@@ -51,18 +55,22 @@ met.lp.single <- function(M, df = NULL, dfid = NULL, binary = FALSE) {
       }
       # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
-      df <- df[match(colnames(M), df[, col.id]), ]
-    }
-    if (is.data.frame(df) == FALSE) {
-      stop("Argument df must be a data frame")
-    }
-    # Add vector of network metrics in a new colum
-    if(binary){
-      df$lpB <- result
-    }
-    else{
-      df$lp <- met.lpcW(M)
-    }      
-    return(df)
+      if(binary){
+        df <- merge.met(vec = result, names = colnames(M), df = df, dfid = col.id, met = "lpB")
+      }
+      else{
+        df <- merge.met(vec = result, names = colnames(M), df = df, dfid = col.id, met = "lp")
+      }      
+      return(df)
+    }else{
+      # Add vector of network metrics in a new colum
+      if(binary){
+        df$lpB <- result
+      }
+      else{
+        df$lp <- met.lpcW(M)
+      }      
+      return(df)
     }
   }
+}

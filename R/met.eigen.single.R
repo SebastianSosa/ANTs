@@ -55,36 +55,57 @@ met.eigen.single <- function(M, df = NULL, dfid = NULL, sym = TRUE, binary = FAL
     return(result)
   }
   else {
+    if (is.data.frame(df) == FALSE) {
+      stop("Argument df must be a data frame")
+    }
+    
     # If argument dfid is not null
     if (!is.null(dfid)) {
       # Order data frame according to argument dfid
       col.id <- df.col.findId(df, dfid)
-      df[match(colnames(M), df[, col.id]), ]
-    }
-    if (is.data.frame(df) == FALSE) {
-      stop("Argument df must be a data frame")
-    }
-    # Add vector of network metrics in a new column
-    df$eigen <- result
-    if (sym == TRUE) {
+      if (sym == TRUE) {
+        df <- merge.met(vec = result, names = colnames(M), df = df, dfid = col.id, met = "eigen")
+      }
+      if (sym == FALSE & out == FALSE) {
+        df <- merge.met(vec = result, names = colnames(M), df = df, dfid = col.id, met = "ineigen")
+      }
+      if (sym == FALSE & out == TRUE) {
+        df <- merge.met(vec = result, names = colnames(M), df = df, dfid = col.id, met = "outeigen")
+      }
+      if (binary == TRUE) {
+        df <- merge.met(vec = result, names = colnames(M), df = df, dfid = col.id, met = "eigenB")
+      }
+      if (binary == TRUE & sym == FALSE & out == FALSE) {
+        df <- merge.met(vec = result, names = colnames(M), df = df, dfid = col.id, met = "ineigenB")
+      }
+      if (binary == TRUE & sym == FALSE & out == TRUE) {
+        df <- merge.met(vec = result, names = colnames(M), df = df, dfid = col.id, met = "outeigenB")
+      }
+      return(df)
+    }else{
+      # Add vector of network metrics in a new column
       df$eigen <- result
-    }
-    if (sym == FALSE & out == FALSE) {
-      df$ineigen <- result
-    }
-    if (sym == FALSE & out == TRUE) {
-      df$outeigen <- result
+      if (sym == TRUE) {
+        df$eigen <- result
+      }
+      if (sym == FALSE & out == FALSE) {
+        df$ineigen <- result
+      }
+      if (sym == FALSE & out == TRUE) {
+        df$outeigen <- result
+      }
+      
+      if (binary == TRUE) {
+        df$eigenB <- result
+      }
+      if (binary == TRUE & sym == FALSE & out == FALSE) {
+        df$ineigenB <- result
+      }
+      if (binary == TRUE & sym == FALSE & out == TRUE) {
+        df$outeigenB <- result
+      }
+      return(df)
     }
 
-    if (binary == TRUE) {
-      df$eigenB <- result
-    }
-    if (binary == TRUE & sym == FALSE & out == FALSE) {
-      df$ineigenB <- result
-    }
-    if (binary == TRUE & sym == FALSE & out == TRUE) {
-      df$outeigenB <- result
-    }
-    return(df)
   }
 }
