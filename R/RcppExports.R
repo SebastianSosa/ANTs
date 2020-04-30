@@ -23,8 +23,8 @@ metric_global_triangle <- function(disMap) {
 #' @param method a string indicating the type of association matrix:
 #' \itemize{
 #' \item 'sri' for Simple ratio index: \eqn{x/x+yAB+yA+yB}
-#' \item 'hw' for Half-weight index: \eqn{x/x+yAB+1/2(yA+yB)}
-#' \item 'sr' for Square root index:\eqn{x/sqr((x+yAB+yA)(x+yAB+yB))}
+#' \item 'hwi' for Half-weight index: \eqn{x/x+yAB+1/2(yA+yB)}
+#' \item 'sqri' for Square root index:\eqn{x/sqr((x+yAB+yA)(x+yAB+yB))}
 #' }
 #' @return A square matrix of association according to association index choose:
 #' @details Association indexes allow to handle  heterogeneity of time of observation. 
