@@ -23,8 +23,8 @@ NumericVector met_degree(NumericMatrix M) {
   for(int a = 0; a<S; a++){
     d = 0;
     for(int b = 0; b<S; b++){
-      if(M(a,b) > 0){d++;}
-      if(M(b,a) > 0){d++;}
+      if(M(a,b) != 0){d++;}
+      if(M(b,a) != 0){d++;}
     }
     degree[a] = d;
   }

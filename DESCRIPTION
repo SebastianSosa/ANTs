@@ -1,5 +1,5 @@
 Package: ANTs
-Date: 2019-11-22
+Date: 2020-07-02
 Type: Package
 Title: Animal Network Toolkit Software
 Version: 0.0.1
@@ -14,7 +14,7 @@ Depends: R (>= 3.5.0)
 Imports: lme4,methods,Kendall,gtools, visNetwork
 LinkingTo: Rcpp,RcppArmadillo,RcppEigen
 SystemRequirements: C++11
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 BugReports: https://github.com/SebastianSosa/ANTs
 Suggests:
     testthat,
