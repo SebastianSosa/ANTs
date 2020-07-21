@@ -6,6 +6,18 @@
 \usage{
 \method{merge}{met}(vec, names, df, dfid, met)
 }
+\arguments{
+\item{vec}{a vector to merge to argument df}
+
+\item{names}{a string vector of same length as argument vec, with IDs of each element of argument vec}
+
+\item{df}{a data frame to merge vec}
+
+\item{dfid}{an integer indicating the column in argument df in which IDS are stored.}
+
+\item{met}{a string for the new column merged in argument df}
+}
 \description{
 merge metric to a data frame
 }
+\keyword{internal}

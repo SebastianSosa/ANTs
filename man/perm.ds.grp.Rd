@@ -35,7 +35,7 @@ Data stream permutation is a pre-network permutation approach. It is used on ass
 }
 \examples{
 head(sim.grp)
-t=perm.ds.grp(df = sim.grp, scan ='location', ctrlf ='time', perm = 10, method = 'sri')
+t=perm.ds.grp(df = sim.grp, scan ='location', ctrlf ='time', nperm = 10, index = 'sri')
 }
 \references{
 Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.

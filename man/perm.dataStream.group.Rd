@@ -8,7 +8,7 @@ perm.dataStream.group(
   df,
   scan,
   control_factor = NULL,
-  perm,
+  nperm,
   progress = TRUE,
   method = "sri"
 )
@@ -20,8 +20,6 @@ perm.dataStream.group(
 
 \item{control_factor}{A confounding factor by which to control group associations.}
 
-\item{perm}{number of permutations to perform.}
-
 \item{progress}{a boolean indicating if the permutation process has to be visible.}
 
 \item{method}{Which type of index to calculate:
@@ -31,6 +29,8 @@ perm.dataStream.group(
 \item 'tw' for Twice-weigh index:\eqn{x/x+2yAB+yA+yB}
 \item 'sr' for Square root index:\eqn{x/sqr((x+yAB+yA)(x+yAB+yB))}
 }}
+
+\item{perm}{number of permutations to perform.}
 }
 \value{
 list of square association index matrices. The first element of the list is the non-permuted association index matrix.
