@@ -39,7 +39,7 @@
 
 
 # factor= according to which factors creat the gbi. enter the name of the column.
-perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progress = TRUE, method = "sri") {
+perm.dataStream.group <- function(df, scan, control_factor = NULL, nperm, progress = TRUE, method = "sri") {
   ## !!!! FOR DEBUGGING SEND ALL LINES EACH TIME YOU RUN THE CODE!!!!
   # perm WITHIN SCANS NO CONTROL FACTORS  -----------------------------------------------
   if (is.null(control_factor)) {
@@ -65,7 +65,7 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
     ### Check that GBI is at least more than one row, if so STOP, permutations cannot be done
     if(nrow(GBI) < 2){stop ("Number of observations (GBI number of rows) is less than 2, check your data")}
     ### Permute data and obtain list of recalculated associations index according to each permutation
-    list_gbi <- perm_dataStream1(GBI, perm, progress = progress, method = method)
+    list_gbi <- perm_dataStream1(GBI, nperm, progress = progress, method = method)
     ### Add individuals' names to association matrices
     list_gbi <- lapply(seq_along(list_gbi), function(x, ids, i) {
       colnames(x[[i]]) <- ids
@@ -134,7 +134,7 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
       }
     }
     ## Perform permutations
-    list_gbi <- perm_dataStream_ControlFactor(GBIcontrols, GBI, perm, GBIIndexes, CumGbiSizes, progress = progress, method = method)
+    list_gbi <- perm_dataStream_ControlFactor(GBIcontrols, GBI, nperm, GBIIndexes, CumGbiSizes, progress = progress, method = method)
     
     ## rename columns and rows of the association matrices
     list_gbi <- lapply(seq_along(list_gbi), function(x, ids, i) {

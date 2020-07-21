@@ -33,7 +33,7 @@
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @examples
 #' head(sim.grp)
-#' t=perm.ds.grp(df = sim.grp, scan ='location', ctrlf ='time', perm = 10, method = 'sri')
+#' t=perm.ds.grp(df = sim.grp, scan ='location', ctrlf ='time', nperm = 10, index = 'sri')
 
 perm.ds.grp <- function(df, scan, ctrlf = NULL, index = "sri", nperm, progress = TRUE) {
   ## check whether argument df is a single or a list of dataframes 
@@ -42,7 +42,7 @@ perm.ds.grp <- function(df, scan, ctrlf = NULL, index = "sri", nperm, progress =
   df <- check.id(df)
   ## argument df is a single dataframe, perform permutations
   if (test == "df ok") {
-    result <- perm.dataStream.group(df, scan = scan, control_factor = ctrlf, method = index, perm = nperm, progress = progress)
+    result <- perm.dataStream.group(df, scan = scan, control_factor = ctrlf, method = index, nperm = nperm, progress = progress)
     attr(result, "ANT") <- "ANT data stream group sampling single matrix"
     attr(result, "scan") <- scan
     attr(result, "ctrlf") <- ctrlf
@@ -51,7 +51,7 @@ perm.ds.grp <- function(df, scan, ctrlf = NULL, index = "sri", nperm, progress =
   }
   ## argument df is a list of dataframes, perform permutations in each element of the list
   if (test == "df list ok") {
-    result <- lapply(df, perm.dataStream.group, scan = scan, control_factor = ctrlf, method = index, perm = nperm, progress = progress)
+    result <- lapply(df, perm.dataStream.group, scan = scan, control_factor = ctrlf, method = index, nperm = nperm, progress = progress)
     attr(result, "ANT") <- "ANT data stream group sampling multiple matrices"
     attr(result, "scan") <- scan
     attr(result, "ctrlf") <- ctrlf
