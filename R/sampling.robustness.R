@@ -68,7 +68,7 @@ sampling.robustness <- function(df, subsampling = c(5, 10, 20, 30, 40, 50), metr
       cat("  Processing bootstrap : ", a, "\r")
       tmp <- df[-sample(1:nrow(df), percent[a], replace = FALSE), ]
       M <- df.to.mat(tmp, actor = col.actor, receiver = col.receiver)
-      result[[a + 1]] <- do.call(metric, list(M = M))
+      result[[a + 1]] <- do.call(metric, list(M = M, ...))
     }
   }
   else {

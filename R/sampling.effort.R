@@ -143,7 +143,7 @@ sampling.effort <- function(df, col.time, cumulative = TRUE, metric = "met.stren
           M <- assoc.indices(gbi, index)
           
           # Computing metric declare by user
-          r1 <- do.call(metric, list(M = M))
+          r1 <- do.call(metric, list(M = M, ...))
           
           # storing result in a data frame
           r2 <- merge(data.frame("names" = names), data.frame("names" = names(r1), "met" = r1), by = "names", all = T)
@@ -200,7 +200,7 @@ sampling.effort <- function(df, col.time, cumulative = TRUE, metric = "met.stren
           }
           
           # Computing metric declare by user
-          r2 <- data.frame(do.call(metric, list(M = tmp.M)), time.window[a])
+          r2 <- data.frame(do.call(metric, list(M = tmp.M,...)), time.window[a])
           
           # storing result in a data frame
           colnames(r2) <- c("metric", "period")
@@ -216,7 +216,7 @@ sampling.effort <- function(df, col.time, cumulative = TRUE, metric = "met.stren
       plot(result$met, type = "l", xaxt='n',
            xlab = colnames(df)[col.time], ylab = metric, main = paste(metric, "evolution through period of time")
       )
-      axis(1, at = result$period, labels = result$period)
+      axis(1, at = 1:nrow(result), labels = result$period)
       # Record plot
       p <- recordPlot()
     }
@@ -311,7 +311,7 @@ sampling.effort <- function(df, col.time, cumulative = TRUE, metric = "met.stren
           }
           
           # Computing metric
-          r2 <- data.frame(do.call(metric, list(M = tmp.M)), time.window[a])
+          r2 <- data.frame(do.call(metric, list(M = tmp.M, ...)), time.window[a])
           
           # storing result in a data frame
           colnames(r2) <- c("metric", "period")
@@ -329,7 +329,7 @@ sampling.effort <- function(df, col.time, cumulative = TRUE, metric = "met.stren
       plot(result$met,type = "l", xaxt='n',
            xlab = colnames(df)[col.time], ylab = metric, main = paste(metric, "evolution through period of time")
       )
-      axis(1, at = result$period, labels = result$period)
+      axis(1, at = 1:nrow(result), labels = result$period)
       
       # Record plot
       p <- recordPlot()
