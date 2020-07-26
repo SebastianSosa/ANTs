@@ -53,6 +53,7 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, nperm, progre
     ### convert the scan columns to factors, necessary for GBI
     df$scan <- as.factor(df$scan)
     ### drop levels in case df has names that are not part of the current df   #### BUGFIX 04/23/2020 
+    df$ID = as.factor(df$ID)
     df$ID<-droplevels(df$ID)
     #### set ids to levels; necessary for cpp function
     ids <- levels(df$ID)
@@ -91,6 +92,7 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, nperm, progre
     df$scan <- as.factor(df$scan)
     
     #### set ids to levels; necessary for cpp function
+    df$ID = as.factor(df$ID)
     ids <- levels(df$ID)
     ### Get index of column with the scan
     col_scan <- df.col.findId(df, "scan")
@@ -128,7 +130,7 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, nperm, progre
     GBIIndexes<-NULL
     for(a in 1:length(GBIcontrols))
     {
-      if(dim(GBIcontrols[[a]])[1] > 2 || dim(GBIcontrols[[a]][2] > 2))
+      if(dim(GBIcontrols[[a]])[1] > 2 || dim(GBIcontrols[[a]])[2] > 2)
       {
         GBIIndexes<-c(GBIIndexes,(a-1)) ## BUGFIX 09/09/2019: 'a - 1' is necessary because indexes in cpp start on 0
       }
