@@ -41,7 +41,8 @@
 #include <set>
 #include <queue>
 #include <pthread.h>
-#include <RcppArmadillo.h>
+#include "Rcpp.h"
+//#include <RcppArmadillo.h>
 #include <map>
 using namespace std;
 using namespace Rcpp;
@@ -269,17 +270,14 @@ private:
         return this->shortestFather;
       }//tell others who is your father
       
-      bool setDistance(double dis, Node* targetFather){
+      int compDistance(double dis, Node* targetFather){
         if (dis > this->distance) {
-          return false;
+          return 0;
         }
         else if (dis < this->distance){
-          this->distance = dis;
-          shortestFatherList.clear();
-          setFather(targetFather);
+          return 2;
         }
-        shortestFatherList.push_back(targetFather);
-        return true;
+        return 1;
       }//check if the new node is shorter than the current node, if it is
       //update the current father node to new node
       
@@ -384,6 +382,9 @@ private:
             }
           }
         }
+        /*sort(listofNode[i]->neighbor.begin(), listofNode[i]->neighbor.end(), [](const std::pair<Node*,double> &left, const std::pair<Node*,double> &right) {
+         return left.second < right.second;
+        });*/
       }//add the neighbor to the node
     }
     
@@ -466,13 +467,19 @@ private:
         
         std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
         for (; q != top->neighbor.end(); q++) {
-          if ((*q).first->setDistance((*q).second + top->getDistance(), top)){
+          int compRes = (*q).first->compDistance((*q).second + top->getDistance(), top);
+          double newDis = (*q).second + top->getDistance();
+          if (compRes){
             if ((*q).first->askState(0)) {
               (*q).first->changeState();
+              (*q).first->setDistance(newDis);
+              (*q).first->setFather(top);
               nodeQueue.insert((*q).first);
             }
-            if ((*q).first->askState(1)) {
+            else if ((*q).first->askState(1) && compRes == 2) {
               nodeQueue.erase((*q).first);
+              (*q).first->setDistance(newDis);
+              (*q).first->setFather(top);
               nodeQueue.insert((*q).first);
             }
           }
@@ -526,10 +533,30 @@ private:
         
         std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
         for (; q != top->neighbor.end(); q++) {
-          if ((*q).first->setDistance((*q).second + top->getDistance(), top)){
+          int compRes = (*q).first->compDistance((*q).second + top->getDistance(), top);
+          double newDis = (*q).second + top->getDistance();
+          if (compRes){
             if ((*q).first->askState(0)) {
               (*q).first->changeState();
+              (*q).first->setDistance(newDis);
+              (*q).first->shortestFatherList.clear();
+              (*q).first->shortestFatherList.push_back(top);
+              (*q).first->setFather(top);
               nodeQueue.insert((*q).first);
+              omega[(*q).first->getName()] = omega[top->getName()];
+            }
+            else if ((*q).first->askState(1) && compRes == 2) {
+              nodeQueue.erase((*q).first);
+              (*q).first->setDistance(newDis);
+              (*q).first->shortestFatherList.clear();
+              (*q).first->shortestFatherList.push_back(top);
+              (*q).first->setFather(top);
+              nodeQueue.insert((*q).first);
+              omega[(*q).first->getName()] = omega[top->getName()];
+            }
+            else if (compRes == 1) {
+              (*q).first->shortestFatherList.push_back(top);
+              omega[(*q).first->getName()] += omega[top->getName()];
             }
           }
         }
@@ -540,32 +567,20 @@ private:
         }
         top->changeState();
         reachedNode.insert(top);
-      } 
-      
-      for (std::set<Node*>::iterator i = reachedNode.begin(); i != reachedNode.end(); i++) {
-        for (int j = 0; j < (*i)->shortestFatherList.size(); j++) {
-          (*i)->shortestFatherList[j]->shortestChildList.push_back(*i);
-        }
-      }
-      
-      for (std::set<Node*>::iterator i = reachedNode.begin(); i != reachedNode.end(); i++) {
-        long int v = (*i)->getName();
-        for (int j = 0; j < (*i)->shortestChildList.size(); j++) {
-          long int w = (*i)->shortestChildList[j]->getName();
-          omega[w] = omega[w] + omega[v];
-        }
       }
       
       for (std::set<Node*>::reverse_iterator i = reachedNode.rbegin(); i != reachedNode.rend(); i++) {
         long int w = (*i)->getName();
+        // cout << (*i)->getDistance() << " ";
         for (int j = 0; j < (*i)->shortestFatherList.size(); j++) {
           long int v = (*i)->shortestFatherList[j]->getName();
-          lamda[v] = lamda[v] + (omega[v]/omega[w]*(1 + lamda[w]));
+          lamda[v] += (omega[v]/omega[w]*(1 + lamda[w]));
         }
         if (w != start) {
           betweenness[w] = betweenness[w] + lamda[w];// /((size-1)*(size-2))
         }
       }
+      // cout << endl;
       
       delete [] omega;
       delete [] lamda;
@@ -686,20 +701,20 @@ public:
   
   void triangleArmadillo(){
     triangles = 0;
-    
-    arma::mat I(distMap,size,size,true);
-    
-    arma::umat comparePath = (I != metric_global_DISTMAX);
-    
-    for (int i = 0; i < size; i++) {
-      arma::umat atNode = comparePath.row(i);
-      arma::umat toNode = comparePath.col(i);
-      arma::umat needPath = atNode.t()*toNode.t();
-      
-      arma::umat result = (comparePath % needPath);
-      triangles+=(long int)arma::accu(result);
-      cout << triangles << endl;
-    }
+    /*
+     arma::mat I(distMap,size,size,true);
+     
+     arma::umat comparePath = (I != metric_global_DISTMAX);
+     
+     for (int i = 0; i < size; i++) {
+     arma::umat atNode = comparePath.row(i);
+     arma::umat toNode = comparePath.col(i);
+     arma::umat needPath = atNode.t()*toNode.t();
+     
+     arma::umat result = (comparePath % needPath);
+     triangles+=(long int)arma::accu(result);
+     cout << triangles << endl;
+     }*/
     triangles/=3;//calculation triangle in matrix form.
   }
   
