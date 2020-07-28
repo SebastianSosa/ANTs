@@ -271,10 +271,10 @@ private:
       }//tell others who is your father
       
       int compDistance(double dis, Node* targetFather){
-        if (dis > this->distance) {
+        if (dis - this->distance > std::numeric_limits<double>::epsilon()) {
           return 0;
         }
-        else if (dis < this->distance){
+        else if (abs(dis - this->distance) > std::numeric_limits<double>::epsilon()){
           return 2;
         }
         return 1;
@@ -467,8 +467,8 @@ private:
         
         std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
         for (; q != top->neighbor.end(); q++) {
-          int compRes = (*q).first->compDistance((*q).second + top->getDistance(), top);
           double newDis = (*q).second + top->getDistance();
+          int compRes = (*q).first->compDistance(newDis, top);
           if (compRes){
             if ((*q).first->askState(0)) {
               (*q).first->changeState();
