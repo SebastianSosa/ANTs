@@ -36,7 +36,7 @@ To install the package in R:
          b. Mac users, install Xcode from the Mac App Store.
          c. Linux users, install a compiler and various development libraries (details vary across different flavors of Linux).
     
-    2. Install R package devtool with the following command: install.package("devtools")
+    2. Install R package devtool with the following command: install.packages("devtools")
     
     3. Install ANTs with the following command: devtools::install_github("SebastianSosa/ANTs")
 
