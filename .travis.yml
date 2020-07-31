@@ -10,6 +10,8 @@ apt_packages:
 dist: xenial
 services:
   - xvfb
+  - rack
+  
  
 before_script:
   - "export DISPLAY=:99.0"
