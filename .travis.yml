@@ -24,6 +24,7 @@ before_script:
 before_install:
   - export DISPLAY=:99.0
   - sleep 3
+  - sudo apt-get -y install rackup
     
 language: R
 cache: packages
