@@ -7,6 +7,10 @@ apt_packages:
  tcl8.5-dev
  tk8.5-dev
  
+dist: xenial
+services:
+  - xvfb
+ 
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
