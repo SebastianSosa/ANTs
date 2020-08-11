@@ -64,7 +64,7 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, nperm, progre
     ### Create gbi matrix (GBI) groups = Scan
     GBI <- df.to.gbi(df, col_scan, col_ID)
     ### Check that GBI is at least more than one row, if so STOP, permutations cannot be done
-    if(nrow(GBI) < 2){stop ("Number of observations (GBI number of rows) is less than 2, check your data")}
+    if(nrow(GBI) <= 2 && ncol(GBI) <= 2 ){stop ("Number of observations (GBI number of rows) is less than 2 or number of individuals is less than 2, check your data")}
     ### Permute data and obtain list of recalculated associations index according to each permutation
     list_gbi <- perm_dataStream1(GBI, nperm, progress = progress, method = method)
     ### Add individuals' names to association matrices
@@ -130,7 +130,7 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, nperm, progre
     GBIIndexes<-NULL
     for(a in 1:length(GBIcontrols))
     {
-      if(dim(GBIcontrols[[a]])[1] > 2 || dim(GBIcontrols[[a]])[2] > 2)
+      if(dim(GBIcontrols[[a]])[1] >= 2 && dim(GBIcontrols[[a]])[2] >= 2)
       {
         GBIIndexes<-c(GBIIndexes,(a-1)) ## BUGFIX 09/09/2019: 'a - 1' is necessary because indexes in cpp start on 0
       }
