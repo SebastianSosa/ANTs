@@ -44,9 +44,14 @@ To install the package in R:
 
 # Vignette
 <img src="https://github.com/SebastianSosa/ANTs/blob/master/vignettes/Analytical.protocols.png" alt="alt text"> 
+
 # Tutorials
-To find information on how to use ANTs, follow this link: 
-https://www.s-sosa.com/videos
+      1. Tutorial 1: [Examining node level in static or time-aggregated networks with R package ANTs through node label permutations](https://static-content.springer.com/esm/art%3A10.1038%2Fs41598-020-69265-8/MediaObjects/41598_2020_69265_MOESM1_ESM.docx)
+      
+      2. Tutorial 2: [Examining node level in static or time-aggregated networks with R package ANTs through data stream permutations](https://static-content.springer.com/esm/art%3A10.1038%2Fs41598-020-69265-8/MediaObjects/41598_2020_69265_MOESM1_ESM.docx)
+      
+      3. Videos at https://www.s-sosa.com/videos
+
 
   <!-- badges: start -->
   [![Travis build status](https://travis-ci.org/SebastianSosa/ANTs.svg?branch=master)](https://travis-ci.org/SebastianSosa/ANTs)
