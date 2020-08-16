@@ -49,6 +49,12 @@
 
 stat.glm <- function(ant, oda, formula, family = "gaussian", progress = TRUE, start = NULL, control = list(...),
                      model = TRUE, method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, ...) {
+  if (is.null(attributes(ant)$ANT)) {
+    stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions")
+  }
+  if (attributes(ant)$ANT == "ANT node link permutation") {
+    stop("Currently not available")
+  }
   # Test on observed data ------------------------------------------------------------------------
   odf <- ant[[1]]
   # Model on original data
@@ -92,12 +98,7 @@ stat.glm <- function(ant, oda, formula, family = "gaussian", progress = TRUE, st
   attributes(ant) <- at
 
   # GLM along permutations ------------------------------------------
-  if (is.null(attributes(ant)$ANT)) {
-    stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions")
-  }
-  if (attributes(ant)$ANT == "ANT node link permutation") {
-    stop("Currently not available")
-  }
+
   # Check if argument M is an object returned by perm.ds.grp, perm.ds.focal or perm.net.nl----------------------
   # For each type of permutations the process is the following:
   # 1. Compute model on a single permutation

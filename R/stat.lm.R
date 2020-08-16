@@ -44,6 +44,12 @@
 
 stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = TRUE,
                     x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE, contrasts = NULL, ...) {
+  if (is.null(attributes(ant)$ANT)) {
+    stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions")
+  }
+  if (attributes(ant)$ANT == "ANT node link permutation") {
+    stop("Currently not available")
+  }
   # LM on observed data ------------------------------------------------------------------------
   odf <- ant[[1]]
   # Model on original data
@@ -94,12 +100,7 @@ stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = T
   # 2. Check for warnings or errors
   # 3. If error, redo a permutation
   # 4. Perform steps 1, 2, 3 until there is no more error or warning
-  if (is.null(attributes(ant)$ANT)) {
-    stop("Argument ant must be an object returned by perm.ds.grp, per.ds.focal or per.ds.nl functions")
-  }
-  if (attributes(ant)$ANT == "ANT node link permutation") {
-    stop("Currently not available")
-  }
+
   test1 <- attributes(ant)$ANT == "ANT node label permutation"
   test2 <- attributes(ant)$ANT == "ANT data stream group sampling single matrix"
   test3 <- attributes(ant)$ANT == "ANT data stream focal sampling single matrix"
