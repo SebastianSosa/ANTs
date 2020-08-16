@@ -30,7 +30,7 @@ Permute network links weigths while keep same network structure (density, modula
 df = met.strength(sim.m, df = sim.df, dfid = 1)
 df = met.eigen(sim.m, df = df, dfid = 1)
 head(df)
-perm.net.nl.str(df, labels = c('strength', 'eigen'), nperm = 2)
+t = perm.net.nl.str(df, labels = c('strength', 'eigen'), nperm = 2)
 }
 \author{
 Sebastian Sosa

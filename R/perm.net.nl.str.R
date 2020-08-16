@@ -27,68 +27,59 @@ perm.net.nl.str.single <- function(df, labels){
 #' df = met.strength(sim.m, df = sim.df, dfid = 1)
 #' df = met.eigen(sim.m, df = df, dfid = 1)
 #' head(df)
-#' perm.net.nl.str(df, labels = c('strength', 'eigen'), nperm = 2)
+#' t = perm.net.nl.str(df, labels = c('strength', 'eigen'), nperm = 2)
 perm.net.nl.str <- function(df, labels, rf=NULL, nperm, progress = TRUE){
-  
-  labels=df.col.findId(df, labels)
-  result = rep(list(df), (nperm+1))
-  
   if(!is.null(rf)){
-    # find rf(s) id(s)
-    rf = df.col.findId(df, rf)
-    
-    # If multiples rfs
-    if(length(rf)>1){
-      # Merge them to create a unique rf
-      df$control_factor = df.ctrlFactor(df, rf)
+    if (is.data.frame(df) ) {
+      stop("Argument df is incorrect. Node label permutations with random factors cannot be run on a single data frame. Argument ldf has to be a list of data frames for this type of permutation approach.")
     }
-    else{
-      df$control_factor = df[,rf]
+    if(!is.list(df)){
+      stop("Argument df is not a list.")
+      
     }
     
-    # Split data frame according to each of them
-    ldf = split(df, df$control_factor)
-    
-    if(progress){
-      # For each permutations
-      for (a in 2:(nperm+1)) {
-        cat('Permutation:', a-1, '\r')
-        # In each data frames obtain by spliting the original data frame accordign to the rf(s)
-        for (b in 1:length(ldf)) {
-          # Premute the rows
-          ldf[[b]] = perm.net.nl.str.single(df = df, labels = labels)
-        }
-        cat("\n")
-        
-        # Merge result
-        t = do.call('rbind', ldf)
-        # Remove column of rf create to split the data frame
-        result[[a]] = t[,-ncol(t)]
-      }
-    }
-    else{
-      # For each permutations
-      for (a in 2:(nperm+1)) {
-        # In each data frames obtain by spliting the original data frame accordign to the rf(s)
-        for (b in 1:length(ldf)) {
-          # Premute the rows
-          ldf[[b]] = perm.net.nl.str.single(df = df, labels = labels)
-        }
+    test = unlist(lapply(df, is.data.frame))
+    if(all(test) == TRUE){
+      labels=ANTs:::df.col.findId(df[[1]], labels)
 
-        # Merge result
-        t = do.call('rbind', ldf)
-        # Remove column of rf create to split the data frame
-        result[[a]] = t[,-ncol(t)]
+      if(progress){
+        result = list()
+        result[[1]] = do.call('rbind', df)
+        # For each permutations
+        for (a in 2:(nperm+1)) {
+          cat('Permutation:', a-1, '\r')
+          r = lapply(seq(df), function(i, x, labels){
+            r = ANTs:::perm.net.nl.str.single(df = x[[i]], labels = labels)
+          }, x = df, labels = labels)
+          t = do.call('rbind', r)
+          result[[a]] = t
+          attr(result[[a]], "permutation") <- a-1
+        }
+      }else{
+        result = list()
+        result[[1]] = do.call('rbind', df)
+        # For each permutations
+        for (a in 2:(nperm+1)) {
+          r = lapply(seq(df), function(i, x, labels){
+            r = ANTs:::perm.net.nl.str.single(df = x[[i]], labels = labels)
+          }, x = df, labels = labels)
+          t = do.call('rbind', r)
+          result[[a]] = t
+        }
       }
-    }
+    }else{stop("Argument df is not a list of data frames.")}
+
+
   }
   else{
+    labels=ANTs:::df.col.findId(df, labels)
+    result = rep(list(df), (nperm+1))
     if(progress){
       # For each permutations
       for (a in 2:(nperm+1)) {
         cat('Permutation:', a-1, '\r')
         # Premute the rows
-        result[[a]] = perm.net.nl.str.single(df = df, labels = labels)
+        result[[a]] = ANTs:::perm.net.nl.str.single(df = df, labels = labels)
       }
       cat("\n")
     }
@@ -101,5 +92,37 @@ perm.net.nl.str <- function(df, labels, rf=NULL, nperm, progress = TRUE){
     }
   }
 
+  if(is.null(rf)){
+    attr(result, "ANT") <- "ANT node label permutation without random factors and structure maintained"
+    attr(result, "rf") <- rf
+  }else{
+    attr(result, "ANT") <- "ANT node label permutation with random factors and structure maintained"
+    attr(result, "rf") <- NULL
+  }
+  attr(result, "labels") <- labels
+
+  return(result)
+}
+
+#' @title Redo Nodes labels permutation keeping network structure
+#' @description Permute node metrics while keeping their dependency. this function help to redo the permutations within stat. functions 
+#' @keywords internal
+redo.perm.net.nl.str <- function(df, labels, rf){
+  # find rf(s) id(s)
+  rf = df.col.findId(df, rf)
+  
+  # If multiples rfs
+  if(length(rf)>1){
+    # Merge them to create a unique rf
+    df$control_factor = df.ctrlFactor(df, rf)
+  }
+  else{
+    df$control_factor = df[,rf]
+  }
+  
+  # Split data frame according to each of them
+  ldf = split(df, df$control_factor)
+  
+   result = perm.net.nl.str(ldf, labels = labels, rf = rf, nperm = 1, progress = FALSE)[[2]]
   return(result)
 }
