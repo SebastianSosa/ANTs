@@ -4,12 +4,12 @@
 \alias{stat.ci}
 \title{Confidence interval}
 \usage{
-stat.ci(x, conf.level = 95)
+stat.ci(x, probs = c(0.05, 0.95))
 }
 \arguments{
 \item{x}{a numeric vector.}
 
-\item{conf.level}{confidence level of the interval.}
+\item{quantile}{numeric vector of probabilities with values in [0,1]. (Values up to 2e-14 outside that range are accepted and moved to the nearby endpoint.)}
 }
 \value{
 a numeric vector of length 2 with the lower and upper confidence interval.
