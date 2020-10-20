@@ -114,7 +114,7 @@ stat.glm <- function(ant, oda, formula, family = "gaussian", progress = TRUE, st
               # If error or warning
               if (is(r, "error") | is(r, "warning")) {
                 # Extract permutation number
-                tmp.env$error <- c(tmp.env$error, attributes(d)$permutation)
+                tmp.env$error <- c(tmp.env$error,attributes(ant[[i]])$permutation)
                 # Coefficent as NA
                 r <- NA
                 
@@ -134,7 +134,7 @@ stat.glm <- function(ant, oda, formula, family = "gaussian", progress = TRUE, st
               # If error or warning
               if (is(r, "error") | is(r, "warning")) {
                 # Extract permutation number
-                tmp.env$error <- c(tmp.env$error, attributes(d)$permutation)
+                tmp.env$error <- c(tmp.env$error, attributes(ant[[i]])$permutation)
                 # Coefficient as NA
                 r <- NA
                 
