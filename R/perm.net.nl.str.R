@@ -40,7 +40,7 @@ perm.net.nl.str <- function(df, labels, rf=NULL, nperm, progress = TRUE){
     
     test = unlist(lapply(df, is.data.frame))
     if(all(test) == TRUE){
-      labels=ANTs:::df.col.findId(df[[1]], labels)
+      labels=df.col.findId(df[[1]], labels)
 
       if(progress){
         result = list()
@@ -49,7 +49,7 @@ perm.net.nl.str <- function(df, labels, rf=NULL, nperm, progress = TRUE){
         for (a in 2:(nperm+1)) {
           cat('Permutation:', a-1, '\r')
           r = lapply(seq(df), function(i, x, labels){
-            r = ANTs:::perm.net.nl.str.single(df = x[[i]], labels = labels)
+            r = perm.net.nl.str.single(df = x[[i]], labels = labels)
           }, x = df, labels = labels)
           t = do.call('rbind', r)
           result[[a]] = t
@@ -61,7 +61,7 @@ perm.net.nl.str <- function(df, labels, rf=NULL, nperm, progress = TRUE){
         # For each permutations
         for (a in 2:(nperm+1)) {
           r = lapply(seq(df), function(i, x, labels){
-            r = ANTs:::perm.net.nl.str.single(df = x[[i]], labels = labels)
+            r = perm.net.nl.str.single(df = x[[i]], labels = labels)
           }, x = df, labels = labels)
           t = do.call('rbind', r)
           result[[a]] = t
@@ -72,14 +72,14 @@ perm.net.nl.str <- function(df, labels, rf=NULL, nperm, progress = TRUE){
 
   }
   else{
-    labels=ANTs:::df.col.findId(df, labels)
+    labels=df.col.findId(df, labels)
     result = rep(list(df), (nperm+1))
     if(progress){
       # For each permutations
       for (a in 2:(nperm+1)) {
         cat('Permutation:', a-1, '\r')
         # Premute the rows
-        result[[a]] = ANTs:::perm.net.nl.str.single(df = df, labels = labels)
+        result[[a]] = perm.net.nl.str.single(df = df, labels = labels)
       }
       cat("\n")
     }
