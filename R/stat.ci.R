@@ -15,15 +15,15 @@
 #' @title Confidence interval
 #' @description Calculate 25, 50, 95 and 99 Confidence interval of a data set
 #' @param x a numeric vector.
-#' @param conf.level confidence level of the interval.
+#' @param quantile numeric vector of probabilities with values in [0,1]. (Values up to 2e-14 outside that range are accepted and moved to the nearby endpoint.)
 #' @return a numeric vector of length 2 with the lower and upper confidence interval.
 #' @details Confidence interval allow to asses a level of certitude that the average of the 'population' is between a specific range.
 #' @author Sebastian Sosa,Ivan Puga-Gonzalez
 #' @keywords internal
 
-stat.ci <- function(x, quantile = c(0.05, 0.95)) {
-  if(length(quantile) > 2){stop("Only two bornes are allowed for quantiles")}
-  ci = quantile(x, quantile) 
+stat.ci <- function(x, probs = c(0.05, 0.95)) {
+  if(length(probs) > 2){stop("Only two bornes are allowed for quantiles")}
+  ci = quantile(x, probs) 
   attr(stat.ci, "names") <- c("lower ic", "upper ic")
   return(stat.ci)
 }
