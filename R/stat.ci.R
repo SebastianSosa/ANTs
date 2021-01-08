@@ -24,6 +24,6 @@
 stat.ci <- function(x, probs = c(0.05, 0.95)) {
   if(length(probs) > 2){stop("Only two bornes are allowed for quantiles")}
   ci = quantile(x, probs) 
-  attr(stat.ci, "names") <- c("lower ic", "upper ic")
-  return(stat.ci)
+  names(ci) <- c("lower ci", "upper ci")
+  return(ci)
 }
