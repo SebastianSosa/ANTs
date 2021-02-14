@@ -37,79 +37,86 @@ df.to.mat <- function(df, actor, receiver, weighted = NULL, tobs = NULL, sym = F
         stop("Argument tobs must a list of vectors when argument df is a list of data frames")
       }
       # Extract column of actors, receivers and weights of interactions to create and edglist and convert it into a matrix----------------------
-      m <- mapply(function(x, y, actor, receiver, weighted, sym, num.ids) {
-        # If argument weigthed is NULL, then each interactions are equal to 1
-        if (!is.null(weighted)) {
-          col.actor <- df.col.findId(x, actor)
-          col.receiver <- df.col.findId(x, receiver)
-          col.weight <- df.col.findId(x, weighted)
-          edgl <- x[, c(col.actor, col.receiver, col.weight)]
-        }
-        else {
-          col.actor <- df.col.findId(x, actor)
-          col.receiver <- df.col.findId(x, receiver)
-          edgl <- x[, c(col.actor, col.receiver)]
-          edgl[, 3] <- rep(1, nrow(x))
-        }        
-        colnames(edgl) <- c("from", "to", "weight")
-
-        # Convert edgelist to a matrix
-        m <- edgl_to_matrix(edgl, sym = sym)
-
-        # If argument num.ids is TRUE the convert colnames and rows into numerics and order them
-        if (num.ids == TRUE) {
-          m <- m[order(as.numeric(as.character(rownames(m)))), order(as.numeric(as.character(colnames(m))))]
-        }
-
-        # Else order colums and rows
-        else {
-          m <- m[order(rownames(m)), order(colnames(m))]
-        }
-
-        # Handling time heterogeneity of individuals observations
-        if (length(y) == ncol(m)) {
-          m <- m / time.heterogeneity(y)
-          diag(m) <- 0
-        }
-        else {
-          stop("Argument tobs is not of same length as the number of columns in the output matrix.")
-        } 
-
-        return(m)
-      }, x = df, y = tobs, actor = actor, receiver = receiver, weighted = weighted, sym = sym, num.ids = num.ids)
+      #m <- mapply(function(x, y, actor, receiver, weighted, sym, num.ids) {
+      #  # If argument weigthed is NULL, then each interactions are equal to 1
+      #  if (!is.null(weighted)) {
+      #    col.actor <- df.col.findId(x, actor)
+      #    col.receiver <- df.col.findId(x, receiver)
+      #    col.weight <- df.col.findId(x, weighted)
+      #    edgl <- x[, c(col.actor, col.receiver, col.weight)]
+      #  }
+      #  else {
+      #    col.actor <- df.col.findId(x, actor)
+      #    col.receiver <- df.col.findId(x, receiver)
+      #    edgl <- x[, c(col.actor, col.receiver)]
+      #    edgl[, 3] <- rep(1, nrow(x))
+      #  }        
+      #  colnames(edgl) <- c("from", "to", "weight")
+      
+      #  # Convert edgelist to a matrix
+      #  m <- edgl_to_matrix(edgl, sym = sym)
+#
+      #  # If argument num.ids is TRUE the convert colnames and rows into numerics and order them
+      #  if (num.ids == TRUE) {
+      #    m <- m[order(as.numeric(as.character(rownames(m)))), order(as.numeric(as.character(colnames(m))))]
+      #  }
+#
+      #  # Else order colums and rows
+      #  else {
+      #    m <- m[order(rownames(m)), order(colnames(m))]
+      #  }
+#
+      #  # Handling time heterogeneity of individuals observations
+      #  if (length(y) == ncol(m)) {
+      #    m <- m / time.heterogeneity(y)
+      #    diag(m) <- 0
+      #  }
+      #  else {
+      #    stop("Argument tobs is not of same length as the number of columns in the output matrix.")
+      #  } 
+#
+      #  return(m)
+      #}, x = df, y = tobs, actor = actor, receiver = receiver, weighted = weighted, sym = sym, num.ids = num.ids)
+      
+      m <- lapply(seq(df), function(i, df, actor, receiver, weighted, tobs, sym, num.ids){
+        df.to.mat(df[[i]], actor, receiver, weighted, tobs[[i]], sym, num.ids)
+      }, df = df, actor = actor, receiver = receiver, weighted = weighted, tobs = tobs, sym = sym, num.ids = num.ids)
     }
     else {
       # Extract column of actors, receivers and weights of interactions to create and edglist and convert it into a matrix----------------------
-      m <- lapply(df, function(x, actor, receiver, weighted, sym, tobs, num.ids) {
-        # If argument weigthed is NULL, then each interactions are equal to 1
-        if (!is.null(weighted)) {
-          col.actor <- df.col.findId(x, actor)
-          col.receiver <- df.col.findId(x, receiver)
-          col.weight <- df.col.findId(x, weighted)
-          edgl <- x[, c(col.actor, col.receiver, col.weight)]
-        }
-        else {
-          col.actor <- df.col.findId(x, actor)
-          col.receiver <- df.col.findId(x, receiver)
-          edgl <- x[, c(col.actor, col.receiver)]
-          edgl[, 3] <- rep(1, nrow(x))
-        }
-        colnames(edgl) <- c("from", "to", "weight")
+      #m <- lapply(df, function(x, actor, receiver, weighted, sym, tobs, num.ids) {
+      #  # If argument weigthed is NULL, then each interactions are equal to 1
+      #  if (!is.null(weighted)) {
+      #    col.actor <- df.col.findId(x, actor)
+      #    col.receiver <- df.col.findId(x, receiver)
+      #    col.weight <- df.col.findId(x, weighted)
+      #    edgl <- x[, c(col.actor, col.receiver, col.weight)]
+      #  }
+      #  else {
+      #    col.actor <- df.col.findId(x, actor)
+      #    col.receiver <- df.col.findId(x, receiver)
+      #    edgl <- x[, c(col.actor, col.receiver)]
+      #    edgl[, 3] <- rep(1, nrow(x))
+      #  }
+      #  colnames(edgl) <- c("from", "to", "weight")
 
-        # Convert edgelist to a matrix
-        m <- edgl_to_matrix(edgl, sym = sym)
+      #  # Convert edgelist to a matrix
+      #  m <- edgl_to_matrix(edgl, sym = sym)
 
-        # If argument num.ids is TRUE the convert colnames and rows into numerics and order them
-        if (num.ids == TRUE) {
-          m <- m[order(as.numeric(as.character(rownames(m)))), order(as.numeric(as.character(colnames(m))))]
-        }
+      #  # If argument num.ids is TRUE the convert colnames and rows into numerics and order them
+      #  if (num.ids == TRUE) {
+      #    m <- m[order(as.numeric(as.character(rownames(m)))), order(as.numeric(as.character(colnames(m))))]
+      #  }
 
-        # Else order colums and rows
-        else {
-          m <- m[order(rownames(m)), order(colnames(m))]
-        }
-        return(m)
-      }, actor = actor, receiver = receiver, weighted = weighted, sym = sym, tobs = tobs, num.ids = num.ids)
+      #  # Else order colums and rows
+      #  else {
+      #    m <- m[order(rownames(m)), order(colnames(m))]
+      #  }
+      #  return(m)
+      #}, actor = actor, receiver = receiver, weighted = weighted, sym = sym, tobs = tobs, num.ids = num.ids)
+      m <- lapply(seq(df), function(i, df, actor, receiver, weighted, tobs, sym, num.ids){
+        df.to.mat(df[[i]], actor, receiver, weighted, tobs[[i]], sym, num.ids)
+      }, df = df, actor = actor, receiver = receiver, weighted = weighted, tobs = tobs, sym = sym, num.ids = num.ids)
     }
     names(m) <- names(df)
     attr(m, "ANT") <- "list of matrices obtained through data frames of interactions"
