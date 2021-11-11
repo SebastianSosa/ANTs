@@ -32,8 +32,6 @@ Furthermore, ANTs also provides a guideline on the SNA techniques used: 1) from 
 In R use command line : install.packages("ANTs")
 
 # Installation of version in development 
-In R:
-
     1. Install R 4.0.0 at least
     2. For : 
          a. Windows users, install Rtools at https://cran.r-project.org/bin/windows/Rtools/
