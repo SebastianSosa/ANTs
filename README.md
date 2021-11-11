@@ -28,8 +28,11 @@ The package gives researchers a workflow from the raw data to the achievement of
 
 Furthermore, ANTs also provides a guideline on the SNA techniques used: 1) from the appropriate randomization technique according to the data collected; 2) to the choice, the meaning, the limitations and advantages of the network metrics to apply, 3) and the type of statistical tests to run. The ANTs project is multi-collaborative, aiming to provide access to advanced social network analysis techniques and to create new ones that meet researchers’ needs in future versions.
 
-# Installation
-To install the package in R:
+# Installation of stable version
+In R use command line : install.packages("ANTs")
+
+# Installation of version in development 
+In R:
 
     1. Install R 4.0.0 at least
     2. For : 
