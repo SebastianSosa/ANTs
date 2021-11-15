@@ -95,7 +95,6 @@ perm.net.nl.str <- function(df, labels, rf=NULL, nperm, progress = TRUE){
     else{
       # For each permutations
       for (a in 2:(nperm+1)) {
-        cat('Permutation:', a-1, '\r')
         # Premute the rows
         result[[a]] = perm.net.nl.str.single(df = df, labels = labels)
       }

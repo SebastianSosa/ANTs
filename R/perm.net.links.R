@@ -20,6 +20,7 @@
 #' @param nperm number of permutations wanted.
 #' @param progress a boolean indicating if the permutation process must be visible.
 #' @details Edge permutations can be used to create random networks based on the observed network. Such permutation method is useful when analysing patterns of interaction such as assortativity.
+#' @return list of square matrices of length nperm + 1. 
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @examples

@@ -20,7 +20,7 @@
 #' @return A group by individual matrix.
 #' @details Several association indices are coputed on GBI.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
-#' @seealso \code{assoc.indices}
+#' @seealso \code{\link{assoc.indices}}
 #' @examples
 #' head(sim.grp)
 #' df.to.gbi(sim.grp,scan=c('location','time'),id='ID')

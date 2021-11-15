@@ -14,10 +14,10 @@
 
 #' @title Matrix to edge list
 #' @description Converts a square adjacency matrix into a data frame of three columns representing an edge list. Columns are: actor, receiver and weight.
-
 #' @param M a square adjacency matrix.
 #' @param sym if \emph{TRUE}, it extracts the lower triangle of the matrix only.
 #' @param erase.diag if \emph{TRUE}, it omits diagonals.
+#' @return a data frame representing an edge list.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @examples
