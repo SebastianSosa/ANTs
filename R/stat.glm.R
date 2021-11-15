@@ -15,10 +15,10 @@
 #' @title Permuted Generalized Linear Model
 #' @description Performs Generalized Linear Models tests and computes permuted p-values
 #'
-#' @param ant an output of ANT function \code{perm.net.nl} without any random factor declared, or output of ANT 'met' category functions in which output of ANT functions \code{perm.ds.focal}, \code{perm.ds.grp} or \code{perm.net.lk} where single matrices were used.
-#' @param oda the original data frame of associations when argument ant is obtained with \code{perm.ds.focal} or \code{perm.ds.grp} ANT functions.
-#' @param formula an object of class "formula" (or one that can be coerced to that class): a symbolic description of the model to be fitted. The details of model specification are given under ‘Details’.
-#' @param family a description of the error distribution and link function to be used in the model. For glm this can be a character string naming a family function, a family function or the result of a call to a family function. For glm.fit only the third option is supported, see \code{\link{glm}} and \code{\link{family}}.
+#' @param ant an output of ANT function \code{\link{perm.net.nl}} without any random factor declared, or output of ANT 'met' category functions in which output of ANT functions \code{\link{perm.ds.focal}}, \code{\link{perm.ds.grp}} or \code{\link{perm.net.lk}} where single matrices were used.
+#' @param oda the original data frame of associations when argument ant is obtained with \code{\link{perm.ds.focal}} or \code{\link{perm.ds.grp}} ANT functions.
+#' @param formula an object of class "formula" (or one that can be coerced to that class): a symbolic description of the model to be fitted. The details of model specification are given under 'Details'.
+#' @param family a description of the error distribution and link function to be used in the model. For glm this can be a character string naming a family function, a family function or the result of a call to a family function. For glm.fit only the third option is supported, see \code{\link[stats]{glm}} and \code{\link[stats]{family}}.
 #' @param progress a boolean indicating the visualization of the permutation process.
 #' @param start starting values for the parameters in the linear predictor.
 #' @param control	 a list of parameters for controlling the fitting process.
@@ -26,7 +26,7 @@
 #' @param method the method to be used in fitting the model. The default method "glm.fit" uses iteratively reweighted least squares (IWLS): the alternative "model.frame" returns the model frame and does no fitting.
 #' @param x,y For glm: logical values indicating whether the response vector and model matrix used in the fitting process should be returned as components of the returned value.
 #' @param contrasts an optional list. See the contrasts.arg of model.matrix.default.
-#' @param ... Extra arguments for \code{\link{glm}} function only.
+#' @param ... Extra arguments for \code{\link[stats]{glm}} function only.
 #' @return Returns a list of 3 elements :
 #' \itemize{
 #' \item An object of class inheriting from "glm" which inherits from the class "lm".
@@ -43,7 +43,7 @@
 #' t=met.degree(sim.m, sym = TRUE,sim.df,1) # Computing network metric
 #' t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
 #' r.glm=stat.glm(ant = t,formula = degree ~ sex,progress=FALSE) # Permuted GLM
-#' @seealso \code{glm}
+#' @seealso \code{\link[stats]{glm}}
 
 
 

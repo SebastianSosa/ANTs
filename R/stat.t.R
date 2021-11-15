@@ -15,7 +15,7 @@
 #' @title T-test on data frame
 #' @description Performs correlations T-test through observed and permuted data to calculate the p-value on the posterior distribution
 #'
-#' @param ant an output of ANT function \code{perm.net.nl} without any random factor declared, or output of ANT 'met' categories functions in which output of ANT functions \code{perm.ds.focal}, \code{perm.ds.grp} or \code{perm.net.lk} where single matrix have been used.
+#' @param ant an output of ANT function \code{\link{perm.net.nl}} without any random factor declared, or output of ANT 'met' categories functions in which output of ANT functions \code{\link{perm.ds.focal}}, \code{\link{perm.ds.grp}} or \code{\link{perm.net.lk}} where single matrix have been used.
 #' @param formula a formula of the form lhs ~ rhs where lhs is a numeric variable giving the data values and rhs a factor with two levels giving the corresponding groups.
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less". You can specify just the initial letter.
 #' @param na.action a function which indicates what should happen when the data contain NAs. Defaults to getOption("na.action").
@@ -31,7 +31,7 @@
 #' t=met.strength(sim.m,sim.df,1) # Computing network metric
 #' t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
 #' r.t=stat.t(t,formula = strength ~ sex,progress=FALSE) # Permuted t-test
-#' @seealso \code{\link{t.test}}
+#' @seealso \code{\link[stats]{t.test}}
 
 stat.t <- function(ant, formula, alternative = "two.sided", na.action = na.omit, mu = 0, paired = FALSE, var.equal = FALSE, progress = TRUE) {
   # Extract observed data

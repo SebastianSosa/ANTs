@@ -44,7 +44,7 @@
 #include <map>
 using namespace std;
 using namespace Rcpp;
-// [[Rcpp::export]]
+
 const double metric_global_DISTMAX = R_PosInf;
 
 class metric_global_GraphTools{
@@ -346,7 +346,7 @@ private:
                     }
                 }
                 
-                for (int j = 0; j < reachedNodeFirstRound.size(); j++) {
+                for (long unsigned int j = 0; j < reachedNodeFirstRound.size(); j++) {
                     q = reachedNodeFirstRound[j]->neighbor.begin();
                     for (; q != reachedNodeFirstRound[j]->neighbor.end(); q++) {
                         if (q->first->getDegree() >= reachedNodeFirstRound[j]->getDegree()) {
@@ -397,13 +397,10 @@ private:
                 Node* top = *nodeQueue.begin();
                 nodeQueue.erase(nodeQueue.begin());
                 
-                // cout << top->getName() << " top " << top->getDistance() << " ";
                 std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
                 for (; q != top->neighbor.end(); q++) {
                     if ((*q).first->askState(2)) continue;
-                    double tempDist = (*q).first->getDistance();
                     if ((*q).first->setDistance((*q).second + top->getDistance(), top)){
-// cout << (*q).first->getName() << " " << (*q).first->getDistance() << " " << endl;
                         if ((*q).first->askState(0)) {
                             (*q).first->changeState();
                             nodeQueue.erase((*q).first);
@@ -461,7 +458,6 @@ private:
                 std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
                 for (; q != top->neighbor.end(); q++) {
                     if ((*q).first->askState(2)) continue;
-                    double tempDist = (*q).first->getDistance();
                     if ((*q).first->setDistance((*q).second + top->getDistance(), top)){
                         if ((*q).first->askState(0)) {
                             (*q).first->changeState();
@@ -480,14 +476,14 @@ private:
           }
             
             for (long int i = reachedNode.size() - 1; i >= 0; i--) {
-                for (long int j = 0; j < reachedNode[i]->shortestFatherList.size(); j++) {
+                for (long unsigned int j = 0; j < reachedNode[i]->shortestFatherList.size(); j++) {
                     reachedNode[i]->shortestFatherList[j]->shortestChildList.push_back(reachedNode[i]);
                 }
             }//record the child of it for further calculation
             
             for (long int i = 0; i < reachedNode.size(); i++) {
                 long int v = reachedNode[i]->getName();
-                for (long int j = 0; j < reachedNode[i]->shortestChildList.size(); j++) {
+                for (long unsigned int j = 0; j < reachedNode[i]->shortestChildList.size(); j++) {
                     long int w = reachedNode[i]->shortestChildList[j]->getName();
                     omega[w] = omega[w] + omega[v];
                 }
@@ -495,7 +491,7 @@ private:
             
             for (long int i = reachedNode.size() - 1; i >= 0; i--) {
                 long int w = reachedNode[i]->getName();
-                for (long int j = 0; j < reachedNode[i]->shortestFatherList.size(); j++) {
+                for (long unsigned int j = 0; j < reachedNode[i]->shortestFatherList.size(); j++) {
                     long int v = reachedNode[i]->shortestFatherList[j]->getName();
 			if (omega[w] == 0) lamda[v] = lamda[v] + (omega[v]*(1 + lamda[w]));
                     else lamda[v] = lamda[v] + (omega[v]/omega[w]*(1 + lamda[w]));
@@ -529,7 +525,7 @@ private:
     }//calculate one single path
     
     long int calculatePath(){
-        long int length = 0;
+        long unsigned int length = 0;
         for (long int i = 0; i < size; i++) {
             for (long int j = 0; j < size; j++) {
                 if (i != j) {
@@ -636,7 +632,6 @@ public:
             
             arma::umat result = (comparePath % needPath);
             triangles+=(long int)arma::accu(result);
-            //cout << triangles << endl;
         }
         triangles/=3;//calculation triangle in matrix form.
     }
@@ -686,14 +681,12 @@ public:
                 if (isGraphSym) {
                     triangles*=2;
                 }
-                // cout << triangles << endl;
                 if (taskType != 1) {
                     Dijiastra(betweenness, size, distMap, shortestMap, directMap);
                 }
                 FloydBasedBetweenness(betweenness, size, distMap, shortestMap, directMap);
                 triangleArmadillo();
-                // cout << triangles << endl;
-                
+
             default:
                 break;
         }
@@ -721,7 +714,8 @@ public:
     
     double* getBetweenness(){
         if (betweenness == NULL) {
-            cout << "Alloc Error" << endl;
+            //cout << "Alloc Error" << endl;
+            return NULL;
         }
         return betweenness;
     }//return the betweenness
@@ -762,7 +756,7 @@ public:
 //    }
 //}
 
-
+// [[Rcpp::export]]
 SEXP metric_global_shortestPath(NumericMatrix disMap){
     long int size = disMap.nrow();
     
@@ -817,14 +811,14 @@ SEXP metric_global_shortestDetails(NumericMatrix disMap){
     }
     
     metric_global_GraphTools tempx(inputMatrix, size, 3);
-    long int length = tempx.shortestPathDetails();
+    long unsigned int length = tempx.shortestPathDetails();
     
     vector<vector<vector<long int> > > result = tempx.getPath();
     
     NumericVector out=NumericVector(Dimension(length,size,size));
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
-            for (int k = 0; k < length; k++) {
+            for (long unsigned int k = 0; k < length; k++) {
                 if (k < result[i][j].size()) {
                     out[i*size*length + j *length + k] = result[i][j][k];
                 }

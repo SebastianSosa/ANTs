@@ -27,7 +27,7 @@ head(sim.grp)
 df.to.gbi(sim.grp,scan=c('location','time'),id='ID')
 }
 \seealso{
-\code{assoc.indices}
+\code{\link{assoc.indices}}
 }
 \author{
 Sebastian Sosa, Ivan Puga-Gonzalez.

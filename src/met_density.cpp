@@ -25,7 +25,6 @@ NumericVector mat_col_sumsBinary(NumericMatrix m) ;
 // ' @examples
 // ' M=matrix(sample(c(0:10),100),ncol=10,nrow=10)
 // ' met.met_density(M)
-// ' @seealso \code{\link{mat_cols_sums}}
 // ' @keyword internal
 // [[Rcpp::export]]
 double met_density(NumericMatrix M){

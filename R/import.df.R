@@ -15,17 +15,17 @@
 #' @title Imports data frames
 #' @description  Imports all current directory files in the format of a list of data frames.
 #' @param header a logical value indicating whether the file contains the names of the variables as its first line. If missing, the value is determined from the file format: header is set to TRUE if and only if the first row contains one fewer field than the number of columns.
-#' @param sep the field separator character. Values in each line of the file are separated by this character. If sep = "" (the default for read.table) the separator is ‘white space’, that is one or more spaces, tabs, newlines or carriage returns.
+#' @param sep the field separator character. Values in each line of the file are separated by this character. If sep = "" (the default for read.table) the separator is 'white space, that is one or more spaces, tabs, newlines or carriage returns.
 #' @param quote the set of quoting characters. To disable quoting altogether, use quote = "". See scan for the behaviour on quotes embedded in quotes. Quoting is only considered for columns read as character, which is all of them unless colClasses is specified.
 #' @param dec	the character used in the file for decimal points.
-#' @param fill logical If TRUE then in case the rows have unequal lengths, blank fields are implicitly added. See ‘Details’.
+#' @param fill logical If TRUE then in case the rows have unequal lengths, blank fields are implicitly added. See 'Details'.
 #' @param comment.char a character vector of length 1 containing a single character or an empty string. Use "" to turn off the interpretation of comments altogether.
 #' @param ... Further arguments to be passed to \code{\link{read.csv}}.
-#' #' @return a single data frame or a list of data frames according to the number of files in the selected folder.
+#' @return a single data frame or a list of data frames according to the number of files in the selected folder.
 #' @details  After selecting the directory, this function returns a single data frame if there is only one file in the folder or a list of data frames in the same order as in the original folder if there are several files in the folder.
 #' by default it considers that the data frame has header= TRUE and row names= 1.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
-#' @seealso \code{read.csv}
+#' @seealso \code{\link[utils]{read.csv}}
 
 import.df <- function(header = TRUE, sep = ",", quote = "\"", dec = ".",
                       fill = TRUE, comment.char = "", ...) {

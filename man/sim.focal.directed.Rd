@@ -4,9 +4,14 @@
 \name{sim.focal.directed}
 \alias{sim.focal.directed}
 \title{Focal sampling directed data}
-\format{An object of class \code{data.frame} with 100 rows and 4 columns.}
+\format{
+An object of class \code{data.frame} with 100 rows and 4 columns.
+}
 \usage{
 sim.focal.directed
+}
+\value{
+a data frame
 }
 \description{
 This is a simulated data frame of directed behaviour collected through focal sampling.

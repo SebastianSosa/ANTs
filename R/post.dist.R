@@ -18,6 +18,7 @@
 #' @param Obs an integer vector indicating the observed value to compare to permuted values if in argument v_perm the first row does not represent the observed values.
 #' @param ncols Number of graph per row 
 #' @param nrows Number of graph per column
+#' @return an histogram.
 #' @keywords internal
 post.dist <- function(v_perm, Obs = NULL, ncols = NULL, nrows = NULL) {
   par(bg = "gray63")
@@ -121,7 +122,4 @@ post.dist <- function(v_perm, Obs = NULL, ncols = NULL, nrows = NULL) {
       }
     }
   }
-  # Save plot
-  p <- recordPlot()
-  return(p)
 }

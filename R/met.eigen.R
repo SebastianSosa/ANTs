@@ -106,7 +106,6 @@ met.eigen <- function(M, df = NULL, dfid = NULL, sym = TRUE, binary = FALSE, out
         attr(result, "ctrlf") <- attributes(M)$ctrlf
         attr(result, "method") <- attributes(M)$method
         attr(result, "ANT") <- attributes(M)$ANT
-        cat("\n")
         return(result)
       }
 
@@ -119,7 +118,6 @@ met.eigen <- function(M, df = NULL, dfid = NULL, sym = TRUE, binary = FALSE, out
         attr(result, "alters") <- attributes(M)$alters
         attr(result, "method") <- attributes(M)$method
         attr(result, "ANT") <- attributes(M)$ANT
-        cat("\n")
         return(result)
       }
 
@@ -128,7 +126,6 @@ met.eigen <- function(M, df = NULL, dfid = NULL, sym = TRUE, binary = FALSE, out
       # In case of future repermutations
       if (test3) {
         attr(result, "ANT") <- attributes(M)$ANT
-        cat("\n")
         return(result)
       }
     }

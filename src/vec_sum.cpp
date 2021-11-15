@@ -16,7 +16,6 @@
 using namespace Rcpp;
 //' @title Sum
 //' @description Sum vector elements
-//' @details from http://gallery.rcpp.org/articles/parallel-vector-sum/
 //' @keywords internal
 // [[Rcpp::export]]
 double vec_sum(NumericVector x) {

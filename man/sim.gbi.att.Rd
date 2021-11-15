@@ -4,9 +4,14 @@
 \name{sim.gbi.att}
 \alias{sim.gbi.att}
 \title{Dyadic attributes for sim.gbi data}
-\format{An object of class \code{matrix} with 10 rows and 10 columns.}
+\format{
+An object of class \code{matrix} (inherits from \code{array}) with 10 rows and 10 columns.
+}
 \usage{
 sim.gbi.att
+}
+\value{
+a data frame.
 }
 \description{
 This is a simulated matrix of dyadic attributes to use as argument M2 in assoc.gfi function.

@@ -16,7 +16,7 @@ stat.t(
 )
 }
 \arguments{
-\item{ant}{an output of ANT function \code{perm.net.nl} without any random factor declared, or output of ANT 'met' categories functions in which output of ANT functions \code{perm.ds.focal}, \code{perm.ds.grp} or \code{perm.net.lk} where single matrix have been used.}
+\item{ant}{an output of ANT function \code{\link{perm.net.nl}} without any random factor declared, or output of ANT 'met' categories functions in which output of ANT functions \code{\link{perm.ds.focal}}, \code{\link{perm.ds.grp}} or \code{\link{perm.net.lk}} where single matrix have been used.}
 
 \item{formula}{a formula of the form lhs ~ rhs where lhs is a numeric variable giving the data values and rhs a factor with two levels giving the corresponding groups.}
 
@@ -47,7 +47,7 @@ t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permu
 r.t=stat.t(t,formula = strength ~ sex,progress=FALSE) # Permuted t-test
 }
 \seealso{
-\code{\link{t.test}}
+\code{\link[stats]{t.test}}
 }
 \author{
 Sebastian Sosa, Ivan Puga-Gonzalez.

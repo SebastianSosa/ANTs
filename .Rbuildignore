@@ -11,4 +11,6 @@ README.md
 ^.*\.git$
 ^.gitignore$
 ^.RData$
+desktop.files.json
+^.desktop.files.json
 LICENSE

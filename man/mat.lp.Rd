@@ -9,6 +9,9 @@ mat.lp(M)
 \arguments{
 \item{M}{a square adjacency matrix.}
 }
+\value{
+a numeric vector.
+}
 \description{
 Create the laplacian matrix of a network.
 }

@@ -25,7 +25,9 @@ using namespace Rcpp;
 bool mat_isSquare(NumericMatrix m)
 {
   int nrow = m.nrow(), ncol = m.ncol();
-  if(nrow==ncol)
+  if(nrow==ncol){
     return true;
+  }else{
     return false;
+  }
 }

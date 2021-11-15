@@ -9,7 +9,4 @@ vec_sum(x)
 \description{
 Sum vector elements
 }
-\details{
-from http://gallery.rcpp.org/articles/parallel-vector-sum/
-}
 \keyword{internal}

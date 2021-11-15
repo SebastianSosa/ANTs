@@ -21,7 +21,7 @@
 #' @keywords internal
 
 
-df.create.single <- function(M, names = T) {
+df.create.single <- function(M, names = TRUE) {
   # Check if argument M is a single matrix----------------------
   if(!is.matrix(M)){
   	stop("Argument M is not a matrix")

@@ -19,7 +19,6 @@ using namespace Rcpp;
 //' @description Convert a list of vectors into a data frame
 //' @param lst a list.
 //' @return A data frame with the same number of columns as the list length.
-//' @author This function have been copy from Rcpp Gallery: http://gallery.rcpp.org/articles/faster-data-frame-creation/
 //' @keywords internal
 // [[Rcpp::export]]
 List list_to_df(List a) {
@@ -28,9 +27,9 @@ List list_to_df(List a) {
 
   StringVector row_names(sample_row.length());
   for (int i = 0; i < sample_row.length(); ++i) {
-    char name[11];
-    sprintf(&(name[0]), "%d", i);
-    row_names(i) = name;
+    //char name[11];
+    //sprintf(&(name[0]), "%d", i);
+    row_names(i) = i;
   }
   returned_frame.attr("row.names") = row_names;
 

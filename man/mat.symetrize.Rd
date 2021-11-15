@@ -9,6 +9,9 @@ mat.symetrize(M)
 \arguments{
 \item{M}{a matrix}
 }
+\value{
+a matrix
+}
 \description{
 Symmetrizes matrix by triangles sum.
 }

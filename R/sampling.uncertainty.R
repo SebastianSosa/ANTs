@@ -9,7 +9,8 @@
 #' @param receiver If argument assoc.indices is FALSE, fill this argument, an integer or a string indicating the column of the individuals receiving the behaviour.
 #' @param scan If argument assoc.indices is TRUE, fill this argument, a numeric or character vector representing one or more columns used as scan factors.
 #' @param id If argument assoc.indices is TRUE, fill this argument, a numeric or character vector indicating the column holding ids of individuals.
-#' @param index a string indicating the association index to compute:
+#' @param index a string indicating the association index to compute.
+#' @param progress a boolean indicating if function should print progress.
 #' @param ... additional argument related to the computation of the metric declared.
 #' \itemize{
 #' \item 'sri' for Simple ratio index: \eqn{x/x+yAB+yA+yB}
@@ -47,7 +48,10 @@
 #' # Example with individual associations
 #' sampling.uncertainty(df = sim.grp, nboot = 100, assoc.indices = TRUE, 
 #'                      scan = c("day", "location", "time"), id = "ID")
-sampling.uncertainty <- function(df, nboot, metric = "met.strength", assoc.indices = FALSE, actor = NULL, receiver = NULL, scan = NULL, id = NULL, index = "sri", ...) {
+sampling.uncertainty <- function(df, nboot, metric = "met.strength", assoc.indices = FALSE, actor = NULL, receiver = NULL, scan = NULL, id = NULL, index = "sri", progress = TRUE, ...) {
+  op <- par(no.readonly = TRUE)
+  on.exit(par(op))
+  par(bg = "gray63")
   if (assoc.indices) {
     if (is.null(scan) | is.null(id)) {
       stop("Arguments 'scan' and 'id' cannot be NULL.")
@@ -67,7 +71,7 @@ sampling.uncertainty <- function(df, nboot, metric = "met.strength", assoc.indic
 
     # Perform bootstrapp
     for (a in 1:(nboot + 1)) {
-      cat("Processing bootstrap : ", a, "\r")
+      if(progress){cat("Processing bootstrap : ", a, "\r")}
       # Sample data frame rows with resampling
       idx <- sample(x = 1:nrow(df), size = nrow(df), replace = TRUE)
 
@@ -97,7 +101,7 @@ sampling.uncertainty <- function(df, nboot, metric = "met.strength", assoc.indic
 
     # Perform bootstrapp
     for (a in 1:(nboot + 1)) {
-      cat("Processing bootstrap : ", a, "\r")
+      if(progress){cat("Processing bootstrap : ", a, "\r")}
       # Sample data frame rows with resampling
       idx <- sample(x = 1:nrow(df), size = nrow(df), replace = TRUE)
 
@@ -115,34 +119,31 @@ sampling.uncertainty <- function(df, nboot, metric = "met.strength", assoc.indic
   if (length(met) > 1) {
     result <- do.call(rbind, lapply(result, "[", names))
     # Plot results
-    par(bg = "gray63")
     boxplot(result[-1, ], ylim = c(min(result, na.rm = TRUE), max(result, na.rm = TRUE)))
     stripchart(result[1, ] ~ c(1:ncol(result)),
       vertical = T,
       method = "jitter", pch = 21,
       col = "white", bg = "white", add = TRUE
     )
-    p <- recordPlot()
     # Give ANTs attribute for future development of analytical protocol
     attr(result, "ANT") <- "Bootsraping deletions"
     # Return a list with 1) the different values of node metrics, 2) the summary of posterior distribution for each individual node metric, 3) a boxplot with posterior distribution for each individual node metric
-    return <- list("metrics" = result, "summary" = summary(result[-1, ]), "plot" = p)
+    return <- list("metrics" = result, "summary" = summary(result[-1, ]))
   }
   # Network global measures
   else {
     result <- unlist(result)
     # Plot results
-    par(bg = "gray63")
     boxplot(result[-1], ylim = c(min(result, na.rm = TRUE), max(result, na.rm = TRUE)))
     stripchart(result[1],
       vertical = T,
       method = "jitter", pch = 21,
       col = "white", bg = "white", add = TRUE
     )
-    p <- recordPlot()
     # Give ANTs attribute for future development of analytical protocol
     attr(result, "ANT") <- "Bootsraping deletions"
     # Return a list with 1) the different values of node metrics, 2) the summary of posterior distribution for each individual node metric, 3) a boxplot with posterior distribution for each individual node metric
-    return <- list("metrics" = result, "summary" = summary(result[-1]), "plot" = p)
+
+    return <- list("metrics" = result, "summary" = summary(result[-1]))
   }
 }

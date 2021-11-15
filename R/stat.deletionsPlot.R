@@ -18,6 +18,7 @@
 #' @param col.target a character indicating the color of the target deletions
 #' @param col.random a character indicating the color of the random deletions
 #' @details knockout analysis allows the study of resilience properties of networks when specific nodes are removed. It is usually compared with random deletions.
+#' @return a plot.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @examples
 #' M=matrix(sample(c(1:20),100,TRUE),ncol=10,nrow=10)
@@ -74,6 +75,4 @@ stat.deletionsPlot <- function(ant, col.target = NULL, col.random = NULL) {
   title(expression("Deletions simulations ( " * phantom("target ") * "V" * phantom(" random") * " )"), col.main = "black", outer = TRUE, line = -2)
   title(expression(phantom("Deletions simulations ( ") * "target " * phantom("V") * phantom(" random )")), col.main = col.target, outer = TRUE, line = -2)
   title(expression(phantom("Deletions simulations ( target V") * " random" * phantom(" )")), col.main = col.random, outer = TRUE, line = -2)
-  result <- recordPlot()
-  return(result)
 }

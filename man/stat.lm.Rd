@@ -22,7 +22,7 @@ stat.lm(
 \arguments{
 \item{ant}{an output of ANT function \code{perm.net.nl} without any random factor declared, or output of ANT 'met' categories functions in which output of ANT functions \code{perm.ds.focal}, \code{perm.ds.grp} or \code{perm.net.lk} where single matrices were used.}
 
-\item{formula}{an object of class "formula" (or one that can be coerced to that class): a symbolic description of the model to be fitted. The details of model specification are given under ‘Details’.}
+\item{formula}{an object of class "formula" (or one that can be coerced to that class): a symbolic description of the model to be fitted. The details of model specification are given under 'Details'.}
 
 \item{oda}{the original data frame of associations when argument ant is obtained with perm.ds.grp or perm.ds.focal ANT functions.}
 
@@ -66,10 +66,10 @@ r.lm=stat.lm(t,formula = strength ~ sex,progress=FALSE) # Permuted LM
 \references{
 Chambers, J. M. (1992) Linear models. Chapter 4 of Statistical Models in S eds J. M. Chambers and T. J. Hastie, Wadsworth & Brooks/Cole.
 
-Wilkinson, G. N. and Rogers, C. E. (1973) Symbolic descriptions of factorial models for analysis of variance. Applied Statistics, 22, 392–9.
+Wilkinson, G. N. and Rogers, C. E. (1973) Symbolic descriptions of factorial models for analysis of variance. Applied Statistics, 22, 392 9.
 }
 \seealso{
-\code{\link{lm}}
+\code{\link[stats]{lm}}
 }
 \author{
 Sebastian Sosa, Ivan Puga-Gonzalez.

@@ -15,6 +15,9 @@ met.lp.single(M, df = NULL, dfid = NULL, binary = FALSE)
 
 \item{binary}{a boolean indicating if the binary version of the laplacian centrality has to be computed.}
 }
+\value{
+a numeric vector.
+}
 \description{
 Calculate the symetric version of the Laplacian centrality for each verteces.
 }

@@ -6,6 +6,9 @@
 \usage{
 which.metric()
 }
+\value{
+a decision tree.
+}
 \description{
 An interactive decision tree to choose the most appropriate network measure according to the research question and network analysis level.
 }
@@ -13,7 +16,7 @@ An interactive decision tree to choose the most appropriate network measure acco
 For more details on each of these metrics, see Sosa et al. 2020.
 }
 \references{
-Sosa, S., Sueur, C., & Puga‐Gonzalez, I. (2020). Network measures in animal social network analysis: their strengths, limits, interpretations and uses. Methods in Ecology and Evolution. https://doi.org/10.1111/2041-210x.13366
+Sosa, S., Sueur, C., & Puga Gonzalez, I. (2020). Network measures in animal social network analysis: their strenths, limits, interpretations and uses. Methods in Ecology and Evolution.
 }
 \author{
 Sebastian Sosa

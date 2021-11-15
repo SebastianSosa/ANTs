@@ -19,7 +19,7 @@
 
 #' @details  Laplacian matrix is the difference between the degrees matrix and the adjacency matrix.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
-
+#' @return a numeric vector.
 #' @references REF laplacian !!!!!!!!!!!!!!!!
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @keywords internal

@@ -15,6 +15,7 @@
 #' @title Symmetrizes matrix
 #' @param M a matrix
 #' @description Symmetrizes matrix by triangles sum.
+#' @return a matrix
 #' @author Sebastian Sosa <s.sosa@live.fr>
 #' @keywords internal
 

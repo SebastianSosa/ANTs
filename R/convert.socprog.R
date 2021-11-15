@@ -18,6 +18,7 @@
 #' @param id an integer or string indicating the column of ids
 #' @param scan an integer or string vector indicating the column of the scans
 #' @param sep a character indicating the type of sepration between individuals inside one scan
+#' @return a data frame in socprog format.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 #' @examples
 #' head(sim.socprog)

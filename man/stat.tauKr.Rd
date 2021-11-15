@@ -17,11 +17,14 @@ stat.tauKr(X, Y, Z = NULL, nperm = NULL, omitDiag)
 
 \item{omitDiag}{boolean to omit or not the diagonals in the matrices if \emph{TRUE} it does not consider diagonals}
 }
+\value{
+a list of matrices .
+}
 \description{
 Matrix TauKr correlation. Partial or not, with significant test or not.
 }
 \details{
-returns a list of matrices in the same order as is the original folder
+returns a list of matrices in the same order as is the original folder.
 }
 \references{
 Hemelrijk, C. K. 1990. Models of, and tests for, reciprocity, unidirectional and other social interaction patterns at a group level. Animal Behavior, 39, 1013-1029

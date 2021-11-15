@@ -13,6 +13,9 @@ stat.deletionsPlot(ant, col.target = NULL, col.random = NULL)
 
 \item{col.random}{a character indicating the color of the random deletions}
 }
+\value{
+a plot.
+}
 \description{
 Plot mean and stard deviation of the deletion simulation in the form of dual line plots.
 }

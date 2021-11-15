@@ -13,6 +13,9 @@ mat.to.edgl(M, sym = FALSE, erase.diag = TRUE)
 
 \item{erase.diag}{if \emph{TRUE}, it omits diagonals.}
 }
+\value{
+a data frame representing an edge list.
+}
 \description{
 Converts a square adjacency matrix into a data frame of three columns representing an edge list. Columns are: actor, receiver and weight.
 }

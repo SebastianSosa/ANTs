@@ -9,6 +9,7 @@
 #' @param scan If argument assoc.indices is TRUE, fill this argument, a numeric or character vector representing one or more columns used as scan factors.
 #' @param id If argument assoc.indices is TRUE, fill this argument, a numeric or character vector indicating the column holding ids of individuals.
 #' @param index a string indicating the association index to compute:
+#' @param progress a boolean indicating if function should print progress.
 #' @param ... additional argument related to the computation of the metric declared.
 #' \itemize{
 #' \item 'sri' for Simple ratio index: \eqn{x/x+yAB+yA+yB}
@@ -49,7 +50,10 @@
 #' test <- sampling.robustness(sim.focal.directed, subsampling = rep(10, 100),
 #'                             actor = "actor", receiver = "receiver", metric = "met.diameter")
 sampling.robustness <- function(df, subsampling = c(5, 10, 20, 30, 40, 50), metric = "met.strength",
-                                assoc.indices = FALSE, actor, receiver, scan, id, index = "sri", ...) {
+                                assoc.indices = FALSE, actor, receiver, scan, id, index = "sri",progress = TRUE, ...) {
+  op <- par(no.readonly = TRUE)
+  on.exit(par(op))
+  par(bg = "gray63")
   # Compute percentages
   percent <- (subsampling * nrow(df)) / 100
 
@@ -65,7 +69,7 @@ sampling.robustness <- function(df, subsampling = c(5, 10, 20, 30, 40, 50), metr
 
     # Bootstrapping for each value declared by the user
     for (a in 1:length(subsampling)) {
-      cat("  Processing bootstrap : ", a, "\r")
+      if(progress){cat("  Processing bootstrap : ", a, "\r")}
       tmp <- df[-sample(1:nrow(df), percent[a], replace = FALSE), ]
       M <- df.to.mat(tmp, actor = col.actor, receiver = col.receiver)
       result[[a + 1]] <- do.call(metric, list(M = M))
@@ -84,7 +88,7 @@ sampling.robustness <- function(df, subsampling = c(5, 10, 20, 30, 40, 50), metr
 
     # Bootstrapping for each value declared by the user
     for (a in 1:length(subsampling)) {
-      cat("  Processing bootstrap : ", a, "\r")
+      if(progress){cat("  Processing bootstrap : ", a, "\r")}
       tmp <- df[-sample(1:nrow(df), percent[a], replace = FALSE), ]
       gbi <- df.to.gbi(tmp, scan = col.scan, id = col.id)
       M <- assoc.indices(gbi, index)
@@ -97,34 +101,34 @@ sampling.robustness <- function(df, subsampling = c(5, 10, 20, 30, 40, 50), metr
   if (length(met) > 1){
     result <- do.call(rbind, lapply(result, "[", names))
     # Plot results
-    par(bg = "gray63")
+    
     boxplot(result[-1, ], ylim=c(min(result, na.rm = TRUE), max(result, na.rm = TRUE)))
     stripchart(result[1, ]~c(1:ncol(result)),
                vertical = T,
                method = "jitter", pch = 21,
                col = "white", bg = "white", add = TRUE
     )
-    p <- recordPlot()
+
     # Give ANTs attribute for future developement of analytical protocol
     attr(result, "ANT") <- "Bootsraping deletions"
     # Return a list with 1) the different values of node metrics, 2) the summary of posterior distribution for each individual node metric, 3) a boxplot with posterior distribution for each individual node metric
-    return <- list("metrics" = result, "summary" = summary(result[-1, ]), "plot" = p)
+    
+    return <- list("metrics" = result, "summary" = summary(result[-1, ]))
   }
   # Network global measures
   else{
     result <- unlist(result)
     # Plot results
-    par(bg = "gray63")
     boxplot(result[-1], ylim=c(min(result, na.rm = TRUE), max(result, na.rm = TRUE)))
     stripchart(result[1],
                vertical = T,
                method = "jitter", pch = 21,
                col = "white", bg = "white", add = TRUE
     )
-    p <- recordPlot()
     # Give ANTs attribute for future developement of analytical protocol
     attr(result, "ANT") <- "Bootsrapping deletions"
     # Return a list with 1) the different values of node metrics, 2) the summary of posterior distribution for each individual node metric, 3) a boxplot with posterior distribution for each individual node metric
-    return <- list("metrics" = result, "summary" = summary(result[-1]), "plot" = p)
+    
+    return <- list("metrics" = result, "summary" = summary(result[-1]))
   }
 }

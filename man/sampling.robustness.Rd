@@ -14,6 +14,7 @@ sampling.robustness(
   scan,
   id,
   index = "sri",
+  progress = TRUE,
   ...
 )
 }
@@ -35,6 +36,8 @@ sampling.robustness(
 \item{id}{If argument assoc.indices is TRUE, fill this argument, a numeric or character vector indicating the column holding ids of individuals.}
 
 \item{index}{a string indicating the association index to compute:}
+
+\item{progress}{a boolean indicating if function should print progress.}
 
 \item{...}{additional argument related to the computation of the metric declared.
 \itemize{

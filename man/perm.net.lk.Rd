@@ -17,6 +17,9 @@ perm.net.lk(M, sym = FALSE, erase.diag = TRUE, nperm, progress = TRUE)
 
 \item{progress}{a boolean indicating if the permutation process must be visible.}
 }
+\value{
+list of square matrices of length nperm + 1.
+}
 \description{
 Permutes matrix links.
 }

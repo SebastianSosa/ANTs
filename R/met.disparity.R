@@ -28,7 +28,7 @@
 #' Disparity of a vertex \emph{i} is the sum of the squares of the division between the weigthed edge between node \emph{i} and \emph{j} and the met.strength of node \emph{i}
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 
-#' @references Barthélemy, M., Barrat, A., Pastor-Satorras, R., & Vespignani, A. (2005). Characterization and modeling of weighted networks. Physica a: Statistical mechanics and its applications, 346(1-2), 34-43.
+#' @references Barthelemy, M., Barrat, A., Pastor-Satorras, R., & Vespignani, A. (2005). Characterization and modeling of weighted networks. Physica a: Statistical mechanics and its applications, 346(1-2), 34-43.
 #' @references Whitehead, H. (2009). SOCPROG programs: analysing animal social structures. Behavioral Ecology and Sociobiology, 63(5), 765-778.
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @examples

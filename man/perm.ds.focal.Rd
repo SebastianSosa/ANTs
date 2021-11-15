@@ -34,6 +34,9 @@ perm.ds.focal(
 \item 'sr' for Square root index:\eqn{x/sqr((x+yAB+yA)(x+yAB+yB))}
 }}
 }
+\value{
+list of square association index matrices.
+}
 \description{
 Warning, the original function (Farine 2017) uses a control factor, the number of focals and the ids of the focals.
 }

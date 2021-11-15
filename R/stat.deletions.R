@@ -36,7 +36,7 @@
 #' @references Lusseau D. 2003. The emergent properties of a dolphin social network. Proceedings of the Royal Society of London Series B: Biological Sciences 270(Suppl 2):S186-S188.
 #' @references Manno TG. 2008. Social networking in the Columbian ground squirrel, Spermophilus columbianus. Animal Behaviour 75(4):1221-1228.
 #' @references Kanngiesser P, Sueur C, Riedl K, Grossmann J, Call J. 2011. Grooming network cohesion and the role of individuals in a captive chimpanzee group. American journal of primatology 73(8):758-767.
-#' @references Sosa S. 2014. Structural Architecture of the Social Network of a Non-Human Primate (Macaca sylvanus): A Study of Its Topology in La Forêt des Singes, Rocamadour. Folia Primatologica 85(3):154-163.
+#' @references Sosa S. 2014. Structural Architecture of the Social Network of a Non-Human Primate (Macaca sylvanus): A Study of Its Topology in La Foret des Singes, Rocamadour. Folia Primatologica 85(3):154-163.
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @examples

@@ -15,6 +15,9 @@ convert.socprog(df, id, scan, sep = ";")
 
 \item{sep}{a character indicating the type of sepration between individuals inside one scan}
 }
+\value{
+a data frame in socprog format.
+}
 \description{
 Converts socprog 'Group mode' data frame (one scan per line with several individuals observed during the scan)
 }

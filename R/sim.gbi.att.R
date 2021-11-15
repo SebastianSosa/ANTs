@@ -15,4 +15,5 @@
 #' @title Dyadic attributes for sim.gbi data
 #' @description This is a simulated matrix of dyadic attributes to use as argument M2 in assoc.gfi function.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
+#' @return a data frame.
 "sim.gbi.att"

@@ -15,4 +15,5 @@
 #' @title Simulated Socprog data format
 #' @description This is a simulated Socprog data format.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
+#' @return a data frame.
 "sim.socprog"

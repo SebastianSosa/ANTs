@@ -14,6 +14,7 @@
 
 #' @title Betweenness centrality
 #' @description Compute node betweenness
+#' @return a numeric vector.
 #' @keywords internal
 
 met.betweenness.single <- function(m, binary = FALSE, shortest.weight = FALSE, normalization = TRUE, sym = TRUE, out = TRUE, df = NULL, dfid = NULL) {

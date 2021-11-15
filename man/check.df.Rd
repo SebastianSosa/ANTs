@@ -6,6 +6,9 @@
 \usage{
 check.df(df)
 }
+\value{
+A vector if argument df is a data frame and/or a list of data frames
+}
 \description{
 Check that the argument is a data frame or a list of data frames
 }

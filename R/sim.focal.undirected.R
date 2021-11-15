@@ -15,4 +15,5 @@
 #' @title Focal sampling undirected data
 #' @description This is a simulated data frame of undirected behaviour collected through focal sampling.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
+#' @return a data frame.
 "sim.focal.undirected"

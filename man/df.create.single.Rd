@@ -4,7 +4,7 @@
 \alias{df.create.single}
 \title{Creates an empty data frame.}
 \usage{
-df.create.single(M, names = T)
+df.create.single(M, names = TRUE)
 }
 \arguments{
 \item{M}{a matrix.}

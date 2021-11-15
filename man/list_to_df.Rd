@@ -15,7 +15,4 @@ A data frame with the same number of columns as the list length.
 \description{
 Convert a list of vectors into a data frame
 }
-\author{
-This function have been copy from Rcpp Gallery: http://gallery.rcpp.org/articles/faster-data-frame-creation/
-}
 \keyword{internal}

@@ -48,7 +48,4 @@ stat.model.diag <- function(model) {
     qqnorm(resid(model), col = "white")
     qqline(resid(model), col = "white")
   }
-  diag <- recordPlot()
-  dev.off()
-  return(diag)
 }

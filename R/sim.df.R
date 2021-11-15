@@ -15,4 +15,5 @@
 #' @title Simulated data frame
 #' @description This is a simulated data frame of individual characteristics
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
+#' @return a data frame.
 "sim.df"

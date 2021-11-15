@@ -19,6 +19,7 @@
 
 #' @details Laplacian energy is the sum of squares of the eigenvalues in the Laplacian matrix.
 #' This version use the met.degree to calculated the Laplacian energy.
+#' @return a numeric vector.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 
 #' @references REF laplacian !!!!!!!!!!!!!!!!

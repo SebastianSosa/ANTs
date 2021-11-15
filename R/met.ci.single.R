@@ -18,7 +18,7 @@
 #' @details Centralisation index of a network is based on eigenvector centrality.
 #' @return numeric vector
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
-#' @references Pasquaretta, C., Levé, M., Claidiere, N., Van De Waal, E., Whiten, A., MacIntosh, A. J., ... & Crofoot, M. C. (2014). Social networks in primates: smart and tolerant species have more efficient networks. Scientific reports, 4, 7600.
+#' @references Pasquaretta, C., Leve, M., Claidiere, N., Van De Waal, E., Whiten, A., MacIntosh, A. J., ... & Crofoot, M. C. (2014). Social networks in primates: smart and tolerant species have more efficient networks. Scientific reports, 4, 7600.
 #' @keywords internal
 
 met.ci.single <- function(M) {

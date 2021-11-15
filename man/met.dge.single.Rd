@@ -33,7 +33,7 @@ Calculates the average dyadic efficiency of a network.
 The average dyadic efficiency provides a measure of how efficiently information is exchanged in a network. It can be calculated in binary or weighted networks, undirected or directed networks, normalized or not, and through the strongest or the weakest links. Depending on the problematic, care is needed for the choice of calculation method.
 }
 \references{
-Pasquaretta, C., Levé, M., Claidiere, N., Van De Waal, E., Whiten, A., MacIntosh, A. J., ... & Crofoot, M. C. (2014). Social networks in primates: smart and tolerant species have more efficient networks. Scientific reports, 4, 7600.
+Pasquaretta, C., Leve, M., Claidiere, N., Van De Waal, E., Whiten, A., MacIntosh, A. J., ... & Crofoot, M. C. (2014). Social networks in primates: smart and tolerant species have more efficient networks. Scientific reports, 4, 7600.
 }
 \author{
 Sebastian Sosaez

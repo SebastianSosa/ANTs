@@ -15,4 +15,5 @@
 #' @title Group by individual (GBI) matrix
 #' @description This is a simulated Group by individual (GBI) matrix collected through gambit of the group sampling.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
+#' @return a matrix
 "sim.gbi"

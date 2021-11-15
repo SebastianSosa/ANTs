@@ -167,7 +167,7 @@ sampling.effort <- function(df, col.time, cumulative = TRUE, metric = "met.stren
       )
       
       # Record plot
-      p <- recordPlot()
+     
     }
     # Case of global metric
     else {
@@ -216,9 +216,9 @@ sampling.effort <- function(df, col.time, cumulative = TRUE, metric = "met.stren
       plot(result$met, type = "l", xaxt='n',
            xlab = colnames(df)[col.time], ylab = metric, main = paste(metric, "evolution through period of time")
       )
-      axis(1, at = result$period, labels = result$period)
+      axis(1, at = 1:length(result$period), labels = result$period)
       # Record plot
-      p <- recordPlot()
+     
     }
   }
   else {
@@ -280,7 +280,7 @@ sampling.effort <- function(df, col.time, cumulative = TRUE, metric = "met.stren
       )
       
       # Record plot
-      p <- recordPlot()
+     
     }
     # Case of global metric
     else {
@@ -329,11 +329,11 @@ sampling.effort <- function(df, col.time, cumulative = TRUE, metric = "met.stren
       plot(result$met,type = "l", xaxt='n',
            xlab = colnames(df)[col.time], ylab = metric, main = paste(metric, "evolution through period of time")
       )
-      axis(1, at = result$period, labels = result$period)
+      axis(1, at = 1:length(result$period), labels = result$period)
       
       # Record plot
-      p <- recordPlot()
+     
     }
   }
-  return(list("df" = result, "plot" = p))
+  return(list("df" = result))
 }

@@ -23,6 +23,9 @@ perm.net.links.single(
 
 \item{progress}{a boolean indicating if the permutation process has to be visible.}
 }
+\value{
+list of square  matrices of length nperm + 1.
+}
 \description{
 Permute matrix links.
 }

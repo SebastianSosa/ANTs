@@ -4,9 +4,14 @@
 \name{sim.socprog}
 \alias{sim.socprog}
 \title{Simulated Socprog data format}
-\format{An object of class \code{data.frame} with 100 rows and 3 columns.}
+\format{
+An object of class \code{data.frame} with 100 rows and 3 columns.
+}
 \usage{
 sim.socprog
+}
+\value{
+a data frame.
 }
 \description{
 This is a simulated Socprog data format.

@@ -15,6 +15,7 @@
 #' @title Create a matrix of time of observation per dyades
 #' @description Creat a a matrix of time of observation per dyades in order to control for time of observation
 #' @param vec a numeric vector
+#' @return  a matrix.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 #' @keywords internal
 time.heterogeneity <- function(vec) {

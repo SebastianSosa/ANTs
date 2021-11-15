@@ -34,7 +34,7 @@ head(sim.df)
 met.disparity(sim.m,df=sim.df)
 }
 \references{
-Barthélemy, M., Barrat, A., Pastor-Satorras, R., & Vespignani, A. (2005). Characterization and modeling of weighted networks. Physica a: Statistical mechanics and its applications, 346(1-2), 34-43.
+Barthelemy, M., Barrat, A., Pastor-Satorras, R., & Vespignani, A. (2005). Characterization and modeling of weighted networks. Physica a: Statistical mechanics and its applications, 346(1-2), 34-43.
 
 Whitehead, H. (2009). SOCPROG programs: analysing animal social structures. Behavioral Ecology and Sociobiology, 63(5), 765-778.
 

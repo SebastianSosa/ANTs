@@ -15,4 +15,5 @@
 #' @title Simulated data collected through gambit of the group sampling
 #' @description This is a simulated data set  collected through gambit of the group sampling.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
+#' @return a data frame
 "sim.grp"

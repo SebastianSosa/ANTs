@@ -4,10 +4,12 @@
 \alias{ant}
 \title{ANT diagnostic for permuted statistics}
 \usage{
-ant(x)
+ant(x, progress = TRUE)
 }
 \arguments{
 \item{x}{an ANT object from functions: stat.t, stat.c, stat.lm, stat.glm, stat.glmm pr a numeric vector or a data frame with only numeric values.}
+
+\item{progress}{a Boolean indicating if functions output should be printed in addition to the return object.}
 }
 \value{
 A list of two elements fot stat.cor, stat.t functions:

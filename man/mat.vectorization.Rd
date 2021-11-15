@@ -13,6 +13,9 @@ mat.vectorization(M, sym = FALSE, erase.diag = TRUE)
 
 \item{erase.diag}{if \emph{true} will not keep the diagonal of the matrix.}
 }
+\value{
+a numeric vector
+}
 \description{
 Transform a matrix into a vector.
 }

@@ -9,6 +9,9 @@ met.lpcB(M)
 \arguments{
 \item{M}{a square adjacency matrix.}
 }
+\value{
+a numeric vector.
+}
 \description{
 Calculate the binary symetric Laplacian centrality for each verteces.
 }

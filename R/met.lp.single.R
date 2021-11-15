@@ -19,7 +19,7 @@
 #' @param df a data frame of same length of the input matrix.
 #' @param dfid an integer indicating the column of individual ids in argument \emph{df}
 #' @param binary a boolean indicating if the binary version of the laplacian centrality has to be computed.
-
+#' @return a numeric vector.
 #' @details Laplacian centrality is the drop in the Laplacian energy of the graph when the vertex is removed.
 #' This version uses the degrees (for the binary version ) or the strength (for the weigthed version) to calculate laplacian centrality.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.

@@ -15,7 +15,7 @@
 #' @title Extracts statistical measures of interest in Linear Model
 #' @description Performs correlations Generalized Linear Models tests and extracts estimates of predictor factors in each permuted model.
 #' @param ant an output of ANT function \code{perm.net.nl} without any random factor declared, or output of ANT 'met' categories functions in which output of ANT functions \code{perm.ds.focal}, \code{perm.ds.grp} or \code{perm.net.lk} where single matrices were used.
-#' @param formula an object of class "formula" (or one that can be coerced to that class): a symbolic description of the model to be fitted. The details of model specification are given under ‘Details’.
+#' @param formula an object of class "formula" (or one that can be coerced to that class): a symbolic description of the model to be fitted. The details of model specification are given under 'Details'.
 #' @param oda the original data frame of associations when argument ant is obtained with perm.ds.grp or perm.ds.focal ANT functions.
 #' @param progress a boolean indicating the visualization of the permutation process.
 #' @param method the method to be used; for fitting, currently only method = "qr" is supported; method = "model.frame" returns the model frame (the same as with model = TRUE, see below).
@@ -35,12 +35,12 @@
 #' @details This function is the first step for performing t-tests in permuted data. For more details on t-tests, see R documentation.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 #' @references Chambers, J. M. (1992) Linear models. Chapter 4 of Statistical Models in S eds J. M. Chambers and T. J. Hastie, Wadsworth & Brooks/Cole.
-#' @references Wilkinson, G. N. and Rogers, C. E. (1973) Symbolic descriptions of factorial models for analysis of variance. Applied Statistics, 22, 392–9.
+#' @references Wilkinson, G. N. and Rogers, C. E. (1973) Symbolic descriptions of factorial models for analysis of variance. Applied Statistics, 22, 392 9.
 #' @examples
 #' t=met.strength(sim.m,sim.df,1) # Computing network metric
 #' t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
 #' r.lm=stat.lm(t,formula = strength ~ sex,progress=FALSE) # Permuted LM
-#' @seealso \code{\link{lm}}
+#' @seealso \code{\link[stats]{lm}}
 
 stat.lm <- function(ant, formula, oda, progress = TRUE, method = "qr", model = TRUE,
                     x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE, contrasts = NULL, ...) {

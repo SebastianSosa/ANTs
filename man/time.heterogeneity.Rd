@@ -9,6 +9,9 @@
 \arguments{
 \item{vec}{a numeric vector}
 }
+\value{
+a matrix.
+}
 \description{
 Creat a a matrix of time of observation per dyades in order to control for time of observation
 }

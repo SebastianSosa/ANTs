@@ -14,6 +14,7 @@
 
 #' @title Data frame ANT check
 #' @description Check that the argument is a data frame or a list of data frames
+#' @return A vector if argument df is a data frame and/or a list of data frames
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
 #' @keywords internal
 check.df <- function(df) {

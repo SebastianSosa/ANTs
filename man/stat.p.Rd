@@ -21,6 +21,8 @@ stat.p(metrics, stat.hist = FALSE)
 \item  An integer vector of left and rigth p-values and an histogram of the posterior distribution, if \emph{metrics} is an integer vector and if \emph{histogram} is \emph{false}.
 }
 
+a numeric vector.
+
 \itemize{
 \item  An integer vector of left and rigth p-values, if \emph{metrics} is an integer vector and if \emph{stat.hist} is \emph{false}.
 \item  An integer vector of left and rigth p-values and an histogram of the posterior distribution, if \emph{metrics} is an integer vector and if \emph{stat.hist} is \emph{false}.

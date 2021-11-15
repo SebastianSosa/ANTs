@@ -4,9 +4,14 @@
 \name{sim.grp}
 \alias{sim.grp}
 \title{Simulated data collected through gambit of the group sampling}
-\format{An object of class \code{data.frame} with 100 rows and 5 columns.}
+\format{
+An object of class \code{data.frame} with 100 rows and 5 columns.
+}
 \usage{
 sim.grp
+}
+\value{
+a data frame
 }
 \description{
 This is a simulated data set  collected through gambit of the group sampling.

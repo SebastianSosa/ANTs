@@ -17,6 +17,7 @@
 #' @param M an adjacency matrix or list of adjacency matrices.
 #' @param sym if \emph{true} will vectorize only the lower triangle.
 #' @param erase.diag if \emph{true} will not keep the diagonal of the matrix.
+#' @return a numeric vector
 #' @description Transform a matrix into a vector.
 #' @keywords internal
 mat.vectorization <- function(M, sym = FALSE, erase.diag = TRUE) {

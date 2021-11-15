@@ -19,7 +19,7 @@ Compute network Centralisation index
 Centralisation index of a network is based on eigenvector centrality.
 }
 \references{
-Pasquaretta, C., Levé, M., Claidiere, N., Van De Waal, E., Whiten, A., MacIntosh, A. J., ... & Crofoot, M. C. (2014). Social networks in primates: smart and tolerant species have more efficient networks. Scientific reports, 4, 7600.
+Pasquaretta, C., Leve, M., Claidiere, N., Van De Waal, E., Whiten, A., MacIntosh, A. J., ... & Crofoot, M. C. (2014). Social networks in primates: smart and tolerant species have more efficient networks. Scientific reports, 4, 7600.
 }
 \author{
 Sebastian Sosa, Ivan Puga-Gonzalez

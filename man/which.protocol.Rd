@@ -6,6 +6,9 @@
 \usage{
 which.protocol()
 }
+\value{
+a decision tree.
+}
 \description{
 An interactive decision tree to choose the most appropriate ANTs analytical protocol and related function according to the research question.
 }

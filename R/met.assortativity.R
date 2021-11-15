@@ -46,9 +46,7 @@ met.assortativity <- function(M, attr, se = FALSE, weighted = TRUE, df = NULL, p
     # If argument attr is a factor or a character vector, function computes categorical assortativity.
     if (is.factor(attr) | is.character(attr)) {
       # Simple matrix
-      if (se == TRUE) {
-        warning(cat("se method is currently not available for categorical attributes.", "\r"))
-      }
+      if (se == TRUE) {warning(cat("se method is currently not available for categorical attributes.", "\r"))}
       if(!is.null(nperm)){
         if(!perm.nl ){stop(cat("Testing assortativity signficance if argument M as a matrix can only be done by permuting vector of attributes.","\n",
                                "Set argument perm.nl to TRUE or use function perm.net.lk to create an object matrices with permuted links."))}

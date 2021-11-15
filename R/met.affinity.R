@@ -29,9 +29,7 @@
 #' The binary version is the average degree of alters of node i.
 #' The weighted version is the ratio between the metric reach and the strength of node i. A high affinity reveals that nodes tend to be connected to alters with high degrees or strengths.
 #' Thus, this metric informs on node assortativity by vertex met.degree, i.e. connections between nodes with similar degrees or strengths.
-#'
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
-
 #' @references Whitehead, H. A. L. (1997). Analysing animal social structure. Animal behaviour, 53(5), 1053-1067.
 #' @references Sosa, S. (2018). Social Network Analysis, \emph{in}: Encyclopedia of Animal Cognition and Behavior. Springer.
 #' @examples

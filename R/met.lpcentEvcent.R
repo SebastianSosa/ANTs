@@ -20,6 +20,7 @@
 
 #' @details Laplacian centrality is the drop in the Laplacian energy of the graph when the vertex is removed
 #' This version uses the eigenvalues to calculate laplacian centrality
+#' @return a numeric vector.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 
 #' @references REF laplacian !!!!!!!!!!!!!!!!

@@ -14,20 +14,20 @@
 
 #' @title Extracts statistical measures of interest in Generalized Linear Mixed Models
 #' @description Performs Generalized Linear Mixed Models tests
-#' @param ant an output of ANT function \code{perm.net.nl} with random factor stated, or output of ANT 'met' categories functions in which output of ANT functions \code{perm.ds.focal}, \code{perm.ds.grp} or \code{perm.net.lk} where multiple matrices have been used.
+#' @param ant an output of ANT function \code{\link{perm.net.nl}} with random factor stated, or output of ANT 'met' categories functions in which output of ANT functions \code{\link{perm.ds.focal}}, \code{\link{perm.ds.grp}} or \code{\link{perm.net.lk}} where multiple matrices have been used.
 #' @param formula two-sided linear formula object describing both the fixed-effects and random-effects part of the model, with the response on the left of a ~ operator and the terms, separated by + operators, on the right. Random-effects terms are distinguished by vertical bars (|) separating expressions for design matrices from grouping factors. Two vertical bars (||) can be used to specify multiple uncorrelated random effects for the same grouping variable. (Because of the way it is implemented, the ||-syntax works only for design matrices containing numeric (continuous) predictors; to fit models with independent categorical effects, see dummy or the lmer_alt function from the afex package.).
-#' @param family a GLM family, see \code{\link{glm}} and \code{\link{family}}.
+#' @param family a GLM family, see \code{\link[stats]{glm}} and \code{\link[stats]{family}}.
 #' @param oda the original data frame of associations when argument ant is obtained with perm.ds.grp or perm.ds.focal ANT functions.
 #' @param progress a boolean indicating the visualization of the permutation process.
-#' @param ... Extra arguments for \code{lmer} or \code{glmer} function only.
+#' @param ... Extra arguments for \code{\link[lme4]{lmer}} or \code{\link[lme4]{glmer}} function only.
 #' @details GLMM with permutation data.
 #' @return Returns a list of 3 elements :
 #' \itemize{
-#' \item An object of class \code{\link{merMod}} (more specifically, an object of subclass lmerMod or glmerMod), for which many methods are available (e.g. methods(class="merMod")).
+#' \item An object of class \code{\link[lme4]{merMod}} (more specifically, an object of subclass lmerMod or glmerMod), for which many methods are available (e.g. methods(class="merMod")).
 #' \item A data frame if the estimates of the permuted models.
 #' \item A vector of integers indicating the permutations that returned model errors or warnings (e.g. model convergence issues) and for which new permutations were done.
 #' }
-#' @seealso \code{\link{lmer}} or \code{\link{glmer}}
+#' @seealso \code{\link[lme4]{lmer}} or \code{\link[lme4]{glmer}}
 #' @examples
 #' # Creating temporal data--------------------------
 #' m2=matrix(sample(sim.m),20,20)

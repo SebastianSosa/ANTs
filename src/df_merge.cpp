@@ -15,12 +15,12 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 SEXP vec_merge(SEXP vec1, SEXP vec2);
-DataFrame list_to_df(Rcpp::List lst);
+List list_to_df(List a);
 //' @title Merge two data frames
 //' @description Merge two data frames keeping the structure of the first one
 //' @keywords internal
 // [[Rcpp::export]]
-DataFrame df_merge(DataFrame df1, DataFrame df2) {
+List df_merge(DataFrame df1, DataFrame df2) {
   if(df1.size()!=df2.size()){Rcpp::stop("Data frames are not of the same length"); }
 
   List l(df1.size());
@@ -30,9 +30,8 @@ DataFrame df_merge(DataFrame df1, DataFrame df2) {
     SEXP vec=vec_merge(vec1,vec2);
     l[a]=vec;
   }
-  DataFrame result=list_to_df(l);
+  List result=list_to_df(l);
   result.names()=df1.names();
   return result;
 }
-
 

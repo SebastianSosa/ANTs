@@ -11,14 +11,15 @@
 #' @param legend A bolean to print or not the legend
 #' @param legend.position The x co-ordinates to be used to position the legend. They can be specified by keyword or in any way which is accepted by xy.coords:
 #' @param record A bolean indicating to return or not the histogram in a R object.
+#' @return an histogram of posterior distribution.
 #' @examples 
 #' t=met.strength(sim.m,sim.df,1) # Computing network metric
 #' t=perm.net.nl(t,labels='age',rf=NULL,nperm=1000,progress=FALSE) # Node label permutations
 #' r.c=stat.cor(t,'age','strength',progress=FALSE) # Permuted correlation test
-#' vis.hist(r.c[,1])# Histogram of posterior distribution
+#' vis.post.distribution(r.c[,1])# Histogram of posterior distribution
 
 
-vis.hist <- function(x, quantile = c(0.05, 0.95),
+vis.post.distribution <- function(x, quantile = c(0.05, 0.95),
                  backgroud.color = "gray63", 
                  observe.value.color = "white", 
                  ci.lower.color =  "white",
@@ -28,6 +29,8 @@ vis.hist <- function(x, quantile = c(0.05, 0.95),
                  legend = TRUE,
                  legend.position = "topright",
                  record = TRUE){
+  op <- par(no.readonly = TRUE)
+  on.exit(par(op))
   if(length(quantile) > 2){stop("Only two bornes are allowed for quantiles")}
   # Stats--------------------------------------
   # Permuted p-values
@@ -62,13 +65,6 @@ vis.hist <- function(x, quantile = c(0.05, 0.95),
                     paste("One side p-value: ",  round(p[3], digits = 3))), 
            col=c(observe.value.color, ci.lower.color, ci.upper.color), 
            lty=c( 1, 2, 2, 0, 0, 0), cex=0.8)
-  }
-
-  # Record plot---------------------------------
-  if(record){
-    p <- recordPlot()
-    
-    return(p)
   }
 }
 

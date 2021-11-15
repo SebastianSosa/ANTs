@@ -14,6 +14,7 @@
 
 #' @title Function for cumulative permutations for symmetric behaviour through focal sampling
 #' @description Perform cumulative data stream permutations for scan sampling. Is the core function for the permutations.
+#' @return list of square association index matrices. 
 #' @keywords internal
 redo.ds.focal.cum <- function(df, focal, alters, ctrl, nperm, method) {
 

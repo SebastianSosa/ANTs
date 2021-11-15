@@ -27,6 +27,9 @@ redo.ds.focal.glm(
   ...
 )
 }
+\value{
+a model object.
+}
 \description{
 Performs cumulative data stream permutations for gambit of the group until the glmm found no error or warnings
 }

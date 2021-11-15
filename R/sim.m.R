@@ -15,4 +15,5 @@
 #' @title Simulated Matrix of interactions
 #' @description This is a simulated Matrix of interaction.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez
+#' @return a matrix
 "sim.m"

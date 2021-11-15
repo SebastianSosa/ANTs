@@ -19,7 +19,8 @@
 #' @param Z a square matrix of individual interactions or attributes to use as a control in the matrix correlation between X and Y  (only for partial correlation)
 #' @param nperm an integer indicating the number of permutations wanted.
 #' @param omitDiag boolean to omit or not the diagonals in the matrices if \emph{TRUE} it does not consider diagonals
-#' @details  returns a list of matrices in the same order as is the original folder
+#' @details  returns a list of matrices in the same order as is the original folder.
+#' @return a list of matrices .
 #' @author Ivan Puga-Gonzalez, Sebastian Sosa.
 #' @references Hemelrijk, C. K. 1990. Models of, and tests for, reciprocity, unidirectional and other social interaction patterns at a group level. Animal Behavior, 39, 1013-1029
 #' @references Hemelrijk, C. K. 1990. A matrix partial correlation test used in investigations of reciprocity and other social interaction patterns at a group level. Journal of theoretical Biology, 143, 405-420.

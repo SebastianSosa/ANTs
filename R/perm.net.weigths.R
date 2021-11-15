@@ -4,6 +4,7 @@
 #' @param sym if \emph{TRUE}, it extracts the lower triangle of the matrix only.
 #' @param nperm an integer indicating the number of permutations wanted.
 #' @param progress a boolean indicating the visualization of the permutation process.
+#' @return list of square matrices of length nperm + 1. 
 #' @keywords internal
 #' @examples 
 #' perm.net.weigths(M = sim.m, sym = FALSE, nperm = 10, progress = TRUE)

@@ -15,6 +15,9 @@ met.betweenness.single(
   dfid = NULL
 )
 }
+\value{
+a numeric vector.
+}
 \description{
 Compute node betweenness
 }

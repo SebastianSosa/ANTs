@@ -23,6 +23,7 @@
 #' \item  An integer vector of left and rigth p-values and an histogram of the posterior distribution, if \emph{metrics} is an integer vector and if \emph{histogram} is \emph{false}.
 #' }
 #' @details Due to data dependency, a valuable p-value in social networking has to be computed through a null model approach.
+#' @return a numeric vector.
 #' @author Sebastian Sosa, Ivan Puga-Gonzalez.
 
 #' @references Farine, D. R. (2017). A guide to null models for animal social network analysis. Methods in Ecology and Evolution.

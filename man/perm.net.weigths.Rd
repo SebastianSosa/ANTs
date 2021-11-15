@@ -15,6 +15,9 @@ perm.net.weigths(M, sym = FALSE, nperm = NULL, progress = TRUE)
 
 \item{progress}{a boolean indicating the visualization of the permutation process.}
 }
+\value{
+list of square matrices of length nperm + 1.
+}
 \description{
 Permute weigths while keep link structure
 }

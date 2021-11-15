@@ -4,7 +4,7 @@
 \alias{stat.ci}
 \title{Confidence interval}
 \usage{
-stat.ci(x, conf.level = 95)
+stat.ci(x, quantile = c(0.05, 0.95))
 }
 \arguments{
 \item{x}{a numeric vector.}

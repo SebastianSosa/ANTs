@@ -21,13 +21,13 @@ stat.glm(
 )
 }
 \arguments{
-\item{ant}{an output of ANT function \code{perm.net.nl} without any random factor declared, or output of ANT 'met' category functions in which output of ANT functions \code{perm.ds.focal}, \code{perm.ds.grp} or \code{perm.net.lk} where single matrices were used.}
+\item{ant}{an output of ANT function \code{\link{perm.net.nl}} without any random factor declared, or output of ANT 'met' category functions in which output of ANT functions \code{\link{perm.ds.focal}}, \code{\link{perm.ds.grp}} or \code{\link{perm.net.lk}} where single matrices were used.}
 
-\item{oda}{the original data frame of associations when argument ant is obtained with \code{perm.ds.focal} or \code{perm.ds.grp} ANT functions.}
+\item{oda}{the original data frame of associations when argument ant is obtained with \code{\link{perm.ds.focal}} or \code{\link{perm.ds.grp}} ANT functions.}
 
-\item{formula}{an object of class "formula" (or one that can be coerced to that class): a symbolic description of the model to be fitted. The details of model specification are given under ‘Details’.}
+\item{formula}{an object of class "formula" (or one that can be coerced to that class): a symbolic description of the model to be fitted. The details of model specification are given under 'Details'.}
 
-\item{family}{a description of the error distribution and link function to be used in the model. For glm this can be a character string naming a family function, a family function or the result of a call to a family function. For glm.fit only the third option is supported, see \code{\link{glm}} and \code{\link{family}}.}
+\item{family}{a description of the error distribution and link function to be used in the model. For glm this can be a character string naming a family function, a family function or the result of a call to a family function. For glm.fit only the third option is supported, see \code{\link[stats]{glm}} and \code{\link[stats]{family}}.}
 
 \item{progress}{a boolean indicating the visualization of the permutation process.}
 
@@ -43,7 +43,7 @@ stat.glm(
 
 \item{contrasts}{an optional list. See the contrasts.arg of model.matrix.default.}
 
-\item{...}{Extra arguments for \code{\link{glm}} function only.}
+\item{...}{Extra arguments for \code{\link[stats]{glm}} function only.}
 }
 \value{
 Returns a list of 3 elements :
@@ -74,7 +74,7 @@ McCullagh P. and Nelder, J. A. (1989) Generalized Linear Models. London: Chapman
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. New York: Springer.
 }
 \seealso{
-\code{glm}
+\code{\link[stats]{glm}}
 }
 \author{
 Sebastian Sosa, Ivan Puga-Gonzalez.

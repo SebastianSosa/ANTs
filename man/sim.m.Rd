@@ -4,9 +4,14 @@
 \name{sim.m}
 \alias{sim.m}
 \title{Simulated Matrix of interactions}
-\format{An object of class \code{matrix} with 20 rows and 20 columns.}
+\format{
+An object of class \code{matrix} (inherits from \code{array}) with 20 rows and 20 columns.
+}
 \usage{
 sim.m
+}
+\value{
+a matrix
 }
 \description{
 This is a simulated Matrix of interaction.

@@ -15,6 +15,9 @@ post.dist(v_perm, Obs = NULL, ncols = NULL, nrows = NULL)
 
 \item{nrows}{Number of graph per column}
 }
+\value{
+an histogram.
+}
 \description{
 plot multiple histograms of posterior distribution
 }

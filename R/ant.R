@@ -14,6 +14,7 @@
 
 #' @title ANT diagnostic for permuted statistics
 #' @param x an ANT object from functions: stat.t, stat.c, stat.lm, stat.glm, stat.glmm pr a numeric vector or a data frame with only numeric values.
+#' @param progress a Boolean indicating if functions output should be printed in addition to the return object.
 #' @description ANT method to make a diagnostic of all ANT permutation tests. This method adapts the diagnostic results according to the data input. The
 #' output is adapted to the type of test run. However, some outputs are common to all tests.
 #' @return
@@ -35,7 +36,9 @@
 #' t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
 #' r.c=stat.cor(t,'age','strength',progress=FALSE) # Permuted correlation test
 #' r=ant(r.c)
-setGeneric(name = "ant", ant <- function(x) {
+setGeneric(name = "ant", ant <- function(x, progress = TRUE) {
+  op <- par(no.readonly = TRUE)
+  on.exit(par(op))
   # Check if argument x is an ANTs object
   if (!is.null(attr(x, "class"))) {
     # Check if argument x is an ANTs object from function stat.c----------------------
@@ -74,7 +77,7 @@ setGeneric(name = "ant", ant <- function(x) {
         mtext(1, text = round(obs, digit = 3), at = obs, col = "white", line = -0.2)
         abline(v = obs, col = "white")
         legend("topright", legend = "observed value", text.col = "white", box.lty = 0)
-        p <- recordPlot()
+
       }
       else {
         h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = FALSE))
@@ -85,17 +88,17 @@ setGeneric(name = "ant", ant <- function(x) {
         mtext(1, text = round(obs, digit = 3), at = obs, col = "white", line = -0.2)
         abline(v = obs, col = "white")
         legend("topright", legend = "observed value", text.col = "white", box.lty = 0)
-        p <- recordPlot()
-      }
-      diag$post.dist <- p
-      dev.off()
-      dev.new()
 
+      }
+      
       # Print dataframe & return data frame and plot----------------------
-      cat("Correlation test for", length(v_perm), "perm :", "\n")
-      cat("Observed correlation: ", obs, "\n")
-      cat("P-values and effect sizes: \n")
-      print(df)
+      if(progress){
+        cat("Correlation test for", length(v_perm), "perm :", "\n")
+        cat("Observed correlation: ", obs, "\n")
+        cat("P-values and effect sizes: \n")
+        print(df)
+      }
+      
       invisible(return(diag))
     }
 
@@ -136,7 +139,7 @@ setGeneric(name = "ant", ant <- function(x) {
         mtext(1, text = round(obs, digit = 2), at = obs, col = "white", line = -0.2)
         abline(v = obs, col = "white")
         legend("topright", legend = "observed value", text.col = "white", box.lty = 0)
-        p <- recordPlot()
+
       }
       else {
         h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = FALSE))
@@ -147,18 +150,18 @@ setGeneric(name = "ant", ant <- function(x) {
         mtext(1, text = round(obs, digit = 2), at = obs, col = "white", line = -0.2)
         abline(v = obs, col = "white")
         legend("topright", legend = "observed value", text.col = "white", box.lty = 0)
-        p <- recordPlot()
+
       }
-      diag$post.dist <- p
-      dev.off()
-      dev.new()
+      
 
       # Print dataframe & return data frame and plot----------------------
-      cat("t test for", length(v_perm), "perm :", "\n")
-      cat("t observed: ", obs, "\n")
-      cat("P-values and effect sizes: \n")
-      print(df)
-      dev.off()
+      if(progress){
+        cat("t test for", length(v_perm), "perm :", "\n")
+        cat("t observed: ", obs, "\n")
+        cat("P-values and effect sizes: \n")
+        print(df)
+      }
+      
       invisible(return(diag))
     }
 
@@ -207,6 +210,7 @@ setGeneric(name = "ant", ant <- function(x) {
       diag[[2]] <- diagnostic
       diag[[3]] <- post.dist
       names(diag) <- c("model", "model.diagnostic", "post.dist")
+      
       invisible(return(diag))
     }
 
@@ -246,7 +250,7 @@ setGeneric(name = "ant", ant <- function(x) {
         mtext(1, text = round(obs, digit = 4), at = obs, col = "white", line = -0.2)
         abline(v = obs, col = "white")
         legend("topright", legend = "observed value", text.col = "white", box.lty = 0)
-        p <- recordPlot()
+
       }
       else {
         h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = FALSE))
@@ -257,18 +261,18 @@ setGeneric(name = "ant", ant <- function(x) {
         mtext(1, text = round(obs, digit = 4), at = obs, col = "white", line = -0.2)
         abline(v = obs, col = "white")
         legend("topright", legend = "observed value", text.col = "white", box.lty = 0)
-        p <- recordPlot()
+
       }
-      diag$post.dist <- p
-      dev.off()
-      dev.new()
+      
 
       # Print data frame & return dataframe and plot----------------------
-      cat("assortativity permuted test", length(v_perm), "perm :", "\n")
-      cat("Observed assortativity: ", obs, "\n")
-      cat("P-values and effect sizes: \n")
-      print(df)
-      dev.off()
+      if(progress){
+        cat("assortativity permuted test", length(v_perm), "perm :", "\n")
+        cat("Observed assortativity: ", obs, "\n")
+        cat("P-values and effect sizes: \n")
+        print(df)
+      }
+      
       invisible(return(diag))
     }
     # Check if argument x is a dataframe----------------------
@@ -300,6 +304,7 @@ setGeneric(name = "ant", ant <- function(x) {
       diag[[1]] <- stat
       diag[[2]] <- post.dist
       names(diag) <- c("diagnostics", "post.dist")
+      
       invisible(return(diag))
     }
     stop("Argument x is not an object of class 'ant cor', 'ant t-test', 'ant lm', 'ant glm', 'ant glmm' or a data frame.")
@@ -341,7 +346,7 @@ setGeneric(name = "ant", ant <- function(x) {
         mtext(1, text = round(obs, digit = 3), at = obs, col = "white", line = -0.2)
         abline(v = obs, col = "white")
         legend("topright", legend = "observed value", text.col = "white", box.lty = 0)
-        p <- recordPlot()
+
       }
       else {
         h <- suppressWarnings(hist(v_perm, breaks = length(v_perm), xaxt = "n", plot = FALSE))
@@ -352,17 +357,18 @@ setGeneric(name = "ant", ant <- function(x) {
         mtext(1, text = round(obs, digit = 3), at = obs, col = "white", line = -0.2)
         abline(v = obs, col = "white")
         legend("topright", legend = "observed value", text.col = "white", box.lty = 0)
-        p <- recordPlot()
+
       }
-      diag$post.dist <- p
-      dev.off()
-      dev.new()
+      
 
       # Print dataframe & return dataframe and plot----------------------
-      cat("Permuted test for", length(v_perm), "permutations :", "\n")
-      cat("Observed statistic value: ", obs, "\n")
-      cat("P-values and effect sizes: \n")
-      print(df)
+      if(progress){
+        cat("Permuted test for", length(v_perm), "permutations :", "\n")
+        cat("Observed statistic value: ", obs, "\n")
+        cat("P-values and effect sizes: \n")
+        print(df)
+      }
+      
       invisible(return(diag))
     }
     # Argument x doesn't correspond to any object type accepted by this function----------------------

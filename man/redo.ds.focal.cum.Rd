@@ -6,6 +6,9 @@
 \usage{
 redo.ds.focal.cum(df, focal, alters, ctrl, nperm, method)
 }
+\value{
+list of square association index matrices.
+}
 \description{
 Perform cumulative data stream permutations for scan sampling. Is the core function for the permutations.
 }
