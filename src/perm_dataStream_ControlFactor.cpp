@@ -51,6 +51,7 @@ Rcpp::List perm_dataStream_ControlFactor(Rcpp::List GBIList,
   // CHANGE BUG FIX 20190320
   //Rcpp::IntegerVector GBIS=Rcpp::seq(0,(GBIList.size()-1));// vector to sample through gbis
 
+
   while(Current_perm < (nperm+1)){
     if(progress==TRUE){
       Rcpp::Rcout<<"\r"<<"Permutation: "<<Current_perm;

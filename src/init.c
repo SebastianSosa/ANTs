@@ -8,8 +8,7 @@ Check these declarations against the C/Fortran source code.
 */
 
 /* .Call calls */
-extern SEXP _ANTs_met_diversity(SEXP);
-extern SEXP _ANTs_assoc_mat(SEXP, SEXP);
+extern SEXP _ANTs_assoc_mat(SEXP, SEXP, SEXP);
 extern SEXP _ANTs_assoc_mat_full(SEXP, SEXP);
 extern SEXP _ANTs_assoc_mat_one_id(SEXP, SEXP, SEXP);
 extern SEXP _ANTs_df_merge(SEXP, SEXP);
@@ -51,7 +50,7 @@ extern SEXP _ANTs_metric_global_shortestPath(SEXP);
 extern SEXP _ANTs_metric_global_triangle(SEXP);
 extern SEXP _ANTs_metric_node_betweeness(SEXP);
 extern SEXP _ANTs_na_omit(SEXP);
-extern SEXP _ANTs_perm_dataStream_ControlFactor(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _ANTs_perm_dataStream_ControlFactor(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ANTs_perm_dataStream1(SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ANTs_perm_dataStream1_focal(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP _ANTs_perm_mat_col_row(SEXP, SEXP, SEXP);
@@ -99,9 +98,8 @@ extern SEXP _ANTs_vector_abs(SEXP);
 extern SEXP _ANTs_which_equal(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-  {"_ANTs_met_diversity",                             (DL_FUNC) &_ANTs_assoc_mat,                                 1},
-  {"_ANTs_assoc_mat",                                 (DL_FUNC) &_ANTs_assoc_mat,                                 2},
-  {"_ANTs_assoc_mat_full",                            (DL_FUNC) &_ANTs_assoc_mat_full,                            2},
+  {"_ANTs_assoc_mat",                                 (DL_FUNC) &_ANTs_assoc_mat,                                 3},
+  {"_ANTs_assoc_mat_full",                            (DL_FUNC) &_ANTs_assoc_mat_full,                            3},
   {"_ANTs_assoc_mat_one_id",                          (DL_FUNC) &_ANTs_assoc_mat_one_id,                          3},
   {"_ANTs_df_merge",                                  (DL_FUNC) &_ANTs_df_merge,                                  2},
   {"_ANTs_df_to_gbi",                                 (DL_FUNC) &_ANTs_df_to_gbi,                                 5},
@@ -141,7 +139,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"_ANTs_metric_global_triangle",                    (DL_FUNC) &_ANTs_metric_global_triangle,                    1},
   {"_ANTs_metric_node_betweeness",                    (DL_FUNC) &_ANTs_metric_node_betweeness,                    1},
   {"_ANTs_na_omit",                                   (DL_FUNC) &_ANTs_na_omit,                                   1},
-  {"_ANTs_perm_dataStream_ControlFactor",             (DL_FUNC) &_ANTs_perm_dataStream_ControlFactor,             6},
+  {"_ANTs_perm_dataStream_ControlFactor",             (DL_FUNC) &_ANTs_perm_dataStream_ControlFactor,             7},
   {"_ANTs_perm_dataStream1",                          (DL_FUNC) &_ANTs_perm_dataStream1,                          4},
   {"_ANTs_perm_dataStream1_focal",                    (DL_FUNC) &_ANTs_perm_dataStream1_focal,                    5},
   {"_ANTs_perm_mat_col_row",                          (DL_FUNC) &_ANTs_perm_mat_col_row,                          3},

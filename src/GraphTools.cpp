@@ -200,19 +200,14 @@ private:
                 return this->shortestFather;
             }//tell others who is your father
             
-            bool setDistance(double dis, Node* targetFather){
-                if (dis > this->distance) {
-                    return false;
-                }
-                else if (dis < this->distance){
-                    this->distance = dis;
-                    shortestFatherList.clear();
-                    setFather(targetFather);
-                }
-                shortestFatherList.push_back(targetFather);
-                if (targetFather->getName() < this->whoisYourFather()->getName())
-                    setFather(targetFather);
-                return true;
+            int compDistance(double dis, Node* targetFather){
+              if (dis - this->distance > std::numeric_limits<double>::epsilon()) {
+                return 0;
+              }
+              else if (abs(dis - this->distance) > std::numeric_limits<double>::epsilon()){
+                return 2;
+              }
+              return 1;
             }//check if the new node is shorter than the current node, if it is
             //update the current father node to new node
             
@@ -258,7 +253,7 @@ private:
         private:
             bool reverse;
         public:
-            compareNode(const bool& reverse = true){
+            compareNode(const bool& reverse = false){
                 this->reverse = reverse;
             }// prepare for reverse, which means make the map rank from large to small
             bool operator()(const Node* const &a, const Node* const &b) const{
@@ -317,6 +312,9 @@ private:
                         }
                     }
                 }
+                /*sort(listofNode[i]->neighbor.begin(), listofNode[i]->neighbor.end(), [](const std::pair<Node*,double> &left, const std::pair<Node*,double> &right) {
+                  return left.second < right.second;
+                });*/
             }//add the neighbor to the node
         }
         
@@ -385,37 +383,45 @@ private:
             startNode->setDistance(0);
             startNode->changeState();
             startNode->changeState();
-            //dealMap.push(listofNode[start]);
+            // dealMap.push(listofNode[start]);
             // dealMap.push(startNode);
             nodeQueue.insert(startNode);
             
             vector<Node*> reachedNode;
             
             while (!nodeQueue.empty()) {
-                // Node* top = dealMap.top();
-                // dealMap.pop();
-                Node* top = *nodeQueue.begin();
-                nodeQueue.erase(nodeQueue.begin());
-                
-                std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
-                for (; q != top->neighbor.end(); q++) {
-                    if ((*q).first->askState(2)) continue;
-                    if ((*q).first->setDistance((*q).second + top->getDistance(), top)){
-                        if ((*q).first->askState(0)) {
-                            (*q).first->changeState();
-                            nodeQueue.erase((*q).first);
-                            nodeQueue.insert((*q).first);
-                        }
-                    }
+              //Node* top = dealMap.top();
+              //dealMap.pop();
+              Node* top = *nodeQueue.begin();
+              nodeQueue.erase(nodeQueue.begin());
+              
+              std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
+              for (; q != top->neighbor.end(); q++) {
+                double newDis = (*q).second + top->getDistance();
+                int compRes = (*q).first->compDistance(newDis, top);
+                if (compRes){
+                  if ((*q).first->askState(0)) {
+                    (*q).first->changeState();
+                    (*q).first->setDistance(newDis);
+                    (*q).first->setFather(top);
+                    nodeQueue.insert((*q).first);
+                  }
+                  else if ((*q).first->askState(1) && compRes == 2) {
+                    nodeQueue.erase((*q).first);
+                    (*q).first->setDistance(newDis);
+                    (*q).first->setFather(top);
+                    nodeQueue.insert((*q).first);
+                  }
                 }
-                
-                if (top->getName() != start) {
-                    shortestMap[start*size + top->getName()] = top->getDistance();
-                    directMap[start*size + top->getName()] = top->whoisYourFather()->getName();
-                }
-                top->changeState();
-                reachedNode.push_back(top);
-            }
+              }
+              
+              if (top->getName() != start) {
+                shortestMap[start*size + top->getName()] = top->getDistance();
+                directMap[start*size + top->getName()] = top->whoisYourFather()->getName();
+              }
+              top->changeState();
+              reachedNode.push_back(top);
+            } 
             
             //return GetPathVector(start, reachedNode);
             //about this part see the paper of betweenness for more details
@@ -447,59 +453,64 @@ private:
             nodeQueue.insert(startNode);
             //dealMap.push(startNode);
             
-            vector<Node*> reachedNode;
+            set<Node*, compareNode> reachedNode;
             
             while (!nodeQueue.empty()) {
-                //Node* top = dealMap.top();
-                //dealMap.pop();
-                Node* top = *nodeQueue.begin();
-                nodeQueue.erase(nodeQueue.begin());
-                
-                std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
-                for (; q != top->neighbor.end(); q++) {
-                    if ((*q).first->askState(2)) continue;
-                    if ((*q).first->setDistance((*q).second + top->getDistance(), top)){
-                        if ((*q).first->askState(0)) {
-                            (*q).first->changeState();
-                            nodeQueue.erase((*q).first);
-                            nodeQueue.insert((*q).first);
-                        }
-                    }
+              //Node* top = dealMap.top();
+              //dealMap.pop();
+              Node* top = *nodeQueue.begin();
+              nodeQueue.erase(nodeQueue.begin());
+              
+              std::vector<std::pair<Node*, double> >::iterator q = top->neighbor.begin();
+              for (; q != top->neighbor.end(); q++) {
+                int compRes = (*q).first->compDistance((*q).second + top->getDistance(), top);
+                double newDis = (*q).second + top->getDistance();
+                if (compRes){
+                  if ((*q).first->askState(0)) {
+                    (*q).first->changeState();
+                    (*q).first->setDistance(newDis);
+                    (*q).first->shortestFatherList.clear();
+                    (*q).first->shortestFatherList.push_back(top);
+                    (*q).first->setFather(top);
+                    nodeQueue.insert((*q).first);
+                    omega[(*q).first->getName()] = omega[top->getName()];
+                  }
+                  else if ((*q).first->askState(1) && compRes == 2) {
+                    nodeQueue.erase((*q).first);
+                    (*q).first->setDistance(newDis);
+                    (*q).first->shortestFatherList.clear();
+                    (*q).first->shortestFatherList.push_back(top);
+                    (*q).first->setFather(top);
+                    nodeQueue.insert((*q).first);
+                    omega[(*q).first->getName()] = omega[top->getName()];
+                  }
+                  else if (compRes == 1) {
+                    (*q).first->shortestFatherList.push_back(top);
+                    omega[(*q).first->getName()] += omega[top->getName()];
+                  }
                 }
+              }
                 
                 if (top->getName() != start) {
                     shortestMap[start*size + top->getName()] = top->getDistance();
                     directMap[start*size + top->getName()] = top->whoisYourFather()->getName();
                 }
                 top->changeState();
-                reachedNode.push_back(top);
-          }
-            
-            for (long int i = reachedNode.size() - 1; i >= 0; i--) {
-                for (long unsigned int j = 0; j < reachedNode[i]->shortestFatherList.size(); j++) {
-                    reachedNode[i]->shortestFatherList[j]->shortestChildList.push_back(reachedNode[i]);
-                }
-            }//record the child of it for further calculation
-            
-            for (long int i = 0; i < reachedNode.size(); i++) {
-                long int v = reachedNode[i]->getName();
-                for (long unsigned int j = 0; j < reachedNode[i]->shortestChildList.size(); j++) {
-                    long int w = reachedNode[i]->shortestChildList[j]->getName();
-                    omega[w] = omega[w] + omega[v];
-                }
+                reachedNode.insert(top);
             }
             
-            for (long int i = reachedNode.size() - 1; i >= 0; i--) {
-                long int w = reachedNode[i]->getName();
-                for (long unsigned int j = 0; j < reachedNode[i]->shortestFatherList.size(); j++) {
-                    long int v = reachedNode[i]->shortestFatherList[j]->getName();
-			if (omega[w] == 0) lamda[v] = lamda[v] + (omega[v]*(1 + lamda[w]));
-                    else lamda[v] = lamda[v] + (omega[v]/omega[w]*(1 + lamda[w]));
-                }
-                if (w != start) {
-                    betweenness[w] = betweenness[w] + lamda[w];// /((size-1)*(size-2))
-                }
+            for (std::set<Node*>::reverse_iterator i = reachedNode.rbegin(); i != reachedNode.rend(); i++) {
+              long int w = (*i)->getName();
+              // cout << (*i)->getDistance() << " ";
+              for (long unsigned int j = 0; j < (*i)->shortestFatherList.size(); j++) {
+                long int v = (*i)->shortestFatherList[j]->getName();
+                lamda[v] += (omega[v]/omega[w]*(1 + lamda[w]));
+              }
+              if (w != start) {
+                betweenness[w] = betweenness[w] + lamda[w];// /((size-1)*(size-2))
+              }
             }
+            // cout << endl;
             
             delete [] omega;
             delete [] lamda;
@@ -620,7 +631,6 @@ public:
     
     void triangleArmadillo(){
         triangles = 0;
-        
         arma::mat I(distMap,size,size,true);
         
         arma::umat comparePath = (I != metric_global_DISTMAX);
@@ -632,6 +642,7 @@ public:
             
             arma::umat result = (comparePath % needPath);
             triangles+=(long int)arma::accu(result);
+            cout << triangles << endl;
         }
         triangles/=3;//calculation triangle in matrix form.
     }
@@ -646,6 +657,7 @@ public:
                     Dijiastra(size, distMap, shortestMap, directMap);
                 }
                 else Floyd(size, distMap, shortestMap, directMap);
+                //Floyd(size, distMap, shortestMap, 1);
                 break;//only shortest path
                 
             case 1://betweenness
@@ -681,12 +693,14 @@ public:
                 if (isGraphSym) {
                     triangles*=2;
                 }
+                // cout << triangles << endl;
                 if (taskType != 1) {
                     Dijiastra(betweenness, size, distMap, shortestMap, directMap);
                 }
                 FloydBasedBetweenness(betweenness, size, distMap, shortestMap, directMap);
                 triangleArmadillo();
-
+                // cout << triangles << endl;
+                
             default:
                 break;
         }
@@ -714,8 +728,7 @@ public:
     
     double* getBetweenness(){
         if (betweenness == NULL) {
-            //cout << "Alloc Error" << endl;
-            return NULL;
+            cout << "Alloc Error" << endl;
         }
         return betweenness;
     }//return the betweenness
