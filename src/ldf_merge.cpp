@@ -14,13 +14,13 @@
 
 #include <Rcpp.h>
 using namespace Rcpp;
-DataFrame list_to_df(Rcpp::List lst);
+List list_to_df(Rcpp::List lst);
 SEXP vec_merge(SEXP vec1, SEXP vec2);
 //' @title Merge list of data frames 
 //' @description Merge a list of  data frames keeping the structure of the first one
 //' @keywords internal
 // [[Rcpp::export]]
-DataFrame ldf_merge(List ldf) {
+List ldf_merge(List ldf) {
   DataFrame d= Rcpp::as<Rcpp::DataFrame>(ldf[0]);
   List ldf2(d.size());
   
@@ -37,7 +37,7 @@ DataFrame ldf_merge(List ldf) {
     
     ldf2[a]=vec;
   }
-  DataFrame result=list_to_df(ldf2);
+  List result=list_to_df(ldf2);
   result.names()=d.names();
   return result;
 }

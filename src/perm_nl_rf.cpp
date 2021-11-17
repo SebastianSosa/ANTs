@@ -15,7 +15,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 SEXP vec_merge(SEXP vec1, SEXP vec2);
-DataFrame ldf_merge(List ldf);
+List ldf_merge(List ldf);
 SEXP vec_sample_all(SEXP vec);
 //' @title Node lable permutation with random factors
 //' @description Perorm node label permutation on list of data frames
@@ -25,7 +25,7 @@ List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress) {
   // Object storing the result
   List pldf(nperm+1);
   // First data frame is se fusion of all data frames in the list
-  DataFrame df= ldf_merge(ldf);
+  List df= ldf_merge(ldf);
   pldf[0]=clone(df);
   
   // Creating a list of list of vector for each label declare by user

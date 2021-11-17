@@ -124,8 +124,8 @@ df.to.mat <- function(df, actor, receiver, weighted = NULL, tobs = NULL, sym = F
       edgl <- df[, c(col.actor, col.receiver, col.weight)]
     }
     else {
-      col.actor <- ANTs:::df.col.findId(df, actor)
-      col.receiver <- ANTs:::df.col.findId(df, receiver)
+      col.actor <- df.col.findId(df, actor)
+      col.receiver <- df.col.findId(df, receiver)
       edgl <- df[, c(col.actor, col.receiver)]
       edgl[, 3] <- rep(1, nrow(df))
     }

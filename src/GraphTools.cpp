@@ -34,12 +34,13 @@
 //
 //
 //
-
+// Corect GraphTool file
 //[Rcpp::depends(RcppArmadillo)]
 #include <iostream>
 #include <vector>
 #include <set>
 #include <queue>
+
 #include <RcppArmadillo.h>
 #include <map>
 using namespace std;
@@ -642,7 +643,7 @@ public:
             
             arma::umat result = (comparePath % needPath);
             triangles+=(long int)arma::accu(result);
-            cout << triangles << endl;
+            //cout << triangles << endl;
         }
         triangles/=3;//calculation triangle in matrix form.
     }
@@ -728,7 +729,7 @@ public:
     
     double* getBetweenness(){
         if (betweenness == NULL) {
-            cout << "Alloc Error" << endl;
+          //cout << "Alloc Error" << endl;
         }
         return betweenness;
     }//return the betweenness

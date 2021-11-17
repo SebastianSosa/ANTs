@@ -158,7 +158,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // ldf_merge
-DataFrame ldf_merge(List ldf);
+List ldf_merge(List ldf);
 RcppExport SEXP _ANTs_ldf_merge(SEXP ldfSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
