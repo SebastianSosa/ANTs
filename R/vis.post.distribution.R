@@ -32,6 +32,7 @@ vis.post.distribution <- function(x, quantile = c(0.05, 0.95),
   op <- par(no.readonly = TRUE)
   on.exit(par(op))
   if(length(quantile) > 2){stop("Only two bornes are allowed for quantiles")}
+
   # Stats--------------------------------------
   # Permuted p-values
   p = stat.p(x)

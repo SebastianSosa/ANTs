@@ -36,7 +36,7 @@
 #' t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
 #' r.c=stat.cor(t,'age','strength',progress=FALSE) # Permuted correlation test
 #' r=ant(r.c)
-setGeneric(name = "ant", ant <- function(x, progress = TRUE) {
+setGeneric(name = "ant", ant <- function(x, progress = FALSE) {
   op <- par(no.readonly = TRUE)
   on.exit(par(op))
   # Check if argument x is an ANTs object
@@ -46,9 +46,6 @@ setGeneric(name = "ant", ant <- function(x, progress = TRUE) {
       # Separate correlation from the original data (first value) from the permuted ones----------------------
       obs <- x[, 1][1]
       v_perm <- x[, 1][-1]
-
-      # Create object to return----------------------
-      diag <- list()
 
       # Compute permuted p-values----------------------
       p <- stat.p(c(obs,v_perm))
@@ -63,7 +60,7 @@ setGeneric(name = "ant", ant <- function(x, progress = TRUE) {
       df <- as.data.frame(cbind(obs, p[1], p[2], p[3], stat.ci[1], stat.ci[2], m))
       colnames(df) <- (c("Observed correlation", "p.left", "p.right",  "p.one.side", "95ci lower", "95ci upper", "mean"))
       rownames(df) <- c("statistics")
-      diag$statistics <- df
+      diag <- df
 
       # Create posterior distribution plots----------------------
       par(bg = "gray63")
@@ -108,9 +105,7 @@ setGeneric(name = "ant", ant <- function(x, progress = TRUE) {
       # Separate correlation from the original data (first value) from the permuted ones----------------------
       obs <- x[[1]]$statistic
       v_perm <- v[, 1]
-
-      # Create object to return----------------------      
-      diag <- list()
+      post.dist(v_perm, obs)
 
       # Compute permuted p-values----------------------
       p <- stat.p(c(obs,v_perm))
@@ -125,7 +120,7 @@ setGeneric(name = "ant", ant <- function(x, progress = TRUE) {
       df <- as.data.frame(cbind(obs, p[1], p[2], p[3], stat.ci[1], stat.ci[2], m))
       colnames(df) <- (c("t observed", "p.left","p.right",  "p.one.side", "95ci lower", "95ci upper", "mean"))
       rownames(df) <- c("statistics")
-      diag$statistics <- df
+      diag<- df
 
       # Create posterior distribution plots----------------------
       par(bg = "gray63")
@@ -172,8 +167,7 @@ setGeneric(name = "ant", ant <- function(x, progress = TRUE) {
 
       # Extract model coefficients----------------------
       obs <- x$Original.model$coefficients[, 1]
-      diag <- list()
-
+      
       # Extract permuted coefficients----------------------
       v_perms <- x$permutations
 
@@ -195,9 +189,6 @@ setGeneric(name = "ant", ant <- function(x, progress = TRUE) {
       # Add permuted p-values, 95% confidence interval and mean posterior distribution to original model----------------------
       s$coefficients <- cbind(s$coefficients, stat)
 
-      # Create posterior distribution plots----------------------
-      post.dist <- post.dist(v_perms, Obs = obs)
-
       # Extract model family and formula----------------------
       attr(x$Original.model, "family") <- attributes(x)$family
       attr(x$Original.model, "formula") <- attributes(x)$formula
@@ -205,12 +196,10 @@ setGeneric(name = "ant", ant <- function(x, progress = TRUE) {
       # Model diagnostic (qqplot and fitted values versus residuals)----------------------
       diagnostic <- stat.model.diag(x$Original.model)
 
-      # Return results 1) model summary (with permuted statistics), 2) model diagnostic and 3) posterior distributions----------------------
-      diag[[1]] <- s
-      diag[[2]] <- diagnostic
-      diag[[3]] <- post.dist
-      names(diag) <- c("model", "model.diagnostic", "post.dist")
+      post.dist(v_perms, Obs = obs)
       
+      # Return results 1) model summary (with permuted statistics), 2) model diagnostic and 3) posterior distributions----------------------
+      diag<- s
       invisible(return(diag))
     }
 
@@ -219,9 +208,6 @@ setGeneric(name = "ant", ant <- function(x, progress = TRUE) {
       # Separate correlation from the original data (first value) from the permuted ones----------------------
       obs <- x[, 1][1]
       v_perm <- x[, 1][-1]
-
-      # Create object to return----------------------      
-      diag <- list()
 
       # Compute permuted p-values----------------------
       p <- stat.p(c(obs,v_perm))
@@ -236,7 +222,7 @@ setGeneric(name = "ant", ant <- function(x, progress = TRUE) {
       df <- as.data.frame(cbind(obs, p[1], p[2], p[3], stat.ci[1], stat.ci[2], m))
       colnames(df) <- (c("Observed correlation", "p.left", "p.right",  "p.one.side", "95ci lower", "95ci upper", "mean"))
       rownames(df) <- c("statistics")
-      diag$statistics <- df
+      diag<- df
 
       # Create posterior distribution plots----------------------
       par(bg = "gray63")
@@ -297,14 +283,10 @@ setGeneric(name = "ant", ant <- function(x, progress = TRUE) {
       rownames(stat) <- colnames(v_perms)
 
      # Create posterior distribution plots----------------------
-      post.dist <- post.dist(v_perms, obs)
+      post.dist(v_perms, obs)
 
       # Return results 1) permuted statistics and 2) posterior distributions----------------------
-      diag <- list()
-      diag[[1]] <- stat
-      diag[[2]] <- post.dist
-      names(diag) <- c("diagnostics", "post.dist")
-      
+      diag <- stat
       invisible(return(diag))
     }
     stop("Argument x is not an object of class 'ant cor', 'ant t-test', 'ant lm', 'ant glm', 'ant glmm' or a data frame.")

@@ -313,8 +313,16 @@ met_eigen <- function(M, eps = 0.000001, maxiter = 1000L) {
     .Call('_ANTs_met_eigen', PACKAGE = 'ANTs', M, eps, maxiter)
 }
 
+met_indegree <- function(M) {
+    .Call('_ANTs_met_indegree', PACKAGE = 'ANTs', M)
+}
+
 met_nalters <- function(M) {
     .Call('_ANTs_met_nalters', PACKAGE = 'ANTs', M)
+}
+
+met_outdegree <- function(M) {
+    .Call('_ANTs_met_outdegree', PACKAGE = 'ANTs', M)
 }
 
 #' @title strength

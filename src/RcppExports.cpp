@@ -457,6 +457,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// met_indegree
+NumericVector met_indegree(NumericMatrix M);
+RcppExport SEXP _ANTs_met_indegree(SEXP MSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type M(MSEXP);
+    rcpp_result_gen = Rcpp::wrap(met_indegree(M));
+    return rcpp_result_gen;
+END_RCPP
+}
 // met_nalters
 NumericVector met_nalters(NumericMatrix M);
 RcppExport SEXP _ANTs_met_nalters(SEXP MSEXP) {
@@ -465,6 +476,17 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type M(MSEXP);
     rcpp_result_gen = Rcpp::wrap(met_nalters(M));
+    return rcpp_result_gen;
+END_RCPP
+}
+// met_outdegree
+NumericVector met_outdegree(NumericMatrix M);
+RcppExport SEXP _ANTs_met_outdegree(SEXP MSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type M(MSEXP);
+    rcpp_result_gen = Rcpp::wrap(met_outdegree(M));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1112,7 +1134,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTs_met_degree", (DL_FUNC) &_ANTs_met_degree, 1},
     {"_ANTs_met_density", (DL_FUNC) &_ANTs_met_density, 1},
     {"_ANTs_met_eigen", (DL_FUNC) &_ANTs_met_eigen, 3},
+    {"_ANTs_met_indegree", (DL_FUNC) &_ANTs_met_indegree, 1},
     {"_ANTs_met_nalters", (DL_FUNC) &_ANTs_met_nalters, 1},
+    {"_ANTs_met_outdegree", (DL_FUNC) &_ANTs_met_outdegree, 1},
     {"_ANTs_met_strength", (DL_FUNC) &_ANTs_met_strength, 1},
     {"_ANTs_met_sum_egos_strength", (DL_FUNC) &_ANTs_met_sum_egos_strength, 1},
     {"_ANTs_na_omit", (DL_FUNC) &_ANTs_na_omit, 1},

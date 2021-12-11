@@ -25,7 +25,7 @@ List perm_nl_rf(List ldf, NumericVector lables, int nperm, bool progress) {
   // Object storing the result
   List pldf(nperm+1);
   // First data frame is se fusion of all data frames in the list
-  List df= ldf_merge(ldf);
+  DataFrame df= ldf_merge(ldf);
   pldf[0]=clone(df);
   
   // Creating a list of list of vector for each label declare by user
