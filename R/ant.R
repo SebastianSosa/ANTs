@@ -104,11 +104,12 @@ setGeneric(name = "ant", ant <- function(x, progress = FALSE) {
       v <- do.call("rbind", x[[2]][, 1])
       # Separate correlation from the original data (first value) from the permuted ones----------------------
       obs <- x[[1]]$statistic
-      v_perm <- v[, 1]
-      post.dist(v_perm, obs)
+      v_perm <- (x$permutation)
+ 
 
       # Compute permuted p-values----------------------
-      p <- stat.p(c(obs,v_perm))
+      v_perm <- unlist(x$permutation)
+      p <- ANTs:::stat.p(c(obs,v_perm))
       
       # Compute confidence interval--------------------
       stat.ci <- quantile(v_perm, c(0.05, 0.95))

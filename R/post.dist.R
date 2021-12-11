@@ -28,7 +28,10 @@ post.dist <- function(v_perm, Obs = NULL, ncols = NULL, nrows = NULL) {
       Obs <- v_perm[1, 1]
       # Extract permuted values
       v_perm <- v_perm[-1, 2]
-    }
+
+    }      
+    m <- mean(v_perm)
+    
     if (Obs > m) {
       # Plot histogram of permuted values
       h <- hist(v_perm, breaks = length(v_perm), xaxt = "n")
