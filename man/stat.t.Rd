@@ -43,7 +43,7 @@ t-test on permuted data allows to extract the posterior distribution of the valu
 }
 \examples{
 t=met.strength(sim.m,sim.df,1) # Computing network metric
-t=perm.net.nl(t,labels='age',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
+t=perm.net.nl(t,labels='sex',rf=NULL,nperm=10,progress=FALSE) # Node label permutations
 r.t=stat.t(t,formula = strength ~ sex,progress=FALSE) # Permuted t-test
 }
 \seealso{

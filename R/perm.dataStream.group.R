@@ -53,9 +53,9 @@ perm.dataStream.group <- function(df, scan, control_factor = NULL, perm, progres
     ### convert the scan columns to factors, necessary for GBI
     df$scan <- as.factor(df$scan)
     ### drop levels in case df has names that are not part of the current df   #### BUGFIX 04/23/2020 
+    df$ID = as.factor(df$ID) 
     df$ID<-droplevels(df$ID)
     #### set ids to levels; necessary for cpp function
-    df$ID = as.factor(df$ID)
     ids <- levels(df$ID)
     ### ### Get index of column with the scan
     col_scan <- df.col.findId(df, "scan")

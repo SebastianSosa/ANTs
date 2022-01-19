@@ -71,7 +71,6 @@ post.dist <- function(v_perm, Obs = NULL, ncols = NULL, nrows = NULL) {
       if (ncol(v_perm) > 6 & ncol(v_perm) < 9) {
         par(mfrow = c(2, 4))
       }
-      # MARINE!!!!!!!!! C'EST A CORRIGER
       if(ncol(v_perm) > 9){return(warning("Number of permuted factors are higher than 9. Use ANTs function post.dist to plot them one by one."))}
     }
     else {
