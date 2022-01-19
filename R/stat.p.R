@@ -48,10 +48,18 @@ stat.p <- function(metrics, stat.hist = FALSE) {
   # Posterior distribution
   if (stat.hist == TRUE) {
     histo <- stat.hist(v, v_perm)
+<<<<<<< HEAD
     p <- c("p_value_rigth_side" = p_value_left_side, "p_value_left_side" = p_value_right_side, "p_value_two_side" = p_two_sides)
     return(list("p_values" = p, "stat.hist" = histo))
   }
   else {
     return(p = c("p_value_rigth_side" = p_value_left_side, "p_value_left_side" = p_value_right_side, "p_value_two_side" = p_two_sides))
+=======
+    p <- c("p-value_rigth_side" = p_valuevalue_left_side, "p-value_left_side" = p_valuevalue_right_side, "p-value_two_side" = p_one_side)
+    return(list("p-values" = p, "stat.hist" = histo))
+  }
+  else {
+    return(p = c("p-value_rigth_side" = p_valuevalue_left_side, "p-value_left_side" = p_valuevalue_right_side, "p-value_two_side" = p_one_side))
+>>>>>>> 9d278534de5ddeb2d6345d47956740422284ab3b
   }
 }
