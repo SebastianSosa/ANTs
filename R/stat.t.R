@@ -20,7 +20,6 @@
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less". You can specify just the initial letter.
 #' @param na.action a function which indicates what should happen when the data contain NAs. Defaults to getOption("na.action").
 #' @param mu a number indicating the true value of the mean (or difference in means if you are performing a two sample test).
-#' @param paired a logical indicating whether you want a paired t-test.
 #' @param var.equal a logical variable indicating whether to treat the two variances as being equal. If TRUE then the pooled variance is used to estimate the variance otherwise the Welch (or Satterthwaite) approximation to the degrees of freedom is used.
 #' @param progress a boolean indicating the visualization of the permutation process.
 #' @return a data frame with 2 columns: the t statistic, the met.degree of freedom, the confidence interval for var1 and 2, and the estimates for var1 and var2
@@ -33,11 +32,11 @@
 #' r.t=stat.t(t,formula = strength ~ sex,progress=FALSE) # Permuted t-test
 #' @seealso \code{\link{t.test}}
 
-stat.t <- function(ant, formula, alternative = "two.sided", na.action = na.omit, mu = 0, paired = FALSE, var.equal = FALSE, progress = TRUE) {
+stat.t <- function(ant, formula, alternative = "two.sided", na.action = na.omit, mu = 0, var.equal = FALSE, progress = TRUE) {
   # Extract observed data
   obs <- ant[[1]]
   # T-test on observed data
-  obs <- t.test(formula, data = obs, na.action = , mu = mu, paired = paired, var.equal = var.equal)
+  obs <- t.test(formula, data = obs, na.action = , mu = mu, var.equal = var.equal)
   ant <- ant[-1]
 
   if (progress == TRUE) {
@@ -53,7 +52,7 @@ stat.t <- function(ant, formula, alternative = "two.sided", na.action = na.omit,
   # If argument progress is FALSE, same as previoulsy but without printing statistical test progress
   else {
     results <- lapply(ant, function(d, formula = formula, na.action = na.action, mu = mu, paired = paired, var.equal = var.equal) {
-      r <- t.test(formula, data = d, na.action = na.action, mu = mu, paired = paired, var.equal = var.equal)
+      r <- t.test(formula, data = d, na.action = na.action, mu = mu, var.equal = var.equal)
       r <- list(r$statistic)
       return(r)
     }, formula, na.action = na.action, mu = mu, paired = paired, var.equal = var.equal)
