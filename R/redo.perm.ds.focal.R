@@ -1,3 +1,22 @@
+if (!exists(".check_conv", mode = "function")) {
+  .check_conv <- function(m) {
+    if (!isS4(m)) return(FALSE)
+    if (!is.null(m@optinfo$derivs$Hessian) && !is.null(m@optinfo$derivs$gradient)) {
+      r2 <- tryCatch(with(m@optinfo$derivs, solve(Hessian, gradient)), error = function(e) NULL)
+      if (!is.null(r2) && !anyNA(r2) && max(abs(r2)) < 0.001) {
+        return(TRUE)
+      }
+    }
+    return(c(
+      !is(m, "error"),
+      !is(m, "warning"),
+      isTRUE(m@optinfo$conv$opt == 0),
+      length(m@optinfo$conv$lme4$messages) == 0,
+      length(m@optinfo$warnings) == 0
+    ))
+  }
+}
+
 # Copyright (C) 2018  Sebastian Sosa, Ivan Puga-Gonzalez, Hu Feng He, Xiaohua Xie, Cédric Sueur
 #
 # This file is part of Animal Network Toolkit Software (ANTs).
@@ -45,11 +64,7 @@ redo.ds.focal.glmm <- function(family, formula, new.perm, gbi, gbi2, oda, odf, t
 
     # Checking error or warnings
     if (isS4(r)) {
-      r2=with(r@optinfo$derivs,solve(Hessian,gradient))
-      if(max(abs(r2))<0.001){test=TRUE}
-      else{
-        test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
-      }
+      test <- .check_conv(r)
     }
     if (is(r, "error")) {
       test <- FALSE
@@ -106,11 +121,7 @@ redo.ds.focal.glmm <- function(family, formula, new.perm, gbi, gbi2, oda, odf, t
 
     # Checking error or warnings
     if (isS4(r)) {
-      r2=with(r@optinfo$derivs,solve(Hessian,gradient))
-      if(max(abs(r2))<0.001){test=TRUE}
-      else{
-        test <- c(!is(r, "error"), !is(r, "warning"),r@optinfo$conv$opt == 0, length(r@optinfo$conv$lme4$messages) == 0, length(r@optinfo$warnings) == 0)
-      }
+      test <- .check_conv(r)
     }
     if (is(r, "error")) {
       test <- FALSE
