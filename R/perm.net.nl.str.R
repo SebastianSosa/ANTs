@@ -94,10 +94,10 @@ perm.net.nl.str <- function(df, labels, rf=NULL, nperm, progress = TRUE){
 
   if(is.null(rf)){
     attr(result, "ANT") <- "ANT node label permutation without random factors and structure maintained"
-    attr(result, "rf") <- rf
+    attr(result, "rf") <- NULL
   }else{
     attr(result, "ANT") <- "ANT node label permutation with random factors and structure maintained"
-    attr(result, "rf") <- NULL
+    attr(result, "rf") <- rf
   }
   attr(result, "labels") <- labels
 
@@ -107,7 +107,10 @@ perm.net.nl.str <- function(df, labels, rf=NULL, nperm, progress = TRUE){
 #' @title Redo Nodes labels permutation keeping network structure
 #' @description Permute node metrics while keeping their dependency. this function help to redo the permutations within stat. functions 
 #' @keywords internal
-redo.perm.net.nl.str <- function(df, labels, rf){
+redo.perm.net.nl.str <- function(df, labels, rf = NULL){
+  if (is.null(rf)) {
+    return(perm.net.nl.str(df, labels = labels, rf = NULL, nperm = 1, progress = FALSE)[[2]])
+  }
   # find rf(s) id(s)
   rf = df.col.findId(df, rf)
   
